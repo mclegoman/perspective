@@ -3,11 +3,13 @@
   - Test and Fix **_every_** vanilla textured entity.  
     - How should we treat panda genetics with textured entities?
     - Entities with variants should have entity_specific:variants with 'enabled' option.
-- **_Should contributors access to more cosmetic features?_**
 - Documentation on the [Perspective Wiki](https://mclegoman.com/Perspective)  
+  - This will need to be done from scratch, so we might as well wait until Luminance is ready.  
 - Fix Panorama Screenshot compatibility with iris/canvas/fabulous. (unlikely to be fixed anytime soon, maybe custom screenshotting?)
 - Update Config to use `.json` instead of `.properties`.  
   - This will require both the config to be updated to use JSON and the config updater to update old configs to JSON.  
+- **1.4.0**  
+  - Theme: Ambiance  
 
 ### Textured Entity Testing:
 
