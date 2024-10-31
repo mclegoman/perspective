@@ -54,7 +54,7 @@ dependencies {
 	modImplementation("com.terraformersmc:modmenu:${project.modmenu}")
 
 	// Development Environment Only
-	//modImplementation("com.ptsmods:devlogin:3.4.1")
+	modImplementation("com.ptsmods:devlogin:3.4.1")
 	//modImplementation "com.github.Nettakrim:Souper-Secret-Settings:${project.souper_secret_settings}"
 }
 processResources {

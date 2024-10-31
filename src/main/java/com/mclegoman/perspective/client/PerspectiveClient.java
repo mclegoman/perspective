@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.ambience.Ambience;
+import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.contributor.Contributor;
@@ -23,7 +24,6 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.ui.UIBackground;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
-import com.mclegoman.perspective.client.texture.ResourcePacks;
 import com.mclegoman.perspective.client.util.Tick;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.client.zoom.Zoom;
@@ -39,6 +39,7 @@ public class PerspectiveClient implements ClientModInitializer {
 			TextureHelper.init();
 			Ambience.init();
 			AprilFoolsPrank.init();
+			Appearance.init();
 			UIBackground.init();
 			Overlays.init();
 			Zoom.init();
