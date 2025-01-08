@@ -24,12 +24,17 @@ public class ResourcePacks extends com.mclegoman.luminance.client.util.ResourceP
 	 */
 	public static void init() {
 		try {
-			/*
+		/*
             Perspective: Default
             Contributor(s): MCLegoMan
             Attribution(s): Phantazap ('Jester' Giant Textured Entity)
         */
 			register(Identifier.of("perspective_default"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.perspective_default"), ResourcePackActivationType.DEFAULT_ENABLED);
+		/*
+            Perspective: Extended
+            Contributor(s): MCLegoMan
+        */
+			register(Identifier.of("perspective_extended"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.perspective_extended"), ResourcePackActivationType.NORMAL);
 		/*
             Perspective: Developer Config
             Contributor(s): MCLegoMan

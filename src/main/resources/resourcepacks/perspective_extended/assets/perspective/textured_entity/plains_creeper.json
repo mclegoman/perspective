@@ -1,0 +1,10 @@
+{
+  "entity": "minecraft:creeper",
+  "name": "plains",
+  "entity_specific": {
+  },
+  "overrides": [
+  ],
+  "flip": false,
+  "enabled": true
+}

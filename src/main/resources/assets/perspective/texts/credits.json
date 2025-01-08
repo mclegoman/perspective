@@ -89,6 +89,31 @@
 					"spaced": true
 				},
 				{
+					"text": "  Perspective: Extended",
+					"formatting": "white",
+					"sections": [
+						{
+							"text": "    The extended look of Perspective.",
+							"sections": [
+								{
+									"text": "    Licence: LGPL-3.0-or-later"
+								},
+								{
+									"text": "    Contributors:",
+									"sections": [
+										{
+											"text": "      MCLegoMan"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"spaced": true
+				},
+				{
 					"text": "  Luminance",
 					"formatting": "white",
 					"sections": [

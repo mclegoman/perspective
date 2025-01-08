@@ -1,0 +1,10 @@
+{
+  "entity": "minecraft:creeper",
+  "name": "deepslate",
+  "entity_specific": {
+  },
+  "overrides": [
+  ],
+  "flip": false,
+  "enabled": true
+}

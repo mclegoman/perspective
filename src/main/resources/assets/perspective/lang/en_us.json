@@ -207,7 +207,8 @@
 
 	"gui.perspective.config.information": "Information",
 
-	"gui.perspective.config.information.documentation": "Documentation",
+	"gui.perspective.config.information.documentation": "Wiki",
+	"gui.perspective.config.information.documentation.hover": "§c§lPerspective's wiki is not currently available.",
 
 	"gui.perspective.config.information.credits": "Credits and Attribution",
 
@@ -305,11 +306,11 @@
 	"gui.perspective.resource_pack.perspective_default": "Perspective: Default",
 	"gui.perspective.resource_pack.perspective_default.description": "The default look of Perspective",
 
+	"gui.perspective.resource_pack.perspective_extended": "Perspective: Extended",
+	"gui.perspective.resource_pack.perspective_extended.description": "The extended look of Perspective",
+
 	"gui.perspective.resource_pack.dev_config": "Perspective: Developer Config",
 	"gui.perspective.resource_pack.dev_config.description": "The developers choice of Perspective",
-
-	"gui.perspective.resource_pack.perspective_test": "Perspective: Test",
-	"gui.perspective.resource_pack.perspective_test.description": "Test Perspective Features",
 
 	"gui.perspective.variable.endisable.on": "Enabled",
 	"gui.perspective.variable.endisable.off": "Disabled",

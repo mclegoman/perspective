@@ -14,6 +14,7 @@ import com.mclegoman.perspective.client.screen.config.LinkScreen;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Identifier;
@@ -36,7 +37,9 @@ public class InformationScreen extends AbstractConfigScreen {
 		GridWidget infoGrid = new GridWidget();
 		infoGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder infoGridAdder = infoGrid.createAdder(1);
-		infoGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information.documentation"), button -> ClientData.minecraft.setScreen(new LinkScreen(ClientData.minecraft.currentScreen, "https://mclegoman.com/Perspective", true))).width(304).build(), 1);
+		ButtonWidget documentationButton = ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information.documentation"), button -> ClientData.minecraft.setScreen(new LinkScreen(ClientData.minecraft.currentScreen, "https://mclegoman.com/Perspective", true))).width(304).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "information.documentation", true))).build();
+		documentationButton.active = false;
+		infoGridAdder.add(documentationButton, 1);
 		infoGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information.source_code"), button -> ClientData.minecraft.setScreen(new LinkScreen(ClientData.minecraft.currentScreen, "https://github.com/MCLegoMan/Perspective", true))).width(304).build(), 1);
 		infoGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information.report"), button -> ClientData.minecraft.setScreen(new LinkScreen(ClientData.minecraft.currentScreen, "https://github.com/MCLegoMan/Perspective/issues", true))).width(304).build(), 1);
 		infoGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information.credits"), button -> ClientData.minecraft.setScreen(new CreditsAttributionScreen(ClientData.minecraft.currentScreen, Identifier.of(Data.version.getID(), "texts/credits.json")))).width(304).build(), 1);
