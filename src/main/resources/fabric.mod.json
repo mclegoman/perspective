@@ -5,7 +5,7 @@
   "name": "Perspective",
   "description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
   "authors": [
-    "MCLegoMan"
+    "dannytaylor"
   ],
   "contributors": [
     "Nettakrim"
@@ -46,7 +46,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "mclegoman.donate": "https://buymeacoffee.com/mclegoman"
+        "mclegoman.donate": "https://ko-fi.com/mclegoman"
       }
     },
     "catalogue": {

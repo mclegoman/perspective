@@ -1,6 +1,6 @@
 /*
     Perspective
-    Contributor(s): MCLegoMan
+    Contributor(s): dannytaylor
     Github: https://github.com/MCLegoMan/Perspective
     Licence: GNU LGPLv3
 */
@@ -26,18 +26,18 @@ public class ResourcePacks extends com.mclegoman.luminance.client.util.ResourceP
 		try {
 		/*
             Perspective: Default
-            Contributor(s): MCLegoMan
+            Contributor(s): dannytaylor
             Attribution(s): Phantazap ('Jester' Giant Textured Entity)
         */
 			register(Identifier.of("perspective_default"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.perspective_default"), ResourcePackActivationType.DEFAULT_ENABLED);
 		/*
             Perspective: Extended
-            Contributor(s): MCLegoMan
+            Contributor(s): dannytaylor
         */
 			register(Identifier.of("perspective_extended"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.perspective_extended"), ResourcePackActivationType.NORMAL);
 		/*
             Perspective: Developer Config
-            Contributor(s): MCLegoMan
+            Contributor(s): dannytaylor
         */
 			register(Identifier.of("dev_config"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.dev_config"), ResourcePackActivationType.NORMAL);
 		} catch (Exception error) {

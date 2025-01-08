@@ -1,6 +1,6 @@
 /*
     Perspective
-    Contributor(s): MCLegoMan
+    Contributor(s): dannytaylor
     Github: https://github.com/MCLegoMan/Perspective
     Licence: GNU LGPLv3
 */
@@ -32,7 +32,7 @@ public class Contributor {
 		initAttributionUuids();
 	}
 	private static void initDeveloperUuids() {
-		addAllowedUuid(Type.DEVELOPER, "772eb47b-a24e-4d43-a685-6ca9e9e132f7", "3445ebd7-25f8-41a6-8118-0d19d7f5559e"); // MCLegoMan
+		addAllowedUuid(Type.DEVELOPER, "772eb47b-a24e-4d43-a685-6ca9e9e132f7", "3445ebd7-25f8-41a6-8118-0d19d7f5559e"); // dannytaylor
 	}
 	private static void initContributorUuids() {
 		addAllowedUuid(Type.CONTRIBUTOR, "9c3adf8d-a723-40c9-845b-c6e78c3ac460"); // Nettakrim

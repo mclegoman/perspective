@@ -20,7 +20,7 @@
 					"formatting": "white",
 					"sections": [
 						{
-							"text": "  MCLegoMan"
+							"text": "  dannytaylor"
 						}
 					]
 				}
@@ -64,7 +64,7 @@
 									"text": "    Contributors:",
 									"sections": [
 										{
-											"text": "      MCLegoMan"
+											"text": "      dannytaylor"
 										}
 									]
 								},
@@ -102,7 +102,7 @@
 									"text": "    Contributors:",
 									"sections": [
 										{
-											"text": "      MCLegoMan"
+											"text": "      dannytaylor"
 										}
 									]
 								}
@@ -121,7 +121,7 @@
 							"text": "    A library mod that helps other mods with shaders.",
 							"sections": [
 								{
-									"text": "    Author: MCLegoMan"
+									"text": "    Author: dannytaylor"
 								},
 								{
 									"text": "    Licence: LGPL-3.0-or-later"
