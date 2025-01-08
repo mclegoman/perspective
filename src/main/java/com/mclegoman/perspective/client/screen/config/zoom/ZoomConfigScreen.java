@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.screen.config.zoom;
 
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.screen.widget.ConfigSliderWidget;
 import com.mclegoman.perspective.config.ConfigHelper;
@@ -92,10 +93,10 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 		GridWidget zoomGrid = new GridWidget();
 		zoomGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder zoomGridAdder = zoomGrid.createAdder(2);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"), Translation.Type.ONFF)}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"));
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"))}), (button) -> {
+			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud", Hide.nextZoomHideHudMode());
 			this.refresh = true;
-		}).build(), 1);
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"), true)}, true))).build(), 1);
 		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.show_percentage", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"), Translation.Type.ONFF)}), (button) -> {
 			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"));
 			this.refresh = true;

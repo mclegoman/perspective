@@ -32,7 +32,7 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 	public static double zoomSmoothSpeedIn;
 	public static double zoomSmoothSpeedOut;
 	public static String zoomScaleMode;
-	public static boolean zoomHideHud;
+	public static String zoomHideHud;
 	public static boolean zoomShowPercentage;
 	public static String zoomType;
 	public static boolean zoomReset;
@@ -94,7 +94,7 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 				zoomSmoothSpeedIn = JsonHelper.getDouble(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_in", 1.0D);
 				zoomSmoothSpeedOut = JsonHelper.getDouble(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_out", 1.0D);
 				zoomScaleMode = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_scale_mode", "scaled");
-				zoomHideHud = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "zoom_hide_hud", false);
+				zoomHideHud = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_hide_hud", "false");
 				zoomType = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_type", "perspective:logarithmic");
 				zoomReset = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "zoom_reset", false);
 				zoomCinematic = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "zoom_cinematic", false);

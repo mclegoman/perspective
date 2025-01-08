@@ -19,6 +19,7 @@
 		"client.hide.PlayerEntityRendererMixin",
 		"client.hide.WorldRendererMixin",
 		"client.hud.ChatHudMixin",
+		"client.hud.GameRendererMixin",
 		"client.hud.HeldItemRendererMixin",
 		"client.hud.InGameHudMixin",
 		"client.hud.MinecraftClientMixin",

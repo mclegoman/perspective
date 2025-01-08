@@ -6,7 +6,7 @@
 	"zoom_smooth_speed_in": 1.0,
 	"zoom_smooth_speed_out": 1.0,
 	"zoom_scale_mode": "scaled",
-	"zoom_hide_hud": false,
+	"zoom_hide_hud": "hand",
 	"zoom_type": "perspective:logarithmic",
 	"zoom_reset": false,
 	"zoom_cinematic": false,
@@ -50,6 +50,5 @@
 	"detect_update_channel": "release",
 	"water_ripple_density": 32,
 	"falling_leaves_density": 4,
-	"chest_bubbles_density": 16,
-	"debug": false
+	"chest_bubbles_density": 16
 }

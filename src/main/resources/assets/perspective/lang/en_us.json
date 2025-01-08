@@ -82,6 +82,13 @@
 	"gui.perspective.config.zoom.scale_mode.vanilla.hover": "Mouse movements and visual effects remain unscaled when zooming.",
 
 	"gui.perspective.config.zoom.hide_hud": "Hide HUD: %s",
+	"gui.perspective.config.zoom.hide_hud.hover": "%s",
+	"gui.perspective.config.zoom.hide_hud.true": "Everything",
+	"gui.perspective.config.zoom.hide_hud.true.hover": "The entire HUD will be hidden whilst zooming.",
+	"gui.perspective.config.zoom.hide_hud.hand": "Hands",
+	"gui.perspective.config.zoom.hide_hud.hand.hover": "The players hands will be hidden whilst zooming.",
+	"gui.perspective.config.zoom.hide_hud.false": "Nothing",
+	"gui.perspective.config.zoom.hide_hud.false.hover": "Nothing will be hidden whilst zooming.",
 
 	"gui.perspective.config.zoom.show_percentage": "Show Percentage: %s",
 

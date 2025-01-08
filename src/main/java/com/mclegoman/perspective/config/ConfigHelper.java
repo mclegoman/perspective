@@ -430,7 +430,7 @@ public class ConfigHelper {
 							configChanged = true;
 						}
 						case "zoom_hide_hud" -> {
-							Config.zoomHideHud = (boolean) value;
+							Config.zoomHideHud = (String) value;
 							configChanged = true;
 						}
 						case "zoom_show_percentage" -> {

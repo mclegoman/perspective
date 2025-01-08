@@ -25,8 +25,10 @@ import net.minecraft.util.Formatting;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Hide {
+	public static final String[] zoomHideHudModes = new String[]{"true", "hand", "false"};
 	public static final String[] hideCrosshairModes = new String[]{"vanilla", "dynamic", "hidden"};
 	public static float rainbowTime = 0.0F;
 	public static void init() {
@@ -70,13 +72,23 @@ public class Hide {
 		}
 		return false;
 	}
+	public static String nextZoomHideHudMode() {
+		List<String> modes = Arrays.stream(zoomHideHudModes).toList();
+		return modes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")) ? zoomHideHudModes[(modes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")) + 1) % zoomHideHudModes.length] : zoomHideHudModes[0];
+	}
 	public static String nextCrosshairMode() {
-		List<String> crosshairModes = Arrays.stream(hideCrosshairModes).toList();
-		return crosshairModes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) ? hideCrosshairModes[(crosshairModes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) + 1) % hideCrosshairModes.length] : hideCrosshairModes[0];
+		List<String> modes = Arrays.stream(hideCrosshairModes).toList();
+		return modes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) ? hideCrosshairModes[(modes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) + 1) % hideCrosshairModes.length] : hideCrosshairModes[0];
+	}
+	public static boolean shouldHideHand(HideHudTypes type) {
+		if (type == HideHudTypes.zoom) return Zoom.isZooming() && ((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")).equalsIgnoreCase("hand");
+		return false;
 	}
 	public static boolean shouldHideHud(HideHudTypes type) {
 		switch (type) {
-			case zoom -> {return Zoom.isZooming() && (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud");}
+			case zoom -> {
+				return Zoom.isZooming() && ((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")).equalsIgnoreCase("true");
+			}
 			case holdPerspectiveBack -> {return Perspective.isHoldingPerspectiveBack() && (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_back_hide_hud");}
 			case holdPerspectiveFront -> {return Perspective.isHoldingPerspectiveFront() && (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_front_hide_hud");}
 			default -> {return false;}

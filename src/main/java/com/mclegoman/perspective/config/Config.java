@@ -25,7 +25,7 @@ public class Config {
 	protected static double zoomSmoothSpeedIn;
 	protected static double zoomSmoothSpeedOut;
 	protected static String zoomScaleMode;
-	protected static boolean zoomHideHud;
+	protected static String zoomHideHud;
 	protected static boolean zoomShowPercentage;
 	protected static String zoomType;
 	protected static boolean zoomReset;
