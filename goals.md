@@ -103,7 +103,7 @@
 | `minecraft:trader_llama`           | ❓               |  
 | `minecraft:trident`                | ❓               |  
 | `minecraft:tropical_fish`          | ❓               |  
-| `minecraft:turtle`                 | ❓               |  
+| `minecraft:turtle`                 | ✔️              |  
 | `minecraft:vex`                    | ❓               |  
 | `minecraft:villager`               | ❓               |  
 | `minecraft:vindicator`             | ❓               |  
@@ -128,6 +128,7 @@
 
 #### Incompatible Vanilla Entities:  
 - `minecraft:ender_dragon`
+- `minecraft:player`
 
 ### 
 Vanilla Minecraft uses both `_outer_layer` and `_overlay` as suffixes for the outer layer of mobs,

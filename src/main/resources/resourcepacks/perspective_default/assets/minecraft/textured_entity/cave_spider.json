@@ -1,6 +1,5 @@
 {
-  "entity": "minecraft:breeze",
-  "name": "Cheeze",
+  "entity": "minecraft:cave_spider",
   "entity_specific": {
   },
   "overrides": [

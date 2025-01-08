@@ -35,13 +35,14 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_normal", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_lazy", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_worried", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_playful", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_brown", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_weak", "texture": "minecraft:textures/textured_entity/panda/berry" },
-    { "prefix": "", "suffix": "_aggressive", "texture": "minecraft:textures/textured_entity/panda/berry" }
+    { "prefix": "", "suffix": "_normal", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_lazy", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_worried", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_playful", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_brown", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_weak", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" },
+    { "prefix": "", "suffix": "_aggressive", "texture": "minecraft:textures/textured_entity/minecraft/panda/berry" }
   ],
+  "flip": false,
   "enabled": true
 }

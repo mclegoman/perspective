@@ -6,5 +6,6 @@
   "overrides": [
     { "prefix": "", "suffix": "_cape", "texture": "perspective:textures/entity/minecraft/enderman/enderman_cape" }
   ],
+  "flip": false,
   "enabled": true
 }

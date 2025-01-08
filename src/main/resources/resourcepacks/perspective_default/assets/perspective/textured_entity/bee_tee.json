@@ -14,5 +14,6 @@
   "overrides": [
     { "prefix": "", "suffix": "_overlay", "texture": "minecraft:textures/entity/bee/bee_overlay" }
   ],
+  "flip": false,
   "enabled": true
 }

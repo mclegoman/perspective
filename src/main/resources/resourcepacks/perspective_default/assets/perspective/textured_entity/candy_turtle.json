@@ -1,6 +1,6 @@
 {
-  "entity": "minecraft:breeze",
-  "name": "Cheeze",
+  "entity": "minecraft:turtle",
+  "name": "Candy",
   "entity_specific": {
   },
   "overrides": [

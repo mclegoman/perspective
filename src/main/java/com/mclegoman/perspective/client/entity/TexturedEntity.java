@@ -18,6 +18,7 @@ import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.config.ConfigHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceType;
@@ -26,13 +27,38 @@ import net.minecraft.util.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TexturedEntity {
+	private static final List<Identifier> forbiddenEntities = new ArrayList<>();
+	public static List<Identifier> getForbiddenEntities() {
+		return forbiddenEntities;
+	}
+	public static void addForbiddenEntity(Identifier entityId) {
+		forbiddenEntities.add(entityId);
+	}
+	public static boolean isForbiddenEntity(Identifier entityId) {
+		return forbiddenEntities.contains(entityId);
+	}
+	public static Identifier getEntityTypeId(EntityType<?> entityType) {
+		return Registries.ENTITY_TYPE.getId(entityType);
+	}
+	private static void addDefaultForbiddenEntities() {
+		try {
+			// This prevents users from trying to use textured entity features on players. Use appearance instead.
+			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.PLAYER));
+			// The dragon is simply just not compatible, if it ever becomes compatible, this can be removed.
+			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.ENDER_DRAGON));
+		} catch (Exception error) {
+			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add default forbidden textured entities: {}", error));
+		}
+	}
 	public static void init() {
 		try {
+			addDefaultForbiddenEntities();
 			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new TexturedEntityDataLoader());
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity texture: {}", error));
+			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
 	}
 	private static Identifier getOverrideTexture(String prefix, String suffix, JsonArray overrides, Identifier fallback) {
@@ -66,11 +92,11 @@ public class TexturedEntity {
 				Identifier entityType = Registries.ENTITY_TYPE.getId(entity.getType());
 				String namespace = fallback.getNamespace();
 				if (!overrideNamespace.isEmpty()) namespace = overrideNamespace;
-				TexturedEntityData entityData = getEntity(entity);
-				if (entityData != null) {
+				Optional<TexturedEntityData> entityData = getEntity(entity);
+				if (entityData.isPresent()) {
 					boolean shouldReplaceTexture = true;
 						if (entity instanceof LivingEntity) {
-							JsonObject entitySpecific = entityData.getEntitySpecific();
+							JsonObject entitySpecific = entityData.get().getEntitySpecific();
 							if (entitySpecific != null) {
 								if (entitySpecific.has("ages")) {
 									JsonObject ages = JsonHelper.getObject(entitySpecific, "ages", new JsonObject());
@@ -88,7 +114,7 @@ public class TexturedEntity {
 								}
 							}
 						}
-					if (shouldReplaceTexture) return TextureHelper.getTexture(getOverrideTexture(prefix, suffix, entityData.getOverrides(), Identifier.of(namespace, "textures/textured_entity/" + entityType.getNamespace() + "/" + entityType.getPath() + "/" + (prefix + entityData.getName().toLowerCase() + suffix) + ".png")), fallback);
+					if (shouldReplaceTexture) return TextureHelper.getTexture(getOverrideTexture(prefix, suffix, entityData.get().getOverrides(), Identifier.of(namespace, "textures/textured_entity/" + entityType.getNamespace() + "/" + entityType.getPath() + "/" + (prefix + entityData.get().getName().toLowerCase() + suffix) + ".png")), fallback);
 				}
 			}
 		} catch (Exception error) {
@@ -99,7 +125,7 @@ public class TexturedEntity {
 	private static List<TexturedEntityData> getRegistry(String namespace, String entity_type) {
 		List<TexturedEntityData> entityRegistry = new ArrayList<>();
 		try {
-			for (TexturedEntityData registry : TexturedEntityDataLoader.registry) {
+			for (TexturedEntityData registry : TexturedEntityDataLoader.getRegistry()) {
 				if (registry.getNamespace().equals(namespace) && registry.getType().equals(entity_type)) entityRegistry.add(registry);
 			}
 		} catch (Exception error) {
@@ -107,33 +133,64 @@ public class TexturedEntity {
 		}
 		return entityRegistry;
 	}
-	public static TexturedEntityData getEntity(Entity entity) {
-		return getEntity(entity, Registries.ENTITY_TYPE.getId(entity.getType()));
+	public static Optional<TexturedEntityData> getEntity(Entity entity) {
+		return getEntity(entity, getEntityTypeId(entity.getType()));
 	}
-	private static TexturedEntityData getEntity(Entity entity, Identifier entityId) {
-		try {
-			List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
-			if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
-					if (entity.hasCustomName() && !entity.getCustomName().getString().equalsIgnoreCase("default")) {
-						for (TexturedEntityData entityData : registry) {
-							if (entity.getCustomName().getString().equals(entityData.getName())) {
-								return entityData;
-							}
-						}
+	private static Optional<String> getEntityName(Entity entity) {
+		if (entity.getCustomName() != null) return Optional.of(entity.getCustomName().getString());
+		else return Optional.of("default");
+	}
+	private static Optional<TexturedEntityData> getEntityData(List<TexturedEntityData> registry, String entityName) {
+		for (TexturedEntityData entityData : registry) {
+			if (entityName.equals(entityData.getName())) {
+				if (entityData.getEnabled()) return Optional.of(entityData);
+			}
+		}
+		return Optional.empty();
+	}
+	public static Optional<Identifier> getEntitySpecificModel(Entity entity) {
+		if (entity != null) {
+			Optional<TexturedEntityData> entityData = getEntity(entity);
+			if (entityData.isPresent()) {
+				JsonObject entitySpecific = entityData.get().getEntitySpecific();
+				if (entitySpecific != null) {
+					if (entitySpecific.has("model")) {
+						return Optional.of(Identifier.of(JsonHelper.getString(entitySpecific, "model").toLowerCase()));
 					}
 				}
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_random_entity")) {
-					int index = Math.floorMod(entity.getUuid().getLeastSignificantBits(), registry.size());
-					TexturedEntityData entityData = registry.get(index);
-					if (!entityData.getName().equalsIgnoreCase("default")) {
-						return entityData;
+			}
+		}
+		return Optional.of(Identifier.of(Data.version.getID(), "default"));
+	}
+	private static Optional<TexturedEntityData> getEntity(Entity entity, Identifier entityId) {
+		try {
+			if (!isForbiddenEntity(getEntityTypeId(entity.getType()))) {
+				List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
+				if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
+					Optional<String> entityName = getEntityName(entity);
+					if (entityName.isPresent()) {
+						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+							Optional<TexturedEntityData> entityData = getEntityData(registry, entityName.get());
+							if (entityData.isPresent()) return entityData;
+						}
+						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_random_entity")) {
+							TexturedEntityData entityData = registry.get(Math.floorMod(entity.getUuid().getLeastSignificantBits(), registry.size()));
+							if (entityData.getEnabled()) return Optional.of(entityData);
+						}
+						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+							// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
+							// so we return the default textured entity if it exists.
+							if (!entityName.get().equalsIgnoreCase("default")) {
+								Optional<TexturedEntityData> entityData = getEntityData(registry, "default");
+								if (entityData.isPresent()) return entityData;
+							}
+						}
 					}
 				}
 			}
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity specific data: {}", error));
 		}
-		return null;
+		return Optional.empty();
 	}
 }

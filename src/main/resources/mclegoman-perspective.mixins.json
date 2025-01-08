@@ -29,6 +29,7 @@
 		"client.show_death_coordinates.DeathScreenMixin",
 		"client.texture.NativeImageAccessor",
 		"client.texture.SpriteContentsAccessor",
+		"client.textured_entity.LivingEntityRendererMixin",
 		"client.textured_entity.minecraft.EyesFeatureRendererMixin",
 		"client.textured_entity.minecraft.allay.AllayEntityRendererMixin",
 		"client.textured_entity.minecraft.armadillo.ArmadilloEntityRendererMixin",

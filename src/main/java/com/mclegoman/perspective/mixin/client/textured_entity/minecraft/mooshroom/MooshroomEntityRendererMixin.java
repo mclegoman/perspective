@@ -31,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Mixin(priority = 100, value = MooshroomEntityRenderer.class)
 public abstract class MooshroomEntityRendererMixin extends MobEntityRenderer<MooshroomEntity, CowEntityModel<MooshroomEntity>> {
@@ -45,17 +46,17 @@ public abstract class MooshroomEntityRendererMixin extends MobEntityRenderer<Moo
 		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of("perspective", "textures/entity/minecraft/mooshroom/mooshroom_cape.png")).offsetZ(-0.50125F).offsetY(0.125F).rotation(RotationAxis.POSITIVE_X.rotationDegrees(90.0F)).build());
 	}
 	@Inject(method = "getTexture(Lnet/minecraft/entity/passive/MooshroomEntity;)Lnet/minecraft/util/Identifier;", at = @At("RETURN"), cancellable = true)
-	public void perspective$getTexture(MooshroomEntity mooshroomEntity, CallbackInfoReturnable<Identifier> cir) {
+	public void perspective$getTexture(MooshroomEntity entity, CallbackInfoReturnable<Identifier> cir) {
 		boolean isTexturedEntity = true;
-		TexturedEntityData entityData = TexturedEntity.getEntity(mooshroomEntity);
-		if (entityData != null) {
-			JsonObject entitySpecific = entityData.getEntitySpecific();
+		Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+		if (entityData.isPresent()) {
+			JsonObject entitySpecific = entityData.get().getEntitySpecific();
 			if (entitySpecific != null) {
 				if (entitySpecific.has("variants")) {
 					JsonObject variants = JsonHelper.getObject(entitySpecific, "variants");
 					if (variants != null) {
-						if (entitySpecific.has(mooshroomEntity.getVariant().asString().toLowerCase())) {
-							JsonObject typeRegistry = JsonHelper.getObject(variants, mooshroomEntity.getVariant().asString().toLowerCase());
+						if (entitySpecific.has(entity.getVariant().asString().toLowerCase())) {
+							JsonObject typeRegistry = JsonHelper.getObject(variants, entity.getVariant().asString().toLowerCase());
 							if (typeRegistry != null) {
 								isTexturedEntity = JsonHelper.getBoolean(typeRegistry, "enabled", true);
 							}
@@ -64,8 +65,8 @@ public abstract class MooshroomEntityRendererMixin extends MobEntityRenderer<Moo
 				}
 			}
 			if (isTexturedEntity) {
-				String variant = mooshroomEntity.getVariant() != null ? mooshroomEntity.getVariant().asString().toLowerCase() + "_" : "";
-				cir.setReturnValue(TexturedEntity.getTexture(mooshroomEntity, variant, "", TEXTURES.get(mooshroomEntity.getVariant())));
+				String variant = entity.getVariant() != null ? entity.getVariant().asString().toLowerCase() + "_" : "";
+				cir.setReturnValue(TexturedEntity.getTexture(entity, variant, "", TEXTURES.get(entity.getVariant())));
 			}
 		}
 	}

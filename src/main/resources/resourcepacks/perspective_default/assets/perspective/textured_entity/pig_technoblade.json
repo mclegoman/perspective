@@ -14,5 +14,6 @@
   "overrides": [
     { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/pig/pig" }
   ],
+  "flip": false,
   "enabled": true
 }

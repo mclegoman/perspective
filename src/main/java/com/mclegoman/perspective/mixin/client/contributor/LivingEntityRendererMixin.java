@@ -15,8 +15,6 @@ import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,16 +38,6 @@ public abstract class LivingEntityRendererMixin {
 				}
 			}
 			cir.setReturnValue(shouldFlipUpsideDown);
-		} else {
-			Text customName = entity.getCustomName();
-			if (customName != null) {
-				for (ContributorData contributor : ContributorDataLoader.registry) {
-					if (contributor.getIds().contains(Formatting.strip(customName.getString()))) {
-						cir.setReturnValue(true);
-						break;
-					}
-				}
-			}
 		}
 	}
 }

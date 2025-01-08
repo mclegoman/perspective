@@ -28,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+
 @Mixin(priority = 100, value = ZombieVillagerEntityRenderer.class)
 public abstract class ZombieVillagerEntityRendererMixin extends BipedEntityRenderer<ZombieVillagerEntity, ZombieVillagerEntityModel<ZombieVillagerEntity>> {
 	public ZombieVillagerEntityRendererMixin(EntityRendererFactory.Context ctx, ZombieVillagerEntityModel<ZombieVillagerEntity> model, float shadowRadius) {
@@ -42,13 +44,13 @@ public abstract class ZombieVillagerEntityRendererMixin extends BipedEntityRende
 	private void perspective$getTexture(ZombieVillagerEntity entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			TexturedEntityData entityData = TexturedEntity.getEntity(entity);
-			if (entityData != null) {
+			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			if (entityData.isPresent()) {
 				Identifier variantId = Registries.VILLAGER_TYPE.getId(entity.getVariant());
 				String variant = variantId.toString().toLowerCase();
 				Identifier professionId = Registries.VILLAGER_PROFESSION.getId(entity.getVillagerData().getProfession());
 				String profession = professionId.toString().toLowerCase();
-				JsonObject entitySpecific = entityData.getEntitySpecific();
+				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {
 					if (entitySpecific.has("variants")) {
 						JsonObject variants = JsonHelper.getObject(entitySpecific, "variants");

@@ -26,15 +26,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 @Mixin(priority = 100, value = MooshroomMushroomFeatureRenderer.class)
 public class MooshroomMushroomFeatureRendererMixin {
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/passive/MooshroomEntity$Type;getMushroomState()Lnet/minecraft/block/BlockState;"), method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/MooshroomEntity;FFFFFF)V")
 	private BlockState perspective$getMushroom(MooshroomEntity.Type mooshroomType) {
 		try {
 			if (entity != null) {
-				TexturedEntityData entityData = TexturedEntity.getEntity(entity);
-				if (entityData != null) {
-					JsonObject entitySpecific = entityData.getEntitySpecific();
+				Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+				if (entityData.isPresent()) {
+					JsonObject entitySpecific = entityData.get().getEntitySpecific();
 					if (entitySpecific != null) {
 						if (entitySpecific.has("variants")) {
 							JsonObject variants = JsonHelper.getObject(entitySpecific, "variants");

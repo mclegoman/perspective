@@ -18,15 +18,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+
 @Mixin(priority = 100, value = net.minecraft.client.render.entity.GoatEntityRenderer.class)
 public class GoatEntityRendererMixin {
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/entity/passive/GoatEntity;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(GoatEntity entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			TexturedEntityData entityData = TexturedEntity.getEntity(entity);
-			if (entityData != null) {
-				JsonObject entitySpecific = entityData.getEntitySpecific();
+			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			if (entityData.isPresent()) {
+				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {
 					if (entitySpecific.has("variants")) {
 						JsonObject variants = JsonHelper.getObject(entitySpecific, "variants");

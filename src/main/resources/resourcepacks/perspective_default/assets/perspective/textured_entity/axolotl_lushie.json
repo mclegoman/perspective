@@ -29,11 +29,12 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_lucy", "texture": "minecraft:textures/textured_entity/axolotl/lushie" },
-    { "prefix": "", "suffix": "_wild", "texture": "minecraft:textures/textured_entity/axolotl/lushie" },
-    { "prefix": "", "suffix": "_gold", "texture": "minecraft:textures/textured_entity/axolotl/lushie" },
-    { "prefix": "", "suffix": "_cyan", "texture": "minecraft:textures/textured_entity/axolotl/lushie" },
-    { "prefix": "", "suffix": "_blue", "texture": "minecraft:textures/textured_entity/axolotl/lushie" }
+    { "prefix": "", "suffix": "_lucy", "texture": "minecraft:textures/textured_entity/minecraft/axolotl/lushie" },
+    { "prefix": "", "suffix": "_wild", "texture": "minecraft:textures/textured_entity/minecraft/axolotl/lushie" },
+    { "prefix": "", "suffix": "_gold", "texture": "minecraft:textures/textured_entity/minecraft/axolotl/lushie" },
+    { "prefix": "", "suffix": "_cyan", "texture": "minecraft:textures/textured_entity/minecraft/axolotl/lushie" },
+    { "prefix": "", "suffix": "_blue", "texture": "minecraft:textures/textured_entity/minecraft/axolotl/lushie" }
   ],
+  "flip": false,
   "enabled": true
 }

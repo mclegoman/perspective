@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.hud;
 
+import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -45,6 +46,13 @@ public class DebugOverlay {
 			if (debugType.equals(Type.tutorialsConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.tutorial));
 			if (debugType.equals(Type.warningsConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.warning));
 		}
+		if (debugType.equals(Type.texturedEntities) || debugType.equals(Type.enabledTexturedEntities)) {
+			debugTexts.add(Text.empty());
+			debugTexts.add(Translation.getTranslation(Data.version.getID(), "debug.textured_entity" + (debugType.equals(Type.enabledTexturedEntities) ? ".enabled" : ""), new Formatting[]{Formatting.BOLD}));
+			TexturedEntityDataLoader.getRegistryMap().forEach((id, data) -> {
+				if (debugType.equals(Type.enabledTexturedEntities) && data.getEnabled() || debugType.equals(Type.texturedEntities)) debugTexts.add(Text.literal(id.toString() + ":" + data.getNamespace() + ":" + data.getType() + ":" + data.getName()));
+			});
+		}
 		Overlays.renderOverlays(context, debugTexts, 0, 0, true);
 	}
 
@@ -54,7 +62,9 @@ public class DebugOverlay {
 		config,
 		experimentalConfig,
 		tutorialsConfig,
-		warningsConfig;
+		warningsConfig,
+		texturedEntities,
+		enabledTexturedEntities;
 		private static final Type[] values = values();
 		public Type prev() {
 			return values[getIndex(false)];

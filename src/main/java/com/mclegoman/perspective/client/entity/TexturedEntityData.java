@@ -16,12 +16,19 @@ public class TexturedEntityData {
 	private final String name;
 	private final JsonObject entity_specific;
 	private final JsonArray overrides;
-	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides) {
+	private final boolean flip;
+	private final boolean enabled;
+	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean enabled) {
+		this(namespace, type, name, entity_specific, overrides, false, enabled);
+	}
+	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean enabled) {
 		this.namespace = namespace;
 		this.type = type;
 		this.name = name;
 		this.entity_specific = entity_specific;
 		this.overrides = overrides;
+		this.flip = flip;
+		this.enabled = enabled;
 	}
 	public String getNamespace() {
 		return this.namespace;
@@ -37,5 +44,11 @@ public class TexturedEntityData {
 	}
 	public JsonArray getOverrides() {
 		return this.overrides;
+	}
+	public boolean getFlip() {
+		return this.flip;
+	}
+	public boolean getEnabled() {
+		return this.enabled;
 	}
 }

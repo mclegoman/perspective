@@ -6,5 +6,6 @@
   "overrides": [
     { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/armorstand/wood" }
   ],
+  "flip": false,
   "enabled": true
 }

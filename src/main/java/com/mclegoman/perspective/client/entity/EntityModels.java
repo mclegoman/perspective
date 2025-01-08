@@ -20,6 +20,7 @@ import net.minecraft.client.render.entity.model.PigEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class EntityModels {
 	public static double entityCapeY = 0.0F;
@@ -49,7 +50,7 @@ public class EntityModels {
 		entityCapeY = (entityCapeY + 0.5F) % 80.0F;
 	}
 	public static double getEntityCapeY(LivingEntity entity) {
-		return (entityCapeY + entity.hashCode()) % 80.0F;
+		return ((entityCapeY + entity.hashCode()) % 80.0F);
 	}
 	public static TexturedModelData getBipedEntityModelData(Dilation dilation, int width, int height) {
 		return TexturedModelData.of(BipedEntityModel.getModelData(dilation, 0.0F), width, height);

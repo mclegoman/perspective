@@ -24,6 +24,8 @@ import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
+import java.util.Optional;
+
 public class MooshroomOverlayFeatureRenderer<T extends CowEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
 	private final M model;
 
@@ -40,10 +42,10 @@ public class MooshroomOverlayFeatureRenderer<T extends CowEntity, M extends Enti
 	}
 	public Identifier getFinalTexture(Entity entity) {
 		boolean isTexturedEntity = true;
-		TexturedEntityData entityData = TexturedEntity.getEntity(entity);
+		Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
 		Identifier defaultId = Identifier.of("minecraft", "textures/entity/mooshroom/" + ((MooshroomEntity)entity).getVariant().asString().toLowerCase() + "_mooshroom_overlay.png");
-		if (entityData != null) {
-			JsonObject entitySpecific = entityData.getEntitySpecific();
+		if (entityData.isPresent()) {
+			JsonObject entitySpecific = entityData.get().getEntitySpecific();
 			if (entitySpecific != null) {
 				String type = String.valueOf(((MooshroomEntity)entity).getVariant()).toLowerCase();
 				if (entitySpecific.has(type)) {

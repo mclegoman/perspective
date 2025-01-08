@@ -26,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
+
 @Mixin(priority = 100, value = net.minecraft.client.render.entity.FoxEntityRenderer.class)
 public abstract class FoxEntityRendererMixin extends MobEntityRenderer<FoxEntity, FoxEntityModel<FoxEntity>> {
 	public FoxEntityRendererMixin(EntityRendererFactory.Context context, FoxEntityModel<FoxEntity> entityModel, float f) {
@@ -39,9 +41,9 @@ public abstract class FoxEntityRendererMixin extends MobEntityRenderer<FoxEntity
 	private void perspective$getTexture(FoxEntity entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			TexturedEntityData entityData = TexturedEntity.getEntity(entity);
-			if (entityData != null) {
-				JsonObject entitySpecific = entityData.getEntitySpecific();
+			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			if (entityData.isPresent()) {
+				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {
 					if (entitySpecific.has("variants")) {
 						JsonObject variants = JsonHelper.getObject(entitySpecific, "variants");

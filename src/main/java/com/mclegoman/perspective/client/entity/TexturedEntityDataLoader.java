@@ -21,24 +21,30 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TexturedEntityDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
-	public static final List<TexturedEntityData> registry = new ArrayList<>();
+	private static final Map<Identifier, TexturedEntityData> registry = new HashMap<>();
+	public static List<TexturedEntityData> getRegistry() {
+		return registry.values().stream().toList();
+	}
+	public static Map<Identifier, TexturedEntityData> getRegistryMap() {
+		return registry;
+	}
 	public static final String identifier = "textured_entity";
 	public static boolean isReady;
 
 	public TexturedEntityDataLoader() {
 		super(new Gson(), identifier);
 	}
-
-	private void add(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, Boolean enabled) {
+	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean enabled) {
+		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, enabled);
+	}
+	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean enabled) {
 		try {
-			TexturedEntityData texturedEntity = new TexturedEntityData(namespace, type, name, entity_specific, overrides);
-			if (enabled) registry.add(texturedEntity);
-			else registry.remove(texturedEntity);
+			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, enabled));
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
@@ -47,6 +53,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 	private void reset() {
 		try {
 			registry.clear();
+			// We add defaults so the random textured entity can use the default texture.
 			addDefaultTexturedEntities("minecraft", new String[]{
 					"allay",
 					"armor_stand",
@@ -159,7 +166,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
 		for (String entity : entityTypes) {
-			add(namespace, entity, "default", new JsonObject(), new JsonArray(), true);
+			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false);
 		}
 	}
 	@Override
@@ -185,11 +192,12 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 			String entity = JsonHelper.getString(reader, "entity");
 			String namespace = entity.contains(":") ? entity.substring(0, entity.lastIndexOf(":")) : "minecraft";
 			String type = entity.contains(":") ? entity.substring(entity.lastIndexOf(":") + 1) : entity;
-			String name = JsonHelper.getString(reader, "name");
+			String name = JsonHelper.getString(reader, "name", "default");
 			JsonObject entity_specific = JsonHelper.getObject(reader, "entity_specific", new JsonObject());
 			JsonArray overrides = JsonHelper.getArray(reader, "overrides", new JsonArray());
-			Boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
-			add(namespace, type, name, entity_specific, overrides, enabled);
+			boolean flip = JsonHelper.getBoolean(reader, "flip", false);
+			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
+			add(identifier, namespace, type, name, entity_specific, overrides, flip, enabled);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}
