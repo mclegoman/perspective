@@ -5,7 +5,6 @@
 	"client": [
 		"client.ambience.chest_bubbles.ChestBlockEntityMixin",
 		"client.ambience.chest_bubbles.EnderChestBlockEntityMixin",
-		"client.ambience.falling_leaves.LeavesBlockMixin",
 		"client.ambience.water_ripples.EntityMixin",
 		"client.ambience.water_ripples.WaterFluidMixin",
 		"client.contributor.AbstractClientPlayerEntityMixin",
