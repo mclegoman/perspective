@@ -184,7 +184,6 @@ public class ConfigHelper {
 						setConfig(ConfigType.normal, "hold_perspective_front_hide_hud", Config.config.getOrDefault("hold_perspective_hide_hud", ConfigDataLoader.holdPerspectiveFrontHideHud));
 					}
 					if (Config.config.getOrDefault("config_version", defaultConfigVersion) < 23) {
-						setConfig(ConfigType.normal, "falling_leaves_density", Config.config.getOrDefault("falling_leaves", ConfigDataLoader.fallingLeavesDensity));
 						setConfig(ConfigType.normal, "water_ripple_density", Config.config.getOrDefault("ripple_density", ConfigDataLoader.waterRippleDensity));
 					}
 					setConfig(ConfigType.normal, "config_version", defaultConfigVersion);
@@ -378,7 +377,6 @@ public class ConfigHelper {
 			configChanged.add(setConfig(ConfigType.normal, "tutorials", ConfigDataLoader.tutorials));
 			configChanged.add(setConfig(ConfigType.normal, "detect_update_channel", ConfigDataLoader.detectUpdateChannel));
 			configChanged.add(setConfig(ConfigType.normal, "water_ripple_density", ConfigDataLoader.waterRippleDensity));
-			configChanged.add(setConfig(ConfigType.normal, "falling_leaves_density", ConfigDataLoader.fallingLeavesDensity));
 			configChanged.add(setConfig(ConfigType.normal, "chest_bubbles_density", ConfigDataLoader.chestBubblesDensity));
 			fixConfig();
 		} catch (Exception error) {
@@ -599,10 +597,6 @@ public class ConfigHelper {
 						}
 						case "water_ripple_density" -> {
 							Config.waterRippleDensity = (int) value;
-							configChanged = true;
-						}
-						case "falling_leaves_density" -> {
-							Config.fallingLeavesDensity = (int) value;
 							configChanged = true;
 						}
 						case "chest_bubbles_density" -> {
@@ -833,9 +827,6 @@ public class ConfigHelper {
 					}
 					case "water_ripple_density" -> {
 						return Config.waterRippleDensity;
-					}
-					case "falling_leaves_density" -> {
-						return Config.fallingLeavesDensity;
 					}
 					case "chest_bubbles_density" -> {
 						return Config.chestBubblesDensity;

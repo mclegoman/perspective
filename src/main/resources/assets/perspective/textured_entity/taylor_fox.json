@@ -1,0 +1,32 @@
+{
+  "entity": "minecraft:fox",
+  "name": "Taylor",
+  "entity_specific": {
+    "ages": {
+      "baby": {
+        "enabled": true
+      },
+      "adult": {
+        "enabled": true
+      }
+    },
+    "variants": {
+      "red": {
+        "enabled": true
+      },
+      "snow": {
+        "enabled": true
+      }
+    }
+  },
+  "overrides": [
+    { "prefix": "", "suffix": "_red", "texture": "minecraft:textures/entity/fox/fox" },
+    { "prefix": "", "suffix": "_red_sleep", "texture": "minecraft:textures/entity/fox/fox_sleep" },
+    { "prefix": "", "suffix": "_snow", "texture": "minecraft:textures/entity/fox/snow_fox" },
+    { "prefix": "", "suffix": "_snow_sleep", "texture": "minecraft:textures/entity/fox/snow_fox_sleep" },
+    { "prefix": "", "suffix": "_cape", "texture": "perspective:textures/entity/minecraft/fox/fox_cape" }
+  ],
+  "flip": true,
+  "item_group": false,
+  "enabled": true
+}

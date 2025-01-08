@@ -75,7 +75,6 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 	public static boolean tutorials;
 	public static String detectUpdateChannel;
 	public static int waterRippleDensity;
-	public static int fallingLeavesDensity;
 	public static int chestBubblesDensity;
 
 	public ConfigDataLoader() {
@@ -137,7 +136,6 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 				tutorials = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "tutorials", true);
 				detectUpdateChannel = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "detect_update_channel", "release");
 				waterRippleDensity = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "water_ripple_density", 0);
-				fallingLeavesDensity = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "falling_leaves_density", 0);
 				chestBubblesDensity = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "chest_bubbles_density", 0);
 			}
 			ConfigHelper.loadConfig();

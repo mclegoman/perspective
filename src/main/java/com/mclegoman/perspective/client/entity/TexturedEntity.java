@@ -43,6 +43,9 @@ public class TexturedEntity {
 	public static Identifier getEntityTypeId(EntityType<?> entityType) {
 		return Registries.ENTITY_TYPE.getId(entityType);
 	}
+	public static EntityType<?> getEntityTypeId(Identifier entityTypeId) {
+		return Registries.ENTITY_TYPE.get(entityTypeId);
+	}
 	private static void addDefaultForbiddenEntities() {
 		try {
 			// This prevents users from trying to use textured entity features on players. Use appearance instead.

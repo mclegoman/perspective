@@ -10,6 +10,7 @@ package com.mclegoman.perspective.client.translation;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.StringIdentifiable;
 
 import java.util.Arrays;
@@ -64,6 +65,18 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 		else if (key.equalsIgnoreCase("beta")) return getConfigTranslation(namespace, "detect_update_channel.beta");
 		else if (key.equalsIgnoreCase("release")) return getConfigTranslation(namespace, "detect_update_channel.release");
 		else return getErrorTranslation(namespace);
+	}
+	public static MutableText getItemGroupTranslation(String namespace, String key, Object[] variables, Formatting[] formattings) {
+		return getTranslation("item_group", namespace, key, variables, formattings);
+	}
+	public static MutableText getItemGroupTranslation(String namespace, String key, Object[] variables) {
+		return getTranslation("item_group", namespace, key, variables);
+	}
+	public static MutableText getItemGroupTranslation(String namespace, String key, Formatting[] formattings) {
+		return getTranslation("item_group", namespace, key, formattings);
+	}
+	public static MutableText getItemGroupTranslation(String namespace, String key) {
+		return getTranslation("item_group", namespace, key);
 	}
 	public enum Type implements StringIdentifiable {
 		ENDISABLE("endisable"),

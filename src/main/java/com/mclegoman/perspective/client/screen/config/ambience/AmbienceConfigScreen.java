@@ -15,7 +15,6 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.config.ConfigHelper;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.text.Text;
@@ -48,15 +47,6 @@ public class AmbienceConfigScreen extends AbstractConfigScreen {
 				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "water_ripple_density", (int) (value * 32));
 			}
 		}, 2);
-		double fallingLeavesDensity = (double) ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "falling_leaves_density")) / 32;
-		ambienceGridAdder.add(new ConfigSliderWidget(ambienceGridAdder.getGridWidget().getX(), ambienceGridAdder.getGridWidget().getY(), 300, 20, Translation.getConfigTranslation(Data.version.getID(), "ambience.falling_leaves_density", new Object[]{Text.literal(String.valueOf((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "falling_leaves_density")))}, false), fallingLeavesDensity) {
-			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "ambience.falling_leaves_density", new Object[]{Text.literal(String.valueOf((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "falling_leaves_density")))}, false));
-			}
-			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "falling_leaves_density", (int) (value * 32));
-			}
-		}, 2);
 		double chestBubblesDensity = (double) ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "chest_bubbles_density")) / 32;
 		ambienceGridAdder.add(new ConfigSliderWidget(ambienceGridAdder.getGridWidget().getX(), ambienceGridAdder.getGridWidget().getY(), 300, 20, Translation.getConfigTranslation(Data.version.getID(), "ambience.chest_bubbles_density", new Object[]{Text.literal(String.valueOf((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "chest_bubbles_density")))}, false), chestBubblesDensity) {
 			protected void updateMessage() {
@@ -66,6 +56,7 @@ public class AmbienceConfigScreen extends AbstractConfigScreen {
 				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "chest_bubbles_density", (int) (value * 32));
 			}
 		}, 2);
+		ambienceGridAdder.add(new EmptyWidget(20, 20), 2);
 		ambienceGridAdder.add(new EmptyWidget(20, 20), 2);
 		return ambienceGrid;
 	}

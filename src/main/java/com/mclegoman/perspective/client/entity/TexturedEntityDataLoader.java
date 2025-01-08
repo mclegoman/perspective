@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -21,14 +22,20 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TexturedEntityDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
 	private static final Map<Identifier, TexturedEntityData> registry = new HashMap<>();
 	public static List<TexturedEntityData> getRegistry() {
 		return registry.values().stream().toList();
+	}
+	public static List<TexturedEntityData> getSortedRegistry() {
+		// This should only be used if the list needs to be sorted alphabetically.
+		Map<String, TexturedEntityData> unprocessedRegistry = new HashMap<>();
+		List<TexturedEntityData> processedRegistry = new ArrayList<>();
+		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getName().toLowerCase(), data);
+		for (String name : new TreeSet<>(unprocessedRegistry.keySet())) processedRegistry.add(unprocessedRegistry.get(name));
+		return processedRegistry;
 	}
 	public static Map<Identifier, TexturedEntityData> getRegistryMap() {
 		return registry;
@@ -39,12 +46,12 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 	public TexturedEntityDataLoader() {
 		super(new Gson(), identifier);
 	}
-	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean enabled) {
-		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, enabled);
+	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean enabled) {
+		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, item_group, enabled);
 	}
-	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean enabled) {
+	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean enabled) {
 		try {
-			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, enabled));
+			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, enabled));
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
@@ -166,7 +173,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
 		for (String entity : entityTypes) {
-			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false);
+			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,false);
 		}
 	}
 	@Override
@@ -175,10 +182,17 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 			isReady = false;
 			reset();
 			prepared.forEach(this::layout$perspective);
+			sendPlayerMessage();
 			isReady = true;
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply textured entity dataloader: {}", error));
 		}
+	}
+
+	private void sendPlayerMessage() {
+		// If the player doesn't exist, we don't worry as the problem doesn't occur.
+		// This issue relates to the creative inventory.
+		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.version.getID(), "textured_entity.creative_tab_issue"));
 	}
 
 	@Override
@@ -196,8 +210,9 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 			JsonObject entity_specific = JsonHelper.getObject(reader, "entity_specific", new JsonObject());
 			JsonArray overrides = JsonHelper.getArray(reader, "overrides", new JsonArray());
 			boolean flip = JsonHelper.getBoolean(reader, "flip", false);
+			boolean item_group = JsonHelper.getBoolean(reader, "item_group", true);
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
-			add(identifier, namespace, type, name, entity_specific, overrides, flip, enabled);
+			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, enabled);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}
