@@ -101,20 +101,20 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"));
 			this.refresh = true;
 		}).build(), 1);
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false), ((double)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in") - 0.001D) / 1.999D) {
+		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false), ((float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in") - 0.001F) / 1.999F) {
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false));
 			}
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in", Double.valueOf(String.format("%.2f", ((value) * 1.999) + 0.001D)));
+				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in", Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)));
 			}
 		});
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false), ((double)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") - 0.001D) / 1.999D) {
+		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false), ((float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") - 0.001F) / 1.999F) {
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false));
 			}
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out", Double.valueOf(String.format("%.2f", ((value) * 1.999) + 0.001D)));
+				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out", Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)));
 			}
 		});
 		zoomGridAdder.add(new EmptyWidget(20, 20), 2);

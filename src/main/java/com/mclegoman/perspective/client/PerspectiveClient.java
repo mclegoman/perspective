@@ -8,7 +8,6 @@
 package com.mclegoman.perspective.client;
 
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.perspective.client.ambience.Ambience;
 import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
@@ -16,7 +15,6 @@ import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
-import com.mclegoman.perspective.client.item.ItemGroup;
 import com.mclegoman.perspective.client.panorama.Panorama;
 import com.mclegoman.perspective.client.shaders.Shader;
 import com.mclegoman.perspective.client.shaders.Shaders;
@@ -38,7 +36,6 @@ public class PerspectiveClient implements ClientModInitializer {
 		try {
 			Data.version.sendToLog(LogType.INFO, Translation.getString("Initializing {}", Data.version.getName()));
 			TextureHelper.init();
-			Ambience.init();
 			AprilFoolsPrank.init();
 			Appearance.init();
 			UIBackground.init();
@@ -53,7 +50,7 @@ public class PerspectiveClient implements ClientModInitializer {
 			Entity.init();
 			Tick.init();
 			ConfigHelper.init();
-			ItemGroup.init();
+			//ItemGroup.init();
 			ClientData.setFinishedInitializing(true);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to run onInitializeClient: {}", error));

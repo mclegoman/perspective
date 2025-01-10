@@ -7,7 +7,6 @@
 
 package com.mclegoman.perspective.client.util;
 
-import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.Halloween;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -35,7 +34,7 @@ public class Tick {
 				Zoom.tick();
 				Shader.tick();
 				Shaders.tick();
-				Entity.tick();
+				//Entity.tick();
 				Panorama.tick();
 				Hide.tick();
 			}

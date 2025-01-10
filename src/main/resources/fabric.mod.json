@@ -29,12 +29,11 @@
     ]
   },
   "mixins": [
-    "mclegoman-perspective.mixins.json"
+    "dt-perspective.mixins.json"
   ],
   "depends": {
     "minecraft": [
-      "1.21",
-      "1.21.1"
+      "1.21.4"
     ],
     "fabric-resource-loader-v0": "*",
     "fabric-key-binding-api-v1": "*",

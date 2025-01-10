@@ -11,12 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -33,7 +33,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 		// This should only be used if the list needs to be sorted alphabetically.
 		Map<String, TexturedEntityData> unprocessedRegistry = new HashMap<>();
 		List<TexturedEntityData> processedRegistry = new ArrayList<>();
-		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getName().toLowerCase(), data);
+		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getName().toLowerCase() + data.getNamespace() + data.getType(), data);
 		for (String name : new TreeSet<>(unprocessedRegistry.keySet())) processedRegistry.add(unprocessedRegistry.get(name));
 		return processedRegistry;
 	}
@@ -192,7 +192,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 	private void sendPlayerMessage() {
 		// If the player doesn't exist, we don't worry as the problem doesn't occur.
 		// This issue relates to the creative inventory.
-		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.version.getID(), "textured_entity.creative_tab_issue"));
+		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.version.getID(), "textured_entity.creative_tab_issue"), false);
 	}
 
 	@Override

@@ -27,7 +27,7 @@ import net.minecraft.util.Util;
 import java.util.Arrays;
 import java.util.List;
 
-public class Update extends com.mclegoman.luminance.client.util.Update {
+public class Update extends com.mclegoman.luminance.client.update.Update {
 	public static final String[] detectUpdateChannels = new String[]{"release", "beta", "alpha", "none"};
 	public static Version apiVersion;
 	public static boolean seenUpdateToast;
@@ -125,7 +125,7 @@ public class Update extends com.mclegoman.luminance.client.util.Update {
 		});
 		if (newerVersionFound) {
 			if (!seenUpdateToast) {
-				ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.update.title")}), Translation.getTranslation(Data.version.getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}), 280, Toast.Type.INFO));
+				//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.update.title")}), Translation.getTranslation(Data.version.getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}), 280, Toast.Type.INFO));
 				seenUpdateToast = true;
 			}
 		}

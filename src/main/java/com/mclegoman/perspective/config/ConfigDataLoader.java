@@ -9,11 +9,11 @@ package com.mclegoman.perspective.config;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -29,8 +29,8 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 	public static int zoomLevel;
 	public static int zoomIncrementSize;
 	public static String zoomTransition;
-	public static double zoomSmoothSpeedIn;
-	public static double zoomSmoothSpeedOut;
+	public static float zoomSmoothSpeedIn;
+	public static float zoomSmoothSpeedOut;
 	public static String zoomScaleMode;
 	public static String zoomHideHud;
 	public static boolean zoomShowPercentage;
@@ -74,8 +74,6 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 	public static boolean hideShowMessage;
 	public static boolean tutorials;
 	public static String detectUpdateChannel;
-	public static int waterRippleDensity;
-	public static int chestBubblesDensity;
 
 	public ConfigDataLoader() {
 		super(new Gson(), ID);
@@ -90,8 +88,8 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 				zoomLevel = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "zoom_level", 40);
 				zoomIncrementSize = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "zoom_increment_size", 1);
 				zoomTransition = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_transition", "smooth");
-				zoomSmoothSpeedIn = JsonHelper.getDouble(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_in", 1.0D);
-				zoomSmoothSpeedOut = JsonHelper.getDouble(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_out", 1.0D);
+				zoomSmoothSpeedIn = JsonHelper.getFloat(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_in", 1.0F);
+				zoomSmoothSpeedOut = JsonHelper.getFloat(JsonHelper.deserialize(resource.get().getReader()), "zoom_smooth_speed_out", 1.0F);
 				zoomScaleMode = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_scale_mode", "scaled");
 				zoomHideHud = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_hide_hud", "false");
 				zoomType = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "zoom_type", "perspective:logarithmic");
@@ -135,8 +133,6 @@ public class ConfigDataLoader extends JsonDataLoader implements IdentifiableReso
 				hideShowMessage = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "hide_show_message", true);
 				tutorials = JsonHelper.getBoolean(JsonHelper.deserialize(resource.get().getReader()), "tutorials", true);
 				detectUpdateChannel = JsonHelper.getString(JsonHelper.deserialize(resource.get().getReader()), "detect_update_channel", "release");
-				waterRippleDensity = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "water_ripple_density", 0);
-				chestBubblesDensity = JsonHelper.getInt(JsonHelper.deserialize(resource.get().getReader()), "chest_bubbles_density", 0);
 			}
 			ConfigHelper.loadConfig();
 		} catch (Exception error) {

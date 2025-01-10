@@ -47,14 +47,14 @@ dependencies {
 
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_api}")
 	//include(modImplementation("maven.modrinth:luminance:${project.luminance}"))
-	include(modImplementation("luminance:luminance-1.0.0-alpha.5+1.21.1+dirty.1723953035"))
+	include(modImplementation("luminance:luminance-1.0.0-alpha.5+dirty.1736460719+1.21.4"))
 	//modImplementation(fileTree(dir: 'libs', include: '*.jar'))
 
 	// Compatibility
-	modImplementation("com.terraformersmc:modmenu:${project.modmenu}")
+	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu}"
 
 	// Development Environment Only
-	modImplementation("com.ptsmods:devlogin:3.4.1")
+	modImplementation "com.ptsmods:devlogin:3.4.1"
 	//modImplementation "com.github.Nettakrim:Souper-Secret-Settings:${project.souper_secret_settings}"
 }
 processResources {

@@ -407,5 +407,6 @@
 	"gui.perspective.config.warning.reworked": "%s is currently being re-worked. Expect bugs.",
 	"gui.perspective.textured_entity.creative_tab_issue": "§cPlease Note: The Textured Entity Item Group may not contain the correct spawn eggs. Rejoin the world to fix.",
 
-	"item_group.perspective.textured_entity": "Textured Entity (%s)"
+	"item_group.perspective.textured_entity": "Textured Entity (%s)",
+	"item.perspective.textured_entity_spawn_egg": "%s (%s)"
 }

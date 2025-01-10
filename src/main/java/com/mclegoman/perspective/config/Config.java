@@ -9,10 +9,10 @@ package com.mclegoman.perspective.config;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.luminance.config.ConfigProvider;
+import com.mclegoman.luminance.darktree.simplelibs.config.SimpleConfig;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.Couple;
-import net.darktree.simplelibs.config.SimpleConfig;
 
 public class Config {
 	protected static final String id = Data.version.getID();
@@ -22,8 +22,8 @@ public class Config {
 	protected static int zoomLevel;
 	protected static int zoomIncrementSize;
 	protected static String zoomTransition;
-	protected static double zoomSmoothSpeedIn;
-	protected static double zoomSmoothSpeedOut;
+	protected static float zoomSmoothSpeedIn;
+	protected static float zoomSmoothSpeedOut;
 	protected static String zoomScaleMode;
 	protected static String zoomHideHud;
 	protected static boolean zoomShowPercentage;
@@ -68,8 +68,6 @@ public class Config {
 	protected static String detectUpdateChannel;
 	protected static boolean tutorials;
 	protected static boolean debug;
-	protected static int waterRippleDensity;
-	protected static int chestBubblesDensity;
 	protected static int configVersion;
 	protected static final Object[] options;
 
@@ -134,8 +132,6 @@ public class Config {
 		configProvider.add(new Couple<>("hide_show_message", ConfigDataLoader.hideShowMessage));
 		configProvider.add(new Couple<>("tutorials", ConfigDataLoader.tutorials));
 		configProvider.add(new Couple<>("detect_update_channel", ConfigDataLoader.detectUpdateChannel));
-		configProvider.add(new Couple<>("water_ripple_density", ConfigDataLoader.waterRippleDensity));
-		configProvider.add(new Couple<>("chest_bubbles_density", ConfigDataLoader.chestBubblesDensity));
 		configProvider.add(new Couple<>("debug", ConfigHelper.defaultDebug));
 		configProvider.add(new Couple<>("config_version", ConfigHelper.defaultConfigVersion));
 	}
@@ -145,8 +141,8 @@ public class Config {
 		zoomLevel = config.getOrDefault("zoom_level", ConfigDataLoader.zoomLevel);
 		zoomIncrementSize = config.getOrDefault("zoom_increment_size", ConfigDataLoader.zoomIncrementSize);
 		zoomTransition = config.getOrDefault("zoom_transition", ConfigDataLoader.zoomTransition);
-		zoomSmoothSpeedIn = config.getOrDefault("zoom_smooth_speed_in", ConfigDataLoader.zoomSmoothSpeedIn);
-		zoomSmoothSpeedOut = config.getOrDefault("zoom_smooth_speed_out", ConfigDataLoader.zoomSmoothSpeedOut);
+		zoomSmoothSpeedIn = (float) config.getOrDefault("zoom_smooth_speed_in", ConfigDataLoader.zoomSmoothSpeedIn);
+		zoomSmoothSpeedOut = (float) config.getOrDefault("zoom_smooth_speed_out", ConfigDataLoader.zoomSmoothSpeedOut);
 		zoomScaleMode = config.getOrDefault("zoom_scale_mode", ConfigDataLoader.zoomScaleMode);
 		zoomHideHud = config.getOrDefault("zoom_hide_hud", ConfigDataLoader.zoomHideHud);
 		zoomShowPercentage = config.getOrDefault("zoom_show_percentage", ConfigDataLoader.zoomShowPercentage);
@@ -190,8 +186,6 @@ public class Config {
 		hideShowMessage = config.getOrDefault("hide_show_message", ConfigDataLoader.hideShowMessage);
 		tutorials = config.getOrDefault("tutorials", ConfigDataLoader.tutorials);
 		detectUpdateChannel = config.getOrDefault("detect_update_channel", ConfigDataLoader.detectUpdateChannel);
-		waterRippleDensity = config.getOrDefault("water_ripple_density", ConfigDataLoader.waterRippleDensity);
-		chestBubblesDensity = config.getOrDefault("chest_bubbles_density", ConfigDataLoader.chestBubblesDensity);
 		debug = config.getOrDefault("debug", ConfigHelper.defaultDebug);
 		configVersion = config.getOrDefault("config_version", ConfigHelper.defaultConfigVersion);
 	}
@@ -247,11 +241,9 @@ public class Config {
 		configProvider.setConfig("hide_show_message", hideShowMessage);
 		configProvider.setConfig("tutorials", tutorials);
 		configProvider.setConfig("detect_update_channel", detectUpdateChannel);
-		configProvider.setConfig("water_ripple_density", waterRippleDensity);
-		configProvider.setConfig("chest_bubbles_density", chestBubblesDensity);
 		configProvider.setConfig("debug", debug);
 		configProvider.setConfig("config_version", ConfigHelper.defaultConfigVersion);
-		configProvider.saveConfig(Data.version, id);
+		configProvider.saveConfig(id);
 	}
 	static {
 		options = new Object[]{
@@ -303,8 +295,6 @@ public class Config {
 				hideShowMessage,
 				detectUpdateChannel,
 				tutorials,
-				waterRippleDensity,
-				chestBubblesDensity,
 				debug,
 				configVersion
 		};

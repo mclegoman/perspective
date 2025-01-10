@@ -14,21 +14,18 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UIBackground {
-	@Nullable
-	public static PostEffectProcessor postProcessor;
 	private static final List<UIBackgroundData> uiBackgroundTypes = new ArrayList<>();
 	public static void init() {
 		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "default")).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "gaussian")).shaderId(Identifier.of("perspective", "shaders/post/gaussian.json")).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "gaussian")).shaderId(Identifier.of(Data.version.getID(), "gaussian")).build());
 		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "legacy")).renderWorld(new Runnable() {
 			public void run(DrawContext context) {
 				RenderSystem.enableBlend();
@@ -38,8 +35,8 @@ public class UIBackground {
 		}).renderMenu(new Runnable() {
 			public void run(DrawContext context) {
 				RenderSystem.enableBlend();
-				context.drawTexture(getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-				context.drawTexture(Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+				context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+				context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 				RenderSystem.disableBlend();
 			}
 		}).renderPanorama(false).renderShader(false).build());
@@ -53,15 +50,15 @@ public class UIBackground {
 			}).renderMenu(new Runnable() {
 				public void run(DrawContext context) {
 					RenderSystem.enableBlend();
-					context.drawTexture(getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-					context.drawTexture(Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 					RenderSystem.disableBlend();
 				}
 			}).renderTitleScreen(new Runnable() {
 				public void run(DrawContext context) {
 					RenderSystem.enableBlend();
-					context.drawTexture(getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-					context.drawTexture(Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 					RenderSystem.disableBlend();
 				}
 			}).renderPanorama(false).renderTitleScreenPanorama(false).renderShader(false).build());
@@ -86,7 +83,6 @@ public class UIBackground {
 	public static void cycleUIBackgroundType(boolean direction) {
 		int currentIndex = uiBackgroundTypes.indexOf(getCurrentUIBackground());
 		ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "ui_background", uiBackgroundTypes.get(direction ? (currentIndex + 1) % uiBackgroundTypes.size() : (currentIndex - 1 + uiBackgroundTypes.size()) % uiBackgroundTypes.size()).getId());
-		loadShader(getCurrentUIBackground());
 	}
 	public static UIBackgroundData getCurrentUIBackground() {
 		return getUIBackgroundType((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "ui_background"));
@@ -108,30 +104,6 @@ public class UIBackground {
 		String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, uiBackgroundTexture);
 		String key = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, uiBackgroundTexture);
 		return (namespace != null && key != null) ? Identifier.of(namespace, (!key.startsWith("textures/") ? "textures/" : "") + key + (!key.endsWith(".png") ? ".png" : "")) : Identifier.of("minecraft", "textures/block/dirt.png");
-	}
-	public static void loadShader(UIBackgroundData data) {
-		try {
-			if (postProcessor != null) postProcessor.close();
-			if (data.getRenderShader() && data.getShaderId() != null) {
-				postProcessor = new PostEffectProcessor(ClientData.minecraft.getTextureManager(), ClientData.minecraft.getResourceManager(), ClientData.minecraft.getFramebuffer(), data.getShaderId());
-				postProcessor.setupDimensions(ClientData.minecraft.getWindow().getFramebufferWidth(), ClientData.minecraft.getWindow().getFramebufferHeight());
-			}
-		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Error loading blur shader: {}", error));
-		}
-	}
-	public static void renderShader(float tickDelta, UIBackgroundData data) {
-		try {
-			if (data.getRenderShader()) {
-				if (postProcessor == null) loadShader(data);
-				float blurriness = ClientData.minecraft.options.getMenuBackgroundBlurrinessValue();
-				if (blurriness >= 1.0F) postProcessor.setUniforms("Radius", blurriness);
-				postProcessor.render(tickDelta);
-				ClientData.minecraft.getFramebuffer().beginWrite(false);
-			}
-		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Error rendering blur ui background: {}", error));
-		}
 	}
 	public interface Runnable {
 		default void run(DrawContext context) {

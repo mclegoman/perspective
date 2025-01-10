@@ -26,7 +26,7 @@ public class Halloween {
 		if (!seenWarning && ClientData.minecraft.world != null) {
 			if (isHalloween()) {
 				if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "halloween")) {
-					ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.halloween.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.halloween.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()}), 280, Toast.Type.TUTORIAL));
+					ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.halloween.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.halloween.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
 					ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "halloween", true);
 					shouldSave = true;
 					seenWarning = true;

@@ -15,6 +15,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.AttackIndicator;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ChargedProjectilesComponent;
@@ -78,11 +79,11 @@ public abstract class InGameHudMixin {
 									int j = ClientData.minecraft.getWindow().getScaledHeight() / 2 - 7 + 16;
 									int k = ClientData.minecraft.getWindow().getScaledWidth() / 2 - 8;
 									if (cooldownProgressFull) {
-										context.drawGuiTexture(CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE, k, j, 16, 16);
+										context.drawGuiTexture(RenderLayer::getGuiTextured, CROSSHAIR_ATTACK_INDICATOR_FULL_TEXTURE, k, j, 16, 16);
 									} else if (cooldownProgress < 1.0F) {
 										int l = (int) (cooldownProgress * 17.0F);
-										context.drawGuiTexture(CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, k, j, 16, 4);
-										context.drawGuiTexture(CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE, 16, 4, 0, 0, k, j, l, 4);
+										context.drawGuiTexture(RenderLayer::getGuiTextured, CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, k, j, 16, 4);
+										context.drawGuiTexture(RenderLayer::getGuiTextured, CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE, 16, 4, 0, 0, k, j, l, 4);
 									}
 								}
 							}

@@ -8,28 +8,32 @@
 package com.mclegoman.perspective.client.entity.renderer.feature;
 
 import com.mclegoman.perspective.client.entity.model.HalloweenHatModel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class HalloweenHatFeatureRenderer<T extends PlayerEntity> extends FeatureRenderer<T, PlayerEntityModel<T>> {
-	private final HalloweenHatModel<T> model;
-	private final Identifier hatTexture;
-	public HalloweenHatFeatureRenderer(FeatureRendererContext<T, PlayerEntityModel<T>> context, HalloweenHatModel<T> model, Identifier hatTexture) {
+@Environment(EnvType.CLIENT)
+public class HalloweenHatFeatureRenderer<S extends PlayerEntityRenderState, P extends PlayerEntityModel> extends FeatureRenderer<S, P> {
+	private final HalloweenHatModel<S> model;
+	private final Identifier texture;
+	public HalloweenHatFeatureRenderer(FeatureRendererContext<S, P> context, HalloweenHatModel<S> model, Identifier texture) {
 		super(context);
 		this.model = model;
-		this.hatTexture = hatTexture;
+		this.texture = texture;
 	}
-	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, T player, float a, float b, float delta, float c, float d, float e) {
-		matrixStack.push();
-		matrixStack.scale(0.9375F, 0.9375F, 0.9375F);
-		this.model.renderHalloween(matrixStack, vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(hatTexture)), light, OverlayTexture.DEFAULT_UV, this.getContextModel());
-		matrixStack.pop();
+	@Override
+	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, S state, float limbAngle, float limbDistance) {
+		matrices.push();
+		matrices.scale(0.9375F, 0.9375F, 0.9375F);
+		this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture)), light, OverlayTexture.DEFAULT_UV, this.getContextModel());
+		matrices.pop();
 	}
 }

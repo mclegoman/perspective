@@ -1,6 +1,6 @@
 {
   "entity": "minecraft:pig",
-  "name": "Technoblade",
+  "name": "Oliver",
   "entity_specific": {
     "ages": {
       "baby": {
@@ -12,8 +12,7 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/pig/pig" },
-    { "prefix": "", "suffix": "_muddy_flower", "texture": "perspective:textures/entity/minecraft/pig/muddy_flower" }
+    { "prefix": "", "suffix": "_overlay", "texture": "perspective:textures/entity/minecraft/pig/pig_overlay" }
   ],
   "flip": false,
   "enabled": true

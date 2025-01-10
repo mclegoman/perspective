@@ -13,7 +13,7 @@ import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.minecraft.util.Identifier;
 
-public class ResourcePacks extends com.mclegoman.luminance.client.util.ResourcePacks {
+public class ResourcePacks extends com.mclegoman.luminance.client.texture.ResourcePacks {
 	/**
 	 * To add a resource pack to this project, please follow these guidelines:
 	 * 1. When registering your resource pack, ensure you include the resource pack's name, and the contributor(s) in the following format:

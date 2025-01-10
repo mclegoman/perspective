@@ -16,17 +16,8 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(priority = 100, value = WorldRenderer.class)
 public abstract class WorldRendererMixin {
-	@ModifyArgs(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawCuboidShapeOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDFFFF)V"), method = "drawBlockOutline")
+	@ModifyArgs(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexRendering;drawOutline(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/util/shape/VoxelShape;DDDI)V"), method = "drawBlockOutline")
 	private void perspective$drawBlockOutline(Args args) {
-		// We check if the value is not 0.4F, as 0.4F is the default behaviour.
-		// We use args.size() - 1, as alpha is the final argument.
-		if (Hide.getBlockOutlineLevel() != 0.4F) args.set(args.size() - 1, Hide.getBlockOutlineLevel());
-		// These values change what colour the outline is.
-		// We use args.size() - (4,3,2), as these are the values for r,g,b.
-		if (Hide.getRainbowBlockOutline()) {
-			args.set(args.size() - 4, Hide.getRainbowOutline().getFirst());
-			args.set(args.size() - 3, Hide.getRainbowOutline().getSecond());
-			args.set(args.size() - 2, Hide.getRainbowOutline().getThird());
-		}
+		args.set(args.size() - 1, Hide.getARGB(Hide.getRainbowBlockOutline() ? Hide.getRainbowOutline() : args.get(args.size() - 1), (int)((Hide.getBlockOutlineLevel() / 100.0F) * 255.0F)));
 	}
 }

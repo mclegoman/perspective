@@ -9,58 +9,59 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.config.ConfigDataLoader;
 import com.mclegoman.perspective.config.ConfigHelper;
+import net.minecraft.util.Identifier;
 
 public class Shaders {
-	public static Couple<String, String> superSecretSettingsId;
+	public static Identifier superSecretSettingsId;
 	public static void init() {
 		Data.version.sendToLog(LogType.INFO, Translation.getString("Initializing Shader Renderers"));
-		Events.AfterShaderDataRegistered.register(new Couple<>(Data.version.getID(), "main"), Shaders::setSuperSecretSettings);
+		Events.AfterShaderDataRegistered.register(Identifier.of(Data.version.getID(), "main"), Shaders::setSuperSecretSettings);
 		Uniforms.init();
 	}
 	public static void tick() {
 		Uniforms.tick();
 	}
 	public static void setSuperSecretSettings() {
-		try {
-			ShaderRegistry shaderData = com.mclegoman.luminance.client.shaders.Shaders.get((String)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader"));
-			if (shaderData != null) set(shaderData);
-			else {
-				Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find specified shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
-				shaderData = com.mclegoman.luminance.client.shaders.Shaders.get(ConfigDataLoader.superSecretSettingsShader);
-				if (shaderData != null) {
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader", shaderData.getId());
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", ConfigDataLoader.superSecretSettingsEnabled);
-					set(shaderData);
-				} else {
-					Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find default shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
-					Events.ShaderRender.Shaders.remove(superSecretSettingsId, "main");
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", false);
-					com.mclegoman.perspective.client.shaders.Shader.superSecretSettingsIndex = 0;
-				}
-			}
-		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
-		}
+//		try {
+//			ShaderRegistry shaderData = com.mclegoman.luminance.client.shaders.Shaders.get(com.mclegoman.luminance.client.shaders.Shaders.guessPostShader((String)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
+//			if (shaderData != null) set(shaderData);
+//			else {
+//				Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find specified shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
+//				shaderData = com.mclegoman.luminance.client.shaders.Shaders.get(ConfigDataLoader.superSecretSettingsShader);
+//				if (shaderData != null) {
+//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader", shaderData.getID());
+//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", ConfigDataLoader.superSecretSettingsEnabled);
+//					set(shaderData);
+//				} else {
+//					Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find default shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
+//					Events.ShaderRender.Shaders.remove(superSecretSettingsId, "main");
+//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", false);
+//					com.mclegoman.perspective.client.shaders.Shader.superSecretSettingsIndex = 0;
+//				}
+//			}
+//		} catch (Exception error) {
+//			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
+//		}
 	}
 	private static void set(ShaderRegistry shaderData) {
-		try {
-			String logMessage = Translation.getString("Setting super secret settings shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader"));
-			if (Events.ShaderRender.Shaders.exists(superSecretSettingsId, "main")) {
-				Couple<String, Shader> shader = Events.ShaderRender.Shaders.get(superSecretSettingsId, "main");
-				if (shader.getSecond() != null) {
-					/* TODO: Move this check into luminance itself.*/
-					if (!com.mclegoman.luminance.client.shaders.Shaders.getPostShader(shaderData.getId()).toString().equals(shader.getSecond().getShaderId().toString())) {
-						Data.version.sendToLog(LogType.INFO, logMessage);
-						shader.getSecond().setShaderData(shaderData);
-					}
-				}
-			} else {
-				Data.version.sendToLog(LogType.INFO, logMessage);
-				Events.ShaderRender.Shaders.set(superSecretSettingsId, "main", new Shader(shaderData, Shaders::getRenderType, Shaders::getShouldRender));
-			}
-		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
-		}
+//		try {
+//			String logMessage = Translation.getString("Setting super secret settings shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader"));
+//			if (Events.ShaderRender.Shaders.exists(superSecretSettingsId, "main")) {
+//				Couple<String, Shader> shader = Events.ShaderRender.Shaders.get(superSecretSettingsId, "main");
+//				if (shader.getSecond() != null) {
+//					/* TODO: Move this check into luminance itself.*/
+//					if (!com.mclegoman.luminance.client.shaders.Shaders.getPostShader(shaderData.getID(), false).toString().equals(shader.getSecond().getShaderId().toString())) {
+//						Data.version.sendToLog(LogType.INFO, logMessage);
+//						shader.getSecond().setShaderData(shaderData);
+//					}
+//				}
+//			} else {
+//				Data.version.sendToLog(LogType.INFO, logMessage);
+//				Events.ShaderRender.Shaders.set(superSecretSettingsId, "main", new Shader(shaderData, Shaders::getRenderType, Shaders::getShouldRender));
+//			}
+//		} catch (Exception error) {
+//			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
+//		}
 	}
 	public static Shader.RenderType getRenderType() {
 		Object renderMode = ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_mode");
@@ -71,6 +72,6 @@ public class Shaders {
 		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled");
 	}
 	static {
-		superSecretSettingsId = new Couple<>(Data.version.getID(), "super_secret_settings");
+		superSecretSettingsId = Identifier.of(Data.version.getID(), "super_secret_settings");
 	}
 }

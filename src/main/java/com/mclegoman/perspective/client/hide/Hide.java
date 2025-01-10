@@ -26,6 +26,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Hide {
 	public static final String[] zoomHideHudModes = new String[]{"true", "hand", "false"};
@@ -65,10 +66,10 @@ public class Hide {
 		}
 		rainbowTime += 1.0F % 20.0F;
 	}
-	public static boolean shouldHidePlayer(PlayerEntity player) {
+	public static boolean shouldHidePlayer(UUID uuid) {
 		if (ClientData.minecraft.player != null) {
-			if (!player.getGameProfile().getId().equals(ClientData.minecraft.player.getGameProfile().getId()))
-				return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_players") || HidePlayerDataLoader.REGISTRY.contains(String.valueOf(player.getGameProfile().getId()));
+			if (!uuid.equals(ClientData.minecraft.player.getGameProfile().getId()))
+				return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_players") || HidePlayerDataLoader.REGISTRY.contains(String.valueOf(uuid));
 		}
 		return false;
 	}
@@ -94,17 +95,19 @@ public class Hide {
 			default -> {return false;}
 		}
 	}
-	public static boolean shouldHideArmor(PlayerEntity player) {
-		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_armor") || HideArmorDataLoader.registry.contains(String.valueOf(player.getGameProfile().getId()));
+	public static boolean shouldHideArmor(UUID uuid) {
+		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_armor") || HideArmorDataLoader.registry.contains(String.valueOf(uuid));
 	}
-	public static float getBlockOutlineLevel() {
-		return ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "block_outline")) / 100.0F;
+	public static int getBlockOutlineLevel() {
+		return ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "block_outline"));
 	}
 	public static boolean getRainbowBlockOutline() {
 		return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "rainbow_block_outline");
 	}
-	public static Triple<Float, Float, Float> getRainbowOutline() {
-		Color color = Color.getHSBColor(rainbowTime / 20.0F, 1.0F, 1.0F);
-		return new Triple<>(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F);
+	public static int getRainbowOutline() {
+		return Color.getHSBColor(rainbowTime / 20.0F, 1.0F, 1.0F).getRGB();
+	}
+	public static int getARGB(int color, int alpha) {
+		return (Math.clamp(alpha, 0, 255) << 24) | (color & 0x00FFFFFF);
 	}
 }

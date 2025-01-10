@@ -114,17 +114,17 @@ public class ConfigHelper {
 	private static void showToasts() {
 		if (Data.version.isDevelopmentBuild() && !seenDevelopmentWarning) {
 			Data.version.sendToLog(LogType.INFO, "Development Build: Please help us improve by submitting bug reports if you encounter any issues.");
-			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.development_warning.title")}), Translation.getTranslation(Data.version.getID(), "toasts.development_warning.description"), 320, Toast.Type.WARNING));
+			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.development_warning.title")}), Translation.getTranslation(Data.version.getID(), "toasts.development_warning.description")));
 			seenDevelopmentWarning = true;
 		}
 		if (showDowngradeWarning && !seenDowngradeWarning) {
 			Data.version.sendToLog(LogType.INFO, "Downgrading is not supported: You may experience configuration related issues.");
-			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.downgrade_warning.title")}), Translation.getTranslation(Data.version.getID(), "toasts.downgrade_warning.description"), 320, Toast.Type.WARNING));
+			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.downgrade_warning.title")}), Translation.getTranslation(Data.version.getID(), "toasts.downgrade_warning.description")));
 			seenDowngradeWarning = true;
 		}
 		if (showLicenseUpdateNotice && !seenLicenseUpdateNotice) {
 			Data.version.sendToLog(LogType.INFO, "License Update: Perspective is now licensed under LGPL-3.0-or-later.");
-			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.license_update.title")}), Translation.getTranslation(Data.version.getID(), "toasts.license_update.description"), 320, Toast.Type.INFO));
+			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.license_update.title")}), Translation.getTranslation(Data.version.getID(), "toasts.license_update.description")));
 			seenLicenseUpdateNotice = true;
 		}
 	}
@@ -182,9 +182,6 @@ public class ConfigHelper {
 					if (Config.config.getOrDefault("config_version", defaultConfigVersion) < 22) {
 						setConfig(ConfigType.normal, "hold_perspective_back_hide_hud", Config.config.getOrDefault("hold_perspective_hide_hud", ConfigDataLoader.holdPerspectiveBackHideHud));
 						setConfig(ConfigType.normal, "hold_perspective_front_hide_hud", Config.config.getOrDefault("hold_perspective_hide_hud", ConfigDataLoader.holdPerspectiveFrontHideHud));
-					}
-					if (Config.config.getOrDefault("config_version", defaultConfigVersion) < 23) {
-						setConfig(ConfigType.normal, "water_ripple_density", Config.config.getOrDefault("ripple_density", ConfigDataLoader.waterRippleDensity));
 					}
 					setConfig(ConfigType.normal, "config_version", defaultConfigVersion);
 					Data.version.sendToLog(LogType.INFO, Translation.getString("Successfully updated config to the latest version."));
@@ -253,11 +250,11 @@ public class ConfigHelper {
 				Data.version.sendToLog(LogType.WARN, "Config: zoom_increment_size was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "zoom_increment_size") + ")");
 				hasFixedConfig.add(setConfig(ConfigType.normal, "zoom_increment_size", ConfigDataLoader.zoomIncrementSize));
 			}
-			if ((double) getConfig(ConfigType.normal, "zoom_smooth_speed_in") < 0.001D || (double) getConfig(ConfigType.normal, "zoom_smooth_speed_in") > 2.0D) {
+			if ((float) getConfig(ConfigType.normal, "zoom_smooth_speed_in") < 0.001F || (float) getConfig(ConfigType.normal, "zoom_smooth_speed_in") > 2.0F) {
 				Data.version.sendToLog(LogType.WARN, "Config: zoom_smooth_speed_in was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "zoom_smooth_speed_in") + ")");
 				hasFixedConfig.add(setConfig(ConfigType.normal, "zoom_smooth_speed_in", ConfigDataLoader.zoomSmoothSpeedIn));
 			}
-			if ((double) getConfig(ConfigType.normal, "zoom_smooth_speed_out") < 0.001D || (double) getConfig(ConfigType.normal, "zoom_smooth_speed_out") > 2.0D) {
+			if ((float) getConfig(ConfigType.normal, "zoom_smooth_speed_out") < 0.001F || (float) getConfig(ConfigType.normal, "zoom_smooth_speed_out") > 2.0F) {
 				Data.version.sendToLog(LogType.WARN, "Config: zoom_smooth_speed_out was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "zoom_smooth_speed_out") + ")");
 				hasFixedConfig.add(setConfig(ConfigType.normal, "zoom_smooth_speed_out", ConfigDataLoader.zoomSmoothSpeedOut));
 			}
@@ -329,8 +326,8 @@ public class ConfigHelper {
 			configChanged.add(setConfig(ConfigType.normal, "zoom_level", MathHelper.clamp(ConfigDataLoader.zoomLevel, 0, 100)));
 			configChanged.add(setConfig(ConfigType.normal, "zoom_increment_size", MathHelper.clamp(ConfigDataLoader.zoomIncrementSize, 1, 10)));
 			configChanged.add(setConfig(ConfigType.normal, "zoom_transition", ConfigDataLoader.zoomTransition));
-			configChanged.add(setConfig(ConfigType.normal, "zoom_smooth_speed_in", MathHelper.clamp(ConfigDataLoader.zoomSmoothSpeedIn, 0.001D, 2.0D)));
-			configChanged.add(setConfig(ConfigType.normal, "zoom_smooth_speed_out", MathHelper.clamp(ConfigDataLoader.zoomSmoothSpeedOut, 0.001D, 2.0D)));
+			configChanged.add(setConfig(ConfigType.normal, "zoom_smooth_speed_in", MathHelper.clamp(ConfigDataLoader.zoomSmoothSpeedIn, 0.001F, 2.0F)));
+			configChanged.add(setConfig(ConfigType.normal, "zoom_smooth_speed_out", MathHelper.clamp(ConfigDataLoader.zoomSmoothSpeedOut, 0.001F, 2.0F)));
 			configChanged.add(setConfig(ConfigType.normal, "zoom_scale_mode", ConfigDataLoader.zoomScaleMode));
 			configChanged.add(setConfig(ConfigType.normal, "zoom_hide_hud", ConfigDataLoader.zoomHideHud));
 			configChanged.add(setConfig(ConfigType.normal, "zoom_show_percentage", ConfigDataLoader.zoomShowPercentage));
@@ -364,7 +361,6 @@ public class ConfigHelper {
 			configChanged.add(setConfig(ConfigType.normal, "force_pride_type", ConfigDataLoader.forcePrideType));
 			configChanged.add(setConfig(ConfigType.normal, "show_death_coordinates", ConfigDataLoader.showDeathCoordinates));
 			configChanged.add(setConfig(ConfigType.normal, "ui_background", ConfigDataLoader.uiBackground));
-			UIBackground.loadShader(UIBackground.getCurrentUIBackground());
 			configChanged.add(setConfig(ConfigType.normal, "ui_background_texture", ConfigDataLoader.uiBackgroundTexture));
 			configChanged.add(setConfig(ConfigType.normal, "hide_block_outline", ConfigDataLoader.hideBlockOutline));
 			configChanged.add(setConfig(ConfigType.normal, "block_outline", MathHelper.clamp(ConfigDataLoader.blockOutline, 0, 100)));
@@ -376,8 +372,6 @@ public class ConfigHelper {
 			configChanged.add(setConfig(ConfigType.normal, "hide_show_message", ConfigDataLoader.hideShowMessage));
 			configChanged.add(setConfig(ConfigType.normal, "tutorials", ConfigDataLoader.tutorials));
 			configChanged.add(setConfig(ConfigType.normal, "detect_update_channel", ConfigDataLoader.detectUpdateChannel));
-			configChanged.add(setConfig(ConfigType.normal, "water_ripple_density", ConfigDataLoader.waterRippleDensity));
-			configChanged.add(setConfig(ConfigType.normal, "chest_bubbles_density", ConfigDataLoader.chestBubblesDensity));
 			fixConfig();
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.WARN, "Failed to reset config!");
@@ -416,11 +410,11 @@ public class ConfigHelper {
 							configChanged = true;
 						}
 						case "zoom_smooth_speed_in" -> {
-							Config.zoomSmoothSpeedIn = MathHelper.clamp((double) value, 0.001D, 2.0D);
+							Config.zoomSmoothSpeedIn = MathHelper.clamp((float) value, 0.001F, 2.0F);
 							configChanged = true;
 						}
 						case "zoom_smooth_speed_out" -> {
-							Config.zoomSmoothSpeedOut = (double) value;
+							Config.zoomSmoothSpeedOut = MathHelper.clamp((float) value, 0.001F, 2.0F);
 							configChanged = true;
 						}
 						case "zoom_scale_mode" -> {
@@ -595,14 +589,6 @@ public class ConfigHelper {
 							Config.detectUpdateChannel = (String) value;
 							configChanged = true;
 						}
-						case "water_ripple_density" -> {
-							Config.waterRippleDensity = (int) value;
-							configChanged = true;
-						}
-						case "chest_bubbles_density" -> {
-							Config.chestBubblesDensity = (int) value;
-							configChanged = true;
-						}
 						case "debug" -> {
 							Config.debug = (boolean) value;
 							configChanged = true;
@@ -688,10 +674,10 @@ public class ConfigHelper {
 						return Config.zoomTransition;
 					}
 					case "zoom_smooth_speed_in" -> {
-						return MathHelper.clamp(Config.zoomSmoothSpeedIn, 0.001D, 2.0D);
+						return MathHelper.clamp(Config.zoomSmoothSpeedIn, 0.001F, 2.0F);
 					}
 					case "zoom_smooth_speed_out" -> {
-						return MathHelper.clamp(Config.zoomSmoothSpeedOut, 0.001D, 2.0D);
+						return MathHelper.clamp(Config.zoomSmoothSpeedOut, 0.001F, 2.0F);
 					}
 					case "zoom_scale_mode" -> {
 						return Config.zoomScaleMode;
@@ -824,12 +810,6 @@ public class ConfigHelper {
 					}
 					case "detect_update_channel" -> {
 						return Config.detectUpdateChannel;
-					}
-					case "water_ripple_density" -> {
-						return Config.waterRippleDensity;
-					}
-					case "chest_bubbles_density" -> {
-						return Config.chestBubblesDensity;
 					}
 					case "debug" -> {
 						return Config.debug;

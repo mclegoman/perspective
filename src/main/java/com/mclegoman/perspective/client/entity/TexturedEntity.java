@@ -17,17 +17,21 @@ import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.config.ConfigHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.client.render.entity.state.EntityRenderState;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class TexturedEntity {
 	private static final List<Identifier> forbiddenEntities = new ArrayList<>();
@@ -80,30 +84,30 @@ public class TexturedEntity {
 	private static Identifier getOverrideTexture(JsonArray overrides, Identifier fallback) {
 		return getOverrideTexture("", "", overrides, fallback);
 	}
-	public static Identifier getTexture(Entity entity, Identifier fallback) {
-		return getTexture(entity, "", "", "", fallback);
+	public static Identifier getTexture(EntityRenderState renderState, Identifier fallback) {
+		return getTexture(renderState, "", "", "", fallback);
 	}
-	public static Identifier getTexture(Entity entity, String overrideNamespace, Identifier fallback) {
-		return getTexture(entity, overrideNamespace, "", "", fallback);
+	public static Identifier getTexture(EntityRenderState renderState, String overrideNamespace, Identifier fallback) {
+		return getTexture(renderState, overrideNamespace, "", "", fallback);
 	}
-	public static Identifier getTexture(Entity entity, String prefix, String suffix, Identifier fallback) {
-		return getTexture(entity, "", prefix, suffix, fallback);
+	public static Identifier getTexture(EntityRenderState renderState, String prefix, String suffix, Identifier fallback) {
+		return getTexture(renderState, "", prefix, suffix, fallback);
 	}
-	public static Identifier getTexture(Entity entity, String overrideNamespace, String prefix, String suffix, Identifier fallback) {
+	public static Identifier getTexture(EntityRenderState renderState, String overrideNamespace, String prefix, String suffix, Identifier fallback) {
 		try {
 			if (TexturedEntityDataLoader.isReady) {
-				Identifier entityType = Registries.ENTITY_TYPE.getId(entity.getType());
+				Identifier entityType = Registries.ENTITY_TYPE.getId(((PerspectiveRenderState)renderState).perspective$getType());
 				String namespace = fallback.getNamespace();
 				if (!overrideNamespace.isEmpty()) namespace = overrideNamespace;
-				Optional<TexturedEntityData> entityData = getEntity(entity);
+				Optional<TexturedEntityData> entityData = getEntity(renderState);
 				if (entityData.isPresent()) {
 					boolean shouldReplaceTexture = true;
-						if (entity instanceof LivingEntity) {
+						if (renderState instanceof LivingEntityRenderState) {
 							JsonObject entitySpecific = entityData.get().getEntitySpecific();
 							if (entitySpecific != null) {
 								if (entitySpecific.has("ages")) {
 									JsonObject ages = JsonHelper.getObject(entitySpecific, "ages", new JsonObject());
-									if (((LivingEntity)entity).isBaby()) {
+									if (((LivingEntityRenderState) renderState).baby) {
 										if (ages.has("baby")) {
 											JsonObject typeRegistry = JsonHelper.getObject(ages, "baby", new JsonObject());
 											shouldReplaceTexture = JsonHelper.getBoolean(typeRegistry, "enabled", true);
@@ -136,11 +140,8 @@ public class TexturedEntity {
 		}
 		return entityRegistry;
 	}
-	public static Optional<TexturedEntityData> getEntity(Entity entity) {
-		return getEntity(entity, getEntityTypeId(entity.getType()));
-	}
-	private static Optional<String> getEntityName(Entity entity) {
-		if (entity.getCustomName() != null) return Optional.of(entity.getCustomName().getString());
+	private static Optional<String> getEntityName(EntityRenderState renderState) {
+		if (renderState.displayName != null) return Optional.of(renderState.displayName.getString());
 		else return Optional.of("default");
 	}
 	private static Optional<TexturedEntityData> getEntityData(List<TexturedEntityData> registry, String entityName) {
@@ -151,9 +152,9 @@ public class TexturedEntity {
 		}
 		return Optional.empty();
 	}
-	public static Optional<Identifier> getEntitySpecificModel(Entity entity) {
-		if (entity != null) {
-			Optional<TexturedEntityData> entityData = getEntity(entity);
+	public static Optional<Identifier> getEntitySpecificModel(EntityRenderState renderState) {
+		if (renderState != null) {
+			Optional<TexturedEntityData> entityData = getEntity(renderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {
@@ -165,28 +166,33 @@ public class TexturedEntity {
 		}
 		return Optional.of(Identifier.of(Data.version.getID(), "default"));
 	}
-	private static Optional<TexturedEntityData> getEntity(Entity entity, Identifier entityId) {
+	public static Optional<TexturedEntityData> getEntity(Entity entity) {
+		return getEntity(entity.getCustomName() != null ? entity.getCustomName().getLiteralString() : null, entity.getUuid(), entity.getType());
+	}
+	public static Optional<TexturedEntityData> getEntity(EntityRenderState renderState) {
+		return getEntity(((PerspectiveRenderState) renderState).perspective$getStringName(), ((PerspectiveRenderState)renderState).perspective$getUUID(), ((PerspectiveRenderState)renderState).perspective$getType());
+	}
+	private static Optional<TexturedEntityData> getEntity(@Nullable String entityName, UUID uuid, EntityType<?> entityType) {
 		try {
-			if (!isForbiddenEntity(getEntityTypeId(entity.getType()))) {
+			if (entityName == null) entityName = "default";
+			Identifier entityId = getEntityTypeId(entityType);
+			if (!isForbiddenEntity(entityId)) {
 				List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
 				if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
-					Optional<String> entityName = getEntityName(entity);
-					if (entityName.isPresent()) {
-						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
-							Optional<TexturedEntityData> entityData = getEntityData(registry, entityName.get());
+					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+						Optional<TexturedEntityData> entityData = getEntityData(registry, entityName);
+						if (entityData.isPresent()) return entityData;
+					}
+					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_random_entity")) {
+						TexturedEntityData entityData = registry.get(Math.floorMod(uuid.getLeastSignificantBits(), registry.size()));
+						if (entityData.getEnabled()) return Optional.of(entityData);
+					}
+					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+						// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
+						// so we return the default textured entity if it exists.
+						if (!entityName.equalsIgnoreCase("default")) {
+							Optional<TexturedEntityData> entityData = getEntityData(registry, "default");
 							if (entityData.isPresent()) return entityData;
-						}
-						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_random_entity")) {
-							TexturedEntityData entityData = registry.get(Math.floorMod(entity.getUuid().getLeastSignificantBits(), registry.size()));
-							if (entityData.getEnabled()) return Optional.of(entityData);
-						}
-						if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
-							// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
-							// so we return the default textured entity if it exists.
-							if (!entityName.get().equalsIgnoreCase("default")) {
-								Optional<TexturedEntityData> entityData = getEntityData(registry, "default");
-								if (entityData.isPresent()) return entityData;
-							}
 						}
 					}
 				}

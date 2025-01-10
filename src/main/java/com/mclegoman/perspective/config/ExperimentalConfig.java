@@ -9,10 +9,10 @@ package com.mclegoman.perspective.config;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.luminance.config.ConfigProvider;
+import com.mclegoman.luminance.darktree.simplelibs.config.SimpleConfig;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.Couple;
-import net.darktree.simplelibs.config.SimpleConfig;
 
 public class ExperimentalConfig {
 	protected static final String id = Data.version.getID() + "-experimental";
@@ -43,7 +43,7 @@ public class ExperimentalConfig {
 	protected static void save() {
 		Data.version.sendToLog(LogType.INFO,"Writing experimental config to file.");
 		configProvider.setConfig("ambience", ambience);
-		configProvider.saveConfig(Data.version, id);
+		configProvider.saveConfig(id);
 	}
 	static {
 		options = new Object[]{

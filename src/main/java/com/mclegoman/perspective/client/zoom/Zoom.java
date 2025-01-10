@@ -32,10 +32,10 @@ public class Zoom {
 	public static final String[] zoomScaleModes = new String[]{"scaled", "vanilla"};
 	private static boolean isZooming;
 	private static boolean hasUpdated;
-	private static double prevMultiplier = 1.0D;
-	private static double multiplier = 1.0D;
-	public static double fov = 70.0D;
-	public static double zoomFOV = 70.0D;
+	private static float prevMultiplier = 1.0F;
+	private static float multiplier = 1.0F;
+	public static float fov = 70.0F;
+	public static float zoomFOV = 70.0F;
 	public static double timeDelta = Double.MIN_VALUE;
 	public static Smoother smoothX = new Smoother();
 	public static Smoother smoothY = new Smoother();
@@ -110,17 +110,17 @@ public class Zoom {
 	public static void updateTransition() {
 		try {
 			if ((ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition")).equals("smooth")) {
-				double speedMultiplier = ((prevMultiplier + multiplier) * 0.5);
-				multiplier = MathHelper.lerp((prevMultiplier < speedMultiplier) ? (double)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") : (double)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in"), prevMultiplier, speedMultiplier);
+				float speedMultiplier = ((prevMultiplier + multiplier) * 0.5F);
+				multiplier = MathHelper.lerp((prevMultiplier < speedMultiplier) ? (float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") : (float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in"), prevMultiplier, speedMultiplier);
 			}
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to update zoom transition: {}", error));
 		}
 	}
-	public static double getPrevMultiplier() {
+	public static float getPrevMultiplier() {
 		return prevMultiplier;
 	}
-	public static double getMultiplier() {
+	public static float getMultiplier() {
 		return multiplier;
 	}
 	public static double getMultiplierFromFOV() {
@@ -202,8 +202,8 @@ public class Zoom {
 		public static Identifier getIdentifier() {
 			return Identifier.of(Data.version.getID(), "logarithmic");
 		}
-		public static double getLimitFOV(double input) {
-			return MathHelper.clamp(input, 0.1, 179.9);
+		public static float getLimitFOV(float input) {
+			return MathHelper.clamp(input, 0.1F, 179.9F);
 		}
 		public static void updateMultiplier() {
 			Multiplier.setMultiplier((float) (1.0F - (Math.log(Zoom.getZoomLevel() + 1.0F) / Math.log(100.0 + 1.0F))));
@@ -213,8 +213,8 @@ public class Zoom {
 		public static Identifier getIdentifier() {
 			return Identifier.of(Data.version.getID(), "linear");
 		}
-		public static double getLimitFOV(double input) {
-			return MathHelper.clamp(input, 0.1, 179.9);
+		public static float getLimitFOV(float input) {
+			return MathHelper.clamp(input, 0.1F, 179.9F);
 		}
 		public static void updateMultiplier() {
 			Multiplier.setMultiplier(1.0F - (Zoom.getZoomLevel() / 100.0F));

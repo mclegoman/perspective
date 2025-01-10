@@ -11,14 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.Halloween;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.luminance.common.util.Couple;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -31,24 +30,24 @@ import java.util.Map;
 import java.util.Random;
 
 public class SplashesDataloader extends JsonDataLoader implements IdentifiableResourceReloadListener {
-	public static final List<Couple<String, Boolean>> registry = new ArrayList<>();
+	public static final List<Translation.Data> registry = new ArrayList<>();
 	public static final String id = "splashes";
-	private static Couple<String, Boolean> splashText;
-	public static Couple<String, Boolean> getSplashText() {
-		if (PerspectiveLogo.isPerspectiveBirthday()) return new Couple<>("splashes.perspective.special.birthday", true);
-		else if (PerspectiveLogo.isActuallyPride()) return new Couple<>("splashes.perspective.special.pride_month", true);
-		else if (AprilFoolsPrank.isAprilFools() && !AprilFoolsPrank.isForceAprilFools()) return new Couple<>("splashes.perspective.special.april_fools", true);
-		else if (Halloween.isHalloween() && !Halloween.isForceHalloween()) return new Couple<>("splashes.perspective.special.halloween", true);
+	private static Translation.Data splashText;
+	public static Translation.Data getSplashText() {
+		if (PerspectiveLogo.isPerspectiveBirthday()) return new Translation.Data("splashes.perspective.special.birthday", true);
+		else if (PerspectiveLogo.isActuallyPride()) return new Translation.Data("splashes.perspective.special.pride_month", true);
+		else if (AprilFoolsPrank.isAprilFools() && !AprilFoolsPrank.isForceAprilFools()) return new Translation.Data("splashes.perspective.special.april_fools", true);
+		else if (Halloween.isHalloween() && !Halloween.isForceHalloween()) return new Translation.Data("splashes.perspective.special.halloween", true);
 		else return splashText;
 	}
 	public static void randomizeSplashText() {
 		if (registry.size() > 1) {
-			List<Couple<String, Boolean>> splashes = new ArrayList<>(registry);
+			List<Translation.Data> splashes = new ArrayList<>(registry);
 			if (getSplashText() != null) splashes.remove(getSplashText());
 			splashText = splashes.get(new Random().nextInt(splashes.size()));
 		} else {
 			if (registry.size() == 1) splashText = registry.getFirst();
-			else splashText = new Couple<>("", false);
+			else splashText = new Translation.Data("", false);
 		}
 	}
 	public SplashesDataloader() {
@@ -56,7 +55,7 @@ public class SplashesDataloader extends JsonDataLoader implements IdentifiableRe
 	}
 	private void add(String text, Boolean translatable) {
 		try {
-			Couple<String, Boolean> splash = new Couple<>(text, translatable);
+			Translation.Data splash = new Translation.Data(text, translatable);
 			if (!registry.contains(splash)) registry.add(splash);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add splash text to registry: {}", error));
