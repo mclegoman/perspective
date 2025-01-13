@@ -1,0 +1,79 @@
+{
+  "entity": "minecraft:shulker",
+  "name": "Carton",
+  "entity_specific": {
+    "variants": {
+      "normal": {
+        "enabled": true
+      },
+      "white": {
+        "enabled": true
+      },
+      "orange": {
+        "enabled": true
+      },
+      "magenta": {
+        "enabled": true
+      },
+      "light_blue": {
+        "enabled": true
+      },
+      "yellow": {
+        "enabled": true
+      },
+      "lime": {
+        "enabled": true
+      },
+      "pink": {
+        "enabled": true
+      },
+      "gray": {
+        "enabled": true
+      },
+      "light_gray": {
+        "enabled": true
+      },
+      "cyan": {
+        "enabled": true
+      },
+      "purple": {
+        "enabled": true
+      },
+      "blue": {
+        "enabled": true
+      },
+      "brown": {
+        "enabled": true
+      },
+      "green": {
+        "enabled": true
+      },
+      "red": {
+        "enabled": true
+      },
+      "black": {
+        "enabled": true
+      }
+    }
+  },
+  "overrides": [
+    { "prefix": "", "suffix": "_white", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_orange", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_magenta", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_light_blue", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_yellow", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_lime", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_pink", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_gray", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_light_gray", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_cyan", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_purple", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_blue", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_brown", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_green", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_red", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" },
+    { "prefix": "", "suffix": "_black", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" }
+  ],
+  "flip": false,
+  "enabled": true
+}

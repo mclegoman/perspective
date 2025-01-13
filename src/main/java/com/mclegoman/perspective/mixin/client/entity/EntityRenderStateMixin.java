@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.mixin.client.entity;
 
-import com.mclegoman.perspective.client.entity.PerspectiveRenderState;
+import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.EntityType;
 import org.spongepowered.asm.mixin.Mixin;

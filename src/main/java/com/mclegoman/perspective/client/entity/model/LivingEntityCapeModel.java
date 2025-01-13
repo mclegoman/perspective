@@ -7,15 +7,13 @@
 
 package com.mclegoman.perspective.client.entity.model;
 
-import com.google.common.collect.ImmutableList;
+import com.mclegoman.perspective.client.entity.states.PerspectiveLivingRenderState;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
@@ -35,24 +33,16 @@ public class LivingEntityCapeModel<T extends LivingEntityRenderState> extends En
 		modelPartData.addChild("cloak", ModelPartBuilder.create().uv(0, 0).cuboid(-5.0F, 0.0F, -1.0F, 10.0F, 16.0F, 1.0F, dilation, 1.0F, 0.5F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 		return modelData;
 	}
-	public void setAngles(T livingEntity, float a, float b, float c, float d, float e) {
-	}
-	protected Iterable<ModelPart> getHeadParts() {
-		return ImmutableList.of();
-	}
-	protected Iterable<ModelPart> getBodyParts() {
-		return ImmutableList.of();
-	}
-	public void renderCape(MatrixStack matrices, VertexConsumer vertices, LivingEntity livingEntity, int light, int overlay) {
-		if (livingEntity.getEquippedStack(EquipmentSlot.CHEST).isEmpty()) {
-			if (livingEntity.isInSneakingPose()) {
+	public void renderCape(MatrixStack matrices, VertexConsumer vertices, LivingEntityRenderState state, int light, int overlay) {
+		if (((PerspectiveLivingRenderState)state).perspective$getChestEmpty()) {
+			if (state.sneaking) {
 				this.cloak.pivotZ = 1.4F;
 				this.cloak.pivotY = 1.85F;
 			} else {
 				this.cloak.pivotZ = 0.0F;
 				this.cloak.pivotY = 0.0F;
 			}
-		} else if (livingEntity.isInSneakingPose()) {
+		} else if (state.sneaking) {
 			this.cloak.pivotZ = 0.3F;
 			this.cloak.pivotY = 0.8F;
 		} else {

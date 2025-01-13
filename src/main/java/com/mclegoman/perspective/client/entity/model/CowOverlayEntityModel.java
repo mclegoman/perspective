@@ -1,11 +1,8 @@
 package com.mclegoman.perspective.client.entity.model;
 
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.entity.passive.CowEntity;
 
 public class CowOverlayEntityModel extends EntityModel<LivingEntityRenderState> {
 	public CowOverlayEntityModel(ModelPart root) {

@@ -5,7 +5,7 @@
     Licence: GNU LGPLv3
 */
 
-package com.mclegoman.perspective.client.entity;
+package com.mclegoman.perspective.client.entity.states;
 
 import net.minecraft.entity.EntityType;
 

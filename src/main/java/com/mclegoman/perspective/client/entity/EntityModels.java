@@ -12,35 +12,42 @@ import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.*;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 public class EntityModels {
 	public static double entityCapeY = 0.0F;
 	public static final EntityModelLayer contributorOverlaySlim = new EntityModelLayer(Identifier.of(Data.version.getID(), "contributor"), "slim");
 	public static final EntityModelLayer contributorOverlayWide = new EntityModelLayer(Identifier.of(Data.version.getID(), "contributor"), "wide");
-//	public static final EntityModelLayer entityCape = new EntityModelLayer(Identifier.of(Data.version.getID(), "entity"), "cape");
-public static final EntityModelLayer babyPigOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "pig"), "baby_outer");
+	public static final EntityModelLayer entityCape = new EntityModelLayer(Identifier.of(Data.version.getID(), "entity"), "cape");
+	public static final EntityModelLayer babyPigOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "pig"), "baby_outer");
 	public static final EntityModelLayer pigOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "pig"), "outer");
 	public static final EntityModelLayer pigMuddyFlower = new EntityModelLayer(Identifier.of(Data.version.getID(), "pig"), "muddy_flower");
-//	public static final EntityModelLayer beeOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "bee"), "outer");
-//	public static final EntityModelLayer mooshroomOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "mooshroom"), "outer");
-//	public static final EntityModelLayer skeletonOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "skeleton"), "outer");
-//	public static final EntityModelLayer zombieOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "zombie"), "outer");
+	public static final EntityModelLayer beeOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "bee"), "outer");
+	public static final EntityModelLayer babyBeeOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "bee"), "outer_baby");
+	public static final EntityModelLayer mooshroomOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "mooshroom"), "outer");
+	public static final EntityModelLayer babyMooshroomOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "mooshroom"), "outer_baby");
+	public static final EntityModelLayer skeletonOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "skeleton"), "outer");
+	public static final EntityModelLayer zombieOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "zombie"), "outer");
+	public static final EntityModelLayer giantOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "giant"), "outer");
+	public static final EntityModelLayer babyZombieOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "zombie"), "outer_baby");
 	public static final EntityModelLayer armorStandOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "armor_stand"), "outer");
 	public static final EntityModelLayer babyArmorStandOverlay = new EntityModelLayer(Identifier.of(Data.version.getID(), "armor_stand"), "outer_baby");
 	public static final EntityModelLayer halloweenHat = new EntityModelLayer(Identifier.of(Data.version.getID(), "player"), "halloween_hat");
 	public static void init() {
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlaySlim, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), true), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlayWide, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), false), 64, 64));
-//		EntityModelLayerRegistry.registerModelLayer(entityCape, () -> TexturedModelData.of(LivingEntityCapeModel.getModelData(new Dilation(0.0F)), 64, 64));
+		EntityModelLayerRegistry.registerModelLayer(entityCape, () -> TexturedModelData.of(LivingEntityCapeModel.getModelData(new Dilation(0.0F)), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(babyPigOverlay, () -> PigEntityModel.getTexturedModelData(new Dilation(0.499F)).transform(PigEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(pigOverlay, () -> PigEntityModel.getTexturedModelData(new Dilation(0.499F)));
 		EntityModelLayerRegistry.registerModelLayer(pigMuddyFlower, MuddyFlowerModel::getTexturedModelData);
-//		EntityModelLayerRegistry.registerModelLayer(beeOverlay, () -> getBeeEntityModelData(new Dilation(0.5F)));
-//		EntityModelLayerRegistry.registerModelLayer(mooshroomOverlay, CowOverlayEntityModel::getTexturedOverlayModelData);
-//		EntityModelLayerRegistry.registerModelLayer(skeletonOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 32));
-//		EntityModelLayerRegistry.registerModelLayer(zombieOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64));
+		EntityModelLayerRegistry.registerModelLayer(beeOverlay, () -> getBeeEntityModelData(new Dilation(0.5F)));
+		EntityModelLayerRegistry.registerModelLayer(babyBeeOverlay, () -> getBeeEntityModelData(new Dilation(0.5F)).transform(BeeEntityModel.BABY_TRANSFORMER));
+		EntityModelLayerRegistry.registerModelLayer(mooshroomOverlay, CowOverlayEntityModel::getTexturedOverlayModelData);
+		EntityModelLayerRegistry.registerModelLayer(babyMooshroomOverlay, () -> CowOverlayEntityModel.getTexturedOverlayModelData().transform(CowEntityModel.BABY_TRANSFORMER));
+		EntityModelLayerRegistry.registerModelLayer(skeletonOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 32));
+		EntityModelLayerRegistry.registerModelLayer(zombieOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64));
+		EntityModelLayerRegistry.registerModelLayer(giantOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64).transform(new PerspectiveModelTransformer(6.0F, -20.0F)));
+		EntityModelLayerRegistry.registerModelLayer(babyZombieOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64).transform(ZombieEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(armorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(babyArmorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64).transform(ArmorStandEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(halloweenHat, HalloweenHatModel::getTexturedModelData);
@@ -48,8 +55,8 @@ public static final EntityModelLayer babyPigOverlay = new EntityModelLayer(Ident
 	public static void tick() {
 		entityCapeY = (entityCapeY + 0.5F) % 80.0F;
 	}
-	public static double getEntityCapeY(LivingEntity entity) {
-		return ((entityCapeY + entity.hashCode()) % 80.0F);
+	public static double getEntityCapeY() {
+		return entityCapeY % 80.0F;
 	}
 	public static TexturedModelData getBipedEntityModelData(Dilation dilation, int width, int height) {
 		return TexturedModelData.of(BipedEntityModel.getModelData(dilation, 0.0F), width, height);

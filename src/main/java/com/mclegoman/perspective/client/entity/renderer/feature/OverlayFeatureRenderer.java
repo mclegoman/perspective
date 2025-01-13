@@ -34,8 +34,10 @@ public class OverlayFeatureRenderer<S extends LivingEntityRenderState, M extends
 	}
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, S state, float limbAngle, float limbDistance) {
 		M entityModel = state.baby ? this.babyModel : this.model;
-		entityModel.setAngles(state);
-		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TexturedEntity.getTexture(state, "", "_overlay", this.texture)));
-		entityModel.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlay(state, 0.0F));
+		if (entityModel != null) {
+			entityModel.setAngles(state);
+			VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(TexturedEntity.getTexture(state, "", "_overlay", this.texture)));
+			entityModel.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlay(state, 0.0F));
+		}
 	}
 }

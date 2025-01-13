@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
@@ -55,6 +56,10 @@ public class TexturedEntity {
 			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.PLAYER));
 			// The dragon is simply just not compatible, if it ever becomes compatible, this can be removed.
 			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.ENDER_DRAGON));
+			// Fireworks now use the itemStack itself to render.
+			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.FIREWORK_ROCKET));
+			// TNT now use the blockState to render.
+			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.TNT));
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add default forbidden textured entities: {}", error));
 		}
@@ -200,5 +205,8 @@ public class TexturedEntity {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity specific data: {}", error));
 		}
 		return Optional.empty();
+	}
+	public static boolean setTexturedEntity(boolean oldValue, boolean newValue) {
+		return oldValue && newValue;
 	}
 }
