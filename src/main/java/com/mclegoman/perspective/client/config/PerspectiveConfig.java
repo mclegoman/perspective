@@ -137,6 +137,57 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		reset(true);
 	}
 	public static void reset(boolean shouldSave) {
-		LuminanceConfigHelper.reset(config, shouldSave);
+		PerspectiveDefaultConfig defaultConfig = PerspectiveDefaultConfig.config;
+		config.zoomEnabled.setValue(defaultConfig.zoomEnabled.value(), false);
+		config.zoomLevel.setValue(defaultConfig.zoomLevel.value(), false);
+		config.zoomIncrementSize.setValue(defaultConfig.zoomIncrementSize.value(), false);
+		config.zoomTransition.setValue(defaultConfig.zoomTransition.value(), false);
+		config.zoomSmoothSpeedIn.setValue(defaultConfig.zoomSmoothSpeedIn.value(), false);
+		config.zoomSmoothSpeedOut.setValue(defaultConfig.zoomSmoothSpeedOut.value(), false);
+		config.zoomScaleMode.setValue(defaultConfig.zoomScaleMode.value(), false);
+		config.zoomHideHud.setValue(defaultConfig.zoomHideHud.value(), false);
+		config.zoomShowPercentage.setValue(defaultConfig.zoomShowPercentage.value(), false);
+		config.zoomType.setValue(defaultConfig.zoomType.value(), false);
+		config.zoomReset.setValue(defaultConfig.zoomReset.value(), false);
+		config.zoomCinematic.setValue(defaultConfig.zoomCinematic.value(), false);
+		config.holdPerspectiveBackMultiplier.setValue(defaultConfig.holdPerspectiveBackMultiplier.value(), false);
+		config.holdPerspectiveFrontMultiplier.setValue(defaultConfig.holdPerspectiveFrontMultiplier.value(), false);
+		config.holdPerspectiveBackHideHud.setValue(defaultConfig.holdPerspectiveBackHideHud.value(), false);
+		config.holdPerspectiveFrontHideHud.setValue(defaultConfig.holdPerspectiveFrontHideHud.value(), false);
+		config.superSecretSettingsShader.setValue(defaultConfig.superSecretSettingsShader.value(), false);
+		config.superSecretSettingsMode.setValue(defaultConfig.superSecretSettingsMode.value(), false);
+		config.superSecretSettingsEnabled.setValue(defaultConfig.superSecretSettingsEnabled.value(), false);
+		config.superSecretSettingsSound.setValue(defaultConfig.superSecretSettingsSound.value(), false);
+		config.superSecretSettingsShowName.setValue(defaultConfig.superSecretSettingsShowName.value(), false);
+		config.superSecretSettingsSelectionBlur.setValue(defaultConfig.superSecretSettingsSelectionBlur.value(), false);
+		config.texturedNamedEntity.setValue(defaultConfig.texturedNamedEntity.value(), false);
+		config.texturedRandomEntity.setValue(defaultConfig.texturedRandomEntity.value(), false);
+		config.allowAprilFools.setValue(defaultConfig.allowAprilFools.value(), false);
+		config.forceAprilFools.setValue(defaultConfig.forceAprilFools.value(), false);
+		config.allowHalloween.setValue(defaultConfig.allowHalloween.value(), false);
+		config.forceHalloween.setValue(defaultConfig.forceHalloween.value(), false);
+		config.versionOverlay.setValue(defaultConfig.versionOverlay.value(), false);
+		config.positionOverlay.setValue(defaultConfig.positionOverlay.value(), false);
+		config.timeOverlay.setValue(defaultConfig.timeOverlay.value(), false);
+		config.dayOverlay.setValue(defaultConfig.dayOverlay.value(), false);
+		config.biomeOverlay.setValue(defaultConfig.biomeOverlay.value(), false);
+		config.cpsOverlay.setValue(defaultConfig.cpsOverlay.value(), false);
+		config.forcePride.setValue(defaultConfig.forcePride.value(), false);
+		config.forcePrideType.setValue(defaultConfig.forcePrideType.value(), false);
+		config.showDeathCoordinates.setValue(defaultConfig.showDeathCoordinates.value(), false);
+		config.uiBackground.setValue(defaultConfig.uiBackground.value(), false);
+		config.uiBackgroundTexture.setValue(defaultConfig.uiBackgroundTexture.value(), false);
+		config.crosshairType.setValue(defaultConfig.crosshairType.value(), false);
+		config.hideBlockOutline.setValue(defaultConfig.hideBlockOutline.value(), false);
+		config.blockOutline.setValue(defaultConfig.blockOutline.value(), false);
+		config.rainbowBlockOutline.setValue(defaultConfig.rainbowBlockOutline.value(), false);
+		config.hideArmor.setValue(defaultConfig.hideArmor.value(), false);
+		config.hideNametags.setValue(defaultConfig.hideNametags.value(), false);
+		config.hidePlayers.setValue(defaultConfig.hidePlayers.value(), false);
+		config.hideShowMessage.setValue(defaultConfig.hideShowMessage.value(), false);
+		config.detectUpdateChannel.setValue(defaultConfig.detectUpdateChannel.value(), false);
+		config.tutorials.setValue(defaultConfig.tutorials.value(), false);
+		config.debug.setValue(defaultConfig.debug.value(), false);
+		if (shouldSave) config.save();
 	}
 }

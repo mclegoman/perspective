@@ -124,19 +124,58 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> tutorials = this.value(true);
 	@SerializedName("debug")
 	public final TrackedValue<Boolean> debug = this.value(false);
-	public static void init() {
-		PerspectiveClient.afterInitializeConfig();
-	}
-	public static void toggle(TrackedValue<Boolean> value) {
-		toggle(value, true);
-	}
-	public static void toggle(TrackedValue<Boolean> value, boolean shouldSave) {
-		value.setValue(!value.value(), shouldSave);
-	}
-	public static void reset() {
-		reset(true);
-	}
-	public static void reset(boolean shouldSave) {
-		LuminanceConfigHelper.reset(config, shouldSave);
+	public static void setDefaults(boolean save) {
+		PerspectiveConfig perspectiveConfig = PerspectiveConfig.config;
+		config.zoomEnabled.setValue(perspectiveConfig.zoomEnabled.value(), false);
+		config.zoomLevel.setValue(perspectiveConfig.zoomLevel.value(), false);
+		config.zoomIncrementSize.setValue(perspectiveConfig.zoomIncrementSize.value(), false);
+		config.zoomTransition.setValue(perspectiveConfig.zoomTransition.value(), false);
+		config.zoomSmoothSpeedIn.setValue(perspectiveConfig.zoomSmoothSpeedIn.value(), false);
+		config.zoomSmoothSpeedOut.setValue(perspectiveConfig.zoomSmoothSpeedOut.value(), false);
+		config.zoomScaleMode.setValue(perspectiveConfig.zoomScaleMode.value(), false);
+		config.zoomHideHud.setValue(perspectiveConfig.zoomHideHud.value(), false);
+		config.zoomShowPercentage.setValue(perspectiveConfig.zoomShowPercentage.value(), false);
+		config.zoomType.setValue(perspectiveConfig.zoomType.value(), false);
+		config.zoomReset.setValue(perspectiveConfig.zoomReset.value(), false);
+		config.zoomCinematic.setValue(perspectiveConfig.zoomCinematic.value(), false);
+		config.holdPerspectiveBackMultiplier.setValue(perspectiveConfig.holdPerspectiveBackMultiplier.value(), false);
+		config.holdPerspectiveFrontMultiplier.setValue(perspectiveConfig.holdPerspectiveFrontMultiplier.value(), false);
+		config.holdPerspectiveBackHideHud.setValue(perspectiveConfig.holdPerspectiveBackHideHud.value(), false);
+		config.holdPerspectiveFrontHideHud.setValue(perspectiveConfig.holdPerspectiveFrontHideHud.value(), false);
+		config.superSecretSettingsShader.setValue(perspectiveConfig.superSecretSettingsShader.value(), false);
+		config.superSecretSettingsMode.setValue(perspectiveConfig.superSecretSettingsMode.value(), false);
+		config.superSecretSettingsEnabled.setValue(perspectiveConfig.superSecretSettingsEnabled.value(), false);
+		config.superSecretSettingsSound.setValue(perspectiveConfig.superSecretSettingsSound.value(), false);
+		config.superSecretSettingsShowName.setValue(perspectiveConfig.superSecretSettingsShowName.value(), false);
+		config.superSecretSettingsSelectionBlur.setValue(perspectiveConfig.superSecretSettingsSelectionBlur.value(), false);
+		config.texturedNamedEntity.setValue(perspectiveConfig.texturedNamedEntity.value(), false);
+		config.texturedRandomEntity.setValue(perspectiveConfig.texturedRandomEntity.value(), false);
+		config.allowAprilFools.setValue(perspectiveConfig.allowAprilFools.value(), false);
+		config.forceAprilFools.setValue(perspectiveConfig.forceAprilFools.value(), false);
+		config.allowHalloween.setValue(perspectiveConfig.allowHalloween.value(), false);
+		config.forceHalloween.setValue(perspectiveConfig.forceHalloween.value(), false);
+		config.versionOverlay.setValue(perspectiveConfig.versionOverlay.value(), false);
+		config.positionOverlay.setValue(perspectiveConfig.positionOverlay.value(), false);
+		config.timeOverlay.setValue(perspectiveConfig.timeOverlay.value(), false);
+		config.dayOverlay.setValue(perspectiveConfig.dayOverlay.value(), false);
+		config.biomeOverlay.setValue(perspectiveConfig.biomeOverlay.value(), false);
+		config.cpsOverlay.setValue(perspectiveConfig.cpsOverlay.value(), false);
+		config.forcePride.setValue(perspectiveConfig.forcePride.value(), false);
+		config.forcePrideType.setValue(perspectiveConfig.forcePrideType.value(), false);
+		config.showDeathCoordinates.setValue(perspectiveConfig.showDeathCoordinates.value(), false);
+		config.uiBackground.setValue(perspectiveConfig.uiBackground.value(), false);
+		config.uiBackgroundTexture.setValue(perspectiveConfig.uiBackgroundTexture.value(), false);
+		config.crosshairType.setValue(perspectiveConfig.crosshairType.value(), false);
+		config.hideBlockOutline.setValue(perspectiveConfig.hideBlockOutline.value(), false);
+		config.blockOutline.setValue(perspectiveConfig.blockOutline.value(), false);
+		config.rainbowBlockOutline.setValue(perspectiveConfig.rainbowBlockOutline.value(), false);
+		config.hideArmor.setValue(perspectiveConfig.hideArmor.value(), false);
+		config.hideNametags.setValue(perspectiveConfig.hideNametags.value(), false);
+		config.hidePlayers.setValue(perspectiveConfig.hidePlayers.value(), false);
+		config.hideShowMessage.setValue(perspectiveConfig.hideShowMessage.value(), false);
+		config.detectUpdateChannel.setValue(perspectiveConfig.detectUpdateChannel.value(), false);
+		config.tutorials.setValue(perspectiveConfig.tutorials.value(), false);
+		config.debug.setValue(perspectiveConfig.debug.value(), false);
+		if (save) config.save();
 	}
 }

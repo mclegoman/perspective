@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.client.screen.config;
 
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.luminance.config.LuminanceConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
@@ -72,7 +72,7 @@ public abstract class AbstractConfigScreen extends Screen {
 		footerGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder footerGridAdder = footerGrid.createAdder(3);
 		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "reset"), (button) -> {
-			LuminanceConfigHelper.reset(PerspectiveConfig.config, false);
+			PerspectiveConfig.reset(false);
 			this.refresh = true;
 		}).build());
 		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "back"), (button) -> {
@@ -119,6 +119,9 @@ public abstract class AbstractConfigScreen extends Screen {
 		if (keyCode == GLFW.GLFW_KEY_F5) {
 			Update.checkForUpdates(Data.version, true);
 			this.refresh = true;
+		}
+		if (hasControlDown() && keyCode == GLFW.GLFW_KEY_S) {
+			PerspectiveDefaultConfig.setDefaults(true);
 		}
 		return super.keyReleased(keyCode, scanCode, modifiers);
 	}
