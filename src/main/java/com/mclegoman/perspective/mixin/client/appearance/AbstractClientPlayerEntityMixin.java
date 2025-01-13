@@ -5,16 +5,16 @@
     Licence: GNU LGPLv3
 */
 
-package com.mclegoman.perspective.mixin.client.contributor;
+package com.mclegoman.perspective.mixin.client.appearance;
 
+import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.perspective.client.appearance.Appearance;
+import com.mclegoman.perspective.client.contributor.ContributorData;
+import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
-import com.mclegoman.luminance.common.util.Couple;
-import com.mclegoman.perspective.client.contributor.ContributorData;
-import com.mclegoman.perspective.config.ConfigHelper;
-import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
 import com.mclegoman.perspective.client.texture.TextureHelper;
+import com.mclegoman.perspective.config.ConfigHelper;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.SkinTextures;
@@ -34,7 +34,7 @@ public class AbstractClientPlayerEntityMixin {
 	@Nullable
 	private PlayerListEntry playerListEntry;
 
-	@Inject(method = "getSkinTextures", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "getSkinTextures", at = @At("TAIL"), cancellable = true)
 	private void getSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
 		if (this.playerListEntry != null) {
 			boolean isAprilFools = (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "allow_april_fools") && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty();
@@ -51,12 +51,10 @@ public class AbstractClientPlayerEntityMixin {
 				stringifiedUUID = AprilFoolsPrankDataLoader.contributor;
 			} else {
 				if (!Appearance.DataLoader.registry.isEmpty()) {
-					for (Appearance.Data data : Appearance.DataLoader.registry) {
+					for (Appearance.Data data : Appearance.DataLoader.registry.values()) {
 						if (uuid.equals(data.uuid())) {
-							if (data.replace()) {
-								skinTexture = TextureHelper.getTexture(data.texture(), skinTexture);
-								model = data.model();
-							}
+							skinTexture = TextureHelper.getTexture(data.texture(), skinTexture);
+							model = data.model();
 							break;
 						}
 					}

@@ -28,7 +28,7 @@ public class Appearance {
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new DataLoader());
 	}
 	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> implements IdentifiableResourceReloadListener {
-		public static final List<Data> registry = new ArrayList<>();
+		public static final Map<String, Data> registry = new HashMap<>();
 		private final Gson gson;
 		private final String dataType;
 
@@ -37,10 +37,13 @@ public class Appearance {
 			this.dataType = "appearance";
 		}
 
-		private void add(String uuid, boolean slim, boolean replace, Identifier skinTexture) {
+		private void add(String uuid, boolean slim, boolean enabled, Identifier skinTexture) {
 			try {
-				Data data = new Data(UUID.fromString(uuid), slim ? SkinTextures.Model.SLIM : SkinTextures.Model.WIDE, replace, skinTexture);
-				if (!registry.contains(data)) registry.add(data);
+				if (!enabled) registry.remove(uuid);
+				else {
+					Data data = new Data(UUID.fromString(uuid), slim ? SkinTextures.Model.SLIM : SkinTextures.Model.WIDE, skinTexture);
+					registry.put(uuid, data);
+				}
 			} catch (Exception error) {
 				com.mclegoman.perspective.common.data.Data.version.sendToLog(LogType.ERROR, "Failed to add '" + uuid + "' to appearance registry: " + error);
 			}
@@ -63,8 +66,8 @@ public class Appearance {
 		private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
 			JsonObject reader = jsonElement.getAsJsonObject();
 			String skin = JsonHelper.getString(reader, "texture", identifier.getNamespace() + ":textures/appearance/" + identifier.getPath());
-			boolean replace = JsonHelper.getBoolean(reader, "replace", !skin.isEmpty());
-			add(JsonHelper.getString(reader, "uuid", identifier.getPath()), JsonHelper.getBoolean(reader, "slim", false), replace, IdentifierHelper.identifierFromString(skin, com.mclegoman.perspective.common.data.Data.version.getID()));
+			boolean enabled = JsonHelper.getBoolean(reader, "enabled", !skin.isEmpty());
+			add(JsonHelper.getString(reader, "uuid", identifier.getPath()), JsonHelper.getBoolean(reader, "slim", false), enabled, IdentifierHelper.identifierFromString(skin, com.mclegoman.perspective.common.data.Data.version.getID()));
 		}
 
 		protected Map<Identifier, JsonElement> prepare(ResourceManager resourceManager, Profiler profiler) {
@@ -103,6 +106,6 @@ public class Appearance {
 			}
 		}
 	}
-	public record Data(UUID uuid, SkinTextures.Model model, boolean replace, Identifier texture) {
+	public record Data(UUID uuid, SkinTextures.Model model, Identifier texture) {
 	}
 }
