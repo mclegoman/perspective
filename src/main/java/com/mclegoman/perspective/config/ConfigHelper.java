@@ -14,7 +14,6 @@ import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.logo.PrideLogoDataLoader;
 import com.mclegoman.perspective.client.screen.config.ConfigScreen;
-import com.mclegoman.perspective.client.shaders.Shaders;
 import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.ui.UIBackground;

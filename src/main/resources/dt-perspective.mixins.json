@@ -50,6 +50,8 @@
 		"client.textured_entity.minecraft.chicken.ChickenEntityRendererMixin",
 		"client.textured_entity.minecraft.cod.CodEntityRendererMixin",
 		"client.textured_entity.minecraft.cow.CowEntityRendererMixin",
+		"client.textured_entity.minecraft.creaking.CreakingEntityRendererMixin",
+		"client.textured_entity.minecraft.EmissiveFeatureRendererMixin",
 		"client.textured_entity.minecraft.creeper.CreeperEntityRendererMixin",
 		"client.textured_entity.minecraft.dolphin.DolphinEntityRendererMixin",
 		"client.textured_entity.minecraft.donkey.DonkeyEntityRendererMixin",
