@@ -15,13 +15,13 @@ import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
 
 public class SmoothUniforms extends Uniforms {
-	public static float prevZoom = (float) Zoom.getMultiplier();
-	public static float zoom = (float) Zoom.getMultiplier();
+	public static float prevZoom = Zoom.getMultiplier();
+	public static float zoom = Zoom.getMultiplier();
 	public static void init() {
 		Events.ShaderUniform.register(new LuminanceIdentifier(Data.version.getID(), "zoomMultiplierSmooth"), new LuminanceUniform((tickDelta) -> Shaders.getSmooth(tickDelta, prevZoom, zoom)));
 	}
 	public static void tick() {
 		prevZoom = zoom;
-		zoom = (prevZoom + (float) Zoom.getMultiplier()) * 0.5F;
+		zoom = (prevZoom + Zoom.getMultiplier()) * 0.5F;
 	}
 }

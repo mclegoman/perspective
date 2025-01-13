@@ -10,6 +10,16 @@
   - This will require both the config to be updated to use JSON and the config updater to update old configs to JSON.  
 - **1.4.0**  
   - Theme: Ambiance  
+  - Ideas
+    - Ambient Particles and Sounds (disabled by default)
+    - Updated Config.
+      - Could we possibly fork Quilt's config?
+        - Need to check the Licence.
+          - If we can, it would be better placed in Luminance.
+      - Can we update our current config to the new config?
+        - We would have to check if the current config exists, before initializing the new conifg.
+        - If we require SimpleConfig to update, we could have support for converting for a couple of versions, before removing it.
+          - That way most users would still have their config values set.
 
 ### Textured Entity Testing:
 
@@ -17,20 +27,18 @@
 |------------------------------------|-----------------|
 | `minecraft:allay`                  | ✔️              |  
 | `minecraft:armadillo`              | ❓               |  
-| `minecraft:armor_stand`            | ❓               |  
+| `minecraft:armor_stand`            | ✔️              |  
 | `minecraft:arrow`                  | ❓               |  
 | `minecraft:axolotl`                | ✔️              |  
 | `minecraft:bat`                    | ❓               |  
 | `minecraft:bee`                    | ✔️              |  
 | `minecraft:blaze`                  | ❓               |  
-| `minecraft:boat`                   | ✔️              |  
 | `minecraft:breeze`                 | ✔️              |  
 | `minecraft:breeze_wind_charge`     | ✔️              |  
 | `minecraft:camel`                  | ❓               |  
 | `minecraft:cat`                    | ✔️              |  
 | `minecraft:cave_spider`            | ❓               |  
-| `minecraft:chest_boat`*            | ✔️              |  
-| `minecraft:chest_minecart`*        | ❓               |  
+| `minecraft:chest_minecart`         | ❓               |  
 | `minecraft:chicken`                | ❓               |  
 | `minecraft:cod`                    | ❓               |  
 | `minecraft:command_block_minecart` | ❓               |  
@@ -129,6 +137,9 @@
 #### Incompatible Vanilla Entities:  
 - `minecraft:ender_dragon`
 - `minecraft:player`
+- `minecraft:tnt`
+- `minecraft:*_boat`
+- `miencraft:*_chest_boat`
 
 ### 
 Vanilla Minecraft uses both `_outer_layer` and `_overlay` as suffixes for the outer layer of mobs,
