@@ -95,7 +95,7 @@ public class TexturedEntity {
 	public static Identifier getTexture(EntityRenderState renderState, String overrideNamespace, String prefix, String suffix, Identifier fallback) {
 		try {
 			if (TexturedEntityDataLoader.isReady) {
-				Identifier entityType = Registries.ENTITY_TYPE.getId(((PerspectiveRenderState)renderState).perspective$getType());
+				Identifier entityType = getEntityTypeId(((PerspectiveRenderState)renderState).perspective$getType());
 				String namespace = fallback.getNamespace();
 				if (!overrideNamespace.isEmpty()) namespace = overrideNamespace;
 				Optional<TexturedEntityData> entityData = getEntity(renderState);

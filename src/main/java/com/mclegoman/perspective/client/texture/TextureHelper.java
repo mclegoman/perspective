@@ -25,15 +25,15 @@ public class TextureHelper {
 		}
 	}
 	public static Identifier getTexture(Identifier texture, Identifier current) {
-		Identifier textureId = current;
 		String path = texture.getPath();
 		if (!path.equalsIgnoreCase("none")) {
+			Identifier textureId = texture;
 			if (path.equalsIgnoreCase("developer_cape")) {
 				LocalDate date = DateHelper.getDate();
 				textureId = Identifier.of(Data.version.getID(), "textures/contributors/cape/dev_" + (((date.getYear() >= 2026) || date.getYear() == 2025 && (date.getMonth().getValue() >= Month.JULY.getValue() || (date.getMonth() == Month.JUNE && date.getDayOfMonth() >= 14))) ? "two" : "one") + "year.png");
 			}
-			textureId = Identifier.of(textureId.getNamespace(), textureId.getPath().endsWith(".png") ? textureId.getPath() : textureId.getPath() + ".png");
+			return Identifier.of(textureId.getNamespace(), textureId.getPath().endsWith(".png") ? textureId.getPath() : textureId.getPath() + ".png");
 		}
-		return textureId;
+		return current;
 	}
 }

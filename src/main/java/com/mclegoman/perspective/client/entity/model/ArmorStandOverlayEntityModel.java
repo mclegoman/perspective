@@ -9,13 +9,13 @@ package com.mclegoman.perspective.client.entity.model;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.ArmorStandEntityRenderState;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
 
-public class ArmorStandOverlayEntityModel extends BipedEntityModel<ArmorStandEntityRenderState> {
+public class ArmorStandOverlayEntityModel extends EntityModel<ArmorStandEntityRenderState> {
 	public final ModelPart head;
 	public final ModelPart body;
 	public final ModelPart rightArm;

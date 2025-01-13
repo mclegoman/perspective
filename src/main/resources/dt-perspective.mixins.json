@@ -22,6 +22,7 @@
 		"client.perspective.CameraMixin",
 		"client.show_death_coordinates.DeathScreenMixin",
 		"client.textured_entity.LivingEntityRendererMixin",
+		"client.textured_entity.minecraft.armor_stand.ArmorStandEntityRendererMixin",
 		"client.textured_entity.minecraft.pig.PigEntityRendererMixin",
 		"client.ui.GameRendererMixin",
 		"client.ui.LogoDrawerMixin",
