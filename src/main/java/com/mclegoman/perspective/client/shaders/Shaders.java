@@ -1,77 +1,63 @@
+/*
+    Perspective
+    Contributor(s): dannytaylor
+    Github: https://github.com/MCLegoMan/Perspective
+    Licence: GNU LGPLv3
+*/
+
 package com.mclegoman.perspective.client.shaders;
 
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.shaders.Shader;
-import com.mclegoman.luminance.client.shaders.ShaderRegistry;
-import com.mclegoman.luminance.common.util.Couple;
-import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.shaders.ShaderDataloader;
+import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.keybindings.Keybindings;
+import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.config.ConfigDataLoader;
 import com.mclegoman.perspective.config.ConfigHelper;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+
+import java.util.Random;
 
 public class Shaders {
 	public static Identifier superSecretSettingsId;
+	private static final Formatting[] colors;
+	private static Formatting lastColor;
 	public static void init() {
-		Data.version.sendToLog(LogType.INFO, Translation.getString("Initializing Shader Renderers"));
-		Events.AfterShaderDataRegistered.register(Identifier.of(Data.version.getID(), "main"), Shaders::setSuperSecretSettings);
 		Uniforms.init();
 	}
 	public static void tick() {
 		Uniforms.tick();
 	}
-	public static void setSuperSecretSettings() {
-//		try {
-//			ShaderRegistry shaderData = com.mclegoman.luminance.client.shaders.Shaders.get(com.mclegoman.luminance.client.shaders.Shaders.guessPostShader((String)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
-//			if (shaderData != null) set(shaderData);
-//			else {
-//				Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find specified shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
-//				shaderData = com.mclegoman.luminance.client.shaders.Shaders.get(ConfigDataLoader.superSecretSettingsShader);
-//				if (shaderData != null) {
-//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader", shaderData.getID());
-//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", ConfigDataLoader.superSecretSettingsEnabled);
-//					set(shaderData);
-//				} else {
-//					Data.version.sendToLog(LogType.WARN, Translation.getString("Cannot find default shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader")));
-//					Events.ShaderRender.Shaders.remove(superSecretSettingsId, "main");
-//					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled", false);
-//					com.mclegoman.perspective.client.shaders.Shader.superSecretSettingsIndex = 0;
-//				}
-//			}
-//		} catch (Exception error) {
-//			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
-//		}
+	public static Formatting getRandomColor() {
+		Random random = new Random();
+		Formatting color = lastColor;
+		while (color == lastColor) color = colors[(random.nextInt(colors.length))];
+		lastColor = color;
+		return color;
 	}
-	private static void set(ShaderRegistry shaderData) {
-//		try {
-//			String logMessage = Translation.getString("Setting super secret settings shader: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_shader"));
-//			if (Events.ShaderRender.Shaders.exists(superSecretSettingsId, "main")) {
-//				Couple<String, Shader> shader = Events.ShaderRender.Shaders.get(superSecretSettingsId, "main");
-//				if (shader.getSecond() != null) {
-//					/* TODO: Move this check into luminance itself.*/
-//					if (!com.mclegoman.luminance.client.shaders.Shaders.getPostShader(shaderData.getID(), false).toString().equals(shader.getSecond().getShaderId().toString())) {
-//						Data.version.sendToLog(LogType.INFO, logMessage);
-//						shader.getSecond().setShaderData(shaderData);
-//					}
-//				}
-//			} else {
-//				Data.version.sendToLog(LogType.INFO, logMessage);
-//				Events.ShaderRender.Shaders.set(superSecretSettingsId, "main", new Shader(shaderData, Shaders::getRenderType, Shaders::getShouldRender));
-//			}
-//		} catch (Exception error) {
-//			Data.version.sendToLog(LogType.ERROR, Translation.getString("An error occurred whilst trying to set super secret settings: {}", error));
-//		}
+	private static void showToasts() {
+		boolean save = false;
+		if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "tutorials")) {
+			if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.tutorial, "super_secret_settings")) {
+				ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.tutorial.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.super_secret_settings.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.super_secret_settings.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.cycleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.toggleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
+				ConfigHelper.setConfig(ConfigHelper.ConfigType.tutorial, "super_secret_settings", true);
+				save = true;
+			}
+		}
+		if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "photosensitivity")) {
+			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.warning.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.warning.photosensitivity.title")}), Translation.getTranslation(Data.version.getID(), "toasts.warning.photosensitivity.description")));
+			ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "photosensitivity", true);
+			save = true;
+		}
+		if (save) ConfigHelper.saveConfig();
 	}
-	public static Shader.RenderType getRenderType() {
-		Object renderMode = ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_mode");
-		if (renderMode.equals("screen")) return Shader.RenderType.GAME;
-		return Shader.RenderType.WORLD;
-	}
-	public static Boolean getShouldRender() {
-		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled");
+	public static boolean isShaderButtonsEnabled() {
+		return ShaderDataloader.getShaderAmount() > 1;
 	}
 	static {
 		superSecretSettingsId = Identifier.of(Data.version.getID(), "super_secret_settings");
+		colors = new Formatting[]{Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.GOLD, Formatting.BLUE, Formatting.GREEN, Formatting.AQUA, Formatting.RED, Formatting.LIGHT_PURPLE, Formatting.YELLOW};
 	}
 }

@@ -14,7 +14,6 @@ import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.logo.PrideLogoDataLoader;
 import com.mclegoman.perspective.client.screen.config.ConfigScreen;
-import com.mclegoman.perspective.client.shaders.Shader;
 import com.mclegoman.perspective.client.shaders.Shaders;
 import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -157,8 +156,8 @@ public class ConfigHelper {
 						setConfig(ConfigType.normal, "super_secret_settings_show_name", Config.config.getOrDefault("super_secret_settings_overlay_message", ConfigDataLoader.superSecretSettingsShowName));
 					}
 					if (Config.config.getOrDefault("config_version", defaultConfigVersion) < 14) {
-						Shader.updateLegacyConfig = true;
-						Shader.legacyIndex = Config.config.getOrDefault("super_secret_settings", 0);
+						//Shader.updateLegacyConfig = true;
+						//Shader.legacyIndex = Config.config.getOrDefault("super_secret_settings", 0);
 					}
 					if (Config.config.getOrDefault("config_version", defaultConfigVersion) < 16) {
 						String cameraMode = Config.config.getOrDefault("zoom_camera_mode", ConfigDataLoader.zoomScaleMode);
@@ -285,10 +284,10 @@ public class ConfigHelper {
 				// We also disable super secret settings as it's unlikely to be a shader they want anyway (e.g blur).
 				//hasFixedConfig.add(setConfig(ConfigType.NORMAL, "super_secret_settings_enabled", false));
 			//}
-			if (!Arrays.stream(Shader.shaderModes).toList().contains((String) getConfig(ConfigType.normal, "super_secret_settings_mode"))) {
-				Data.version.sendToLog(LogType.WARN, "Config: super_secret_settings_mode was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "super_secret_settings_mode") + ")");
-				hasFixedConfig.add(setConfig(ConfigType.normal, "super_secret_settings_mode", ConfigDataLoader.superSecretSettingsMode));
-			}
+//			if (!Arrays.stream(Shader.shaderModes).toList().contains((String) getConfig(ConfigType.normal, "super_secret_settings_mode"))) {
+//				Data.version.sendToLog(LogType.WARN, "Config: super_secret_settings_mode was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "super_secret_settings_mode") + ")");
+//				hasFixedConfig.add(setConfig(ConfigType.normal, "super_secret_settings_mode", ConfigDataLoader.superSecretSettingsMode));
+//			}
 			if (!getConfig(ConfigType.normal, "force_pride_type").equals("random")) {
 				if (!PrideLogoDataLoader.getLogoNames().contains((String) getConfig(ConfigType.normal, "force_pride_type"))) {
 					Data.version.sendToLog(LogType.WARN, "Config: force_pride_type was invalid and have been reset to prevent any unexpected issues. (" + getConfig(ConfigType.normal, "force_pride_type") + ")");
@@ -344,7 +343,7 @@ public class ConfigHelper {
 			configChanged.add(setConfig(ConfigType.normal, "super_secret_settings_sound", ConfigDataLoader.superSecretSettingsSound));
 			configChanged.add(setConfig(ConfigType.normal, "super_secret_settings_show_name", ConfigDataLoader.superSecretSettingsShowName));
 			configChanged.add(setConfig(ConfigType.normal, "super_secret_settings_selection_blur", ConfigDataLoader.superSecretSettingsSelectionBlur));
-			Shaders.setSuperSecretSettings();
+			//Shaders.setSuperSecretSettings();
 			configChanged.add(setConfig(ConfigType.normal, "textured_named_entity", ConfigDataLoader.texturedNamedEntity));
 			configChanged.add(setConfig(ConfigType.normal, "textured_random_entity", ConfigDataLoader.texturedRandomEntity));
 			configChanged.add(setConfig(ConfigType.normal, "allow_april_fools", ConfigDataLoader.allowAprilFools));

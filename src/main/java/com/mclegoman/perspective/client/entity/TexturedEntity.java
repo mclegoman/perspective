@@ -28,18 +28,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class TexturedEntity {
 	private static final List<Identifier> forbiddenEntities = new ArrayList<>();
 	public static List<Identifier> getForbiddenEntities() {
 		return forbiddenEntities;
 	}
-	public static void addForbiddenEntity(Identifier entityId) {
-		forbiddenEntities.add(entityId);
+	public static void addForbiddenEntity(Identifier... entityIds) {
+		Collections.addAll(forbiddenEntities, entityIds);
+	}
+	public static void addForbiddenEntity(EntityType<?>... entityTypes) {
+		for (EntityType<?> entityType : entityTypes) addForbiddenEntity(Registries.ENTITY_TYPE.getId(entityType));
 	}
 	public static boolean isForbiddenEntity(Identifier entityId) {
 		return forbiddenEntities.contains(entityId);
@@ -53,13 +53,15 @@ public class TexturedEntity {
 	private static void addDefaultForbiddenEntities() {
 		try {
 			// This prevents users from trying to use textured entity features on players. Use appearance instead.
-			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.PLAYER));
+			addForbiddenEntity(EntityType.PLAYER);
 			// The dragon is simply just not compatible, if it ever becomes compatible, this can be removed.
-			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.ENDER_DRAGON));
+			addForbiddenEntity(EntityType.ENDER_DRAGON);
 			// Fireworks now use the itemStack itself to render.
-			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.FIREWORK_ROCKET));
+			addForbiddenEntity(EntityType.FIREWORK_ROCKET);
 			// TNT now use the blockState to render.
-			addForbiddenEntity(Registries.ENTITY_TYPE.getId(EntityType.TNT));
+			addForbiddenEntity(EntityType.TNT);
+			// Boat/Raft Rendering has changed, ideally we should be able to replace the texture of boats.
+			addForbiddenEntity(EntityType.OAK_BOAT, EntityType.OAK_CHEST_BOAT, EntityType.SPRUCE_BOAT, EntityType.SPRUCE_CHEST_BOAT, EntityType.BIRCH_BOAT, EntityType.BIRCH_CHEST_BOAT, EntityType.JUNGLE_BOAT, EntityType.JUNGLE_CHEST_BOAT, EntityType.ACACIA_BOAT, EntityType.ACACIA_CHEST_BOAT, EntityType.DARK_OAK_BOAT, EntityType.DARK_OAK_CHEST_BOAT, EntityType.MANGROVE_BOAT, EntityType.MANGROVE_CHEST_BOAT, EntityType.CHERRY_BOAT, EntityType.CHERRY_CHEST_BOAT, EntityType.PALE_OAK_BOAT, EntityType.PALE_OAK_CHEST_BOAT, EntityType.BAMBOO_RAFT, EntityType.BAMBOO_CHEST_RAFT);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add default forbidden textured entities: {}", error));
 		}

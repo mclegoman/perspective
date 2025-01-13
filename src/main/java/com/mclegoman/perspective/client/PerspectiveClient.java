@@ -17,7 +17,6 @@ import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.item.ItemGroup;
 import com.mclegoman.perspective.client.panorama.Panorama;
-import com.mclegoman.perspective.client.shaders.Shader;
 import com.mclegoman.perspective.client.shaders.Shaders;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -47,7 +46,6 @@ public class PerspectiveClient implements ClientModInitializer {
 			Keybindings.init();
 			Panorama.init();
 			PerspectiveLogo.init();
-			Shader.init();
 			Entity.init();
 			Tick.init();
 			ConfigHelper.init();

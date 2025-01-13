@@ -47,7 +47,7 @@ public class ExperimentalConfig {
 	}
 	static {
 		options = new Object[]{
-				ambience
+				//ambience
 		};
 	}
 }

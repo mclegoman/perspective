@@ -11,6 +11,7 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScreen;
 import com.mclegoman.perspective.client.logo.SplashesDataloader;
+import com.mclegoman.perspective.client.shaders.Shaders;
 import com.mclegoman.perspective.client.ui.UIBackground;
 import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
@@ -22,7 +23,6 @@ import com.mclegoman.perspective.client.screen.config.information.InformationScr
 import com.mclegoman.perspective.client.screen.config.shaders.ShadersConfigScreen;
 import com.mclegoman.perspective.client.screen.config.textured_entity.TexturedEntityConfigScreen;
 import com.mclegoman.perspective.client.screen.config.zoom.ZoomConfigScreen;
-import com.mclegoman.perspective.client.shaders.Shader;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.common.data.Data;
@@ -52,7 +52,9 @@ public class ConfigScreen extends AbstractConfigScreen {
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom"), (button) -> ClientData.minecraft.setScreen(new ZoomConfigScreen(getRefreshScreen(), false, false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "shaders"), (button) -> ClientData.minecraft.setScreen(new ShadersConfigScreen(getRefreshScreen(), false, false, new Formatting[]{Shader.getRandomColor()}))).build());
+		ButtonWidget shaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "shaders", new Formatting[]{Shaders.getRandomColor()}), (button) -> ClientData.minecraft.setScreen(new ShadersConfigScreen(getRefreshScreen(), false, false, new Formatting[]{Shaders.getRandomColor()}))).build();
+		shaders.active = false;
+		gridAdder.add(shaders);
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "textured_entity"), (button) -> ClientData.minecraft.setScreen(new TexturedEntityConfigScreen(getRefreshScreen(), false))).build());
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events"), (button) -> ClientData.minecraft.setScreen(new EventsConfigScreen(getRefreshScreen(), false, false, 1))).build());
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "hide"), (button) -> ClientData.minecraft.setScreen(new HideConfigScreen(getRefreshScreen(), false, false, 1))).build());

@@ -40,8 +40,6 @@
 		"client.textured_entity.minecraft.bat.BatEntityRendererMixin",
 		"client.textured_entity.minecraft.bee.BeeEntityRendererMixin",
 		"client.textured_entity.minecraft.blaze.BlazeEntityRendererMixin",
-		"client.textured_entity.minecraft.boat.AbstractBoatEntityRendererMixin",
-		"client.textured_entity.minecraft.boat.BoatEntityRendererMixin",
 		"client.textured_entity.minecraft.bogged.BoggedEntityRendererMixin",
 		"client.textured_entity.minecraft.breeze.BreezeEntityRendererMixin",
 		"client.textured_entity.minecraft.breeze.BreezeEyesFeatureRendererMixin",

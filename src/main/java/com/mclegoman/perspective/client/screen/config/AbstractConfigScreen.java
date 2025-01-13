@@ -16,6 +16,7 @@ import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.config.ConfigHelper;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.*;
@@ -165,5 +166,10 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public boolean saveOnClose() {
 		return this.saveOnClose;
+	}
+
+	public void resize(MinecraftClient client, int width, int height) {
+		super.resize(client, width, height);
+		this.refresh = true;
 	}
 }
