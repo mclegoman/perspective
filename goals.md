@@ -20,6 +20,10 @@
         - We would have to check if the current config exists, before initializing the new conifg.
         - If we require SimpleConfig to update, we could have support for converting for a couple of versions, before removing it.
           - That way most users would still have their config values set.
+    - Stacked Shaders
+      - We could update the shader select screen to be similar to the resource pack selection screen.
+        - Left side would be available shaders, right being enabled.
+        - Shaders on the right, ideally, would be able to be up and down.
 
 ### Textured Entity Testing:
 
