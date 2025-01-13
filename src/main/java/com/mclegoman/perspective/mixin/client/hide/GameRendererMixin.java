@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.mixin.client.hide;
 
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.hud.HUDHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class GameRendererMixin {
 	@Inject(at = @At("HEAD"), method = "shouldRenderBlockOutline", cancellable = true)
 	private void perspective$renderBlockOutline(CallbackInfoReturnable<Boolean> cir) {
-		if ((HUDHelper.shouldHideHUD()) || ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_block_outline")))
+		if ((HUDHelper.shouldHideHUD()) || PerspectiveConfig.config.hideBlockOutline.value())
 			cir.setReturnValue(false);
 	}
 }

@@ -21,7 +21,7 @@ public class LinkScreen extends AbstractConfigScreen {
 	private final String url;
 	private final boolean trusted;
 	public LinkScreen(Screen parentScreen, String url, boolean trusted) {
-		super(parentScreen, false, false, 1);
+		super(parentScreen, false, 1);
 		this.url = url;
 		this.trusted = trusted;
 	}

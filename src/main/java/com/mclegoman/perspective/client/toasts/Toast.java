@@ -41,14 +41,20 @@ public class Toast implements net.minecraft.client.toast.Toast {
 	}
 
 	public Toast(Text title, Text description) {
-		this(title, ClientData.minecraft.textRenderer.wrapLines(description, 300 - 32));
-	}
-	public Toast(Text title, List<OrderedText> lines) {
 		this.title = title;
-		this.lines = lines;
 		this.visibility = Visibility.HIDE;
-		this.width = 300;
 		this.display_time = 8000L;
+		List<OrderedText> list = ClientData.minecraft.textRenderer.wrapLines(description, 200);
+		this.width = Math.max(200, list.stream().mapToInt((ClientData.minecraft.textRenderer::getWidth)).max().orElse(200));
+		this.lines = list;
+	}
+
+	public Toast(Text title, List<OrderedText> lines, int width) {
+		this.title = title;
+		this.visibility = Visibility.HIDE;
+		this.display_time = 8000L;
+		this.width = width;
+		this.lines = lines;
 	}
 
 	public net.minecraft.client.toast.Toast.Visibility getVisibility() {

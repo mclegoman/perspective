@@ -14,7 +14,7 @@ import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -59,19 +59,14 @@ public class PerspectiveLogo {
 		return DateHelper.isPride();
 	}
 	public static boolean isForcePride() {
-		return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "force_pride");
+		return PerspectiveConfig.config.forcePride.value();
 	}
 	private static LogoData getPrideLogo() {
-		if (!ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "force_pride_type").equals("random")) {
-			return getPrideLogoFromId((String)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "force_pride_type"));
-		} else {
-			return PrideLogoDataLoader.getLogo();
-		}
+		if (!PerspectiveConfig.config.forcePrideType.value().equals("random")) return getPrideLogoFromId(PerspectiveConfig.config.forcePrideType.value());
+		else return PrideLogoDataLoader.getLogo();
 	}
 	public static LogoData getPrideLogoFromId(String id) {
-		for (LogoData logoData : PrideLogoDataLoader.registry) {
-			if (id.equals(logoData.getId())) return logoData;
-		}
+		for (LogoData logoData : PrideLogoDataLoader.registry) if (id.equals(logoData.getId())) return logoData;
 		return getDefaultLogo();
 	}
 	public static Logo getLogo(Logo.Type type) {

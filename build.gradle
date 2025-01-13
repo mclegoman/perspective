@@ -21,8 +21,8 @@ runClient.doFirst {
 	args += ['--username', "Perspective${new Random().nextInt(1000)}"]
 }
 repositories {
-	maven { url 'https://jitpack.io' }
-	maven { url 'https://maven.terraformersmc.com/releases/' }
+	maven { url = "https://jitpack.io" }
+	maven { url = "https://maven.terraformersmc.com/releases/" }
 	mavenCentral()
 	mavenLocal()
 	exclusiveContent {
@@ -39,6 +39,7 @@ repositories {
 	flatDir {
 		dirs("libs")
 	}
+	maven { url = "https://maven.quiltmc.org/repository/release/" }
 }
 dependencies {
 	minecraft("com.mojang:minecraft:${project.minecraft}")
@@ -47,7 +48,9 @@ dependencies {
 
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_api}")
 	//include(modImplementation("maven.modrinth:luminance:${project.luminance}"))
-	include(modImplementation("luminance:luminance-1.0.0-alpha.5+dirty.1736460719+1.21.4"))
+	include(modImplementation("luminance:luminance-1.0.0-alpha.5+dirty.1736779269+1.21.4"))
+	include(modImplementation("org.quiltmc:quilt-config:${project.quilt_config}"))
+	include(modImplementation("com.electronwill.night-config:toml:${project.toml}"))
 	//modImplementation(fileTree(dir: 'libs', include: '*.jar'))
 
 	// Compatibility

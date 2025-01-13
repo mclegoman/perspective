@@ -9,10 +9,10 @@ package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.shaders.Shaders;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hide.HideHudTypes;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 
 public class HUDHelper {
 	public static void tick() {
@@ -22,26 +22,11 @@ public class HUDHelper {
 				DebugOverlay.debugType = ClientData.minecraft.options.sneakKey.isPressed() ? DebugOverlay.debugType.prev() : DebugOverlay.debugType.next();
 			}
 		}
-		if (Keybindings.toggleVerOverlay.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "version_overlay", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "version_overlay"));
-			ConfigHelper.saveConfig();
-		}
-		if (Keybindings.togglePosOverlay.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "position_overlay", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "position_overlay"));
-			ConfigHelper.saveConfig();
-		}
-		if (Keybindings.toggleDayOverlay.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "day_overlay", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "day_overlay"));
-			ConfigHelper.saveConfig();
-		}
-		if (Keybindings.toggleBiomeOverlay.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "biome_overlay", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "biome_overlay"));
-			ConfigHelper.saveConfig();
-		}
-		if (Keybindings.toggleCPSOverlay.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "cps_overlay", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "cps_overlay"));
-			ConfigHelper.saveConfig();
-		}
+		if (Keybindings.toggleVerOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.versionOverlay);
+		if (Keybindings.togglePosOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.positionOverlay);
+		if (Keybindings.toggleDayOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.dayOverlay);
+		if (Keybindings.toggleBiomeOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.biomeOverlay);
+		if (Keybindings.toggleCPSOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay);
 	}
 	public static boolean shouldHideHUD() {
 		return Hide.shouldHideHud(HideHudTypes.zoom) || Hide.shouldHideHud(HideHudTypes.holdPerspectiveBack) || Hide.shouldHideHud(HideHudTypes.holdPerspectiveFront);

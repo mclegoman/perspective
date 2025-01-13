@@ -12,7 +12,6 @@ import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.contributor.Contributor;
-import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.item.ItemGroup;
@@ -27,7 +26,7 @@ import com.mclegoman.perspective.client.util.Tick;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.ConfigHelper;
 import net.fabricmc.api.ClientModInitializer;
 
 public class PerspectiveClient implements ClientModInitializer {
@@ -50,7 +49,6 @@ public class PerspectiveClient implements ClientModInitializer {
 			Tick.init();
 			ConfigHelper.init();
 			ItemGroup.init();
-			ClientData.setFinishedInitializing(true);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to run onInitializeClient: {}", error));
 		}
@@ -60,7 +58,6 @@ public class PerspectiveClient implements ClientModInitializer {
 			Data.version.sendToLog(LogType.INFO, Translation.getString("AfterConfiging {}", Data.version.getName()));
 			Update.checkForUpdates(Data.version);
 			Shaders.init();
-			ClientData.setFinishedInitializingAfterConfig(true);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to run afterInitializeConfig: {}", error));
 		}

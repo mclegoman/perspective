@@ -9,11 +9,12 @@ package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.ConfigHelper;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -30,9 +31,8 @@ public class DebugOverlay {
 		debugTexts.add(Text.literal(Data.version.getName() + " " + Data.version.getFriendlyString(false)));
 		if (debugType.equals(Type.misc)) {
 			debugTexts.add(Text.empty());
-			debugTexts.add(Text.literal("debug: " + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "debug")));
+			debugTexts.add(Text.literal("debug: " + PerspectiveConfig.config.debug.value()));
 			debugTexts.add(Text.literal("isAprilFools(): " + AprilFoolsPrank.isAprilFools()));
-			debugTexts.add(Text.literal("isSaving(): " + ConfigHelper.isSaving()));
 			debugTexts.add(Text.literal("isZooming(): " + Zoom.isZooming()));
 			debugTexts.add(Text.literal("getZoomLevel(): " + Zoom.getZoomLevel()));
 			debugTexts.add(Translation.getCombinedText(Text.literal("getZoomType(): "), Translation.getZoomTypeTranslation(Zoom.getZoomType().getNamespace(), Zoom.getZoomType().getPath())));

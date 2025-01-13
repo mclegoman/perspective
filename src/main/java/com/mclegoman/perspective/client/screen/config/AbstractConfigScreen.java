@@ -8,13 +8,15 @@
 package com.mclegoman.perspective.client.screen.config;
 
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -32,13 +34,11 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected GridWidget.Adder gridAdder;
 	protected boolean refresh;
 	protected boolean shouldClose;
-	protected boolean saveOnClose;
-	public AbstractConfigScreen(Screen parentScreen, boolean refresh, boolean saveOnClose, int page) {
+	public AbstractConfigScreen(Screen parentScreen, boolean refresh, int page) {
 		super(Text.literal(""));
 		this.grid = new GridWidget();
 		this.parentScreen = parentScreen;
 		this.refresh = refresh;
-		this.saveOnClose = saveOnClose;
 		this.page = page;
 	}
 	public void init() {
@@ -58,19 +58,22 @@ public abstract class AbstractConfigScreen extends Screen {
 		try {
 			if (this.refresh) ClientData.minecraft.setScreen(getRefreshScreen());
 			if (this.shouldClose) {
-				if (saveOnClose()) ConfigHelper.saveConfig();
-				ClientData.minecraft.setScreen(this.parentScreen);
+				setParentScreen();
 			}
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config screen: {}", error));
 		}
+	}
+	protected void setParentScreen() {
+		ClientData.minecraft.setScreen(this.parentScreen);
 	}
 	protected GridWidget createFooter() {
 		GridWidget footerGrid = new GridWidget();
 		footerGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder footerGridAdder = footerGrid.createAdder(3);
 		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "reset"), (button) -> {
-			if (ConfigHelper.resetConfig()) this.refresh = true;
+			LuminanceConfigHelper.reset(PerspectiveConfig.config, false);
+			this.refresh = true;
 		}).build());
 		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "back"), (button) -> {
 			if (this.page <= 1) {
@@ -114,8 +117,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == GLFW.GLFW_KEY_F5) {
-			if (hasControlDown()) ConfigHelper.reloadConfig(true);
-			else Update.checkForUpdates(Data.version, true);
+			Update.checkForUpdates(Data.version, true);
 			this.refresh = true;
 		}
 		return super.keyReleased(keyCode, scanCode, modifiers);
@@ -163,9 +165,6 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public boolean isUpdateAvailable() {
 		return Update.isNewerVersionFound();
-	}
-	public boolean saveOnClose() {
-		return this.saveOnClose;
 	}
 
 	public void resize(MinecraftClient client, int width, int height) {

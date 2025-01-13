@@ -8,16 +8,14 @@
 package com.mclegoman.perspective.client.hide;
 
 import com.mclegoman.luminance.client.util.MessageOverlay;
-import com.mclegoman.luminance.common.util.Triple;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.perspective.Perspective;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -25,7 +23,6 @@ import net.minecraft.util.Formatting;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Hide {
@@ -40,69 +37,73 @@ public class Hide {
 	}
 	public static void tick() {
 		if (Keybindings.toggleArmour.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "hide_armor", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_armor"));
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_show_message"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.armor", Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_armor"), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+			PerspectiveConfig.toggle(PerspectiveConfig.config.hideArmor, true);
+			if (PerspectiveConfig.config.hideShowMessage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.armor", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hideArmor.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.toggleBlockOutline.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "hide_block_outline", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_block_outline"));
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_show_message"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.block_outline", Translation.getVariableTranslation(Data.version.getID(), !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_block_outline"), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+			PerspectiveConfig.toggle(PerspectiveConfig.config.hideBlockOutline, true);
+			if (PerspectiveConfig.config.hideShowMessage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.block_outline", Translation.getVariableTranslation(Data.version.getID(), !PerspectiveConfig.config.hideBlockOutline.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.cycleCrosshair.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "crosshair_type", nextCrosshairMode());
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_show_message"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.crosshair", Translation.getCrosshairTranslation(Data.version.getID(), (String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type"))).formatted(Formatting.GOLD));
+			PerspectiveConfig.config.crosshairType.setValue(nextCrosshairMode(), true);
+			if (PerspectiveConfig.config.hideShowMessage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.crosshair", Translation.getCrosshairTranslation(Data.version.getID(), PerspectiveConfig.config.crosshairType.value())).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.toggleNametags.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "hide_nametags", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_nametags"));
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_show_message"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.nametags", Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_nametags"), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+			PerspectiveConfig.toggle(PerspectiveConfig.config.hideNametags, true);
+			if (PerspectiveConfig.config.hideShowMessage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.nametags", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hideNametags.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.togglePlayers.wasPressed()) {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "hide_players", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_players"));
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_show_message"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.players", Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_nametags"), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+			PerspectiveConfig.toggle(PerspectiveConfig.config.hidePlayers, true);
+			if (PerspectiveConfig.config.hideShowMessage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.players", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hidePlayers.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		rainbowTime += 1.0F % 20.0F;
 	}
 	public static boolean shouldHidePlayer(UUID uuid) {
 		if (ClientData.minecraft.player != null) {
 			if (!uuid.equals(ClientData.minecraft.player.getGameProfile().getId()))
-				return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_players") || HidePlayerDataLoader.REGISTRY.contains(String.valueOf(uuid));
+				return PerspectiveConfig.config.hidePlayers.value() || HidePlayerDataLoader.REGISTRY.contains(String.valueOf(uuid));
 		}
 		return false;
 	}
 	public static String nextZoomHideHudMode() {
 		List<String> modes = Arrays.stream(zoomHideHudModes).toList();
-		return modes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")) ? zoomHideHudModes[(modes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")) + 1) % zoomHideHudModes.length] : zoomHideHudModes[0];
+		return modes.contains(PerspectiveConfig.config.zoomHideHud.value()) ? zoomHideHudModes[(modes.indexOf(PerspectiveConfig.config.zoomHideHud.value()) + 1) % zoomHideHudModes.length] : zoomHideHudModes[0];
 	}
 	public static String nextCrosshairMode() {
 		List<String> modes = Arrays.stream(hideCrosshairModes).toList();
-		return modes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) ? hideCrosshairModes[(modes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type")) + 1) % hideCrosshairModes.length] : hideCrosshairModes[0];
+		return modes.contains(PerspectiveConfig.config.crosshairType.value()) ? hideCrosshairModes[(modes.indexOf(PerspectiveConfig.config.crosshairType.value()) + 1) % hideCrosshairModes.length] : hideCrosshairModes[0];
 	}
 	public static boolean shouldHideHand(HideHudTypes type) {
-		if (type == HideHudTypes.zoom) return Zoom.isZooming() && ((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")).equalsIgnoreCase("hand");
+		if (type == HideHudTypes.zoom) return Zoom.isZooming() && PerspectiveConfig.config.zoomHideHud.value().equalsIgnoreCase("hand");
 		return false;
 	}
 	public static boolean shouldHideHud(HideHudTypes type) {
 		switch (type) {
 			case zoom -> {
-				return Zoom.isZooming() && ((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud")).equalsIgnoreCase("true");
+				return Zoom.isZooming() && PerspectiveConfig.config.zoomHideHud.value().equalsIgnoreCase("true");
 			}
-			case holdPerspectiveBack -> {return Perspective.isHoldingPerspectiveBack() && (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_back_hide_hud");}
-			case holdPerspectiveFront -> {return Perspective.isHoldingPerspectiveFront() && (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_front_hide_hud");}
+			case holdPerspectiveBack -> {
+				return Perspective.isHoldingPerspectiveBack() && PerspectiveConfig.config.holdPerspectiveBackHideHud.value();
+			}
+			case holdPerspectiveFront -> {
+				return Perspective.isHoldingPerspectiveFront() && PerspectiveConfig.config.holdPerspectiveFrontHideHud.value();
+			}
 			default -> {return false;}
 		}
 	}
 	public static boolean shouldHideArmor(UUID uuid) {
-		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hide_armor") || HideArmorDataLoader.registry.contains(String.valueOf(uuid));
+		return PerspectiveConfig.config.hideArmor.value() || HideArmorDataLoader.registry.contains(String.valueOf(uuid));
 	}
 	public static int getBlockOutlineLevel() {
-		return ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "block_outline"));
+		return PerspectiveConfig.config.blockOutline.value();
 	}
 	public static boolean getRainbowBlockOutline() {
-		return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "rainbow_block_outline");
+		return PerspectiveConfig.config.rainbowBlockOutline.value();
 	}
 	public static int getRainbowOutline() {
 		return Color.getHSBColor(rainbowTime / 20.0F, 1.0F, 1.0F).getRGB();

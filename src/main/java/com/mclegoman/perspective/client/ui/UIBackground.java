@@ -9,10 +9,10 @@ package com.mclegoman.perspective.client.ui;
 
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -65,7 +65,7 @@ public class UIBackground {
 		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "none")).renderShader(false).renderDarkening(false).build());
 	}
 	public static void registerUIBackground(UIBackgroundData data) {
-		if (!ClientData.isFinishedInitializing()) {
+		if (!ClientData.minecraft.isFinishedLoading()) {
 			boolean alreadyRegistered = isValidUIBackground(data.getId());
 			if (!alreadyRegistered) uiBackgroundTypes.add(data);
 			else Data.version.sendToLog(LogType.WARN, Translation.getString("UI Background with id '{}' could not be registered: UI Background is already registered!", data.getId()));
@@ -82,10 +82,10 @@ public class UIBackground {
 	}
 	public static void cycleUIBackgroundType(boolean direction) {
 		int currentIndex = uiBackgroundTypes.indexOf(getCurrentUIBackground());
-		ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "ui_background", uiBackgroundTypes.get(direction ? (currentIndex + 1) % uiBackgroundTypes.size() : (currentIndex - 1 + uiBackgroundTypes.size()) % uiBackgroundTypes.size()).getId());
+		PerspectiveConfig.config.uiBackground.setValue(uiBackgroundTypes.get(direction ? (currentIndex + 1) % uiBackgroundTypes.size() : (currentIndex - 1 + uiBackgroundTypes.size()) % uiBackgroundTypes.size()).getId(), false);
 	}
 	public static UIBackgroundData getCurrentUIBackground() {
-		return getUIBackgroundType((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "ui_background"));
+		return getUIBackgroundType(PerspectiveConfig.config.uiBackground.value());
 	}
 	public static UIBackgroundData getUIBackgroundType(String type) {
 		for (UIBackgroundData data : uiBackgroundTypes) {
@@ -100,7 +100,7 @@ public class UIBackground {
 		return false;
 	}
 	public static Identifier getUiBackgroundTextureFromConfig() {
-		String uiBackgroundTexture = (String)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "ui_background_texture");
+		String uiBackgroundTexture = PerspectiveConfig.config.uiBackgroundTexture.value();
 		String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, uiBackgroundTexture);
 		String key = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, uiBackgroundTexture);
 		return (namespace != null && key != null) ? Identifier.of(namespace, (!key.startsWith("textures/") ? "textures/" : "") + key + (!key.endsWith(".png") ? ".png" : "")) : Identifier.of("minecraft", "textures/block/dirt.png");

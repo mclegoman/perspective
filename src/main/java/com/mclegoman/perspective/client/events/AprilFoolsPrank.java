@@ -9,15 +9,11 @@ package com.mclegoman.perspective.client.events;
 
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.perspective.client.toasts.Toast;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
-import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.client.toast.SystemToast;
 import net.minecraft.resource.ResourceType;
 
 public class AprilFoolsPrank {
@@ -33,27 +29,27 @@ public class AprilFoolsPrank {
 		boolean shouldSave = false;
 		if (!seenWarning && ClientData.minecraft.world != null) {
 			if (isAprilFools()) {
-				if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
-					ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", true);
-					shouldSave = true;
+				//if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
+					//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
+					//ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", true);
+					//shouldSave = true;
 					seenWarning = true;
-				}
+				//}
 			} else {
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", false);
-					shouldSave = true;
-				}
+				//if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
+					//ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", false);
+					//shouldSave = true;
+				//}
 			}
 		}
-		if (shouldSave) ConfigHelper.saveConfig();
+		//if (shouldSave) ConfigHelper.saveConfig();
 	}
 	public static boolean isAprilFools() {
-		if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "allow_april_fools")) return false;
+		if (!PerspectiveConfig.config.allowAprilFools.value()) return false;
 		return DateHelper.isAprilFools() || isForceAprilFools();
 	}
 	public static boolean isForceAprilFools() {
-		return (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "force_april_fools");
+		return PerspectiveConfig.config.forceAprilFools.value();
 	}
 	public static int getAprilFoolsIndex(long getLeastSignificantBits, int registrySize) {
 		// We add the current year to the player's uuid, so they get a different skin each year.

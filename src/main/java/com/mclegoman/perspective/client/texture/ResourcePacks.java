@@ -35,11 +35,6 @@ public class ResourcePacks extends com.mclegoman.luminance.client.texture.Resour
             Contributor(s): dannytaylor
         */
 			register(Identifier.of("perspective_extended"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.perspective_extended"), ResourcePackActivationType.NORMAL);
-		/*
-            Perspective: Developer Config
-            Contributor(s): dannytaylor
-        */
-			register(Identifier.of("dev_config"), Data.version.getModContainer(), Translation.getTranslation(Data.version.getID(), "resource_pack.dev_config"), ResourcePackActivationType.NORMAL);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to init resource packs: {}", error));
 		}

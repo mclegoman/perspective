@@ -10,12 +10,11 @@ package com.mclegoman.perspective.client.panorama;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.option.GraphicsMode;
@@ -76,7 +75,7 @@ public class Panorama {
 	}
 
 	private static boolean shouldTakePanorama() {
-		return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "debug") || getIncompatibleMods().isEmpty() && !ClientData.minecraft.options.getGraphicsMode().getValue().equals(GraphicsMode.FABULOUS);
+		return PerspectiveConfig.config.debug.value() || getIncompatibleMods().isEmpty() && !ClientData.minecraft.options.getGraphicsMode().getValue().equals(GraphicsMode.FABULOUS);
 	}
 
 	private static void takePanorama(int resolution, float startingYaw) {

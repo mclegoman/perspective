@@ -14,12 +14,11 @@ import com.mclegoman.luminance.common.util.Helper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.luminance.common.util.ReleaseType;
 import com.mclegoman.luminance.common.util.Version;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.UpdateCheckerScreen;
-import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.SharedConstants;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Util;
@@ -47,10 +46,10 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 			updateCheckerComplete = false;
 			newerVersionFound = false;
 			try {
-				if (!ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel").equals("none") && currentVersion.hasModrinthID()) {
+				if (!PerspectiveConfig.config.detectUpdateChannel.value().equals("none") && currentVersion.hasModrinthID()) {
 					currentVersion.sendToLog(LogType.INFO, "Checking for new updates...");
 					currentVersion.sendToLog(LogType.INFO, Translation.getString("Current Version: {}", currentVersion.getFriendlyString()));
-					currentVersion.sendToLog(LogType.INFO, Translation.getString("Update Channel: {}", ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel")));
+					currentVersion.sendToLog(LogType.INFO, Translation.getString("Update Channel: {}", PerspectiveConfig.config.detectUpdateChannel.value()));
 					currentVersion.sendToLog(LogType.INFO, Translation.getString("Minecraft Version: {}", SharedConstants.getGameVersion().getName()));
 					JsonArray apiDataVersion = (JsonArray) getModrinthData(currentVersion.getModrinthID(), "version");
 					if (apiDataVersion != null) {
@@ -76,7 +75,7 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 								int build = Integer.parseInt(version_number.substring((version_number.lastIndexOf(".") + 1)));
 								apiVersion = Version.create(currentVersion.getName(), currentVersion.getID(), major, minor, patch, type, build, currentVersion.getModrinthID());
 								if (apiVersion.compareTo(currentVersion) > 0) {
-									if (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel").equals("alpha")) {
+									if (PerspectiveConfig.config.detectUpdateChannel.value().equals("alpha")) {
 										if (apiVersion.getType().equals(ReleaseType.ALPHA) || apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
 											newerVersionFound = true;
 											String version_id = JsonHelper.getString(version_obj, "version_number");
@@ -85,7 +84,7 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 											latestVersionFound = version_id;
 											downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
 										}
-									} else if (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel").equals("beta")) {
+									} else if (PerspectiveConfig.config.detectUpdateChannel.value().equals("beta")) {
 										if (apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
 											newerVersionFound = true;
 											String version_id = JsonHelper.getString(version_obj, "version_number");
@@ -132,6 +131,6 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 	}
 	public static String nextUpdateChannel() {
 		List<String> updateChannels = Arrays.stream(detectUpdateChannels).toList();
-		return updateChannels.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel")) ? detectUpdateChannels[(updateChannels.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "detect_update_channel")) + 1) % detectUpdateChannels.length] : detectUpdateChannels[0];
+		return updateChannels.contains((String) PerspectiveConfig.config.detectUpdateChannel.value()) ? detectUpdateChannels[(updateChannels.indexOf((String) PerspectiveConfig.config.detectUpdateChannel.value()) + 1) % detectUpdateChannels.length] : detectUpdateChannels[0];
 	}
 }

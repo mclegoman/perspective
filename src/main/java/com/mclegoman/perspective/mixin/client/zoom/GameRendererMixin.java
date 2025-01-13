@@ -9,9 +9,9 @@ package com.mclegoman.perspective.mixin.client.zoom;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.zoom.Zoom;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -42,10 +42,10 @@ public abstract class GameRendererMixin {
 			Zoom.fov = fov;
 			float newFOV = fov;
 			if (!this.isRenderingPanorama()) {
-				if (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition").equals("instant")) {
+				if (PerspectiveConfig.config.zoomTransition.value().equals("instant")) {
 					newFOV *= Zoom.getMultiplier();
 				}
-				if (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition").equals("smooth")) {
+				if (PerspectiveConfig.config.zoomTransition.value().equals("smooth")) {
 					newFOV *= MathHelper.lerp(tickDelta, Zoom.getPrevMultiplier(), Zoom.getMultiplier());
 				}
 			}

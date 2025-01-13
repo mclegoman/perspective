@@ -10,8 +10,8 @@ package com.mclegoman.perspective.mixin.client.contributor;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.contributor.ContributorData;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public abstract class LivingEntityRendererMixin {
 		if (entity instanceof PlayerEntity) {
 			boolean shouldFlipUpsideDown = false;
 			for (ContributorData contributor : ContributorDataLoader.registry) {
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "allow_april_fools") &&
+				if (PerspectiveConfig.config.allowAprilFools.value() &&
 						AprilFoolsPrank.isAprilFools() && contributor.getUuid().equals(AprilFoolsPrankDataLoader.contributor) && contributor.getShouldFlipUpsideDown()) {
 					shouldFlipUpsideDown = true;
 				}

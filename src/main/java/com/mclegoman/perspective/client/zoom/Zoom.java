@@ -9,13 +9,12 @@ package com.mclegoman.perspective.client.zoom;
 
 import com.mclegoman.luminance.client.util.MessageOverlay;
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.perspective.config.ConfigDataLoader;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -55,17 +54,17 @@ public class Zoom {
 			if (Keybindings.toggleZoom.wasPressed()) isZooming = !isZooming;
 			if (Keybindings.toggleZoomCinematic.wasPressed()) {
 				resetCinematicZoom();
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic"));
+				PerspectiveConfig.toggle(PerspectiveConfig.config.zoomCinematic);
 			}
 			if (!isZooming()) {
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_reset")) {
+				if (PerspectiveConfig.config.zoomReset.value()) {
 					if (getRawZoomLevel() != getDefaultZoomLevel()) {
 						reset();
 						hasUpdated = true;
 					}
 				}
 				if (hasUpdated) {
-					ConfigHelper.saveConfig();
+					PerspectiveConfig.config.save();
 					hasUpdated = false;
 				}
 				resetCinematicZoom();
@@ -85,13 +84,13 @@ public class Zoom {
 		return canZoom() && ClientData.minecraft.player != null && (isZooming != Keybindings.holdZoom.isPressed());
 	}
 	public static boolean canZoom() {
-		return ClientData.minecraft.cameraEntity != null && (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_enabled");
+		return ClientData.minecraft.cameraEntity != null && PerspectiveConfig.config.zoomEnabled.value();
 	}
 	public static boolean isScaled() {
-		return ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode").equals("scaled");
+		return PerspectiveConfig.config.zoomScaleMode.value().equals("scaled");
 	}
 	public static boolean isSmoothCamera() {
-		return (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic");
+		return PerspectiveConfig.config.zoomCinematic.value();
 	}
 	public static void updateMultiplier() {
 		try {
@@ -109,9 +108,9 @@ public class Zoom {
 	}
 	public static void updateTransition() {
 		try {
-			if ((ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition")).equals("smooth")) {
+			if (PerspectiveConfig.config.zoomTransition.value().equals("smooth")) {
 				float speedMultiplier = ((prevMultiplier + multiplier) * 0.5F);
-				multiplier = MathHelper.lerp((prevMultiplier < speedMultiplier) ? (float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") : (float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in"), prevMultiplier, speedMultiplier);
+				multiplier = MathHelper.lerp((prevMultiplier < speedMultiplier) ? PerspectiveConfig.config.zoomSmoothSpeedOut.value() : PerspectiveConfig.config.zoomSmoothSpeedIn.value(), prevMultiplier, speedMultiplier);
 			}
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to update zoom transition: {}", error));
@@ -127,7 +126,7 @@ public class Zoom {
 		return zoomFOV/fov;
 	}
 	public static Identifier getZoomType() {
-		Identifier zoomTypeIdentifier = IdentifierHelper.identifierFromString((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_type"));
+		Identifier zoomTypeIdentifier = IdentifierHelper.identifierFromString((PerspectiveConfig.config.zoomType.value()));
 		while (!isValidZoomType(zoomTypeIdentifier)) zoomTypeIdentifier = IdentifierHelper.identifierFromString(cycleZoomType());
 		return zoomTypeIdentifier;
 	}
@@ -135,17 +134,17 @@ public class Zoom {
 		return MathHelper.clamp(getRawZoomLevel(), 0.0F, 100.0F);
 	}
 	public static int getRawZoomLevel() {
-		return (int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level");
+		return PerspectiveConfig.config.zoomLevel.value();
 	}
 	public static int getDefaultZoomLevel() {
-		return ConfigDataLoader.zoomLevel;
+		return PerspectiveConfig.config.zoomLevel.getDefaultValue();
 	}
 	public static void zoom(int amount, int multiplier) {
 		try {
 			boolean updated = false;
 			for (int i = 0; i < multiplier; i++) {
 				if (!(getRawZoomLevel() <= 0) || !(getRawZoomLevel() >= 100)) {
-					ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_level", getRawZoomLevel() + amount);
+					PerspectiveConfig.config.zoomLevel.setValue(getRawZoomLevel() + amount, false);
 					updated = true;
 					hasUpdated = true;
 				}
@@ -157,8 +156,8 @@ public class Zoom {
 	}
 	public static void reset() {
 		try {
-			if ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level") != ConfigDataLoader.zoomLevel) {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_level", ConfigDataLoader.zoomLevel);
+			if (PerspectiveConfig.config.zoomLevel.value() != getDefaultZoomLevel()) {
+				PerspectiveConfig.config.zoomLevel.setValue(getDefaultZoomLevel(), false);
 				setOverlay();
 				hasUpdated = true;
 			}
@@ -168,8 +167,8 @@ public class Zoom {
 	}
 	private static void setOverlay() {
 		try {
-			if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"))
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.zoom_level", Text.literal((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level") + "%")).formatted(Formatting.GOLD));
+			if (PerspectiveConfig.config.zoomShowPercentage.value())
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.zoom_level", Text.literal(PerspectiveConfig.config.zoomLevel.value() + "%")).formatted(Formatting.GOLD));
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to set zoom overlay: {}", error));
 		}
@@ -181,7 +180,7 @@ public class Zoom {
 		try {
 			int currentIndex = zoomTypes.indexOf(getZoomType());
 			String zoomType = IdentifierHelper.stringFromIdentifier(zoomTypes.get(direction ? (currentIndex + 1) % zoomTypes.size() : (currentIndex - 1 + zoomTypes.size()) % zoomTypes.size()));
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_type", zoomType);
+			PerspectiveConfig.config.zoomType.setValue(zoomType, false);
 		} catch (Exception error) {
 			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to cycle zoom type: {}", error));
 		}
@@ -192,11 +191,11 @@ public class Zoom {
 	}
 	public static String nextTransition() {
 		List<String> transitions = Arrays.stream(zoomTransitions).toList();
-		return transitions.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition")) ? zoomTransitions[(transitions.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition")) + 1) % zoomTransitions.length] : zoomTransitions[0];
+		return transitions.contains(PerspectiveConfig.config.zoomTransition.value()) ? zoomTransitions[(transitions.indexOf(PerspectiveConfig.config.zoomTransition.value()) + 1) % zoomTransitions.length] : zoomTransitions[0];
 	}
 	public static String nextScaleMode() {
 		List<String> scaleModes = Arrays.stream(zoomScaleModes).toList();
-		return scaleModes.contains((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode")) ? zoomScaleModes[(scaleModes.indexOf((String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode")) + 1) % zoomScaleModes.length] : zoomScaleModes[0];
+		return scaleModes.contains(PerspectiveConfig.config.zoomScaleMode.value()) ? zoomScaleModes[(scaleModes.indexOf(PerspectiveConfig.config.zoomScaleMode.value()) + 1) % zoomScaleModes.length] : zoomScaleModes[0];
 	}
 	public static class Logarithmic {
 		public static Identifier getIdentifier() {

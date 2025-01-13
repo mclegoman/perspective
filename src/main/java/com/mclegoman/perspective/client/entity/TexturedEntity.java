@@ -16,7 +16,7 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -185,15 +185,15 @@ public class TexturedEntity {
 			if (!isForbiddenEntity(entityId)) {
 				List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
 				if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
-					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+					if (PerspectiveConfig.config.texturedNamedEntity.value()) {
 						Optional<TexturedEntityData> entityData = getEntityData(registry, entityName);
 						if (entityData.isPresent()) return entityData;
 					}
-					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_random_entity")) {
+					if (PerspectiveConfig.config.texturedRandomEntity.value()) {
 						TexturedEntityData entityData = registry.get(Math.floorMod(uuid.getLeastSignificantBits(), registry.size()));
 						if (entityData.getEnabled()) return Optional.of(entityData);
 					}
-					if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "textured_named_entity")) {
+					if (PerspectiveConfig.config.texturedNamedEntity.value()) {
 						// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
 						// so we return the default textured entity if it exists.
 						if (!entityName.equalsIgnoreCase("default")) {

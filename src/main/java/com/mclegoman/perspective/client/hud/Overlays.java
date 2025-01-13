@@ -13,7 +13,7 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.util.Mouse;
 import com.mclegoman.perspective.client.util.Position;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
@@ -29,17 +29,17 @@ public class Overlays {
 		timeOverlayTypes.add("false");
 		timeOverlayTypes.add("twelve_hour");
 		timeOverlayTypes.add("twenty_four_hour");
-		Mouse.ProcessCPS.register(Identifier.of(Data.version.getID(), "cps_overlay"), () -> (boolean)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "cps_overlay"));
+		Mouse.ProcessCPS.register(Identifier.of(Data.version.getID(), "cps_overlay"), PerspectiveConfig.config.cpsOverlay::value);
 	}
 	public static String getCurrentTimeOverlay() {
-		return (String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "time_overlay");
+		return PerspectiveConfig.config.timeOverlay.value();
 	}
 	public static boolean isValidTimeOverlay(String timeOverlay) {
 		return timeOverlayTypes.contains(timeOverlay);
 	}
 	public static void cycleTimeOverlay(boolean direction) {
 		int currentIndex = timeOverlayTypes.indexOf(getCurrentTimeOverlay());
-		ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "time_overlay", timeOverlayTypes.get(direction ? (currentIndex + 1) % timeOverlayTypes.size() : (currentIndex - 1 + timeOverlayTypes.size()) % timeOverlayTypes.size()));
+		PerspectiveConfig.config.timeOverlay.setValue(timeOverlayTypes.get(direction ? (currentIndex + 1) % timeOverlayTypes.size() : (currentIndex - 1 + timeOverlayTypes.size()) % timeOverlayTypes.size()), false);
 	}
 	public static Text getEntityPositionTextTitle() {
 		return Translation.getTranslation(Data.version.getID(), "position.title");
@@ -55,12 +55,12 @@ public class Overlays {
 		if (!ClientData.minecraft.getDebugHud().shouldShowDebugHud() && !ClientData.minecraft.options.hudHidden && !HUDHelper.shouldHideHUD()) {
 			if (DebugOverlay.debugType.equals(DebugOverlay.Type.none)) {
 				// Version Overlay
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "version_overlay"))
+				if (PerspectiveConfig.config.versionOverlay.value())
 					context.drawTextWithShadow(ClientData.minecraft.textRenderer, Translation.getTranslation(Data.version.getID(), "version_overlay", new Object[]{SharedConstants.getGameVersion().getName()}), 2, 2, 0xffffff);
 				// Other Overlays
 				int y = 40;
 				List<Text> overlayTexts = new ArrayList<>();
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "position_overlay")) {
+				if (PerspectiveConfig.config.positionOverlay.value()) {
 					if (ClientData.minecraft.player != null) {
 						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "position_overlay", new Object[]{
 								getEntityPositionTextTitle(),
@@ -68,27 +68,27 @@ public class Overlays {
 						}));
 					}
 				}
-				if (!ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "time_overlay").equals("false")) {
+				if (!PerspectiveConfig.config.timeOverlay.value().equals("false")) {
 					if (ClientData.minecraft.world != null) {
 						long time = ClientData.minecraft.world.getTimeOfDay() % 24000L;
 						int rawHour = (int)(time / 1000 + 6) % 24;
 						int rawMinute = (int)(time / 16.666666) % 60;
-						String hour = ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "time_overlay").equals("twelve_hour") ? String.valueOf(rawHour == 0 || rawHour == 12 ? 12 : rawHour % 12) : String.valueOf(rawHour);
+						String hour = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? String.valueOf(rawHour == 0 || rawHour == 12 ? 12 : rawHour % 12) : String.valueOf(rawHour);
 						if (rawHour < 10 && rawHour != 0) hour = "0" + hour;
-						Text timePeriod = ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "time_overlay").equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.version.getID(), "time_overlay.am") : Translation.getTranslation(Data.version.getID(), "time_overlay.pm")) : Text.empty();
+						Text timePeriod = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.version.getID(), "time_overlay.am") : Translation.getTranslation(Data.version.getID(), "time_overlay.pm")) : Text.empty();
 						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "time_overlay", new Object[]{
 								hour, (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)), timePeriod
 						}));
 					}
 				}
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "day_overlay")) {
+				if (PerspectiveConfig.config.dayOverlay.value()) {
 					if (ClientData.minecraft.world != null) {
 						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "day_overlay", new Object[]{
 								ClientData.minecraft.world.getTimeOfDay() / 24000L
 						}));
 					}
 				}
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "biome_overlay")) {
+				if (PerspectiveConfig.config.biomeOverlay.value()) {
 					if (ClientData.minecraft.player != null && ClientData.minecraft.world != null) {
 						String biome = ClientData.minecraft.world.getBiome(ClientData.minecraft.player.getBlockPos()).getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
 						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "biome_overlay", new Object[]{
@@ -96,7 +96,7 @@ public class Overlays {
 						}));
 					}
 				}
-				if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "cps_overlay")) {
+				if (PerspectiveConfig.config.cpsOverlay.value()) {
 					overlayTexts.add(Translation.getTranslation(Data.version.getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));
 				}
 				renderOverlays(context, overlayTexts, 0, y, false);

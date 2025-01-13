@@ -20,8 +20,8 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Identifier;
 
 public class InformationScreen extends AbstractConfigScreen {
-	public InformationScreen(Screen parentScreen, boolean refresh, boolean saveOnClose) {
-		super(parentScreen, refresh, saveOnClose, 1);
+	public InformationScreen(Screen parentScreen, boolean refresh) {
+		super(parentScreen, refresh, 1);
 	}
 	public void init() {
 		try {
@@ -74,6 +74,6 @@ public class InformationScreen extends AbstractConfigScreen {
 		return "information";
 	}
 	public Screen getRefreshScreen() {
-		return new InformationScreen(this.parentScreen, false, false);
+		return new InformationScreen(this.parentScreen, false);
 	}
 }

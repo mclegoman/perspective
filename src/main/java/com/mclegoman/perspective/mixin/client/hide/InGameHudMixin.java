@@ -8,8 +8,8 @@
 package com.mclegoman.perspective.mixin.client.hide;
 
 import com.mclegoman.perspective.client.hide.DynamicCrosshairItemsDataLoader;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -48,11 +48,11 @@ public abstract class InGameHudMixin {
 	@Inject(at = @At("HEAD"), method = "renderCrosshair", cancellable = true)
 	private void perspective$renderCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
 		if (ClientData.minecraft.world != null && ClientData.minecraft.player != null) {
-			if ((ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type").equals("hidden")) || (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type").equals("dynamic"))) {
+			if ((PerspectiveConfig.config.crosshairType.value().equals("hidden")) || (PerspectiveConfig.config.crosshairType.value().equals("dynamic"))) {
 				HitResult crosshairTarget = ClientData.minecraft.crosshairTarget;
-				boolean hide_crosshair = (ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type").equals("hidden"));
+				boolean hide_crosshair = (PerspectiveConfig.config.crosshairType.value().equals("hidden"));
 				if (crosshairTarget != null) {
-					if ((ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "crosshair_type").equals("dynamic"))) {
+					if ((PerspectiveConfig.config.crosshairType.value().equals("dynamic"))) {
 						hide_crosshair = (crosshairTarget.getType() == HitResult.Type.BLOCK) ? ClientData.minecraft.world.getBlockState(((BlockHitResult) crosshairTarget).getBlockPos()).isAir() : crosshairTarget.getType() != HitResult.Type.ENTITY;
 						if (DynamicCrosshairItemsDataLoader.activeRegistry.contains(ClientData.minecraft.player.getActiveItem().getItem())) hide_crosshair = false;
 						for (ItemStack itemStack : ClientData.minecraft.player.getHandItems()) {

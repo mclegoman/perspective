@@ -11,19 +11,19 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.screen.widget.ConfigSliderWidget;
-import com.mclegoman.perspective.config.ConfigHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.text.Text;
 
 public class ZoomConfigScreen extends AbstractConfigScreen {
-	public ZoomConfigScreen(Screen parentScreen, boolean refresh, boolean saveOnClose, int page) {
-		super(parentScreen, refresh, saveOnClose, page);
+	public ZoomConfigScreen(Screen parentScreen, boolean refresh, int page) {
+		super(parentScreen, refresh, page);
 	}
 	public void init() {
 		try {
@@ -41,24 +41,24 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 		GridWidget zoomGrid = new GridWidget();
 		zoomGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder zoomGridAdder = zoomGrid.createAdder(2);
-		double zoomLevel = (double) ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level")) / 100;
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.level", new Object[]{Text.literal((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level") + "%")}, false), zoomLevel) {
+		double zoomLevel = (double) PerspectiveConfig.config.zoomLevel.value() / 100;
+		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.level", new Object[]{Text.literal(PerspectiveConfig.config.zoomLevel.value() + "%")}, false), zoomLevel) {
 			@Override
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.level", new Object[]{Text.literal((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_level") + "%")}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.level", new Object[]{Text.literal(PerspectiveConfig.config.zoomLevel.value() + "%")}, false));
 			}
 			@Override
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_level", (int) ((value) * 100));
+				PerspectiveConfig.config.zoomLevel.setValue((int) ((value) * 100), false);
 			}
 		}, 1);
-		double zoomIncrementSize = (double) ((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_increment_size") - 1) / 9;
-		SliderWidget zoomIncrementSizeWidget = new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.increment_size", new Object[]{Text.literal(String.valueOf((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_increment_size")))}, false), zoomIncrementSize) {
+		double zoomIncrementSize = (double) (PerspectiveConfig.config.zoomIncrementSize.value() - 1) / 9;
+		SliderWidget zoomIncrementSizeWidget = new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.increment_size", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomIncrementSize.value()))}, false), zoomIncrementSize) {
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.increment_size", new Object[]{Text.literal(String.valueOf((int) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_increment_size")))}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.increment_size", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomIncrementSize.value()))}, false));
 			}
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_increment_size", (int) ((value) * 9) + 1);
+				PerspectiveConfig.config.zoomIncrementSize.setValue((int) ((value) * 9) + 1, false);
 			}
 		};
 		zoomIncrementSizeWidget.setTooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.increment_size", true)));
@@ -67,54 +67,54 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 			Zoom.cycleZoomType(!hasShiftDown());
 			this.refresh = true;
 		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.type", new Object[]{Translation.getZoomTypeTranslation(Zoom.getZoomType().getNamespace(), Zoom.getZoomType().getPath(), true)}, true))).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.transition", new Object[]{Translation.getZoomTransitionTranslation(Data.version.getID(), (String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_transition"))}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_transition", Zoom.nextTransition());
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.transition", new Object[]{Translation.getZoomTransitionTranslation(Data.version.getID(), PerspectiveConfig.config.zoomTransition.value())}), (button) -> {
+			PerspectiveConfig.config.zoomTransition.setValue(Zoom.nextTransition(), false);
 			this.refresh = true;
 		}).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode", new Object[]{Translation.getZoomScaleModeTranslation(Data.version.getID(), (String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode"))}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode", Zoom.nextScaleMode());
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode", new Object[]{Translation.getZoomScaleModeTranslation(Data.version.getID(), PerspectiveConfig.config.zoomScaleMode.value())}), (button) -> {
+			PerspectiveConfig.config.zoomScaleMode.setValue(Zoom.nextScaleMode(), false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_scale_mode"), true)}, true))).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.reset", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_reset"), Translation.Type.ONFF)}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_reset", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_reset"));
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.scale_mode." + PerspectiveConfig.config.zoomScaleMode.value(), true)}, true))).build(), 1);
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.reset", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.zoomReset.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.zoomReset, false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.reset", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.reset." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_reset"), true)}, true))).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.cinematic", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic"), Translation.Type.ONFF)}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_cinematic"));
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.reset", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.reset." + PerspectiveConfig.config.zoomReset.value(), true)}, true))).build(), 1);
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.cinematic", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.zoomCinematic.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.zoomCinematic, false);
 			this.refresh = true;
 		}).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_enabled"), Translation.Type.ONFF)}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_enabled", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_enabled"));
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.zoomEnabled.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.zoomEnabled, false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_enabled"), true)}, true))).build(), 1);
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.enabled." + PerspectiveConfig.config.zoomEnabled.value(), true)}, true))).build(), 1);
 		return zoomGrid;
 	}
 	private GridWidget createPageTwo() {
 		GridWidget zoomGrid = new GridWidget();
 		zoomGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder zoomGridAdder = zoomGrid.createAdder(2);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"))}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud", Hide.nextZoomHideHudMode());
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value())}), (button) -> {
+			PerspectiveConfig.config.zoomHideHud.setValue(Hide.nextZoomHideHudMode(), false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_hide_hud"), true)}, true))).build(), 1);
-		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.show_percentage", new Object[]{Translation.getVariableTranslation(Data.version.getID(), (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"), Translation.Type.ONFF)}), (button) -> {
-			ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage", !(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_show_percentage"));
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.version.getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value(), true)}, true))).build(), 1);
+		zoomGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom.show_percentage", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.zoomShowPercentage.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.zoomShowPercentage, false);
 			this.refresh = true;
 		}).build(), 1);
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false), ((float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in") - 0.001F) / 1.999F) {
+		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedIn.value()))}, false), (PerspectiveConfig.config.zoomSmoothSpeedIn.value() - 0.001F) / 1.999F) {
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in")))}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedIn.value()))}, false));
 			}
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_in", Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)));
+				PerspectiveConfig.config.zoomSmoothSpeedIn.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)), false);
 			}
 		});
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false), ((float)ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out") - 0.001F) / 1.999F) {
+		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.version.getID(), "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedOut.value()))}, false), (PerspectiveConfig.config.zoomSmoothSpeedOut.value() - 0.001F) / 1.999F) {
 			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf((float) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out")))}, false));
+				setMessage(Translation.getConfigTranslation(Data.version.getID(),  "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedOut.value()))}, false));
 			}
 			protected void applyValue() {
-				ConfigHelper.setConfig(ConfigHelper.ConfigType.normal, "zoom_smooth_speed_out", Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)));
+				PerspectiveConfig.config.zoomSmoothSpeedIn.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)), false);
 			}
 		});
 		zoomGridAdder.add(new EmptyWidget(20, 20), 2);
@@ -122,7 +122,7 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 		return zoomGrid;
 	}
 	public Screen getRefreshScreen() {
-		return new ZoomConfigScreen(this.parentScreen, false, false, this.page);
+		return new ZoomConfigScreen(this.parentScreen, false, this.page);
 	}
 	public String getPageId() {
 		return "zoom";

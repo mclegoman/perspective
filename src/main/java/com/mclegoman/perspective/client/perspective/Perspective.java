@@ -9,7 +9,7 @@ package com.mclegoman.perspective.client.perspective;
 
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 
 public class Perspective {
 	private static boolean holdThirdPersonBackLock;
@@ -29,10 +29,10 @@ public class Perspective {
 		return ClientData.minecraft.options.getPerspective();
 	}
 	public static float getHoldPerspectiveBackMultiplier() {
-		return (float) ((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_back_multiplier"));
+		return PerspectiveConfig.config.holdPerspectiveBackMultiplier.value();
 	}
 	public static float getHoldPerspectiveFrontMultiplier() {
-		return (float) ((double) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "hold_perspective_front_multiplier"));
+		return PerspectiveConfig.config.holdPerspectiveFrontMultiplier.value();
 	}
 	public static void tick() {
 		if (Keybindings.setPerspectiveFirstPerson.wasPressed())

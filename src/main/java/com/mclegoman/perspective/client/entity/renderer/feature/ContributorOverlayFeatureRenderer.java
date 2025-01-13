@@ -11,7 +11,7 @@ import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -29,7 +29,7 @@ public class ContributorOverlayFeatureRenderer<P extends PlayerEntityRenderState
 		this.model = model;
 	}
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, P state, float limbAngle, float limbDistance) {
-		String uuid = ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "allow_april_fools") && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty()) ? AprilFoolsPrankDataLoader.contributor : String.valueOf(((PerspectiveRenderState)state).perspective$getUUID());
+		String uuid = (PerspectiveConfig.config.allowAprilFools.value() && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty()) ? AprilFoolsPrankDataLoader.contributor : String.valueOf(((PerspectiveRenderState)state).perspective$getUUID());
 		if (Contributor.shouldOverlayTexture(uuid)) {
 			Identifier texture = Contributor.getOverlayTexture(uuid);
 			if (texture != null) {

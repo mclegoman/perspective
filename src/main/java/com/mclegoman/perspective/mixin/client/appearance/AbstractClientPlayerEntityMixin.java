@@ -14,7 +14,7 @@ import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.texture.TextureHelper;
-import com.mclegoman.perspective.config.ConfigHelper;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.SkinTextures;
@@ -37,7 +37,7 @@ public class AbstractClientPlayerEntityMixin {
 	@Inject(method = "getSkinTextures", at = @At("TAIL"), cancellable = true)
 	private void getSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
 		if (this.playerListEntry != null) {
-			boolean isAprilFools = (boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "allow_april_fools") && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty();
+			boolean isAprilFools = PerspectiveConfig.config.allowAprilFools.value() && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty();
 			SkinTextures currentSkinTextures = cir.getReturnValue();
 			Identifier skinTexture = currentSkinTextures.texture();
 			Identifier capeTexture = currentSkinTextures.capeTexture();

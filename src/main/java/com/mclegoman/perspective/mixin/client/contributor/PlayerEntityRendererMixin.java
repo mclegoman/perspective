@@ -39,6 +39,9 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 	}
 	@Inject(method = "renderArm", at = @At("RETURN"))
 	private void perspective$renderArm(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Identifier skinTexture, ModelPart arm, boolean sleeveVisible, CallbackInfo ci) {
-		if (ClientData.minecraft.player != null) arm.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(Contributor.getOverlayTexture(ClientData.minecraft.player.getUuid().toString()))), light, OverlayTexture.DEFAULT_UV);
+		if (ClientData.minecraft.player != null) {
+			Identifier texture = Contributor.getOverlayTexture(ClientData.minecraft.player.getUuid().toString());
+			if (texture != null) arm.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texture)), light, OverlayTexture.DEFAULT_UV);
+		}
 	}
 }
