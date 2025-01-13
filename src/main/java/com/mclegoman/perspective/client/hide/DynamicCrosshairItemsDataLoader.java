@@ -74,7 +74,7 @@ public class DynamicCrosshairItemsDataLoader extends JsonDataLoader implements I
 	}
 
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> hideLists = manager.getAllResources(Identifier.of("perspective", "dynamic_crosshair.json"));
+		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.version.getID(), "dynamic_crosshair.json"));
 		for (Resource resource : hideLists) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());

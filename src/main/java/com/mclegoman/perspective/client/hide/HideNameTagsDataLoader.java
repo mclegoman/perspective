@@ -60,7 +60,7 @@ public class HideNameTagsDataLoader extends JsonDataLoader implements Identifiab
 		return Identifier.of(Data.version.getID(), ID);
 	}
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> HIDE_LISTS = manager.getAllResources(Identifier.of("perspective", "hide_nametags.json"));
+		List<Resource> HIDE_LISTS = manager.getAllResources(Identifier.of(Data.version.getID(), "hide_nametags.json"));
 		for (Resource resource : HIDE_LISTS) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());

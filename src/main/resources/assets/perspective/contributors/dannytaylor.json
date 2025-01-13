@@ -1,10 +1,8 @@
 {
 	"_comment": "Contributor Type: Developer",
 	"ids": [
-		"MCLegoMan",
-		"MCLegoBlock",
-		"DanielTayden",
-		"DannyTaylor"
+		"legotaylor",
+		"dannnytaylor"
 	],
 	"uuids": [
 		"772eb47b-a24e-4d43-a685-6ca9e9e132f7",
@@ -12,9 +10,7 @@
 	],
 	"shouldFlipUpsideDown": true,
 	"shouldReplaceCape": true,
-	"capeTexture": "perspective:textures/contributors/cape/dev_oneyear",
-	"shouldRenderHeadItem": false,
-	"headItem": "minecraft:air",
+	"capeTexture": "developer_cape",
 	"shouldRenderOverlay": false,
 	"overlayTexture": "none",
 	"isOverlayEmissive": false

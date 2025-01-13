@@ -21,20 +21,16 @@ public class ContributorData {
 	private final boolean shouldFlipUpsideDown;
 	private final boolean shouldReplaceCape;
 	private final Identifier capeTexture;
-	private final boolean shouldRenderHeadItem;
-	private final Identifier headItem;
 	private final boolean shouldRenderOverlay;
 	private final Identifier overlayTexture;
 	private final boolean isOverlayEmissive;
-	private ContributorData(List<String> ids, String uuid, String type, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, Identifier capeTexture, boolean shouldRenderHeadItem, Identifier headItem, boolean shouldRenderOverlay, Identifier overlayTexture, boolean isOverlayEmissive) {
+	private ContributorData(List<String> ids, String uuid, String type, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, Identifier capeTexture, boolean shouldRenderOverlay, Identifier overlayTexture, boolean isOverlayEmissive) {
 		this.ids = ids;
 		this.uuid = uuid;
 		this.type = type;
 		this.shouldFlipUpsideDown = shouldFlipUpsideDown;
 		this.shouldReplaceCape = shouldReplaceCape;
 		this.capeTexture = capeTexture;
-		this.shouldRenderHeadItem = shouldRenderHeadItem;
-		this.headItem = headItem;
 		this.shouldRenderOverlay = shouldRenderOverlay;
 		this.overlayTexture = overlayTexture;
 		this.isOverlayEmissive = isOverlayEmissive;
@@ -49,8 +45,6 @@ public class ContributorData {
 		private boolean shouldFlipUpsideDown;
 		private boolean shouldReplaceCape;
 		private Identifier capeTexture;
-		private boolean shouldRenderHeadItem;
-		private Identifier headItem;
 		private boolean shouldRenderOverlay;
 		private Identifier overlayTexture;
 		private boolean isOverlayEmissive;
@@ -61,8 +55,6 @@ public class ContributorData {
 			this.shouldFlipUpsideDown = false;
 			this.shouldReplaceCape = false;
 			this.capeTexture = IdentifierHelper.identifierFromString("none");
-			this.shouldRenderHeadItem = false;
-			this.headItem = Identifier.ofVanilla("air");
 			this.shouldRenderOverlay = false;
 			this.overlayTexture = IdentifierHelper.identifierFromString("none");
 			this.isOverlayEmissive = false;
@@ -91,14 +83,6 @@ public class ContributorData {
 			this.capeTexture = capeTexture;
 			return this;
 		}
-		public Builder shouldRenderHeadItem(boolean shouldRenderHeadItem) {
-			this.shouldRenderHeadItem = shouldRenderHeadItem;
-			return this;
-		}
-		public Builder headItem(Identifier headItem) {
-			this.headItem = headItem;
-			return this;
-		}
 		public Builder shouldRenderOverlay(boolean shouldRenderOverlay) {
 			this.shouldRenderOverlay = shouldRenderOverlay;
 			return this;
@@ -112,7 +96,7 @@ public class ContributorData {
 			return overlayTexture(overlayTexture, false);
 		}
 		public ContributorData build() {
-			return new ContributorData(this.ids, this.uuid, this.type, this.shouldFlipUpsideDown, this.shouldReplaceCape, this.capeTexture, this.shouldRenderHeadItem, this.headItem, this.shouldRenderOverlay, this.overlayTexture, this.isOverlayEmissive);
+			return new ContributorData(this.ids, this.uuid, this.type, this.shouldFlipUpsideDown, this.shouldReplaceCape, this.capeTexture, this.shouldRenderOverlay, this.overlayTexture, this.isOverlayEmissive);
 		}
 	}
 	public List<String> getIds() {
@@ -132,12 +116,6 @@ public class ContributorData {
 	}
 	public Identifier getCapeTexture() {
 		return this.capeTexture;
-	}
-	public boolean getShouldRenderHeadItem() {
-		return this.shouldRenderHeadItem;
-	}
-	public Identifier getHeadItem() {
-		return this.headItem;
 	}
 	public boolean getShouldRenderOverlay() {
 		return this.shouldRenderOverlay;

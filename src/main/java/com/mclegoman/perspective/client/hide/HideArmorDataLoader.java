@@ -66,7 +66,7 @@ public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableR
 	}
 
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> hideLists = manager.getAllResources(Identifier.of("perspective", "hide_armor.json"));
+		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.version.getID(), "hide_armor.json"));
 		for (Resource resource : hideLists) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());

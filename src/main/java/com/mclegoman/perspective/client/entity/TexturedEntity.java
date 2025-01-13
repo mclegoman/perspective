@@ -23,7 +23,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +46,7 @@ public class TexturedEntity {
 	public static Identifier getEntityTypeId(EntityType<?> entityType) {
 		return Registries.ENTITY_TYPE.getId(entityType);
 	}
-	public static EntityType<?> getEntityTypeId(Identifier entityTypeId) {
+	public static EntityType<?> getEntityType(Identifier entityTypeId) {
 		return Registries.ENTITY_TYPE.get(entityTypeId);
 	}
 	private static void addDefaultForbiddenEntities() {

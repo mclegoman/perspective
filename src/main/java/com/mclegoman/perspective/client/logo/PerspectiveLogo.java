@@ -41,10 +41,10 @@ public class PerspectiveLogo {
 		return date.getMonth() == Month.JUNE && date.getDayOfMonth() >= 14 && date.getDayOfMonth() <= 15;
 	}
 	public static LogoData getDefaultLogo() {
-		return new LogoData("default", "perspective", IdentifierHelper.identifierFromString(getLogoTexture("default", "perspective")), IdentifierHelper.identifierFromString(getLogoTexture("default", "perspective")));
+		return new LogoData("default", Data.version.getID(), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.version.getID())), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.version.getID())));
 	}
 	public static LogoData getExperimentalLogo() {
-		return new LogoData("experimental", "perspective", IdentifierHelper.identifierFromString(getLogoTexture("experimental", "perspective")), IdentifierHelper.identifierFromString(getLogoTexture("experimental", "perspective")));
+		return new LogoData("experimental", Data.version.getID(), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.version.getID())), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.version.getID())));
 	}
 	public static String getLogoTexture(String type, String id) {
 		return "perspective:textures/logos/" + type + "/" + id + ".png";

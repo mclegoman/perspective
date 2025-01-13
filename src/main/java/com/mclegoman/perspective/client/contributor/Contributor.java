@@ -7,8 +7,11 @@
 
 package com.mclegoman.perspective.client.contributor;
 
+import com.mclegoman.perspective.client.texture.TextureHelper;
+import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +21,18 @@ public class Contributor {
 	 * Developers Notes:
 	 * 1. Having contributor features be set and obtained through an api would be pretty cool,
 	 * but as this would require a connection to a server, dataloaders are best for now.
-	 * 2. Players could technically use this through the April Fools' Prank,
+
+	 *  2. Players could technically use this through the April Fools' Prank,
 	 * but it would set all players, not specific ones.
+
+	 * 3. If you are a frequent contributor (or have made a decently sized contribution),
+	 * you are allowed to add your uuid to initContributorUuids(), alongside a perspective:contributors/<name>.json.
+	 * Note; You are welcome to set your cape to developer_cape,
+	 * However, if you don't want the default perspective cape,
+	 * you will need to use a resource pack to change your data.
+	 * If you don't set the shouldReplaceCape to true, your official cape will be rendered instead (if you have one set).
+	 * You are also welcome to set shouldFlipUpsideDown.
+	 * Please only use overlayTexture in resource packs, or ask before adding one into Perspective itself.
 	**/
 	private static final List<ContributorLockData> allowedUuids = new ArrayList<>();
 	public static void init() {
@@ -51,10 +64,33 @@ public class Contributor {
 		}
 		return null;
 	}
+	public static ContributorData getContributorData(String uuid) {
+		if (!ContributorDataLoader.registry.isEmpty()) {
+			for (ContributorData contributorData : ContributorDataLoader.registry) {
+				if (contributorData.getUuid().equals(uuid)) return contributorData;
+			}
+		}
+		return null;
+	}
+	public static boolean shouldOverlayTexture(String uuid) {
+		ContributorData contributorData = getContributorData(uuid);
+		return contributorData != null && contributorData.getShouldRenderOverlay();
+	}
+	public static boolean isEmissive(String uuid) {
+		ContributorData contributorData = getContributorData(uuid);
+		return contributorData != null && contributorData.getIsOverlayEmissive();
+	}
+	public static Identifier getOverlayTexture(String uuid) {
+		ContributorData contributorData = getContributorData(uuid);
+		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), Identifier.of(Data.version.getID(), "textures/contributors/overlay/none.png"));
+		return null;
+	}
+	// In future, these could be used to limit functionality to specific types.
 	public enum Type {
 		DEVELOPER("developer"),
 		CONTRIBUTOR("contributor"),
-		ATTRIBUTION("attribution");
+		ATTRIBUTION("attribution"),
+		NONE("none");
 		private final String name;
 		Type(String name) {
 			this.name = name;

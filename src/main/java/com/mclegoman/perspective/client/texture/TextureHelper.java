@@ -7,10 +7,14 @@
 
 package com.mclegoman.perspective.client.texture;
 
+import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
+
+import java.time.LocalDate;
+import java.time.Month;
 
 public class TextureHelper {
 	public static void init() {
@@ -21,6 +25,15 @@ public class TextureHelper {
 		}
 	}
 	public static Identifier getTexture(Identifier texture, Identifier current) {
-		return texture.getPath().equals("none") ? current : Identifier.of(texture.getNamespace(), texture.getPath().endsWith(".png") ? texture.getPath() : texture.getPath() + ".png");
+		Identifier textureId = current;
+		String path = texture.getPath();
+		if (!path.equalsIgnoreCase("none")) {
+			if (path.equalsIgnoreCase("developer_cape")) {
+				LocalDate date = DateHelper.getDate();
+				textureId = Identifier.of(Data.version.getID(), "textures/contributors/cape/dev_" + (((date.getYear() >= 2026) || date.getYear() == 2025 && (date.getMonth().getValue() >= Month.JULY.getValue() || (date.getMonth() == Month.JUNE && date.getDayOfMonth() >= 14))) ? "two" : "one") + "year.png");
+			}
+			textureId = Identifier.of(textureId.getNamespace(), textureId.getPath().endsWith(".png") ? textureId.getPath() : textureId.getPath() + ".png");
+		}
+		return textureId;
 	}
 }
