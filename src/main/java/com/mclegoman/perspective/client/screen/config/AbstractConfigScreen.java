@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.screen.config;
 
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -15,7 +16,6 @@ import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.client.config.ConfigHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -56,6 +56,13 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public void tick() {
 		try {
+			if (this.isDefaults) {
+				this.defaultsTicksRemaining--;
+				if (this.defaultsTicksRemaining <= 0) {
+					this.isDefaults = false;
+					this.defaultsTicksRemaining = 0;
+				}
+			}
 			if (this.refresh) ClientData.minecraft.setScreen(getRefreshScreen());
 			if (this.shouldClose) {
 				setParentScreen();
@@ -78,8 +85,7 @@ public abstract class AbstractConfigScreen extends Screen {
 		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "back"), (button) -> {
 			if (this.page <= 1) {
 				this.shouldClose = true;
-			}
-			else {
+			} else {
 				this.page -= 1;
 				this.refresh = true;
 			}
@@ -107,8 +113,7 @@ public abstract class AbstractConfigScreen extends Screen {
 		if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getCode()) {
 			if (page <= 1) {
 				this.shouldClose = true;
-			}
-			else {
+			} else {
 				this.page -= 1;
 				this.refresh = true;
 			}
@@ -122,12 +127,25 @@ public abstract class AbstractConfigScreen extends Screen {
 		}
 		if (hasControlDown() && keyCode == GLFW.GLFW_KEY_S) {
 			PerspectiveDefaultConfig.setDefaults(true);
+			this.setDefaults("defaults.saved");
+		}
+		if (hasControlDown() && hasAltDown() && keyCode == GLFW.GLFW_KEY_D) {
+			LuminanceConfigHelper.reset(PerspectiveDefaultConfig.config, true);
+			this.setDefaults("defaults.reset");
 		}
 		return super.keyReleased(keyCode, scanCode, modifiers);
 	}
+	private boolean isDefaults;
+	private int defaultsTicksRemaining;
+	private String defaultsType;
+	private void setDefaults(String type) {
+		this.isDefaults = true;
+		this.defaultsTicksRemaining = 20;
+		this.defaultsType = type;
+	}
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		if (ConfigHelper.showReloadOverlay) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.version.getID(), "reload"), this.width - textRenderer.getWidth(Translation.getConfigTranslation(Data.version.getID(), "reload")) - 2, 2, 0xFFFFFF);
+		if (this.isDefaults) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.version.getID(), this.defaultsType), this.width - textRenderer.getWidth(Translation.getConfigTranslation(Data.version.getID(), this.defaultsType)) - 2, 2, 0xFFFFFF);
 		context.drawTextWithShadow(textRenderer, Translation.getTranslation(Data.version.getID(), "version", new Object[]{Translation.getTranslation(Data.version.getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.version.getFriendlyString(), false, new Formatting[]{Formatting.WHITE})}), 2, this.height - 10, 0xFFFFFF);
 		Text licenceText = Translation.getTranslation(Data.version.getID(), "license", new Object[]{Translation.getTranslation(Data.version.getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.version.getFriendlyString(false), false, new Formatting[]{Formatting.WHITE})});
 		context.drawTextWithShadow(textRenderer, licenceText, this.width - this.textRenderer.getWidth(licenceText) - 2, this.height - 10, 0xFFFFFF);

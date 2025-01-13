@@ -52,7 +52,8 @@
 
 	"gui.perspective.config.update.checking": "Checking for updates...",
 
-	"gui.perspective.config.reload": "Reloaded Config!",
+	"gui.perspective.config.defaults.saved": "Saved Config as Default!",
+	"gui.perspective.config.defaults.reset": "Reset Default Config Values!",
 
 	"gui.perspective.config.config": "Config",
 
@@ -388,6 +389,7 @@
 	"splashes.perspective.open_source": "Open source!",
 	"splashes.perspective.this_is_a_splash_text": "This is a splash text!",
 	"splashes.perspective.uses_luminance": "Uses Luminance!",
+	"splashes.perspective.save_defaults": "You can save your config as default using CTRL + S",
 
 	"splashes.perspective.special.pride_month": "§4Hap§6py P§eri§2de §9Mon§5th!",
 	"splashes.perspective.special.birthday": "Happy Birthday Perspective!",

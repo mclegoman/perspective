@@ -24,7 +24,6 @@ import java.util.List;
 
 public class ConfigHelper {
 	public static final boolean experimentsAvailable = false;
-	public static boolean showReloadOverlay = false;
 	private static boolean seenDevelopmentWarning = false;
 	private static boolean showDowngradeWarning = false;
 	private static boolean seenDowngradeWarning = false;
