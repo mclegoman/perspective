@@ -17,6 +17,7 @@ bin/
 .project
 workspace/
 *.DS_Store
+.env
 
 common/.gradle/
 common/build/
