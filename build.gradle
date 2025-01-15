@@ -10,8 +10,8 @@ architectury {
 }
 
 allprojects {
-	group = rootProject.maven_group
-	version = ("${project.mod_version}+${project.mc_version.replace("/", "-")}") + (project.isDirty == "true" ? "+dirty." + System.currentTimeSeconds() : "")
+	group = project.maven_group
+	version = project.mod_version
 }
 
 subprojects {
@@ -20,7 +20,7 @@ subprojects {
 	apply plugin: 'maven-publish'
 
 	base {
-		archivesName = "$rootProject.archive_name-$project.name"
+		archivesName = "$project.archive_name-$project.name"
 	}
 
 	repositories {
@@ -55,7 +55,7 @@ subprojects {
 	}
 
 	dependencies {
-		minecraft "net.minecraft:minecraft:$rootProject.minecraft"
+		minecraft "net.minecraft:minecraft:$project.minecraft"
 		mappings("net.fabricmc:yarn:${project.mappings}:v2")
 	}
 
@@ -85,7 +85,7 @@ subprojects {
 
 forgix {
 	group = "${project.maven_group}.${project.archive_name}"
-	mergedJarName = "${project.archive_name}-${project.version}+${project.minecraft}.jar"
+	mergedJarName = "${project.archive_name}-${project.version}+${project.minecraft} " + (project.isDirty == "true" ? "+dirty." + System.currentTimeSeconds() : "") + ".jar"
 	outputDir = "build/libs/merged"
 //	neoforge {
 //		projectName = "neoforge"
