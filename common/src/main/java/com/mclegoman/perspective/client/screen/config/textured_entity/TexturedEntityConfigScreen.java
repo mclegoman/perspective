@@ -1,0 +1,62 @@
+/*
+    Perspective
+    Contributor(s): dannytaylor
+    Github: https://github.com/MCLegoMan/Perspective
+    Licence: GNU LGPLv3
+*/
+
+package com.mclegoman.perspective.client.screen.config.textured_entity;
+
+import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
+import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.translation.Translation;
+import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.EmptyWidget;
+import net.minecraft.client.gui.widget.GridWidget;
+
+public class TexturedEntityConfigScreen extends AbstractConfigScreen {
+	public TexturedEntityConfigScreen(Screen parentScreen, boolean refresh) {
+		super(parentScreen, refresh, 1);
+	}
+	public void init() {
+		try {
+			super.init();
+			if (this.page == 1) {
+				this.gridAdder.add(createTexturedEntity());
+			}
+			postInit();
+		} catch (Exception error) {
+			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity config screen: {}", error));
+			ClientData.minecraft.setScreen(this.parentScreen);
+		}
+	}
+	private GridWidget createTexturedEntity() {
+		GridWidget texturedEntityGrid = new GridWidget();
+		texturedEntityGrid.getMainPositioner().alignHorizontalCenter().margin(2);
+		GridWidget.Adder texturedEntityGridAdder = texturedEntityGrid.createAdder(1);
+		texturedEntityGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "textured_entity.named", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.texturedNamedEntity.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.texturedNamedEntity, false);
+			refresh = true;
+		}).width(304).build(), 1);
+		texturedEntityGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "textured_entity.random", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.texturedRandomEntity.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.texturedRandomEntity, false);
+			refresh = true;
+		}).width(304).build(), 1);
+		texturedEntityGridAdder.add(new EmptyWidget(20, 20));
+		texturedEntityGridAdder.add(new EmptyWidget(20, 20));
+		return texturedEntityGrid;
+	}
+	public Screen getRefreshScreen() {
+		return new TexturedEntityConfigScreen(this.parentScreen, false);
+	}
+	public String getPageId() {
+		return "textured_entity";
+	}
+	public boolean isBeingReworked() {
+		return true;
+	}
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "${group}",
+    "id": "perspective",
+    "version": "${version}",
+    "metadata": {
+      "name": "Perspective",
+      "description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
+      "contributors": {
+        "dannytaylor": "Lead Developer",
+        "Nettakrim": "Contributor"
+      },
+      "icon": "assets/perspective/textures/icons/default/icon.png",
+      "license": [
+        "LGPL-3.0-or-later"
+      ]
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "luminance_client": [
+        "com.mclegoman.perspective.modloader.client.PerspectiveQuiltLoader"
+      ],
+      "luminance_common": [
+        "com.mclegoman.perspective.modloader.PerspectiveQuiltLoader"
+      ]
+    },
+    "depends": [
+      {
+        "id": "minecraft",
+        "version": "1.21.4"
+      },
+      {
+        "id": "fabric-resource-loader-v0",
+        "version": "*"
+      },
+      {
+        "id": "fabric-key-binding-api-v1",
+        "version": "*"
+      },
+      {
+        "id": "fabric-rendering-v1",
+        "version": "*"
+      },
+      {
+        "id": "fabric-lifecycle-events-v1",
+        "version": "*"
+      },
+      {
+        "id": "luminance",
+        "version": "*"
+      }
+    ]
+  },
+  "mixin": [
+    "dt-perspective.mixins.json"
+  ]
+}

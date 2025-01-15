@@ -6,20 +6,13 @@
 - Documentation on the [Perspective Wiki](https://mclegoman.com/Perspective)  
   - This will need to be done from scratch, so we might as well wait until Luminance is ready.  
 - Fix Panorama Screenshot compatibility with iris/canvas/fabulous. (unlikely to be fixed anytime soon, maybe custom screenshotting?)
-- Update Config to use `.json` instead of `.properties`.  
-  - This will require both the config to be updated to use JSON and the config updater to update old configs to JSON.  
+- ~~Update Config to use `.json` instead of `.properties`.~~  
+  - ~~This will require both the config to be updated to use JSON and the config updater to update old configs to JSON.~~  
+  - Instead of changing to `.json` with a custom code to support, I've decided to use QuiltConfig as it's not based on a specific Mod Loader, or Minecraft Version, and gives us more customizability.
 - **1.4.0**  
   - Theme: Ambiance  
   - Ideas
     - Ambient Particles and Sounds (disabled by default)
-    - Updated Config.
-      - Could we possibly fork Quilt's config?
-        - Need to check the Licence.
-          - If we can, it would be better placed in Luminance.
-      - Can we update our current config to the new config?
-        - We would have to check if the current config exists, before initializing the new conifg.
-        - If we require SimpleConfig to update, we could have support for converting for a couple of versions, before removing it.
-          - That way most users would still have their config values set.
     - Stacked Shaders
       - We could update the shader select screen to be similar to the resource pack selection screen.
         - Left side would be available shaders, right being enabled.

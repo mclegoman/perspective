@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "id": "perspective",
+  "version": "${version}",
+  "name": "Perspective",
+  "description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
+  "authors": [
+    "dannytaylor"
+  ],
+  "contributors": [
+    "Nettakrim"
+  ],
+  "contact": {
+    "homepage": "https://mclegoman.com/Perspective",
+    "sources": "https://github.com/mclegoman/perspective",
+    "issues": "https://github.com/mclegoman/perspective/issues"
+  },
+  "license": [
+    "LGPL-3.0-or-later"
+  ],
+  "icon": "assets/perspective/textures/icons/default/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "luminance_common": [
+      "com.mclegoman.perspective.modloader.PerspectiveFabricLoader"
+    ],
+    "luminance_client": [
+      "com.mclegoman.perspective.modloader.client.PerspectiveFabricLoader"
+    ],
+    "modmenu": [
+      "com.mclegoman.perspective.compat.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "dt-perspective.mixins.json"
+  ],
+  "depends": {
+    "minecraft": [
+      "1.21.4"
+    ],
+    "fabric-resource-loader-v0": "*",
+    "fabric-key-binding-api-v1": "*",
+    "fabric-rendering-v1": "*",
+    "fabric-lifecycle-events-v1": "*",
+    "java": ">=21",
+    "luminance": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "mclegoman.donate": "https://ko-fi.com/mclegoman"
+      }
+    },
+    "catalogue": {
+      "configFactory": "com.mclegoman.perspective.compat.CatalogueCompat"
+    }
+  }
+}
