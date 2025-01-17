@@ -7,10 +7,11 @@
 
 package com.mclegoman.perspective.client.texture;
 
+import com.mclegoman.luminance.client.texture.ActivationType;
+import com.mclegoman.luminance.client.texture.ResourcePackHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.util.Identifier;
@@ -36,12 +37,12 @@ public class ResourcePacks {
 		            Contributor(s): dannytaylor
 		            Attribution(s): Phantazap ('Jester' Giant Textured Entity)
 		        */
-				ResourcePackHelper.register(Identifier.of("perspective_default"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_default"), ResourcePackActivationType.DEFAULT_ENABLED);
+				ResourcePackHelper.register(Identifier.of("perspective_default"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_default"), ActivationType.enabledDefault);
 				/*
 		            Perspective: Extended
 		            Contributor(s): dannytaylor
 		        */
-				ResourcePackHelper.register(Identifier.of("perspective_extended"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_extended"), ResourcePackActivationType.NORMAL);
+				ResourcePackHelper.register(Identifier.of("perspective_extended"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_extended"), ActivationType.disabledDefault);
 			}
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to init resource packs: {}", error));
