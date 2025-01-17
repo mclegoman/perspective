@@ -2,7 +2,6 @@ plugins {
 	id 'dev.architectury.loom' version '1.9-SNAPSHOT' apply false
 	id 'architectury-plugin' version '3.4-SNAPSHOT'
 	id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
-	id "io.github.pacifistmc.forgix" version "1.2.9"
 }
 
 architectury {
@@ -80,26 +79,5 @@ subprojects {
 
 		repositories {
 		}
-	}
-}
-
-forgix {
-	group = "${project.maven_group}.${project.archive_name}"
-	mergedJarName = "${project.archive_name}-${project.version}+${project.minecraft} " + (project.isDirty == "true" ? "+dirty." + System.currentTimeSeconds() : "") + ".jar"
-	outputDir = "build/libs/merged"
-//	neoforge {
-//		projectName = "neoforge"
-//		jarLocation = "build/libs/${project.archives_name}-neoforge-${project.version}.jar"
-//		additionalRelocate "com.mclegoman.perspective", "neoforge.com.mclegoman.perspective"
-//	}
-	quilt {
-		projectName = "quilt"
-		jarLocation = "build/libs/${project.archive_name}-quilt-${project.version}.jar"
-		additionalRelocate "com.mclegoman.perspective", "quilt.com.mclegoman.perspective"
-	}
-	fabric {
-		projectName = "fabric"
-		jarLocation = "build/libs/${project.archive_name}-fabric-${project.version}.jar"
-		additionalRelocate "com.mclegoman.perspective", "fabric.com.mclegoman.perspective"
 	}
 }

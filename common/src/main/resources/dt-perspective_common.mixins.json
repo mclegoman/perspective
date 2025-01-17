@@ -144,5 +144,6 @@
 	],
 	"injectors": {
 		"defaultRequire": 1
-	}
+	},
+	"refmap": "perspective-common-common-refmap.json"
 }

@@ -53,6 +53,6 @@
     ]
   },
   "mixin": [
-    "dt-perspective.mixins.json"
+    "dt-perspective_common.mixins.json"
   ]
 }
