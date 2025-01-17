@@ -11,12 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import fabric.com.mclegoman.luminance.common.util.Couple;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.Couple;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -40,7 +40,7 @@ public class AprilFoolsPrankDataLoader extends JsonDataLoader implements Identif
 			Couple<Identifier, Boolean> skin = new Couple<>(id, isSlim);
 			if (!registry.contains(skin)) registry.add(skin);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add april fools prank to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add april fools prank to registry: {}", error));
 		}
 	}
 	private void addSkin(String id, boolean isSlim) {
@@ -57,14 +57,14 @@ public class AprilFoolsPrankDataLoader extends JsonDataLoader implements Identif
 		try {
 			registry.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to reset april fools prank registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to reset april fools prank registry: {}", error));
 		}
 	}
 	@Override
 	public void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
 		try {
 			reset();
-			for (Resource resource : manager.getAllResources(Identifier.of(Data.version.getID(), ID + ".json"))) {
+			for (Resource resource : manager.getAllResources(Identifier.of(Data.getVersion().getID(), ID + ".json"))) {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace", false)) reset();
 				JsonObject skins = JsonHelper.getObject(reader, "skins", new JsonObject());
@@ -75,11 +75,11 @@ public class AprilFoolsPrankDataLoader extends JsonDataLoader implements Identif
 				contributor = JsonHelper.getString(reader, "contributor", "772eb47b-a24e-4d43-a685-6ca9e9e132f7");
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load prank values: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load prank values: {}", error));
 		}
 	}
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), ID);
+		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 }

@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen.config.shaders;
 
-import fabric.com.mclegoman.luminance.client.shaders.Shaders;
+import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -23,7 +23,7 @@ public class ShaderListEntry extends AlwaysSelectedEntryListWidget.Entry<ShaderL
 	}
 	@Override
 	public void render(DrawContext context, int index, int y, int x, int rowWidth, int rowHeight, int mouseX, int mouseY, boolean hovered, float delta) {
-		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.version.getID(), "shaders.list.shader", new Object[]{Shaders.getShaderName(this.shader), PerspectiveConfig.config.superSecretSettingsMode.value().equals("screen") ? Translation.getVariableTranslation(Data.version.getID(), Shaders.get(this.shader).getDisableGameRendertype(), Translation.Type.DISABLE_SCREEN_MODE) : ""}), ClientData.minecraft.getWindow().getScaledWidth() / 2, y + (rowHeight / 2) - (9 / 2), 0xFFFFFF);
+		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list.shader", new Object[]{Shaders.getShaderName(this.shader), PerspectiveConfig.config.superSecretSettingsMode.value().equals("screen") ? Translation.getVariableTranslation(Data.getVersion().getID(), Shaders.get(this.shader).getDisableGameRendertype(), Translation.Type.DISABLE_SCREEN_MODE) : ""}), ClientData.minecraft.getWindow().getScaledWidth() / 2, y + (rowHeight / 2) - (9 / 2), 0xFFFFFF);
 	}
 	@Override
 	public Text getNarration() {

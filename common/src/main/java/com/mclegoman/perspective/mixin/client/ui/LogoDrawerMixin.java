@@ -26,6 +26,6 @@ public abstract class LogoDrawerMixin {
 
 	@Inject(method = "draw(Lnet/minecraft/client/gui/DrawContext;IFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIIII)V", ordinal = 0))
 	private void perspective$addExtraLogoTexture(DrawContext context, int screenWidth, float alpha, int y, CallbackInfo ci) {
-		context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/title/update.png"), screenWidth / 2 - 128, y, 0.0F, 0.0F, 256, 128, 256, 128, ColorHelper.getWhite(this.ignoreAlpha ? 1.0F : alpha));
+		context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/title/update.png"), screenWidth / 2 - 128, y, 0.0F, 0.0F, 256, 128, 256, 128, ColorHelper.getWhite(this.ignoreAlpha ? 1.0F : alpha));
 	}
 }

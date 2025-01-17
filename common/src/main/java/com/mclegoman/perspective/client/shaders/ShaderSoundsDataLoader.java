@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -40,7 +40,7 @@ public class ShaderSoundsDataLoader extends JsonDataLoader implements Identifiab
 		try {
 			if (!SOUNDS.contains(SOUND)) SOUNDS.add(SOUND);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add shader sound to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add shader sound to registry: {}", error));
 		}
 	}
 
@@ -49,7 +49,7 @@ public class ShaderSoundsDataLoader extends JsonDataLoader implements Identifiab
 			SOUNDS.clear();
 			REGISTRY.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to reset shader sound registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to reset shader sound registry: {}", error));
 		}
 	}
 
@@ -57,7 +57,7 @@ public class ShaderSoundsDataLoader extends JsonDataLoader implements Identifiab
 	public void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
 		try {
 			reset();
-			for (Resource resource : manager.getAllResources(Identifier.of(Data.version.getID(), ID + ".json"))) {
+			for (Resource resource : manager.getAllResources(Identifier.of(Data.getVersion().getID(), ID + ".json"))) {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace", false)) reset();
 				JsonArray defaultSounds = new JsonArray();
@@ -75,12 +75,12 @@ public class ShaderSoundsDataLoader extends JsonDataLoader implements Identifiab
 				}
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load shader sound values: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader sound values: {}", error));
 		}
 	}
 
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), ID);
+		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 }

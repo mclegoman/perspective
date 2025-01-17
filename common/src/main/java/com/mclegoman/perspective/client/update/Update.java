@@ -10,10 +10,10 @@ package com.mclegoman.perspective.client.update;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.common.util.Helper;
-import fabric.com.mclegoman.luminance.common.util.LogType;
-import fabric.com.mclegoman.luminance.common.util.ReleaseType;
-import fabric.com.mclegoman.luminance.common.util.Version;
+import com.mclegoman.luminance.common.util.Helper;
+import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.ReleaseType;
+import com.mclegoman.luminance.common.util.Version;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.UpdateCheckerScreen;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -26,13 +26,13 @@ import net.minecraft.util.Util;
 import java.util.Arrays;
 import java.util.List;
 
-public class Update extends fabric.com.mclegoman.luminance.client.update.Update {
+public class Update extends com.mclegoman.luminance.client.update.Update {
 	public static final String[] detectUpdateChannels = new String[]{"release", "beta", "alpha", "none"};
 	public static Version apiVersion;
 	public static boolean seenUpdateToast;
 	public static boolean updateCheckerComplete;
 	private static boolean newerVersionFound;
-	public static String latestVersionFound = Data.version.getFriendlyString();
+	public static String latestVersionFound = Data.getVersion().getFriendlyString();
 	public static String downloadLink;
 	public static boolean isNewerVersionFound() {
 		return newerVersionFound;
@@ -124,7 +124,7 @@ public class Update extends fabric.com.mclegoman.luminance.client.update.Update 
 		});
 		if (newerVersionFound) {
 			if (!seenUpdateToast) {
-				//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.update.title")}), Translation.getTranslation(Data.version.getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}), 280, Toast.Type.INFO));
+				//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}), 280, Toast.Type.INFO));
 				seenUpdateToast = true;
 			}
 		}

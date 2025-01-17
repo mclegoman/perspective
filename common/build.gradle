@@ -6,7 +6,7 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader"
     modCompileOnly "com.terraformersmc:modmenu:${project.modmenu}"
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_api}")
-    modImplementation("luminance:luminance-${rootProject.luminance}")
+    modImplementation("luminance:luminance-common-${rootProject.luminance}")
     modImplementation("org.quiltmc:quilt-config:${project.quilt_config}")
     modImplementation(compileOnly("com.electronwill.night-config:core:${project.toml}"))
     modImplementation(compileOnly("com.electronwill.night-config:toml:${project.toml}"))

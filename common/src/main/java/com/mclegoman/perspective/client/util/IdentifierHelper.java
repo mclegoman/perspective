@@ -2,7 +2,7 @@ package com.mclegoman.perspective.client.util;
 
 import net.minecraft.util.Identifier;
 
-public class IdentifierHelper extends fabric.com.mclegoman.luminance.common.util.IdentifierHelper {
+public class IdentifierHelper extends com.mclegoman.luminance.common.util.IdentifierHelper {
 	public static Identifier identifierFromString(String identifier, String defaultNamespace) {
 		return of(identifier, defaultNamespace);
 	}

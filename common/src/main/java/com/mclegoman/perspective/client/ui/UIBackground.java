@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.client.ui;
 
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -24,9 +24,9 @@ import java.util.List;
 public class UIBackground {
 	private static final List<UIBackgroundData> uiBackgroundTypes = new ArrayList<>();
 	public static void init() {
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "default")).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "gaussian")).shaderId(Identifier.of(Data.version.getID(), "gaussian")).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "legacy")).renderWorld(new Runnable() {
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "default")).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "gaussian")).shaderId(Identifier.of(Data.getVersion().getID(), "gaussian")).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "legacy")).renderWorld(new Runnable() {
 			public void run(DrawContext context) {
 				RenderSystem.enableBlend();
 				context.fillGradient(0, 0, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), -1072689136, -804253680);
@@ -36,11 +36,11 @@ public class UIBackground {
 			public void run(DrawContext context) {
 				RenderSystem.enableBlend();
 				context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-				context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+				context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 				RenderSystem.disableBlend();
 			}
 		}).renderPanorama(false).renderShader(false).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "classic")).renderWorld(
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "classic")).renderWorld(
 			new Runnable() {
 				public void run(DrawContext context) {
 					RenderSystem.enableBlend();
@@ -51,25 +51,25 @@ public class UIBackground {
 				public void run(DrawContext context) {
 					RenderSystem.enableBlend();
 					context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 					RenderSystem.disableBlend();
 				}
 			}).renderTitleScreen(new Runnable() {
 				public void run(DrawContext context) {
 					RenderSystem.enableBlend();
 					context.drawTexture(RenderLayer::getGuiTextured, getUiBackgroundTextureFromConfig(), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
-					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.version.getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
+					context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 					RenderSystem.disableBlend();
 				}
 			}).renderPanorama(false).renderTitleScreenPanorama(false).renderShader(false).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.version.getID(), "none")).renderShader(false).renderDarkening(false).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "none")).renderShader(false).renderDarkening(false).build());
 	}
 	public static void registerUIBackground(UIBackgroundData data) {
 		if (!ClientData.minecraft.isFinishedLoading()) {
 			boolean alreadyRegistered = isValidUIBackground(data.getId());
 			if (!alreadyRegistered) uiBackgroundTypes.add(data);
-			else Data.version.sendToLog(LogType.WARN, Translation.getString("UI Background with id '{}' could not be registered: UI Background is already registered!", data.getId()));
-		} else Data.version.sendToLog(LogType.WARN, Translation.getString("UI Background with id '{}' could not be registered: Config has already been initialized!", data.getId()));
+			else Data.getVersion().sendToLog(LogType.WARN, Translation.getString("UI Background with id '{}' could not be registered: UI Background is already registered!", data.getId()));
+		} else Data.getVersion().sendToLog(LogType.WARN, Translation.getString("UI Background with id '{}' could not be registered: Config has already been initialized!", data.getId()));
 	}
 	public static boolean isValidUIBackground(String id) {
 		for (UIBackgroundData uiData : uiBackgroundTypes) {

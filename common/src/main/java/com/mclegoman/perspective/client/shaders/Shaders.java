@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.client.shaders;
 
-import fabric.com.mclegoman.luminance.client.events.Events;
-import fabric.com.mclegoman.luminance.client.shaders.Shader;
+import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Formatting;
@@ -22,7 +22,7 @@ public class Shaders {
 	private static final Formatting[] colors;
 	private static Formatting lastColor;
 	public static void init() {
-		Events.ShaderRender.register(superSecretSettingsId, List.of(new Shader.Data(superSecretSettingsId, new Shader(fabric.com.mclegoman.luminance.client.shaders.Shaders.get(Shaders.getShaderId()), Shaders::getRenderType, Shaders::getEnabled))));
+		Events.ShaderRender.register(superSecretSettingsId, List.of(new Shader.Data(superSecretSettingsId, new Shader(com.mclegoman.luminance.client.shaders.Shaders.get(Shaders.getShaderId()), Shaders::getRenderType, Shaders::getEnabled))));
 		Uniforms.init();
 	}
 	public static Formatting getRandomColor() {
@@ -36,20 +36,20 @@ public class Shaders {
 //		boolean save = false;
 //		if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "tutorials")) {
 //			if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.tutorial, "super_secret_settings")) {
-//				ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.tutorial.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.super_secret_settings.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.super_secret_settings.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.cycleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.toggleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
+//				ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.super_secret_settings.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.super_secret_settings.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.cycleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.toggleShaders).getLocalizedText(), KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
 //				ConfigHelper.setConfig(ConfigHelper.ConfigType.tutorial, "super_secret_settings", true);
 //				save = true;
 //			}
 //		}
 //		if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "photosensitivity")) {
-//			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.warning.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.warning.photosensitivity.title")}), Translation.getTranslation(Data.version.getID(), "toasts.warning.photosensitivity.description")));
+//			ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.getVersion().getID(), "toasts.warning.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.warning.photosensitivity.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.warning.photosensitivity.description")));
 //			ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "photosensitivity", true);
 //			save = true;
 //		}
 //		if (save) ConfigHelper.saveConfig();
 	}
 	public static boolean isShaderButtonsEnabled() {
-		return fabric.com.mclegoman.luminance.client.shaders.Shaders.getShaderAmount() > 1;
+		return com.mclegoman.luminance.client.shaders.Shaders.getShaderAmount() > 1;
 	}
 	public static Shader.RenderType getRenderType() {
 		return PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType();
@@ -61,7 +61,7 @@ public class Shaders {
 		return PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier();
 	}
 	static {
-		superSecretSettingsId = Identifier.of(Data.version.getID(), "super_secret_settings");
+		superSecretSettingsId = Identifier.of(Data.getVersion().getID(), "super_secret_settings");
 		colors = new Formatting[]{Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.GOLD, Formatting.BLUE, Formatting.GREEN, Formatting.AQUA, Formatting.RED, Formatting.LIGHT_PURPLE, Formatting.YELLOW};
 	}
 }

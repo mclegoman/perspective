@@ -29,7 +29,7 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
     modImplementation("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api}")
-    include(modImplementation("luminance:luminance-${rootProject.luminance}"))
+    include(modImplementation("luminance:luminance-fabric-${rootProject.luminance}"))
     include(modImplementation("org.quiltmc:quilt-config:${rootProject.quilt_config}"))
     include(modImplementation(compileOnly("com.electronwill.night-config:core:${rootProject.toml}")))
     include(modImplementation(compileOnly("com.electronwill.night-config:toml:${rootProject.toml}")))

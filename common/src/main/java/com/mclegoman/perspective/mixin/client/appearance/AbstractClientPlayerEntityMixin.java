@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.mixin.client.appearance;
 
-import fabric.com.mclegoman.luminance.common.util.Couple;
+import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.contributor.ContributorData;
 import com.mclegoman.perspective.client.contributor.ContributorDataLoader;

@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen.config;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScreen;
 import com.mclegoman.perspective.client.logo.SplashesDataloader;
@@ -43,7 +43,7 @@ public class ConfigScreen extends AbstractConfigScreen {
 			else shouldClose = true;
 			postInit();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize config screen: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize config screen: {}", error));
 			ClientData.minecraft.setScreen(this.parentScreen);
 		}
 	}
@@ -55,42 +55,42 @@ public class ConfigScreen extends AbstractConfigScreen {
 		GridWidget grid = new GridWidget();
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "zoom"), (button) -> ClientData.minecraft.setScreen(new ZoomConfigScreen(getRefreshScreen(), false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "shaders", new Formatting[]{Shaders.getRandomColor()}), (button) -> ClientData.minecraft.setScreen(new ShadersConfigScreen(getRefreshScreen(), false, new Formatting[]{Shaders.getRandomColor()}))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "textured_entity"), (button) -> ClientData.minecraft.setScreen(new TexturedEntityConfigScreen(getRefreshScreen(), false))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events"), (button) -> ClientData.minecraft.setScreen(new EventsConfigScreen(getRefreshScreen(), false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "hide"), (button) -> ClientData.minecraft.setScreen(new HideConfigScreen(getRefreshScreen(), false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "hold_perspective"), (button) -> ClientData.minecraft.setScreen(new HoldPerspectiveConfigScreen(getRefreshScreen(), false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "overlays"), (button) -> ClientData.minecraft.setScreen(new OverlaysConfigScreen(getRefreshScreen(), false, 1))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "luminance"), (button) -> ClientData.minecraft.setScreen(new fabric.com.mclegoman.luminance.client.screen.config.ConfigScreen(getRefreshScreen(), false, SplashesDataloader.getSplashText(), PerspectiveLogo.isPride()))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "zoom"), (button) -> ClientData.minecraft.setScreen(new ZoomConfigScreen(getRefreshScreen(), false, 1))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders", new Formatting[]{Shaders.getRandomColor()}), (button) -> ClientData.minecraft.setScreen(new ShadersConfigScreen(getRefreshScreen(), false, new Formatting[]{Shaders.getRandomColor()}))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "textured_entity"), (button) -> ClientData.minecraft.setScreen(new TexturedEntityConfigScreen(getRefreshScreen(), false))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events"), (button) -> ClientData.minecraft.setScreen(new EventsConfigScreen(getRefreshScreen(), false, 1))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "hide"), (button) -> ClientData.minecraft.setScreen(new HideConfigScreen(getRefreshScreen(), false, 1))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "hold_perspective"), (button) -> ClientData.minecraft.setScreen(new HoldPerspectiveConfigScreen(getRefreshScreen(), false, 1))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "overlays"), (button) -> ClientData.minecraft.setScreen(new OverlaysConfigScreen(getRefreshScreen(), false, 1))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "luminance"), (button) -> ClientData.minecraft.setScreen(new com.mclegoman.luminance.client.screen.config.ConfigScreen(getRefreshScreen(), false, SplashesDataloader.getSplashText(), PerspectiveLogo.isPride()))).build());
 		return grid;
 	}
 	private GridWidget createPageTwo() {
 		GridWidget grid = new GridWidget();
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "ui_background", new Object[]{Translation.getUIBackgroundTranslation(Data.version.getID(), UIBackground.getCurrentUIBackground().getId())}), (button) -> {
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "ui_background", new Object[]{Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId())}), (button) -> {
 			UIBackground.cycleUIBackgroundType(!hasShiftDown());
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getUIBackgroundTranslation(Data.version.getID(), UIBackground.getCurrentUIBackground().getId(), true))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "show_death_coordinates", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.showDeathCoordinates.value(), Translation.Type.ONFF)}), (button) -> {
+		}).tooltip(Tooltip.of(Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId(), true))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "show_death_coordinates", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.showDeathCoordinates.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.showDeathCoordinates);
 			this.refresh = true;
 		}).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "tutorials", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.tutorials.value(), Translation.Type.ONFF)}), (button) -> {
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.tutorials.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.tutorials);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "tutorials", true))).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", true))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.forcePride);
 			this.refresh = true;
 		}).build());
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "detect_update_channel", new Object[]{Translation.getDetectUpdateChannelTranslation(Data.version.getID(), PerspectiveConfig.config.detectUpdateChannel.value())}), (button) -> {
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", new Object[]{Translation.getDetectUpdateChannelTranslation(Data.getVersion().getID(), PerspectiveConfig.config.detectUpdateChannel.value())}), (button) -> {
 			PerspectiveConfig.config.detectUpdateChannel.setValue(Update.nextUpdateChannel(), false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.version.getID(), "detect_update_channel", true))).width(304).build(), 2);
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen(), false))).build());
-		ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "experimental"), (button) -> {}).build();
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen(), false))).build());
+		ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).build();
 		experimental.active = ConfigHelper.experimentsAvailable;
 		gridAdder.add(experimental);
 		return grid;

@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -38,7 +38,7 @@ public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableR
 		try {
 			if (!registry.contains(value)) registry.add(value);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add hide armor to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add hide armor to registry: {}", error));
 		}
 	}
 
@@ -46,7 +46,7 @@ public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableR
 		try {
 			registry.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide armor registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide armor registry: {}", error));
 		}
 	}
 
@@ -56,24 +56,24 @@ public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableR
 			reset();
 			layout$perspective(manager);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide armor dataloader: {}", Data.version.getID(), error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide armor dataloader: {}", Data.getVersion().getID(), error));
 		}
 	}
 
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), ID);
+		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.version.getID(), "hide_armor.json"));
+		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.getVersion().getID(), "hide_armor.json"));
 		for (Resource resource : hideLists) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace")) reset();
 				for (JsonElement value : JsonHelper.getArray(reader, "values", new JsonArray())) add(value.getAsString());
 			} catch (Exception error) {
-				Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide armor list: {}", error));
+				Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide armor list: {}", error));
 			}
 		}
 	}

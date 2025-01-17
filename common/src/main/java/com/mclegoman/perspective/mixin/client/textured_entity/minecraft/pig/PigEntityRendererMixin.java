@@ -35,8 +35,8 @@ public abstract class PigEntityRendererMixin<T extends MobEntity, S extends Livi
 	}
 	@Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;)V", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, CallbackInfo ci) {
-		this.addFeature(new MuddyFlowerFeatureRenderer(this, new MuddyFlowerModel<>(context.getPart(EntityModels.pigMuddyFlower)), Identifier.of(Data.version.getID(), "textures/entity/minecraft/pig/muddy_flower.png")));
-		this.addFeature(new OverlayFeatureRenderer(this, new PigEntityModel(context.getPart(EntityModels.pigOverlay)), new PigEntityModel(context.getPart(EntityModels.babyPigOverlay)), Identifier.of(Data.version.getID(), "textures/entity/minecraft/pig/pig_overlay.png")));
+		this.addFeature(new MuddyFlowerFeatureRenderer(this, new MuddyFlowerModel<>(context.getPart(EntityModels.pigMuddyFlower)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/pig/muddy_flower.png")));
+		this.addFeature(new OverlayFeatureRenderer(this, new PigEntityModel(context.getPart(EntityModels.pigOverlay)), new PigEntityModel(context.getPart(EntityModels.babyPigOverlay)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/pig/pig_overlay.png")));
 	}
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/client/render/entity/state/PigEntityRenderState;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(PigEntityRenderState renderState, CallbackInfoReturnable<Identifier> cir) {

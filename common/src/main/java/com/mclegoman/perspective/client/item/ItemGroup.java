@@ -44,7 +44,7 @@ public class ItemGroup {
 	private static void addItem(TexturedEntityData data, FabricItemGroupEntries content) {
 		Item item = SpawnEggItem.forEntity(TexturedEntity.getEntityType(Identifier.of(data.getNamespace(), data.getType())));
 		ItemStack itemStack = item != null ? item.getDefaultStack() : Items.GOAT_SPAWN_EGG.getDefaultStack();
-		itemStack.set(DataComponentTypes.CUSTOM_NAME, Translation.getItemTranslation(Data.version.getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
+		itemStack.set(DataComponentTypes.CUSTOM_NAME, Translation.getItemTranslation(Data.getVersion().getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
 		NbtCompound entityData = new NbtCompound();
 		entityData.putString("id", Identifier.of(data.getNamespace(), data.getType()).toString());
 		entityData.putString("CustomName", "[{\"text\": " + data.getName() + "}]");
@@ -56,7 +56,7 @@ public class ItemGroup {
 		return new ItemGroupData(key, Registry.register(Registries.ITEM_GROUP, key, itemGroup));
 	}
 	static {
-		texturedEntity = register(Identifier.of(Data.version.getID(), "textured_entity"), FabricItemGroup.builder().icon(() -> new ItemStack(Items.CAT_SPAWN_EGG)).displayName(Translation.getItemGroupTranslation(Data.version.getID(), "textured_entity", new Object[]{Translation.getTranslation(Data.version.getID(), "name")})).build());
+		texturedEntity = register(Identifier.of(Data.getVersion().getID(), "textured_entity"), FabricItemGroup.builder().icon(() -> new ItemStack(Items.CAT_SPAWN_EGG)).displayName(Translation.getItemGroupTranslation(Data.getVersion().getID(), "textured_entity", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name")})).build());
 	}
 
 	public record ItemGroupData(RegistryKey<net.minecraft.item.ItemGroup> key, net.minecraft.item.ItemGroup itemGroup) {

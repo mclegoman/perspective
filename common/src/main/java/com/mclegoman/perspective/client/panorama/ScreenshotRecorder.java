@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.panorama;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -28,12 +28,12 @@ public class ScreenshotRecorder {
 				try {
 					nativeImage.writeTo(new File(screenshotDir, fileName));
 				} catch (Exception error) {
-					Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to write screenshot: ", error));
+					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to write screenshot: ", error));
 				}
 				nativeImage.close();
 			});
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to take screenshot: ", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to take screenshot: ", error));
 		}
 	}
 }

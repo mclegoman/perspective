@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.hide;
 
-import fabric.com.mclegoman.luminance.client.util.MessageOverlay;
+import com.mclegoman.luminance.client.util.MessageOverlay;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.perspective.Perspective;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -39,27 +39,27 @@ public class Hide {
 		if (Keybindings.toggleArmour.wasPressed()) {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.hideArmor, true);
 			if (PerspectiveConfig.config.hideShowMessage.value())
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.armor", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hideArmor.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.armor", Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.hideArmor.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.toggleBlockOutline.wasPressed()) {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.hideBlockOutline, true);
 			if (PerspectiveConfig.config.hideShowMessage.value())
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.block_outline", Translation.getVariableTranslation(Data.version.getID(), !PerspectiveConfig.config.hideBlockOutline.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.block_outline", Translation.getVariableTranslation(Data.getVersion().getID(), !PerspectiveConfig.config.hideBlockOutline.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.cycleCrosshair.wasPressed()) {
 			PerspectiveConfig.config.crosshairType.setValue(nextCrosshairMode(), true);
 			if (PerspectiveConfig.config.hideShowMessage.value())
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.crosshair", Translation.getCrosshairTranslation(Data.version.getID(), PerspectiveConfig.config.crosshairType.value())).formatted(Formatting.GOLD));
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.crosshair", Translation.getCrosshairTranslation(Data.getVersion().getID(), PerspectiveConfig.config.crosshairType.value())).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.toggleNametags.wasPressed()) {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.hideNametags, true);
 			if (PerspectiveConfig.config.hideShowMessage.value())
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.nametags", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hideNametags.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.nametags", Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.hideNametags.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		if (Keybindings.togglePlayers.wasPressed()) {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.hidePlayers, true);
 			if (PerspectiveConfig.config.hideShowMessage.value())
-				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.players", Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.hidePlayers.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
+				MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.hide.players", Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.hidePlayers.value(), Translation.Type.ENDISABLE)).formatted(Formatting.GOLD));
 		}
 		rainbowTime += 1.0F % 20.0F;
 	}

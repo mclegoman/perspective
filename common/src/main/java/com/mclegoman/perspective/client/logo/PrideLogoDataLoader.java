@@ -10,9 +10,9 @@ package com.mclegoman.perspective.client.logo;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -65,12 +65,12 @@ public class PrideLogoDataLoader extends JsonDataLoader implements IdentifiableR
 			prepared.forEach(this::layout$perspective);
 			randomizeLogo();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply pride logo dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply pride logo dataloader: {}", error));
 		}
 	}
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), identifier);
+		return Identifier.of(Data.getVersion().getID(), identifier);
 	}
 	private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
 		try {
@@ -80,7 +80,7 @@ public class PrideLogoDataLoader extends JsonDataLoader implements IdentifiableR
 			String iconTexture = JsonHelper.getString(reader, "icon_texture", getDefaultIconTexture(id));
 			add(id, IdentifierHelper.identifierFromString(logoTexture.endsWith(".png") ? logoTexture : logoTexture + ".png"), IdentifierHelper.identifierFromString(iconTexture.endsWith(".png") ? iconTexture : iconTexture + ".png"));
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective pride logo: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective pride logo: {}", error));
 		}
 	}
 	private String getDefaultLogoTexture(String id) {

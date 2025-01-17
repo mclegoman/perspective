@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -38,7 +38,7 @@ public class HidePlayerDataLoader extends JsonDataLoader implements Identifiable
 		try {
 			if (!REGISTRY.contains(value)) REGISTRY.add(value);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add hide player to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add hide player to registry: {}", error));
 		}
 	}
 
@@ -46,7 +46,7 @@ public class HidePlayerDataLoader extends JsonDataLoader implements Identifiable
 		try {
 			REGISTRY.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide player registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide player registry: {}", error));
 		}
 	}
 
@@ -56,24 +56,24 @@ public class HidePlayerDataLoader extends JsonDataLoader implements Identifiable
 			reset();
 			layout$perspective(manager);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide player dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide player dataloader: {}", error));
 		}
 	}
 
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), ID);
+		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.version.getID(), "hide_player.json"));
+		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.getVersion().getID(), "hide_player.json"));
 		for (Resource resource : hideLists) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace")) reset();
 				for (JsonElement value : JsonHelper.getArray(reader, "values", new JsonArray())) add(value.getAsString());
 			} catch (Exception error) {
-				Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide player list: {}", error));
+				Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide player list: {}", error));
 			}
 		}
 	}

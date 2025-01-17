@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.client.screen.config;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
-import fabric.com.mclegoman.luminance.config.LuminanceConfigHelper;
+import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -68,7 +68,7 @@ public abstract class AbstractConfigScreen extends Screen {
 				setParentScreen();
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config screen: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config screen: {}", error));
 		}
 	}
 	protected void setParentScreen() {
@@ -78,11 +78,11 @@ public abstract class AbstractConfigScreen extends Screen {
 		GridWidget footerGrid = new GridWidget();
 		footerGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder footerGridAdder = footerGrid.createAdder(3);
-		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "reset"), (button) -> {
+		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "reset"), (button) -> {
 			PerspectiveConfig.reset(false);
 			this.refresh = true;
 		}).build());
-		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "back"), (button) -> {
+		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> {
 			if (this.page <= 1) {
 				this.shouldClose = true;
 			} else {
@@ -90,7 +90,7 @@ public abstract class AbstractConfigScreen extends Screen {
 				this.refresh = true;
 			}
 		}).width(73).build());
-		ButtonWidget nextButtonWidget = ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "next"), (button) -> {
+		ButtonWidget nextButtonWidget = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "next"), (button) -> {
 			if (!(this.page >= getMaxPage())) {
 				this.page += 1;
 				this.refresh = true;
@@ -122,7 +122,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == GLFW.GLFW_KEY_F5) {
-			Update.checkForUpdates(Data.version, true);
+			Update.checkForUpdates(Data.getVersion(), true);
 			this.refresh = true;
 		}
 		if (hasControlDown() && keyCode == GLFW.GLFW_KEY_S) {
@@ -145,20 +145,20 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		if (this.isDefaults) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.version.getID(), this.defaultsType), this.width - textRenderer.getWidth(Translation.getConfigTranslation(Data.version.getID(), this.defaultsType)) - 2, 2, 0xFFFFFF);
-		context.drawTextWithShadow(textRenderer, Translation.getTranslation(Data.version.getID(), "version", new Object[]{Translation.getTranslation(Data.version.getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.version.getFriendlyString(), false, new Formatting[]{Formatting.WHITE})}), 2, this.height - 10, 0xFFFFFF);
-		Text licenceText = Translation.getTranslation(Data.version.getID(), "license", new Object[]{Translation.getTranslation(Data.version.getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.version.getFriendlyString(false), false, new Formatting[]{Formatting.WHITE})});
+		if (this.isDefaults) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), this.defaultsType), this.width - textRenderer.getWidth(Translation.getConfigTranslation(Data.getVersion().getID(), this.defaultsType)) - 2, 2, 0xFFFFFF);
+		context.drawTextWithShadow(textRenderer, Translation.getTranslation(Data.getVersion().getID(), "version", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.getVersion().getFriendlyString(), false, new Formatting[]{Formatting.WHITE})}), 2, this.height - 10, 0xFFFFFF);
+		Text licenceText = Translation.getTranslation(Data.getVersion().getID(), "license", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name", new Formatting[]{Formatting.WHITE}), Translation.getText(Data.getVersion().getFriendlyString(false), false, new Formatting[]{Formatting.WHITE})});
 		context.drawTextWithShadow(textRenderer, licenceText, this.width - this.textRenderer.getWidth(licenceText) - 2, this.height - 10, 0xFFFFFF);
 		getLogoWidget(this.width / 2 - 128, 30, getExperimental()).renderWidget(context, mouseX, mouseY, delta);
 		context.drawCenteredTextWithShadow(textRenderer, getPageTitle(), this.width / 2, 78, 0xFFFFFF);
-		if (isBeingReworked()) context.drawCenteredTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.version.getID(), "warning.reworked", new Object[]{Translation.getConfigTranslation(Data.version.getID(), getReworkedId())}, new Formatting[]{Formatting.RED, Formatting.BOLD}), ClientData.minecraft.getWindow().getScaledWidth() / 2, 10, 0xFFFFFF);
-		if (canShowUpdate() && isUpdateAvailable()) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.version.getID(), "update.title"), 2, 2, 0xFFAA00);
+		if (isBeingReworked()) context.drawCenteredTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "warning.reworked", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), getReworkedId())}, new Formatting[]{Formatting.RED, Formatting.BOLD}), ClientData.minecraft.getWindow().getScaledWidth() / 2, 10, 0xFFFFFF);
+		if (canShowUpdate() && isUpdateAvailable()) context.drawTextWithShadow(textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "update.title"), 2, 2, 0xFFAA00);
 	}
 	public Screen getRefreshScreen() {
 		return this;
 	}
 	public Text getPageTitle() {
-		return !getPageId().isEmpty() ? Translation.getConfigTranslation(Data.version.getID(), getPageId()) : Text.empty();
+		return !getPageId().isEmpty() ? Translation.getConfigTranslation(Data.getVersion().getID(), getPageId()) : Text.empty();
 	}
 	public String getPageId() {
 		return "";

@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
@@ -30,7 +30,7 @@ import com.mclegoman.perspective.client.config.ConfigHelper;
 public class PerspectiveClient {
 	public static void init() {
 		try {
-			Data.version.sendToLog(LogType.INFO, Translation.getString("Initializing {}:client", Data.version.getName()));
+			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("Initializing {}:client", Data.getVersion().getName()));
 			TextureHelper.init();
 			AprilFoolsPrank.init();
 			Appearance.init();
@@ -46,16 +46,16 @@ public class PerspectiveClient {
 			Tick.init();
 			ConfigHelper.init();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to run client:init: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to run client:init: {}", error));
 		}
 	}
 	public static void afterInitConfig() {
 		try {
-			Data.version.sendToLog(LogType.INFO, Translation.getString("AfterConfiging {}", Data.version.getName()));
-			Update.checkForUpdates(Data.version);
+			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("AfterConfiging {}", Data.getVersion().getName()));
+			Update.checkForUpdates(Data.getVersion());
 			Shaders.init();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to run afterInitializeConfig: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to run afterInitializeConfig: {}", error));
 		}
 	}
 }

@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.hud;
 
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.util.Mouse;
@@ -29,7 +29,7 @@ public class Overlays {
 		timeOverlayTypes.add("false");
 		timeOverlayTypes.add("twelve_hour");
 		timeOverlayTypes.add("twenty_four_hour");
-		Mouse.ProcessCPS.register(Identifier.of(Data.version.getID(), "cps_overlay"), PerspectiveConfig.config.cpsOverlay::value);
+		Mouse.ProcessCPS.register(Identifier.of(Data.getVersion().getID(), "cps_overlay"), PerspectiveConfig.config.cpsOverlay::value);
 	}
 	public static String getCurrentTimeOverlay() {
 		return PerspectiveConfig.config.timeOverlay.value();
@@ -42,10 +42,10 @@ public class Overlays {
 		PerspectiveConfig.config.timeOverlay.setValue(timeOverlayTypes.get(direction ? (currentIndex + 1) % timeOverlayTypes.size() : (currentIndex - 1 + timeOverlayTypes.size()) % timeOverlayTypes.size()), false);
 	}
 	public static Text getEntityPositionTextTitle() {
-		return Translation.getTranslation(Data.version.getID(), "position.title");
+		return Translation.getTranslation(Data.getVersion().getID(), "position.title");
 	}
 	public static Text getEntityPositionTextDescription(Vec3d pos) {
-		return Translation.getTranslation(Data.version.getID(), "position.description", new Object[]{
+		return Translation.getTranslation(Data.getVersion().getID(), "position.description", new Object[]{
 				Position.getX(pos, true),
 				Position.getY(pos, true),
 				Position.getZ(pos, true),
@@ -56,13 +56,13 @@ public class Overlays {
 			if (DebugOverlay.debugType.equals(DebugOverlay.Type.none)) {
 				// Version Overlay
 				if (PerspectiveConfig.config.versionOverlay.value())
-					context.drawTextWithShadow(ClientData.minecraft.textRenderer, Translation.getTranslation(Data.version.getID(), "version_overlay", new Object[]{SharedConstants.getGameVersion().getName()}), 2, 2, 0xffffff);
+					context.drawTextWithShadow(ClientData.minecraft.textRenderer, Translation.getTranslation(Data.getVersion().getID(), "version_overlay", new Object[]{SharedConstants.getGameVersion().getName()}), 2, 2, 0xffffff);
 				// Other Overlays
 				int y = 40;
 				List<Text> overlayTexts = new ArrayList<>();
 				if (PerspectiveConfig.config.positionOverlay.value()) {
 					if (ClientData.minecraft.player != null) {
-						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "position_overlay", new Object[]{
+						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "position_overlay", new Object[]{
 								getEntityPositionTextTitle(),
 								getEntityPositionTextDescription(ClientData.minecraft.player.getPos())
 						}));
@@ -75,15 +75,15 @@ public class Overlays {
 						int rawMinute = (int)(time / 16.666666) % 60;
 						String hour = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? String.valueOf(rawHour == 0 || rawHour == 12 ? 12 : rawHour % 12) : String.valueOf(rawHour);
 						if (rawHour < 10 && rawHour != 0) hour = "0" + hour;
-						Text timePeriod = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.version.getID(), "time_overlay.am") : Translation.getTranslation(Data.version.getID(), "time_overlay.pm")) : Text.empty();
-						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "time_overlay", new Object[]{
+						Text timePeriod = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.getVersion().getID(), "time_overlay.am") : Translation.getTranslation(Data.getVersion().getID(), "time_overlay.pm")) : Text.empty();
+						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "time_overlay", new Object[]{
 								hour, (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)), timePeriod
 						}));
 					}
 				}
 				if (PerspectiveConfig.config.dayOverlay.value()) {
 					if (ClientData.minecraft.world != null) {
-						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "day_overlay", new Object[]{
+						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "day_overlay", new Object[]{
 								ClientData.minecraft.world.getTimeOfDay() / 24000L
 						}));
 					}
@@ -91,13 +91,13 @@ public class Overlays {
 				if (PerspectiveConfig.config.biomeOverlay.value()) {
 					if (ClientData.minecraft.player != null && ClientData.minecraft.world != null) {
 						String biome = ClientData.minecraft.world.getBiome(ClientData.minecraft.player.getBlockPos()).getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
-						overlayTexts.add(Translation.getTranslation(Data.version.getID(), "biome_overlay", new Object[]{
+						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "biome_overlay", new Object[]{
 								Translation.getText("biome." + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, biome) + "." + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, biome), true)
 						}));
 					}
 				}
 				if (PerspectiveConfig.config.cpsOverlay.value()) {
-					overlayTexts.add(Translation.getTranslation(Data.version.getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));
+					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));
 				}
 				renderOverlays(context, overlayTexts, 0, y, false);
 			} else DebugOverlay.renderDebugHUD(context);

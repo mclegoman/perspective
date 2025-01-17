@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -53,7 +53,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 		try {
 			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, enabled));
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
 	}
 
@@ -168,7 +168,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 					"zombie_villager"
 			});
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.WARN, Translation.getString("Failed to reset Textured Entity registry: {}", error));
+			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to reset Textured Entity registry: {}", error));
 		}
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
@@ -185,19 +185,19 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 			sendPlayerMessage();
 			isReady = true;
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply textured entity dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply textured entity dataloader: {}", error));
 		}
 	}
 
 	private void sendPlayerMessage() {
 		// If the player doesn't exist, we don't worry as the problem doesn't occur.
 		// This issue relates to the creative inventory.
-		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.version.getID(), "textured_entity.creative_tab_issue"), false);
+		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.getVersion().getID(), "textured_entity.creative_tab_issue"), false);
 	}
 
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), identifier);
+		return Identifier.of(Data.getVersion().getID(), identifier);
 	}
 
 	private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
@@ -214,7 +214,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
 			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, enabled);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}
 	}
 }

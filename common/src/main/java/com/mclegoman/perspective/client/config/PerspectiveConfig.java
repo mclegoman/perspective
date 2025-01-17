@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.config;
 
-import fabric.com.mclegoman.luminance.config.LuminanceConfigHelper;
+import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.PerspectiveClient;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
@@ -19,7 +19,7 @@ import org.quiltmc.config.api.annotations.SerializedName;
 import org.quiltmc.config.api.values.TrackedValue;
 
 public class PerspectiveConfig extends ReflectiveConfig {
-	public static final PerspectiveConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, "", Data.version.getID(), PerspectiveConfig.class);
+	public static final PerspectiveConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, "", Data.getVersion().getID(), PerspectiveConfig.class);
 	@SerializedName("zoom_enabled")
 	public final TrackedValue<Boolean> zoomEnabled = this.value(PerspectiveDefaultConfig.config.zoomEnabled.value());
 	@SerializedName("zoom_level")

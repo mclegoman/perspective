@@ -28,7 +28,7 @@ public class DebugOverlay {
 
 	public static void renderDebugHUD(DrawContext context) {
 		List<Text> debugTexts = new ArrayList<>();
-		debugTexts.add(Text.literal(Data.version.getName() + " " + Data.version.getFriendlyString(false)));
+		debugTexts.add(Text.literal(Data.getVersion().getName() + " " + Data.getVersion().getFriendlyString(false)));
 		if (debugType.equals(Type.misc)) {
 			debugTexts.add(Text.empty());
 			debugTexts.add(Text.literal("debug: " + PerspectiveConfig.config.debug.value()));
@@ -40,7 +40,7 @@ public class DebugOverlay {
 		}
 		if (debugType.equals(Type.config) || debugType.equals(Type.experimentalConfig) || debugType.equals(Type.tutorialsConfig) || debugType.equals(Type.warningsConfig)) {
 			debugTexts.add(Text.empty());
-			debugTexts.add(Translation.getTranslation(Data.version.getID(), "debug.config", new Formatting[]{Formatting.BOLD}));
+			debugTexts.add(Translation.getTranslation(Data.getVersion().getID(), "debug.config", new Formatting[]{Formatting.BOLD}));
 			if (debugType.equals(Type.config)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.normal));
 			if (debugType.equals(Type.experimentalConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.experimental));
 			if (debugType.equals(Type.tutorialsConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.tutorial));
@@ -48,7 +48,7 @@ public class DebugOverlay {
 		}
 		if (debugType.equals(Type.texturedEntities) || debugType.equals(Type.enabledTexturedEntities)) {
 			debugTexts.add(Text.empty());
-			debugTexts.add(Translation.getTranslation(Data.version.getID(), "debug.textured_entity" + (debugType.equals(Type.enabledTexturedEntities) ? ".enabled" : ""), new Formatting[]{Formatting.BOLD}));
+			debugTexts.add(Translation.getTranslation(Data.getVersion().getID(), "debug.textured_entity" + (debugType.equals(Type.enabledTexturedEntities) ? ".enabled" : ""), new Formatting[]{Formatting.BOLD}));
 			TexturedEntityDataLoader.getRegistryMap().forEach((id, data) -> {
 				if (debugType.equals(Type.enabledTexturedEntities) && data.getEnabled() || debugType.equals(Type.texturedEntities)) debugTexts.add(Text.literal(id.toString() + ":" + data.getNamespace() + ":" + data.getType() + ":" + data.getName()));
 			});

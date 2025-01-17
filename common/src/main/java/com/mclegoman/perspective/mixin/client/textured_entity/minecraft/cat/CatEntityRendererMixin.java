@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.states.PerspectiveTamedRenderState;
 import com.mclegoman.perspective.client.entity.states.PerspectiveVariantRenderState;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.entity.TexturedEntityData;
 import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.util.Identifier;

@@ -82,7 +82,7 @@ public class Contributor {
 	}
 	public static Identifier getOverlayTexture(String uuid) {
 		ContributorData contributorData = getContributorData(uuid);
-		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), Identifier.of(Data.version.getID(), "textures/contributors/overlay/none.png"));
+		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), Identifier.of(Data.getVersion().getID(), "textures/contributors/overlay/none.png"));
 		return null;
 	}
 	// In future, these could be used to limit functionality to specific types.

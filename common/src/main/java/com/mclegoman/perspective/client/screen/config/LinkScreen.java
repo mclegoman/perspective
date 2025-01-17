@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen.config;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -47,7 +47,7 @@ public class LinkScreen extends AbstractConfigScreen {
 			this.grid.forEachChild(this::addDrawableChild);
 			initTabNavigation();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize link screen: {}", getPageTitle(), error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize link screen: {}", getPageTitle(), error));
 			ClientData.minecraft.setScreen(this.parentScreen);
 		}
 	}

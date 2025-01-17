@@ -11,9 +11,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -41,17 +41,17 @@ public class ContributorDataLoader extends JsonDataLoader implements Identifiabl
 				for (JsonElement id : inputIds) outputIds.add(id.getAsString());
 				registry.add(ContributorData.builder(uuid).id(outputIds).type(lockData.getType().getName()).shouldFlipUpsideDown(shouldFlipUpsideDown).shouldReplaceCape(shouldReplaceCape).capeTexture(IdentifierHelper.identifierFromString(capeTexture)).shouldRenderOverlay(shouldRenderOverlay).overlayTexture(IdentifierHelper.identifierFromString(overlayTexture), isOverlayEmissive).build());
 			} else {
-				Data.version.sendToLog(LogType.WARN, Translation.getString("{} is not permitted to use contributor dataloader!", uuid));
+				Data.getVersion().sendToLog(LogType.WARN, Translation.getString("{} is not permitted to use contributor dataloader!", uuid));
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.WARN, Translation.getString("Failed to add contributor to contributor registry: {}", error));
+			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to add contributor to contributor registry: {}", error));
 		}
 	}
 	private void reset() {
 		try {
 			registry.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.WARN, Translation.getString("Failed to reset contributor registry: {}", error));
+			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to reset contributor registry: {}", error));
 		}
 	}
 	@Override
@@ -60,7 +60,7 @@ public class ContributorDataLoader extends JsonDataLoader implements Identifiabl
 			reset();
 			prepared.forEach(this::layout$perspective);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.WARN, Translation.getString("Failed to apply contributor dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to apply contributor dataloader: {}", error));
 		}
 	}
 	private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
@@ -79,11 +79,11 @@ public class ContributorDataLoader extends JsonDataLoader implements Identifiabl
 			boolean isOverlayEmissive = JsonHelper.getBoolean(reader, "isOverlayEmissive", false);
 			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
 		}
 	}
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), id);
+		return Identifier.of(Data.getVersion().getID(), id);
 	}
 }

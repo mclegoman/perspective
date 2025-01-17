@@ -13,7 +13,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
 
-public class CreditsAttributionScreen extends fabric.com.mclegoman.luminance.client.screen.config.information.CreditsAttributionScreen {
+public class CreditsAttributionScreen extends com.mclegoman.luminance.client.screen.config.information.CreditsAttributionScreen {
 	private final boolean overrideLogo;
 	public CreditsAttributionScreen(Screen parentScreen, Identifier creditsJsonId) {
 		super(parentScreen, PerspectiveLogo.isPride(), creditsJsonId);

@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.client.events;
 
-import fabric.com.mclegoman.luminance.common.util.DateHelper;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.DateHelper;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -22,7 +22,7 @@ public class AprilFoolsPrank {
 		try {
 			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new AprilFoolsPrankDataLoader());
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize april fools prank: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize april fools prank: {}", error));
 		}
 	}
 	public static void tick() {
@@ -30,7 +30,7 @@ public class AprilFoolsPrank {
 		if (!seenWarning && ClientData.minecraft.world != null) {
 			if (isAprilFools()) {
 				//if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
-					//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.version.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.version.getID(), "name"), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.version.getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
+					//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
 					//ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", true);
 					//shouldSave = true;
 					seenWarning = true;

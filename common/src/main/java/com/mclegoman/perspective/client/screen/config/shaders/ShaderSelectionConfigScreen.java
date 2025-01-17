@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen.config.shaders;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -40,8 +40,8 @@ public class ShaderSelectionConfigScreen extends Screen {
 	protected void init() {
 		this.widget = new ShadersListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32, 27, scrollAmount);
 		addDrawableChild(widget);
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
-		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "shaders.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
+		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
+		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
 			this.refresh = true;
 		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 26, 20, 20).build());
@@ -55,14 +55,14 @@ public class ShaderSelectionConfigScreen extends Screen {
 				ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(parent, formattings, widget.getScrollY(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()));
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config$shaders$select screen: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config$shaders$select screen: {}", error));
 		}
 	}
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.version.getID(), "shaders.list.select", formattings), ClientData.minecraft.getWindow().getScaledWidth() / 2, 12, 0xFFFFFF);
+		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list.select", formattings), ClientData.minecraft.getWindow().getScaledWidth() / 2, 12, 0xFFFFFF);
 	}
 	@Override
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {

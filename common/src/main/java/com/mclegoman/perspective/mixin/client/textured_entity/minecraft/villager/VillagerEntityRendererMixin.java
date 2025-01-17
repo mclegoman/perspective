@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.villager;
 
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.TexturedEntityData;
 import com.mclegoman.perspective.client.entity.EntityModels;

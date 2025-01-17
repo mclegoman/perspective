@@ -7,11 +7,11 @@
 
 package com.mclegoman.perspective.client.logo;
 
-import fabric.com.mclegoman.luminance.client.logo.LogoHelper;
-import fabric.com.mclegoman.luminance.client.util.CompatHelper;
-import fabric.com.mclegoman.luminance.common.util.Couple;
-import fabric.com.mclegoman.luminance.common.util.DateHelper;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.client.logo.LogoHelper;
+import com.mclegoman.luminance.client.util.CompatHelper;
+import com.mclegoman.luminance.common.util.Couple;
+import com.mclegoman.luminance.common.util.DateHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
@@ -32,8 +32,8 @@ public class PerspectiveLogo {
 	public static void init() {
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PrideLogoDataLoader());
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SplashesDataloader());
-		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.version.getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
-		CompatHelper.addLuminanceModMenuBadge(Data.version.getID());
+		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
+		CompatHelper.addLuminanceModMenuBadge(Data.getVersion().getID());
 	}
 	public static boolean isPerspectiveBirthday() {
 		// Perspective's official birthday is June 14th.
@@ -41,10 +41,10 @@ public class PerspectiveLogo {
 		return date.getMonth() == Month.JUNE && date.getDayOfMonth() >= 14 && date.getDayOfMonth() <= 15;
 	}
 	public static LogoData getDefaultLogo() {
-		return new LogoData("default", Data.version.getID(), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.version.getID())), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.version.getID())));
+		return new LogoData("default", Data.getVersion().getID(), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.getVersion().getID())), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.getVersion().getID())));
 	}
 	public static LogoData getExperimentalLogo() {
-		return new LogoData("experimental", Data.version.getID(), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.version.getID())), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.version.getID())));
+		return new LogoData("experimental", Data.getVersion().getID(), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.getVersion().getID())), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.getVersion().getID())));
 	}
 	public static String getLogoTexture(String type, String id) {
 		return "perspective:textures/logos/" + type + "/" + id + ".png";
@@ -87,7 +87,7 @@ public class PerspectiveLogo {
 	}
 	public static void renderLogo(DrawContext context, int x, int y, int width, int height, Identifier logoTexture) {
 		context.drawTexture(RenderLayer::getGuiTextured, logoTexture, x, y, 0.0F, 0.0F, width, (int) (height * 0.6875), width, height);
-		LogoHelper.renderDevelopmentOverlay(context, (int) ((x + ((float) width / 2)) - ((width * 0.75F) / 2)), (int) (y + (height - (height * 0.54F))), width, height, Data.version.isDevelopmentBuild(), 0, 0);
+		LogoHelper.renderDevelopmentOverlay(context, (int) ((x + ((float) width / 2)) - ((width * 0.75F) / 2)), (int) (y + (height - (height * 0.54F))), width, height, Data.getVersion().isDevelopmentBuild(), 0, 0);
 	}
 	public record Logo(LogoData data) {
 		public Identifier getIconTexture() {

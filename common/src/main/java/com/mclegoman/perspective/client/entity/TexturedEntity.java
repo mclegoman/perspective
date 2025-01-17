@@ -10,12 +10,12 @@ package com.mclegoman.perspective.client.entity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.render.entity.state.EntityRenderState;
@@ -63,7 +63,7 @@ public class TexturedEntity {
 			// Boat/Raft Rendering has changed, ideally we should be able to replace the texture of boats.
 			addForbiddenEntity(EntityType.OAK_BOAT, EntityType.OAK_CHEST_BOAT, EntityType.SPRUCE_BOAT, EntityType.SPRUCE_CHEST_BOAT, EntityType.BIRCH_BOAT, EntityType.BIRCH_CHEST_BOAT, EntityType.JUNGLE_BOAT, EntityType.JUNGLE_CHEST_BOAT, EntityType.ACACIA_BOAT, EntityType.ACACIA_CHEST_BOAT, EntityType.DARK_OAK_BOAT, EntityType.DARK_OAK_CHEST_BOAT, EntityType.MANGROVE_BOAT, EntityType.MANGROVE_CHEST_BOAT, EntityType.CHERRY_BOAT, EntityType.CHERRY_CHEST_BOAT, EntityType.PALE_OAK_BOAT, EntityType.PALE_OAK_CHEST_BOAT, EntityType.BAMBOO_RAFT, EntityType.BAMBOO_CHEST_RAFT);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add default forbidden textured entities: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add default forbidden textured entities: {}", error));
 		}
 	}
 	public static void init() {
@@ -71,7 +71,7 @@ public class TexturedEntity {
 			addDefaultForbiddenEntities();
 			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new TexturedEntityDataLoader());
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
 	}
 	private static Identifier getOverrideTexture(String prefix, String suffix, JsonArray overrides, Identifier fallback) {
@@ -131,7 +131,7 @@ public class TexturedEntity {
 				}
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to set textured entity texture: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to set textured entity texture: {}", error));
 		}
 		return fallback;
 	}
@@ -142,7 +142,7 @@ public class TexturedEntity {
 				if (registry.getNamespace().equals(namespace) && registry.getType().equals(entity_type)) entityRegistry.add(registry);
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity string registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity string registry: {}", error));
 		}
 		return entityRegistry;
 	}
@@ -170,7 +170,7 @@ public class TexturedEntity {
 				}
 			}
 		}
-		return Optional.of(Identifier.of(Data.version.getID(), "default"));
+		return Optional.of(Identifier.of(Data.getVersion().getID(), "default"));
 	}
 	public static Optional<TexturedEntityData> getEntity(Entity entity) {
 		return getEntity(entity.getCustomName() != null ? entity.getCustomName().getLiteralString() : null, entity.getUuid(), entity.getType());
@@ -204,7 +204,7 @@ public class TexturedEntity {
 				}
 			}
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity specific data: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity specific data: {}", error));
 		}
 		return Optional.empty();
 	}

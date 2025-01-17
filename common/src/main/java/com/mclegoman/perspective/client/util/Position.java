@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.util;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class Position {
 	private static final Map<String, Boolean> hidePos = new HashMap<>();
 	public static void register(String modId) {
-		if (shouldShowPos()) Data.version.sendToLog(LogType.INFO, "Positional data will now be obfuscated.");
+		if (shouldShowPos()) Data.getVersion().sendToLog(LogType.INFO, "Positional data will now be obfuscated.");
 		hidePos.putIfAbsent(modId, true);
 	}
 	public static boolean shouldShowPos() {

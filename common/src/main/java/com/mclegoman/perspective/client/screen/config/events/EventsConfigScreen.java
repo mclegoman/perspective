@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen.config.events;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -29,7 +29,7 @@ public class EventsConfigScreen extends AbstractConfigScreen {
 			else shouldClose = true;
 			postInit();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize {} config screen: {}", getPageTitle(), error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize {} config screen: {}", getPageTitle(), error));
 			ClientData.minecraft.setScreen(this.parentScreen);
 		}
 	}
@@ -37,19 +37,19 @@ public class EventsConfigScreen extends AbstractConfigScreen {
 		GridWidget eventsGrid = new GridWidget();
 		eventsGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder eventsGridAdder = eventsGrid.createAdder(2);
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events.april_fools_prank.allow", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.allowAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.april_fools_prank.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.allowAprilFools, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events.april_fools_prank.force", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.forceAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.april_fools_prank.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.forceAprilFools, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events.halloween.allow", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.allowHalloween.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.halloween.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowHalloween.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.allowHalloween, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.version.getID(), "events.halloween.force", new Object[]{Translation.getVariableTranslation(Data.version.getID(), PerspectiveConfig.config.forceHalloween.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.halloween.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceHalloween.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.forceHalloween, false);
 			refresh = true;
 		}).build());

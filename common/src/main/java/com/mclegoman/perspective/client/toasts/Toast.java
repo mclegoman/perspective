@@ -23,7 +23,7 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class Toast implements net.minecraft.client.toast.Toast {
-	private static final Identifier texture = Identifier.of(Data.version.getID(), "toast/info");
+	private static final Identifier texture = Identifier.of(Data.getVersion().getID(), "toast/info");
 	private final Text title;
 	private final List<OrderedText> lines;
 	private Visibility visibility;

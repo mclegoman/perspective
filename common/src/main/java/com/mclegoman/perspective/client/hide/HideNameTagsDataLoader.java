@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.client.util.JsonDataLoader;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -36,14 +36,14 @@ public class HideNameTagsDataLoader extends JsonDataLoader implements Identifiab
 		try {
 			if (!REGISTRY.contains(value)) REGISTRY.add(value);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to add hide nametag to registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add hide nametag to registry: {}", error));
 		}
 	}
 	private void reset() {
 		try {
 			REGISTRY.clear();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide nametags registry: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to reset hide nametags registry: {}", error));
 		}
 	}
 	@Override
@@ -52,22 +52,22 @@ public class HideNameTagsDataLoader extends JsonDataLoader implements Identifiab
 			reset();
 			layout$perspective(manager);
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide name tags dataloader: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide name tags dataloader: {}", error));
 		}
 	}
 	@Override
 	public Identifier getFabricId() {
-		return Identifier.of(Data.version.getID(), ID);
+		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 	private void layout$perspective(ResourceManager manager) {
-		List<Resource> HIDE_LISTS = manager.getAllResources(Identifier.of(Data.version.getID(), "hide_nametags.json"));
+		List<Resource> HIDE_LISTS = manager.getAllResources(Identifier.of(Data.getVersion().getID(), "hide_nametags.json"));
 		for (Resource resource : HIDE_LISTS) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace")) reset();
 				for (JsonElement value : JsonHelper.getArray(reader, "values", new JsonArray())) add(value.getAsString());
 			} catch (Exception error) {
-				Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide name tags list: {}", error));
+				Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective hide name tags list: {}", error));
 			}
 		}
 	}

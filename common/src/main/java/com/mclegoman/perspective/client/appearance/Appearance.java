@@ -10,7 +10,7 @@ package com.mclegoman.perspective.client.appearance;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.util.IdentifierHelper;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -45,7 +45,7 @@ public class Appearance {
 					registry.put(uuid, data);
 				}
 			} catch (Exception error) {
-				com.mclegoman.perspective.common.data.Data.version.sendToLog(LogType.ERROR, "Failed to add '" + uuid + "' to appearance registry: " + error);
+				com.mclegoman.perspective.common.data.Data.getVersion().sendToLog(LogType.ERROR, "Failed to add '" + uuid + "' to appearance registry: " + error);
 			}
 		}
 
@@ -54,20 +54,20 @@ public class Appearance {
 				registry.clear();
 				prepared.forEach(this::layout$perspective);
 			} catch (Exception error) {
-				com.mclegoman.perspective.common.data.Data.version.sendToLog(LogType.ERROR, "Failed to apply appearance dataloader: " + error);
+				com.mclegoman.perspective.common.data.Data.getVersion().sendToLog(LogType.ERROR, "Failed to apply appearance dataloader: " + error);
 			}
 		}
 
 		@Override
 		public Identifier getFabricId() {
-			return Identifier.of(com.mclegoman.perspective.common.data.Data.version.getID(), this.dataType);
+			return Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), this.dataType);
 		}
 
 		private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
 			JsonObject reader = jsonElement.getAsJsonObject();
 			String skin = JsonHelper.getString(reader, "texture", identifier.getNamespace() + ":textures/appearance/" + identifier.getPath());
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", !skin.isEmpty());
-			add(JsonHelper.getString(reader, "uuid", identifier.getPath()), JsonHelper.getBoolean(reader, "slim", false), enabled, IdentifierHelper.identifierFromString(skin, com.mclegoman.perspective.common.data.Data.version.getID()));
+			add(JsonHelper.getString(reader, "uuid", identifier.getPath()), JsonHelper.getBoolean(reader, "slim", false), enabled, IdentifierHelper.identifierFromString(skin, com.mclegoman.perspective.common.data.Data.getVersion().getID()));
 		}
 
 		protected Map<Identifier, JsonElement> prepare(ResourceManager resourceManager, Profiler profiler) {
@@ -101,7 +101,7 @@ public class Appearance {
 					}
 					reader.close();
 				} catch (Exception error) {
-					com.mclegoman.perspective.common.data.Data.version.sendToLog(LogType.ERROR, "Couldn't parse data file '" + resourceId + "' from '" + resourceEntryKey + "': " + error);
+					com.mclegoman.perspective.common.data.Data.getVersion().sendToLog(LogType.ERROR, "Couldn't parse data file '" + resourceId + "' from '" + resourceEntryKey + "': " + error);
 				}
 			}
 		}

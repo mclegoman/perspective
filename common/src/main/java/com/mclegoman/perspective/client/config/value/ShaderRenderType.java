@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.config.value;
 
-import fabric.com.mclegoman.luminance.client.shaders.Shader;
+import com.mclegoman.luminance.client.shaders.Shader;
 import org.quiltmc.config.api.values.ConfigSerializableObject;
 
 @SuppressWarnings("unused")

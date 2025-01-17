@@ -10,7 +10,7 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 import com.mclegoman.perspective.client.data.ClientData;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import org.jetbrains.annotations.Nullable;
-import fabric.com.mclegoman.luminance.client.shaders.Shaders;
+import com.mclegoman.luminance.client.shaders.Shaders;
 
 public class ShadersListWidget<E extends AlwaysSelectedEntryListWidget.Entry<E>> extends AlwaysSelectedEntryListWidget<ShaderListEntry> {
 	protected ShadersListWidget(int width, int height, int top, int bottom, int itemHeight, double scrollAmount) {

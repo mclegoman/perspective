@@ -81,7 +81,7 @@ public class UIBackgroundData {
 			this.renderDarkening = true;
 		}
 		public static UIBackgroundData getFallback() {
-			return new Builder(Identifier.of(Data.version.getID(), "fallback")).build();
+			return new Builder(Identifier.of(Data.getVersion().getID(), "fallback")).build();
 		}
 		public Builder renderWorld(UIBackground.Runnable renderWorld) {
 			this.renderWorld = renderWorld;

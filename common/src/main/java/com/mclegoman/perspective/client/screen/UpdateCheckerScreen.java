@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.screen;
 
-import fabric.com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -24,10 +24,10 @@ public class UpdateCheckerScreen extends AbstractConfigScreen {
 	public void init() {
 		try {
 			super.init();
-			if (this.page == 1) this.gridAdder.add(new MultilineTextWidget(Translation.getConfigTranslation(Data.version.getID(), "update.checking"), ClientData.minecraft.textRenderer).setCentered(true));
+			if (this.page == 1) this.gridAdder.add(new MultilineTextWidget(Translation.getConfigTranslation(Data.getVersion().getID(), "update.checking"), ClientData.minecraft.textRenderer).setCentered(true));
 			postInit();
 		} catch (Exception error) {
-			Data.version.sendToLog(LogType.ERROR, Translation.getString("Failed to initialize zoom config screen: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize zoom config screen: {}", error));
 			ClientData.minecraft.setScreen(this.parentScreen);
 		}
 	}

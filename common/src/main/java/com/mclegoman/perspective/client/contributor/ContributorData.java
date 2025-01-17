@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.client.contributor;
 
-import fabric.com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.luminance.common.util.IdentifierHelper;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;

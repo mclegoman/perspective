@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.modloader;
 
+import com.mclegoman.luminance.api.entrypoint.LuminanceInit;
 import com.mclegoman.perspective.common.Perspective;
-import quilt.com.mclegoman.luminance.entrypoint.LuminanceInit;
 
 public class PerspectiveQuiltLoader implements LuminanceInit {
 	public void init(String modId) {

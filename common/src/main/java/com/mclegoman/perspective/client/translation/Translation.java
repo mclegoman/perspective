@@ -15,7 +15,7 @@ import net.minecraft.util.StringIdentifiable;
 
 import java.util.Arrays;
 
-public class Translation extends fabric.com.mclegoman.luminance.client.translation.Translation {
+public class Translation extends com.mclegoman.luminance.client.translation.Translation {
 	public static MutableText getVariableTranslation(String namespace, boolean toggle, Type type) {
 		return toggle ? getTranslation(namespace, "variable." + type.asString() + ".on") : getTranslation(namespace, "variable." + type.asString() + ".off");
 	}

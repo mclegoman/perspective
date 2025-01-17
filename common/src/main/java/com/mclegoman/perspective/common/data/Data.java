@@ -7,9 +7,12 @@
 
 package com.mclegoman.perspective.common.data;
 
-import fabric.com.mclegoman.luminance.common.util.Version;
-import net.fabricmc.loader.api.FabricLoader;
+import com.mclegoman.luminance.api.mod.ModHelper;
+import com.mclegoman.luminance.common.util.Version;
 
-public class Data extends fabric.com.mclegoman.luminance.common.data.Data {
-	public static final Version version = Version.parse(FabricLoader.getInstance().getModContainer("perspective").get().getMetadata(), "6CTGnrNg");
+public class Data extends com.mclegoman.luminance.common.data.Data {
+	private static final Version version = Version.parse(ModHelper.getModContainer("perspective").get().metadata(), "6CTGnrNg");
+	public static Version getVersion() {
+		return version;
+	}
 }
