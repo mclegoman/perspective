@@ -10,7 +10,7 @@ architectury {
 
 allprojects {
 	group = project.maven_group
-	version = project.mod_version
+	version = project.mod_version + (project.isDirty == "true" ? "+dirty." + System.currentTimeSeconds() : "")
 }
 
 subprojects {
