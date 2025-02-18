@@ -8,7 +8,6 @@
 package com.mclegoman.perspective.client.config;
 
 import com.mclegoman.luminance.config.LuminanceConfigHelper;
-import com.mclegoman.perspective.client.PerspectiveClient;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.common.data.Data;
@@ -126,9 +125,6 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> tutorials = this.value(PerspectiveDefaultConfig.config.tutorials.value());
 	@SerializedName("debug")
 	public final TrackedValue<Boolean> debug = this.value(PerspectiveDefaultConfig.config.debug.value());
-	public static void init() {
-		PerspectiveClient.afterInitConfig();
-	}
 	public static void toggle(TrackedValue<Boolean> value) {
 		toggle(value, true);
 	}

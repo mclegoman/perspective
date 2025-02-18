@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.shaders.Shaders;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hide.HideHudTypes;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -18,7 +18,7 @@ public class HUDHelper {
 	public static void tick() {
 		if (Keybindings.cycleDebug != null) {
 			if (Keybindings.cycleDebug.wasPressed()) {
-				DebugOverlay.shaderColor = Shaders.getRandomColor();
+				DebugOverlay.shaderColor = SuperSecretSettings.getRandomColor();
 				DebugOverlay.debugType = ClientData.minecraft.options.sneakKey.isPressed() ? DebugOverlay.debugType.prev() : DebugOverlay.debugType.next();
 			}
 		}

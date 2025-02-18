@@ -1,0 +1,9 @@
+{
+	"translatable": false,
+	"shaders": [
+		{
+			"registry": "luminance:main",
+			"luminance_id": "minecraft:art"
+		}
+	]
+}

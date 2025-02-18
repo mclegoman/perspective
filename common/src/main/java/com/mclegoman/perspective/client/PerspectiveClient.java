@@ -15,7 +15,7 @@ import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.panorama.Panorama;
-import com.mclegoman.perspective.client.shaders.Shaders;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.ui.UIBackground;
@@ -25,7 +25,6 @@ import com.mclegoman.perspective.client.util.Tick;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.perspective.client.config.ConfigHelper;
 
 public class PerspectiveClient {
 	public static void init() {
@@ -35,6 +34,7 @@ public class PerspectiveClient {
 			AprilFoolsPrank.init();
 			Appearance.init();
 			UIBackground.init();
+			SuperSecretSettings.init();
 			Overlays.init();
 			Zoom.init();
 			Contributor.init();
@@ -44,18 +44,9 @@ public class PerspectiveClient {
 			PerspectiveLogo.init();
 			Entity.init();
 			Tick.init();
-			ConfigHelper.init();
+			Update.checkForUpdates(Data.getVersion());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to run client:init: {}", error));
-		}
-	}
-	public static void afterInitConfig() {
-		try {
-			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("AfterConfiging {}", Data.getVersion().getName()));
-			Update.checkForUpdates(Data.getVersion());
-			Shaders.init();
-		} catch (Exception error) {
-			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to run afterInitializeConfig: {}", error));
 		}
 	}
 }

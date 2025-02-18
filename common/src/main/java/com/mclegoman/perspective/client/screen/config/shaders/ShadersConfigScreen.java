@@ -12,6 +12,7 @@ import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
@@ -21,7 +22,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 
 public class ShadersConfigScreen extends AbstractConfigScreen {
 	private Formatting[] formattings;
@@ -45,24 +45,24 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 	}
 	private GridWidget createShaders() {
 		GridWidget shadersGrid = new GridWidget();
-		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
-		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
-		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{Events.ShaderRender.Shaders.exists(com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId, com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId) ?  Shaders.getShaderName(Shaders.getShaderIndex(Shaders.guessPostShader(String.valueOf(PerspectiveConfig.config.superSecretSettingsShader.value())))) : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}, formattings), (button) -> {
-			//Shader.cycle(true, !hasShiftDown(), true, false, false);
-			this.formattings = new Formatting[]{com.mclegoman.perspective.client.shaders.Shaders.getRandomColor()};
-			this.refresh = true;
-		}).width(256).build();
-		cycleShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-		shadersGridAdder.add(cycleShaders);
-		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{com.mclegoman.perspective.client.shaders.Shaders.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
-		listShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-		shadersGridAdder.add(listShaders);
-		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
-			//com.mclegoman.perspective.client.shaders.Shaders.random(true, false, false);
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).width(20).build();
-		randomShader.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-		shadersGridAdder.add(randomShader);
+//		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
+//		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
+//		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{Events.ShaderRender.Shaders.exists(com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId, com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId) ?  Shaders.getShaderName(Shaders.getShaderIndex(Shaders.guessPostShader(String.valueOf(PerspectiveConfig.config.superSecretSettingsShader.value())))) : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}, formattings), (button) -> {
+//			//Shader.cycle(true, !hasShiftDown(), true, false, false);
+//			this.formattings = new Formatting[]{SuperSecretSettings.getRandomColor()};
+//			this.refresh = true;
+//		}).width(256).build();
+//		cycleShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
+//		shadersGridAdder.add(cycleShaders);
+//		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
+//		listShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
+//		shadersGridAdder.add(listShaders);
+//		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
+//			//com.mclegoman.perspective.client.shaders.Shaders.random(true, false, false);
+//			this.refresh = true;
+//		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).width(20).build();
+//		randomShader.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
+//		shadersGridAdder.add(randomShader);
 		return shadersGrid;
 	}
 	private GridWidget createPageOne() {
