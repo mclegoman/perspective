@@ -1,0 +1,13 @@
+{
+	"translatable": true,
+	"shaders": [
+		{
+			"registry": "luminance:main",
+			"luminance_id": "luminance:outlined"
+		},
+		{
+			"registry": "luminance:main",
+			"luminance_id": "luminance:health_overlay"
+		}
+	]
+}
