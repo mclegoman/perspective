@@ -12,18 +12,25 @@ import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.shaders.Uniforms;
+import com.mclegoman.luminance.client.util.MessageOverlay;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
+import com.mclegoman.perspective.client.config.value.ShaderRenderType;
+import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
 
 public class SuperSecretSettings {
-	private static final Map<Identifier, ShaderPack> registry = new HashMap<>();
+	private static final Random random;
+	private static final Map<Identifier, ShaderPack> registry;
 	private static Formatting prevColor;
 	private static final Formatting[] colors;
 	public static void init() {
@@ -34,8 +41,22 @@ public class SuperSecretSettings {
 		});
 		initUniforms();
 	}
+	public static void tick() {
+		if (Keybindings.cycleShaders.wasPressed()) {
+			PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
+			cycle(!ClientData.minecraft.options.sneakKey.wasPressed());
+			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
+		}
+		if (Keybindings.toggleShaders.wasPressed()) {
+			toggle();
+			if (PerspectiveConfig.config.superSecretSettingsShowName.value()) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)).formatted(getRandomColor()));
+		}
+	}
 	public static Map<Identifier, ShaderPack> getRegistry() {
 		return registry;
+	}
+	public static List<Identifier> getRegistryIds() {
+		return new ArrayList<>(getRegistry().keySet());
 	}
 	public static void addToRegistry(Identifier id, ShaderPack.Translation translation, List<ShaderPack.Shader> shaders) {
 		registry.put(id, new ShaderPack(translation, shaders));
@@ -54,6 +75,13 @@ public class SuperSecretSettings {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize uniforms: {}", error));
 		}
 	}
+	public static ShaderPack getShader() {
+		return getRegistry().get(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
+	}
+	public static void setShader(Identifier id) {
+		PerspectiveConfig.config.superSecretSettingsShader.setValue(ConfigIdentifier.of(id), true);
+		applyShader();
+	}
 	protected static void applyShader() {
 		Events.ShaderRender.register(getSuperSecretSettingsId(), new ArrayList<>());
 		Events.ShaderRender.modify(getSuperSecretSettingsId(), getShaders());
@@ -71,11 +99,16 @@ public class SuperSecretSettings {
 		return getRegistry().get(id);
 	}
 	public static Formatting getRandomColor() {
-		Random random = new Random();
 		Formatting color = prevColor;
 		while (color == prevColor) color = colors[(random.nextInt(colors.length))];
 		prevColor = color;
 		return color;
+	}
+	public static void cycleShaderMode() {
+		switch (PerspectiveConfig.config.superSecretSettingsMode.value()) {
+			case ShaderRenderType.screen -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.game, true);
+			case ShaderRenderType.game -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.screen, true);
+		}
 	}
 	public static Identifier getSuperSecretSettingsId() {
 		return Identifier.of(Data.getVersion().getID(), "super_secret_settings");
@@ -83,7 +116,28 @@ public class SuperSecretSettings {
 	public static Identifier getSuperSecretSettingsId(String string) {
 		return getSuperSecretSettingsId().withPath(getSuperSecretSettingsId().getPath() + "_" + string);
 	}
+	public static int getShaderAmount() {
+		return getRegistry().size();
+	}
+	public static boolean isShadersEnabled() {
+		return getShaderAmount() > 0;
+	}
+	public static void randomize() {
+		if (isShadersEnabled()) {
+			Identifier shaderId = PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier();
+			while (shaderId == PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) shaderId = getRegistryIds().get(random.nextInt(getRegistryIds().size()));
+			setShader(shaderId);
+		}
+	}
+	public static void cycle(boolean forwards) {
+		if (isShadersEnabled()) setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));
+	}
+	public static void toggle() {
+		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);
+	}
 	static {
+		random = new Random();
+		registry = new HashMap<>();
 		colors = new Formatting[]{Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.GOLD, Formatting.BLUE, Formatting.GREEN, Formatting.AQUA, Formatting.RED, Formatting.LIGHT_PURPLE, Formatting.YELLOW};
 	}
 }

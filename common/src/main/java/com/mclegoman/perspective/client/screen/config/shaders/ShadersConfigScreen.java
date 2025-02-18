@@ -7,8 +7,6 @@
 
 package com.mclegoman.perspective.client.screen.config.shaders;
 
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.data.ClientData;
@@ -24,10 +22,10 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Formatting;
 
 public class ShadersConfigScreen extends AbstractConfigScreen {
-	private Formatting[] formattings;
-	public ShadersConfigScreen(Screen parentScreen, boolean refresh, Formatting[] formattings) {
+	private Formatting[] formatting;
+	public ShadersConfigScreen(Screen parentScreen, boolean refresh, Formatting[] formatting) {
 		super(parentScreen, refresh, 1);
-		this.formattings = formattings;
+		this.formatting = formatting;
 	}
 	public void init() {
 		try {
@@ -45,34 +43,34 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 	}
 	private GridWidget createShaders() {
 		GridWidget shadersGrid = new GridWidget();
-//		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
-//		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
-//		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{Events.ShaderRender.Shaders.exists(com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId, com.mclegoman.perspective.client.shaders.Shaders.superSecretSettingsId) ?  Shaders.getShaderName(Shaders.getShaderIndex(Shaders.guessPostShader(String.valueOf(PerspectiveConfig.config.superSecretSettingsShader.value())))) : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}, formattings), (button) -> {
-//			//Shader.cycle(true, !hasShiftDown(), true, false, false);
-//			this.formattings = new Formatting[]{SuperSecretSettings.getRandomColor()};
-//			this.refresh = true;
-//		}).width(256).build();
-//		cycleShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-//		shadersGridAdder.add(cycleShaders);
-//		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
-//		listShaders.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-//		shadersGridAdder.add(listShaders);
-//		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
-//			//com.mclegoman.perspective.client.shaders.Shaders.random(true, false, false);
-//			this.refresh = true;
-//		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).width(20).build();
-//		randomShader.active = com.mclegoman.perspective.client.shaders.Shaders.isShaderButtonsEnabled();
-//		shadersGridAdder.add(randomShader);
+		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
+		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
+		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader().translation().getTranslation()}), (button) -> {
+			SuperSecretSettings.cycle(!hasShiftDown());
+			this.formatting = new Formatting[]{SuperSecretSettings.getRandomColor()};
+			this.refresh = true;
+		}).width(256).build();
+		cycleShaders.active = SuperSecretSettings.isShadersEnabled();
+		shadersGridAdder.add(cycleShaders);
+		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
+		listShaders.active = SuperSecretSettings.isShadersEnabled();
+		shadersGridAdder.add(listShaders);
+		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
+			SuperSecretSettings.randomize();
+			this.refresh = true;
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).width(20).build();
+		randomShader.active = SuperSecretSettings.isShadersEnabled();
+		shadersGridAdder.add(randomShader);
 		return shadersGrid;
 	}
 	private GridWidget createPageOne() {
 		GridWidget shaderOptionsGrid = new GridWidget();
 		shaderOptionsGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shaderOptionsGridAdder = shaderOptionsGrid.createAdder(2);
-		//shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), (String) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_mode")), ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_mode").equals("screen") ? Translation.getVariableTranslation(Data.getVersion().getID(), Shaders.get(Shader.superSecretSettingsIndex).getDisableGameRendertype(), Translation.Type.DISABLE_SCREEN_MODE) : ""}), (button) -> {
-			//Shader.cycleShaderModes();
-			//this.refresh = true;
-		//}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_mode"), true)}, true))).build());
+		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
+			SuperSecretSettings.cycleShaderMode();
+			this.refresh = true;
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).build());
 		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.play_sound", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSound.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSound, false);
 			this.refresh = true;
@@ -82,13 +80,13 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 			this.refresh = true;
 		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.show_name", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.show_name." + (PerspectiveConfig.config.superSecretSettingsShowName.value() ? "on" : "off"), true)}, true))).build());
 		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
-			//Shader.toggle(true, false, false, false);
+			SuperSecretSettings.toggle();
 			this.refresh = true;
 		}).build());
 		return shaderOptionsGrid;
 	}
 	public Screen getRefreshScreen() {
-		return new ShadersConfigScreen(parentScreen, false, formattings);
+		return new ShadersConfigScreen(parentScreen, false, formatting);
 	}
 	public String getPageId() {
 		return "shaders";

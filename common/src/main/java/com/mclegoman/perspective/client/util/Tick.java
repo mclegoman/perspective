@@ -16,6 +16,7 @@ import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.HUDHelper;
 import com.mclegoman.perspective.client.panorama.Panorama;
 import com.mclegoman.perspective.client.perspective.Perspective;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -28,6 +29,7 @@ public class Tick {
 			Halloween.tick();
 			Keybindings.tick();
 			Perspective.tick();
+			SuperSecretSettings.tick();
 			Zoom.tick();
 			Entity.tick();
 			Panorama.tick();

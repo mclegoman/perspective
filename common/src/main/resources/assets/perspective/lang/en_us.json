@@ -124,17 +124,17 @@
 	"gui.perspective.config.shaders.list": "☰",
 	"gui.perspective.config.shaders.list.hover": "Open Shader Selection Screen",
 	"gui.perspective.config.shaders.list.select": "Select Super Secret Setting",
-	"gui.perspective.config.shaders.list.shader": "%s%s",
+	"gui.perspective.config.shaders.list.shader": "%s",
 
 	"gui.perspective.config.shaders.random": "\uD83D\uDD00",
 	"gui.perspective.config.shaders.random.hover": "Randomize Shader",
 
-	"gui.perspective.config.shaders.mode": "Renderer: %s%s",
+	"gui.perspective.config.shaders.mode": "Renderer: %s",
 	"gui.perspective.config.shaders.mode.game": "Game",
 	"gui.perspective.config.shaders.mode.screen": "Screen",
 	"gui.perspective.config.shaders.mode.hover": "%s",
 	"gui.perspective.config.shaders.mode.game.hover": "Shaders are rendered in-game.",
-	"gui.perspective.config.shaders.mode.screen.hover": "Shaders are rendered over the gui. Please Note: Some shaders, such as depth shaders, will instead be rendered in-game. (Marked by *)",
+	"gui.perspective.config.shaders.mode.screen.hover": "Shaders are rendered over the gui. Please Note: Some shaders, such as depth shaders, will instead be rendered in-game.",
 
 	"gui.perspective.config.shaders.play_sound": "Random Sound: %s",
 	"gui.perspective.config.shaders.play_sound.hover": "%s",
@@ -327,9 +327,6 @@
 
 	"gui.perspective.variable.blur.on": "\uD83D\uDE48",
 	"gui.perspective.variable.blur.off": "\uD83D\uDC35",
-
-	"gui.perspective.variable.disable_screen_mode.on": "*",
-	"gui.perspective.variable.disable_screen_mode.off": "",
 
 	"gui.perspective.config.error": "ERROR",
 

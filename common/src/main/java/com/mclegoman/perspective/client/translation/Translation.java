@@ -81,7 +81,6 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 	public enum Type implements StringIdentifiable {
 		ENDISABLE("endisable"),
 		ONFF("onff"),
-		DISABLE_SCREEN_MODE("disable_screen_mode"),
 		BLUR("blur");
 		private final String name;
 		Type(String name) {
