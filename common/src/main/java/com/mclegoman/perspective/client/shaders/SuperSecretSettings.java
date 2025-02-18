@@ -84,6 +84,7 @@ public class SuperSecretSettings {
 	public static void setShader(Identifier id) {
 		PerspectiveConfig.config.superSecretSettingsShader.setValue(ConfigIdentifier.of(id), true);
 		applyShader();
+		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
 	}
 	protected static void applyShader() {
 		Events.ShaderRender.register(getSuperSecretSettingsId(), new ArrayList<>());
@@ -133,10 +134,7 @@ public class SuperSecretSettings {
 		}
 	}
 	public static void cycle(boolean forwards) {
-		if (isShadersEnabled()) {
-			setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));
-			PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
-		}
+		if (isShadersEnabled()) setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));
 	}
 	public static void toggle() {
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);

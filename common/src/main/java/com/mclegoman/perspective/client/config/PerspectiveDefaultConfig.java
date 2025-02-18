@@ -59,7 +59,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("hold_perspective_front_hide_hud")
 	public final TrackedValue<Boolean> holdPerspectiveFrontHideHud = this.value(true);
 	@SerializedName("super_secret_settings_shader")
-	public final TrackedValue<ConfigIdentifier> superSecretSettingsShader = this.value(ConfigIdentifier.of(Identifier.of("minecraft:blur")));
+	public final TrackedValue<ConfigIdentifier> superSecretSettingsShader = this.value(ConfigIdentifier.of(Identifier.of("minecraft:box_blur")));
 	@SerializedName("super_secret_settings_mode")
 	public final TrackedValue<ShaderRenderType> superSecretSettingsMode = this.value(ShaderRenderType.game);
 	@SerializedName("super_secret_settings_enabled")

@@ -8,6 +8,10 @@
 		{
 			"registry": "luminance:main",
 			"luminance_id": "luminance:health_overlay"
+		},
+		{
+			"registry": "perspective:extended",
+			"luminance_id": "perspective:cinematic"
 		}
 	]
 }
