@@ -26,19 +26,22 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class SuperSecretSettings {
 	private static final Random random;
+	protected static final Reload reload;
 	private static final Map<Identifier, ShaderPack> registry;
 	private static Formatting prevColor;
 	private static final Formatting[] colors;
 	public static void init() {
 		ShaderPackDataLoaderInit.init();
-		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), SuperSecretSettings::reload);
+		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), reload::reloadLuminance);
 		initUniforms();
 	}
 	public static void tick() {
+		if (reload.canReload()) reload();
 		if (Keybindings.cycleShaders.wasPressed()) {
 			cycle(!ClientData.minecraft.options.sneakKey.wasPressed());
 			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
@@ -50,6 +53,10 @@ public class SuperSecretSettings {
 	}
 	public static Map<Identifier, ShaderPack> getRegistry() {
 		return registry;
+	}
+	private static void removeFromRegistry(Identifier identifier) {
+		Data.getVersion().sendToLog(LogType.INFO, "Removing '" + identifier.toString() + "' from Super Secret Settings registry!");
+		registry.remove(identifier);
 	}
 	public static List<Identifier> getRegistryIds() {
 		return new ArrayList<>(getRegistry().keySet());
@@ -135,12 +142,51 @@ public class SuperSecretSettings {
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);
 	}
 	protected static void reload() {
+		reload.finishReload();
 		addDefaultShaderPacks();
+		clean();
 		applyShader();
+	}
+	private static void clean() {
+		List<Identifier> remove = new ArrayList<>();
+		getRegistry().forEach((id, shaderPack) -> {
+			for (ShaderPack.Shader shader : shaderPack.shaders()) {
+				try {
+					ShaderRegistryEntry shaderRegistryEntry = Shaders.get(shader.registry(), shader.luminanceId());
+					if (shaderRegistryEntry == null) {
+						remove.add(id);
+						break;
+					}
+					else ClientData.minecraft.getResourceManager().getResourceOrThrow(shaderRegistryEntry.getPostEffect(true));
+				} catch (FileNotFoundException error) {
+					remove.add(id);
+					break;
+				}
+			}
+		});
+		remove.forEach(SuperSecretSettings::removeFromRegistry);
 	}
 	static {
 		random = new Random();
+		reload = new Reload();
 		registry = new HashMap<>();
 		colors = new Formatting[]{Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.GOLD, Formatting.BLUE, Formatting.GREEN, Formatting.AQUA, Formatting.RED, Formatting.LIGHT_PURPLE, Formatting.YELLOW};
+	}
+	protected static class Reload {
+		protected boolean perspective;
+		protected boolean luminance;
+		protected void reloadPerspective() {
+			this.perspective = true;
+		}
+		protected void reloadLuminance() {
+			this.luminance = true;
+		}
+		protected void finishReload() {
+			this.perspective = false;
+			this.luminance = false;
+		}
+		protected boolean canReload() {
+			return this.perspective && this.luminance;
+		}
 	}
 }
