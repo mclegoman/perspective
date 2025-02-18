@@ -47,6 +47,7 @@ public class ShaderPackDataLoader extends JsonDataLoader implements Identifiable
 					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack: {}", error));
 				}
 			});
+			SuperSecretSettings.applyShader();
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply shader packs dataloader: {}", error));
 		}

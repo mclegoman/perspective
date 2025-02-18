@@ -64,7 +64,7 @@ public class SuperSecretSettings {
 		if (shaderPack != null) {
 			int i = 0;
 			for (ShaderPack.Shader shader : shaderPack.shaders()) shaders.add(new Shader.Data(getSuperSecretSettingsId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminanceId()), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value)));
-		}
+		} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!");
 		return shaders;
 	}
 	public static ShaderPack getShaderPack(Identifier id) {
