@@ -42,7 +42,7 @@ public class ShaderPackDataLoader extends JsonDataLoader implements Identifiable
 					for (JsonElement element : JsonHelper.getArray(reader, "shaders", new JsonArray())) {
 						if (element instanceof JsonObject shaderData) shaders.add(new ShaderPack.Shader(Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())), Identifier.of(JsonHelper.getString(shaderData, "luminance_id"))));
 					}
-					SuperSecretSettings.addToRegistry(new ShaderPack.Translation(JsonHelper.getBoolean(reader, "translatable", false), identifier, true), shaders);
+					SuperSecretSettings.addToRegistry(identifier, new ShaderPack.Translation(JsonHelper.getBoolean(reader, "translatable", false), identifier, true), shaders);
 				} catch (Exception error) {
 					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack: {}", error));
 				}

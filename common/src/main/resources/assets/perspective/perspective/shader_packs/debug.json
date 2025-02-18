@@ -4,6 +4,10 @@
 		{
 			"registry": "luminance:main",
 			"luminance_id": "minecraft:art"
+		},
+		{
+			"registry": "luminance:main",
+			"luminance_id": "minecraft:notch"
 		}
 	]
 }
