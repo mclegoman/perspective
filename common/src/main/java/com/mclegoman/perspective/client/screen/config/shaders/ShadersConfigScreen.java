@@ -45,7 +45,7 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 		GridWidget shadersGrid = new GridWidget();
 		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
-		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader().translation().getTranslation()}), (button) -> {
+		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader() != null ? SuperSecretSettings.getShader().translation().getTranslation() : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}), (button) -> {
 			SuperSecretSettings.cycle(!hasShiftDown());
 			this.formatting = new Formatting[]{SuperSecretSettings.getRandomColor()};
 			this.refresh = true;

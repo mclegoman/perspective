@@ -43,7 +43,6 @@ public class SuperSecretSettings {
 	}
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
-			PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
 			cycle(!ClientData.minecraft.options.sneakKey.wasPressed());
 			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
 		}
@@ -130,7 +129,10 @@ public class SuperSecretSettings {
 		}
 	}
 	public static void cycle(boolean forwards) {
-		if (isShadersEnabled()) setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));
+		if (isShadersEnabled()) {
+			setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));
+			PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
+		}
 	}
 	public static void toggle() {
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);
