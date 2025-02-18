@@ -35,10 +35,7 @@ public class SuperSecretSettings {
 	private static final Formatting[] colors;
 	public static void init() {
 		ShaderPackDataLoaderInit.init();
-		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), () -> {
-			addDefaultShaderPacks();
-			applyShader();
-		});
+		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), SuperSecretSettings::reload);
 		initUniforms();
 	}
 	public static void tick() {
@@ -136,6 +133,10 @@ public class SuperSecretSettings {
 	}
 	public static void toggle() {
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);
+	}
+	protected static void reload() {
+		addDefaultShaderPacks();
+		applyShader();
 	}
 	static {
 		random = new Random();

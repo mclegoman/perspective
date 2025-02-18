@@ -19,8 +19,10 @@ public class ShadersListWidget extends AlwaysSelectedEntryListWidget<ShaderListE
 		SuperSecretSettings.getRegistryIds().forEach((id) -> this.addEntry(new ShaderListEntry(id)));
 		if (this.getEntryCount() > 0) {
 			int index = SuperSecretSettings.getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
-			this.setSelected(getEntry(index));
-			this.setScrollY(scrollAmount >= 0 ? scrollAmount : index * 27);
+			if (index >= 0) {
+				this.setSelected(getEntry(index));
+				this.setScrollY(scrollAmount >= 0 ? scrollAmount : index * 27);
+			}
 		}
 		this.setFocused(true);
 	}
