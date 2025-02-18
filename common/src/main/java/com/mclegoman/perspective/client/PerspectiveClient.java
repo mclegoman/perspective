@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.appearance.Appearance;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.entity.Entity;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.contributor.Contributor;
@@ -30,6 +31,7 @@ public class PerspectiveClient {
 	public static void init() {
 		try {
 			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("Initializing {}:client", Data.getVersion().getName()));
+			PerspectiveConfig.init();
 			TextureHelper.init();
 			AprilFoolsPrank.init();
 			Appearance.init();

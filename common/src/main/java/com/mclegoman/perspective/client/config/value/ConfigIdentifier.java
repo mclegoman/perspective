@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.config.value;
 
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
 import org.quiltmc.config.api.values.ConfigSerializableObject;
 
@@ -18,8 +19,12 @@ public record ConfigIdentifier(Identifier identifier) implements ConfigSerializa
 	public static ConfigIdentifier of(Identifier identifier) {
 		return new ConfigIdentifier(identifier);
 	}
+	public static ConfigIdentifier of(String identifier) {
+		return of(Identifier.of(identifier));
+	}
 	public ConfigIdentifier convertFrom(String representation) {
-		return new ConfigIdentifier(Identifier.of(representation));
+		// We assume perspective as the namespace if none is provided - this is to make sure zoom_type is updated properly.
+		return new ConfigIdentifier(Identifier.of((!representation.contains(":") ? Data.getVersion().getID() + ":" : "") + representation));
 	}
 	public String getRepresentation() {
 		return this.identifier.toString();

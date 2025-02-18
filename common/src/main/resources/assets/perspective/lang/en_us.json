@@ -9,13 +9,13 @@
 	"gui.perspective.toasts.license_update.description": "Perspective is now licensed under LGPL-3.0-or-later.",
 
 	"gui.perspective.toasts.keybinding_conflicts.title": "Conflicting Keybinding",
-	"gui.perspective.toasts.keybinding_conflicts.description": "Keybinding conflicts have been detected that could affect Perspective.\nPlease take a moment to review and adjust your keybindings as needed.",
+	"gui.perspective.toasts.keybinding_conflicts.description": "Keybinding conflicts have been detected.",
 
 	"gui.perspective.toasts.update.title": "Update Available",
 	"gui.perspective.toasts.update.description": "%s is now available on Modrinth!",
 
 	"gui.perspective.toasts.development_warning.title": "Development Build",
-	"gui.perspective.toasts.development_warning.description": "Please help us improve by submitting bug reports if you encounter any issues.",
+	"gui.perspective.toasts.development_warning.description": "Please submit a bug report if you encounter any issues.",
 
 	"gui.perspective.toasts.downgrade_warning.title": "Downgrading is not supported",
 	"gui.perspective.toasts.downgrade_warning.description": "You may experience configuration related issues.",

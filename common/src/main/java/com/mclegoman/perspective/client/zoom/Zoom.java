@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.zoom;
 
 import com.mclegoman.luminance.client.util.MessageOverlay;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -126,7 +127,7 @@ public class Zoom {
 		return zoomFOV/fov;
 	}
 	public static Identifier getZoomType() {
-		Identifier zoomTypeIdentifier = IdentifierHelper.identifierFromString((PerspectiveConfig.config.zoomType.value()));
+		Identifier zoomTypeIdentifier = PerspectiveConfig.config.zoomType.value().getIdentifier();
 		while (!isValidZoomType(zoomTypeIdentifier)) zoomTypeIdentifier = IdentifierHelper.identifierFromString(cycleZoomType());
 		return zoomTypeIdentifier;
 	}
@@ -179,8 +180,7 @@ public class Zoom {
 	public static String cycleZoomType(boolean direction) {
 		try {
 			int currentIndex = zoomTypes.indexOf(getZoomType());
-			String zoomType = IdentifierHelper.stringFromIdentifier(zoomTypes.get(direction ? (currentIndex + 1) % zoomTypes.size() : (currentIndex - 1 + zoomTypes.size()) % zoomTypes.size()));
-			PerspectiveConfig.config.zoomType.setValue(zoomType, false);
+			PerspectiveConfig.config.zoomType.setValue(ConfigIdentifier.of(zoomTypes.get(direction ? (currentIndex + 1) % zoomTypes.size() : (currentIndex - 1 + zoomTypes.size()) % zoomTypes.size())), false);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to cycle zoom type: {}", error));
 		}

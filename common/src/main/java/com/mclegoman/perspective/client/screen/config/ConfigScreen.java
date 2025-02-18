@@ -13,7 +13,7 @@ import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScr
 import com.mclegoman.perspective.client.logo.SplashesDataloader;
 import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.ui.UIBackground;
-import com.mclegoman.perspective.client.config.ConfigHelper;
+import com.mclegoman.perspective.client.toasts.ToastHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.config.events.EventsConfigScreen;
 import com.mclegoman.perspective.client.screen.config.hide.HideConfigScreen;
@@ -91,7 +91,7 @@ public class ConfigScreen extends AbstractConfigScreen {
 		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen(), false))).build());
 		ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).build();
-		experimental.active = ConfigHelper.experimentsAvailable;
+		experimental.active = ToastHelper.experimentsAvailable;
 		gridAdder.add(experimental);
 		return grid;
 	}

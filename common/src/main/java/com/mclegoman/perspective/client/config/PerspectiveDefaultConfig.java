@@ -43,7 +43,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("zoom_show_percentage")
 	public final TrackedValue<Boolean> zoomShowPercentage = this.value(false);
 	@SerializedName("zoom_type")
-	public final TrackedValue<String> zoomType = this.value("perspective:logarithmic");
+	public final TrackedValue<ConfigIdentifier> zoomType = this.value(ConfigIdentifier.of(Identifier.of(Data.getVersion().getID(), "logarithmic")));
 	@SerializedName("zoom_reset")
 	public final TrackedValue<Boolean> zoomReset = this.value(false);
 	@SerializedName("zoom_cinematic")

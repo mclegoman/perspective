@@ -22,7 +22,10 @@ public enum ShaderRenderType implements ConfigSerializableObject<String> {
 		return this.renderType;
 	}
 	public ShaderRenderType convertFrom(String representation) {
-		return valueOf(representation);
+		// We check for true/false strings in case the user has updated from config version 6.
+		if (representation.equalsIgnoreCase("false")) return game;
+		else if (representation.equalsIgnoreCase("true")) return screen;
+		else return valueOf(representation);
 	}
 	public String getRepresentation() {
 		return this.name();

@@ -9,7 +9,6 @@ package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
-import com.mclegoman.perspective.client.config.ConfigHelper;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.client.zoom.Zoom;
@@ -18,8 +17,10 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.quiltmc.config.api.values.ValueTreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DebugOverlay {
@@ -38,13 +39,10 @@ public class DebugOverlay {
 			debugTexts.add(Translation.getCombinedText(Text.literal("getZoomType(): "), Translation.getZoomTypeTranslation(Zoom.getZoomType().getNamespace(), Zoom.getZoomType().getPath())));
 			debugTexts.add(Text.literal("isNewerVersionFound(): " + Update.isNewerVersionFound()));
 		}
-		if (debugType.equals(Type.config) || debugType.equals(Type.experimentalConfig) || debugType.equals(Type.tutorialsConfig) || debugType.equals(Type.warningsConfig)) {
+		if (debugType.equals(Type.config)) {
 			debugTexts.add(Text.empty());
 			debugTexts.add(Translation.getTranslation(Data.getVersion().getID(), "debug.config", new Formatting[]{Formatting.BOLD}));
-			if (debugType.equals(Type.config)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.normal));
-			if (debugType.equals(Type.experimentalConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.experimental));
-			if (debugType.equals(Type.tutorialsConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.tutorial));
-			if (debugType.equals(Type.warningsConfig)) debugTexts.addAll(ConfigHelper.getDebugConfigText(ConfigHelper.ConfigType.warning));
+			debugTexts.addAll(getDebugConfigText(ConfigType.normal));
 		}
 		if (debugType.equals(Type.texturedEntities) || debugType.equals(Type.enabledTexturedEntities)) {
 			debugTexts.add(Text.empty());
@@ -60,9 +58,6 @@ public class DebugOverlay {
 		none,
 		misc,
 		config,
-		experimentalConfig,
-		tutorialsConfig,
-		warningsConfig,
 		texturedEntities,
 		enabledTexturedEntities;
 		private static final Type[] values = values();
@@ -73,11 +68,22 @@ public class DebugOverlay {
 			return values[getIndex(true)];
 		}
 		private int getIndex(boolean forwards) {
-			if (!ConfigHelper.experimentsAvailable && values[nextIndex(true)].equals(Type.experimentalConfig)) return values[nextIndex(forwards)].nextIndex(forwards);
 			return nextIndex(forwards);
 		}
 		private int nextIndex(boolean forwards) {
 			return forwards ? (this.ordinal() + 1) % values.length : (this.ordinal() - 1) < 0 ? values.length - 1 : this.ordinal() - 1;
 		}
+	}
+	public static List<Text> getDebugConfigText(ConfigType... types) {
+		List<Text> text = new ArrayList<>();
+		if (Arrays.stream(types).toList().contains(ConfigType.normal)) {
+			text.add(Translation.getTranslation(Data.getVersion().getID(), "debug.config.normal", new Formatting[]{Formatting.BOLD}));
+			for (ValueTreeNode treeNode : PerspectiveConfig.config.nodes())
+				text.add(Text.literal(treeNode.key() + ": " + PerspectiveConfig.config.getValue(treeNode.key()).value()));
+		}
+		return text;
+	}
+	public enum ConfigType {
+		normal
 	}
 }

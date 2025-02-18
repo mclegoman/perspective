@@ -7,10 +7,12 @@
 
 package com.mclegoman.perspective.client.toasts;
 
+import com.google.common.collect.ImmutableList;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -18,6 +20,7 @@ import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -32,39 +35,28 @@ public class Toast implements net.minecraft.client.toast.Toast {
 	private long startTime;
 	private boolean justUpdated;
 	private boolean hidden;
-
 	public int getWidth() {
 		return this.width;
 	}
 	public int getHeight() {
 		return 20 + Math.max(this.lines.size(), 1) * 12;
 	}
-
 	public Toast(Text title, Text description) {
 		this.title = title;
 		this.visibility = Visibility.HIDE;
 		this.display_time = 8000L;
-		List<OrderedText> list = ClientData.minecraft.textRenderer.wrapLines(description, 200);
-		this.width = Math.max(200, list.stream().mapToInt((ClientData.minecraft.textRenderer::getWidth)).max().orElse(200));
-		this.lines = list;
+		this.lines = getTextAsList(description);
+		this.width = Math.max(160, 30 + Math.max(MinecraftClient.getInstance().textRenderer.getWidth(title), description == null ? 0 : MinecraftClient.getInstance().textRenderer.getWidth(description)));
 	}
-
-	public Toast(Text title, List<OrderedText> lines, int width) {
-		this.title = title;
-		this.visibility = Visibility.HIDE;
-		this.display_time = 8000L;
-		this.width = width;
-		this.lines = lines;
+	private static ImmutableList<OrderedText> getTextAsList(@Nullable Text text) {
+		return text == null ? ImmutableList.of() : ImmutableList.of(text.asOrderedText());
 	}
-
 	public net.minecraft.client.toast.Toast.Visibility getVisibility() {
 		return this.visibility;
 	}
-
 	public void hide() {
 		this.hidden = true;
 	}
-
 	public void update(ToastManager manager, long time) {
 		if (this.justUpdated) {
 			this.startTime = time;
@@ -75,7 +67,6 @@ public class Toast implements net.minecraft.client.toast.Toast {
 		long l = time - this.startTime;
 		this.visibility = !this.hidden && (double)l < d ? Visibility.SHOW : Visibility.HIDE;
 	}
-
 	public void draw(DrawContext context, TextRenderer textRenderer, long startTime) {
 		int i = this.getWidth();
 		int j;
@@ -102,7 +93,6 @@ public class Toast implements net.minecraft.client.toast.Toast {
 			}
 		}
 	}
-
 	private void drawPart(DrawContext context, int i, int j, int k, int l) {
 		int m = j == 0 ? 20 : 5;
 		int n = Math.min(60, i - m);
@@ -111,5 +101,8 @@ public class Toast implements net.minecraft.client.toast.Toast {
 			context.drawGuiTexture(RenderLayer::getGuiTextured, texture, 160, 32, 32, j, o, k, Math.min(64, i - o - n), l);
 		}
 		context.drawGuiTexture(RenderLayer::getGuiTextured, texture, 160, 32, 160 - n, j, i - n, k, n, l);
+	}
+	public static void add(Text title, @Nullable Text description) {
+		ClientData.minecraft.getToastManager().add(new Toast(title, description));
 	}
 }
