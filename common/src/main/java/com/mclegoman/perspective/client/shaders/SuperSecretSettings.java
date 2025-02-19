@@ -87,6 +87,9 @@ public class SuperSecretSettings {
 		return getRegistry().get(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
 	}
 	public static void setShader(Identifier id) {
+		setShader(id, true);
+	}
+	public static void setShader(Identifier id, boolean applyShader) {
 		PerspectiveConfig.config.superSecretSettingsShader.setValue(ConfigIdentifier.of(id), true);
 		applyShader();
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);

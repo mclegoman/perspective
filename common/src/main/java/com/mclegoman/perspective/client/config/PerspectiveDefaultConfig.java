@@ -64,8 +64,6 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<ShaderRenderType> superSecretSettingsMode = this.value(ShaderRenderType.game);
 	@SerializedName("super_secret_settings_enabled")
 	public final TrackedValue<Boolean> superSecretSettingsEnabled = this.value(false);
-	@SerializedName("super_secret_settings_sound")
-	public final TrackedValue<Boolean> superSecretSettingsSound = this.value(true);
 	@SerializedName("super_secret_settings_show_name")
 	public final TrackedValue<Boolean> superSecretSettingsShowName = this.value(true);
 	@SerializedName("super_secret_settings_selection_blur")
@@ -147,7 +145,6 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.superSecretSettingsShader.setValue(perspectiveConfig.superSecretSettingsShader.value(), false);
 		config.superSecretSettingsMode.setValue(perspectiveConfig.superSecretSettingsMode.value(), false);
 		config.superSecretSettingsEnabled.setValue(perspectiveConfig.superSecretSettingsEnabled.value(), false);
-		config.superSecretSettingsSound.setValue(perspectiveConfig.superSecretSettingsSound.value(), false);
 		config.superSecretSettingsShowName.setValue(perspectiveConfig.superSecretSettingsShowName.value(), false);
 		config.superSecretSettingsSelectionBlur.setValue(perspectiveConfig.superSecretSettingsSelectionBlur.value(), false);
 		config.texturedNamedEntity.setValue(perspectiveConfig.texturedNamedEntity.value(), false);

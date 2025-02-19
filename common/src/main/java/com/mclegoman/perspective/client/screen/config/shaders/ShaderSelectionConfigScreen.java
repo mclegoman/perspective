@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
@@ -16,6 +17,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -24,8 +26,7 @@ import org.lwjgl.glfw.GLFW;
 public class ShaderSelectionConfigScreen extends Screen {
 	public final Screen parent;
 	private final Formatting[] formatting;
-	private final double scrollAmount;
-	ShadersListWidget widget;
+	private ShadersListWidget widget;
 	private boolean shouldClose;
 	private final boolean blurEnabled;
 	private boolean refresh;
@@ -33,18 +34,28 @@ public class ShaderSelectionConfigScreen extends Screen {
 		super(Text.literal(""));
 		this.parent = parent;
 		this.formatting = formatting;
-		this.scrollAmount = scrollAmount;
 		this.blurEnabled = ClientData.minecraft.world == null || blurEnabled;
 		this.refresh = false;
+		this.widget = new ShadersListWidget(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, scrollAmount);
 	}
 	protected void init() {
-		this.widget = new ShadersListWidget(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32, 27, scrollAmount);
 		addDrawableChild(widget);
+
+		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
+			SuperSecretSettings.cycleShaderMode();
+			this.refresh = true;
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+
+		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
+			SuperSecretSettings.toggle();
+			this.refresh = true;
+		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 + 2, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
 		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
 			this.refresh = true;
-		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 26, 20, 20).build());
+		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 38, 20, 20).build());
 	}
 	public void tick() {
 		try {

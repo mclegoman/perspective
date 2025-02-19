@@ -44,23 +44,17 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 	private GridWidget createShaders() {
 		GridWidget shadersGrid = new GridWidget();
 		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
-		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(3);
+		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(2);
 		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader() != null ? SuperSecretSettings.getShader().translation().getTranslation() : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}), (button) -> {
 			SuperSecretSettings.cycle(!hasShiftDown());
 			this.formatting = new Formatting[]{SuperSecretSettings.getRandomColor()};
 			this.refresh = true;
-		}).width(256).build();
+		}).width(280).build();
 		cycleShaders.active = SuperSecretSettings.isShadersEnabled();
 		shadersGridAdder.add(cycleShaders);
 		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
 		listShaders.active = SuperSecretSettings.isShadersEnabled();
 		shadersGridAdder.add(listShaders);
-		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
-			SuperSecretSettings.randomize();
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).width(20).build();
-		randomShader.active = SuperSecretSettings.isShadersEnabled();
-		shadersGridAdder.add(randomShader);
 		return shadersGrid;
 	}
 	private GridWidget createPageOne() {
@@ -71,10 +65,12 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 			SuperSecretSettings.cycleShaderMode();
 			this.refresh = true;
 		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).build());
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.play_sound", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSound.value(), Translation.Type.ONFF)}), (button) -> {
-			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSound, false);
+		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random"), (button) -> {
+			SuperSecretSettings.randomize();
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.play_sound", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.play_sound." + (PerspectiveConfig.config.superSecretSettingsSound.value() ? "on" : "off"), true)}, true))).build());
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.random", true))).build();
+		randomShader.active = SuperSecretSettings.isShadersEnabled();
+		shaderOptionsGridAdder.add(randomShader);
 		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.show_name", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsShowName.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsShowName, false);
 			this.refresh = true;
