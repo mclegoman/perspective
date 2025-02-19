@@ -28,19 +28,20 @@ public class ShaderSelectionConfigScreen extends Screen {
 	private final Formatting[] formatting;
 	private ShadersListWidget widget;
 	private boolean shouldClose;
+	private final double scrollAmount;
 	private final boolean blurEnabled;
 	private boolean refresh;
 	public ShaderSelectionConfigScreen(Screen parent, Formatting[] formatting, double scrollAmount, boolean blurEnabled) {
 		super(Text.literal(""));
 		this.parent = parent;
 		this.formatting = formatting;
+		this.scrollAmount = scrollAmount;
 		this.blurEnabled = ClientData.minecraft.world == null || blurEnabled;
 		this.refresh = false;
-		this.widget = new ShadersListWidget(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, scrollAmount);
 	}
 	protected void init() {
+		this.widget = new ShadersListWidget(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
 		addDrawableChild(widget);
-
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
 			SuperSecretSettings.cycleShaderMode();
 			this.refresh = true;
