@@ -78,7 +78,7 @@ public class TexturedEntity {
 			for (JsonElement element : overrides) {
 				String entityPrefix = JsonHelper.getString((JsonObject) element, "prefix", "");
 				String entitySuffix = JsonHelper.getString((JsonObject) element, "suffix", "");
-				String entityTexture = JsonHelper.getString((JsonObject) element, "texture", IdentifierHelper.stringFromIdentifier(fallback));
+				String entityTexture = JsonHelper.getString((JsonObject) element, "texture", "");
 				String entityTextureNamespace = entityTexture.contains(":") ? entityTexture.substring(0, entityTexture.lastIndexOf(":")) : "minecraft";
 				String entityTexturePath = entityTexture.contains(":") ? entityTexture.substring(entityTexture.lastIndexOf(":") + 1) : entityTexture;
 				if (prefix.equals(entityPrefix) && suffix.equals(entitySuffix)) return entityTexture.equalsIgnoreCase("") ? vanilla : Identifier.of(entityTextureNamespace, entityTexturePath.endsWith(".png") ? entityTexturePath : entityTexturePath + ".png");
