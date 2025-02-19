@@ -16,6 +16,7 @@ import com.mclegoman.luminance.common.util.ReleaseType;
 import com.mclegoman.luminance.common.util.Version;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.UpdateCheckerScreen;
+import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
@@ -124,13 +125,13 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 		});
 		if (newerVersionFound) {
 			if (!seenUpdateToast) {
-				//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}), 280, Toast.Type.INFO));
+				Toast.add(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}));
 				seenUpdateToast = true;
 			}
 		}
 	}
 	public static String nextUpdateChannel() {
 		List<String> updateChannels = Arrays.stream(detectUpdateChannels).toList();
-		return updateChannels.contains((String) PerspectiveConfig.config.detectUpdateChannel.value()) ? detectUpdateChannels[(updateChannels.indexOf((String) PerspectiveConfig.config.detectUpdateChannel.value()) + 1) % detectUpdateChannels.length] : detectUpdateChannels[0];
+		return updateChannels.contains(PerspectiveConfig.config.detectUpdateChannel.value()) ? detectUpdateChannels[(updateChannels.indexOf(PerspectiveConfig.config.detectUpdateChannel.value()) + 1) % detectUpdateChannels.length] : detectUpdateChannels[0];
 	}
 }

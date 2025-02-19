@@ -100,9 +100,9 @@ public class UIBackground {
 		return false;
 	}
 	public static Identifier getUiBackgroundTextureFromConfig() {
-		String uiBackgroundTexture = PerspectiveConfig.config.uiBackgroundTexture.value();
-		String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, uiBackgroundTexture);
-		String key = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, uiBackgroundTexture);
+		Identifier uiBackgroundTexture = PerspectiveConfig.config.uiBackgroundTexture.value().getIdentifier();
+		String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, uiBackgroundTexture.getNamespace());
+		String key = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, uiBackgroundTexture.getPath());
 		return (namespace != null && key != null) ? Identifier.of(namespace, (!key.startsWith("textures/") ? "textures/" : "") + key + (!key.endsWith(".png") ? ".png" : "")) : Identifier.of("minecraft", "textures/block/dirt.png");
 	}
 	public interface Runnable {

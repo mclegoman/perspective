@@ -18,14 +18,9 @@ public class ToastHelper {
 	private static boolean seenDevelopmentWarning = false;
 	private static boolean showDowngradeWarning = false;
 	private static boolean seenDowngradeWarning = false;
-	private static boolean showLicenceUpdateNotice = false;
-	private static boolean seenLicenceUpdateNotice = false;
 	public static boolean seenConflictingKeybindingToasts = false;
 	public static void showDowngradeWarning() {
 		showDowngradeWarning = true;
-	}
-	public static void showLicenseUpdateNotice() {
-		showLicenceUpdateNotice = true;
 	}
 	public static void tick() {
 		if (!seenDevelopmentWarning && Data.getVersion().isDevelopmentBuild()) {
@@ -37,11 +32,6 @@ public class ToastHelper {
 			Data.getVersion().sendToLog(LogType.INFO, "Downgrading is not supported: You may experience configuration related issues.");
 			Toast.add(Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.downgrade_warning.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.downgrade_warning.description"));
 			seenDowngradeWarning = true;
-		}
-		if (!seenLicenceUpdateNotice && showLicenceUpdateNotice) {
-			Data.getVersion().sendToLog(LogType.INFO, "Licence Update: Perspective is now licensed under LGPL-3.0-or-later.");
-			Toast.add(Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.license_update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.license_update.description"));
-			seenLicenceUpdateNotice = true;
 		}
 		if (!seenConflictingKeybindingToasts && KeybindingHelper.hasKeybindingConflicts(Keybindings.allKeybindings)) {
 			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("Conflicting Keybinding: Keybinding conflicts have been detected."));

@@ -19,7 +19,7 @@ import org.quiltmc.config.api.annotations.SerializedName;
 import org.quiltmc.config.api.values.TrackedValue;
 
 public class PerspectiveDefaultConfig extends ReflectiveConfig {
-	public static final PerspectiveDefaultConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, "", Data.getVersion().getID() + "_defaults", PerspectiveDefaultConfig.class);
+	public static final PerspectiveDefaultConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, Data.getVersion().getID(),  "default", PerspectiveDefaultConfig.class);
 	@SerializedName("zoom_enabled")
 	public final TrackedValue<Boolean> zoomEnabled = this.value(true);
 	@SerializedName("zoom_level")
@@ -103,7 +103,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("ui_background")
 	public final TrackedValue<String> uiBackground = this.value("default");
 	@SerializedName("ui_background_texture")
-	public final TrackedValue<String> uiBackgroundTexture = this.value("minecraft:block/dirt");
+	public final TrackedValue<ConfigIdentifier> uiBackgroundTexture = this.value(ConfigIdentifier.of("minecraft:block/dirt"));
 	@SerializedName("crosshair_type")
 	public final TrackedValue<String> crosshairType = this.value("vanilla");
 	@SerializedName("hide_block_outline")

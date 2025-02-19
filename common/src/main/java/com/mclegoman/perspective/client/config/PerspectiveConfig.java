@@ -24,7 +24,7 @@ import org.quiltmc.config.api.annotations.SerializedName;
 import org.quiltmc.config.api.values.TrackedValue;
 
 public class PerspectiveConfig extends ReflectiveConfig {
-	public static final PerspectiveConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, "", Data.getVersion().getID(), PerspectiveConfig.class);
+	public static final PerspectiveConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, Data.getVersion().getID(), "config", PerspectiveConfig.class);
 	@SerializedName("zoom_enabled")
 	public final TrackedValue<Boolean> zoomEnabled = this.value(PerspectiveDefaultConfig.config.zoomEnabled.value());
 	@SerializedName("zoom_level")
@@ -108,7 +108,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	@SerializedName("ui_background")
 	public final TrackedValue<String> uiBackground = this.value(PerspectiveDefaultConfig.config.uiBackground.value());
 	@SerializedName("ui_background_texture")
-	public final TrackedValue<String> uiBackgroundTexture = this.value(PerspectiveDefaultConfig.config.uiBackgroundTexture.value());
+	public final TrackedValue<ConfigIdentifier> uiBackgroundTexture = this.value(PerspectiveDefaultConfig.config.uiBackgroundTexture.value());
 	@SerializedName("crosshair_type")
 	public final TrackedValue<String> crosshairType = this.value(PerspectiveDefaultConfig.config.crosshairType.value());
 	@SerializedName("hide_block_outline")
@@ -133,7 +133,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> debug = this.value(PerspectiveDefaultConfig.config.debug.value());
 	@SerializedName("config_version")
 	@Comment("Do not edit this! This is used for updating the config.")
-	public final TrackedValue<Float> configVersion = this.value(24.0F);
+	public final TrackedValue<Float> configVersion = this.value(ClientData.configVersion);
 	public static void init() {
 		try {
 			update();
@@ -145,35 +145,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		final float configVersion = config.configVersion.value();
 		if (configVersion != ClientData.configVersion) {
 			if (configVersion < ClientData.configVersion) {
-				if (configVersion < 3) config.zoomLevel.setValue(100 - config.zoomLevel.value(), true);
-				// if (configVersion < 7)
-				//     We check if superSecretSettingsMode is "true" or "false" in ShaderRenderType, and convert if needed.
-				//     There isn't an easy way to convert hideHud to zoomHideHud and holdPerspectiveHideHud,
-				//     but this shouldn't really cause any issue, as it will just get set to default,
-				//     and the user can set the config again if need be.
-				if (configVersion < 8) ToastHelper.showLicenseUpdateNotice();
-				// if (configVersion < 11)
-				//     There isn't an easy way to convert zoom_transition from zoom_mode,
-				//     zoom_show_percentage from zoom_overlay_message,
-				//     and super_secret_settings_show_name from super_secret_settings_overlay_message.
-				//     This isn't a big issue, as they will just be set to the default values,
-				//     which the player can set again if they desire.
-				// if (configVersion < 14)
-				//     Due to the config changes updating
-				//     (int)super_secret_settings to (Identifier)super_secret_settings_shader would be a hassle,
-				//     and the player can just set the config again anyway.
-				// if (configVersion < 16)
-				//     This version updated zoom_camera_mode to zoom_scale_mode,
-				//     alongside their values (default->vanilla, spyglass->scaled).
-				//     This will get set to default, and the player can update it if they wish.
-				// if (configVersion < 17)
-				//     zoom_type was updated from a string, to an identifier.
-				//     This should be automatically converted.
-				// if (configVersion < 19)
-				//     This version updated force_pride_type_index to force_pride_type.
-				//     It will get reset to default.
-				// if (configVersion < 20)
-				//     This version updated hide_crosshair to crosshair_type, alongside their values (false->vanilla, true->hidden)
+				// Config versions under 24 cannot be upgraded.
 			} else ToastHelper.showDowngradeWarning();
 			config.configVersion.setValue(ClientData.configVersion, true);
 		}
