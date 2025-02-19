@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.screen.config;
 
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScreen;
 import com.mclegoman.perspective.client.logo.SplashesDataloader;
@@ -49,6 +50,7 @@ public class ConfigScreen extends AbstractConfigScreen {
 	}
 	protected void setParentScreen() {
 		PerspectiveConfig.config.save();
+		PerspectiveDefaultConfig.config.save();
 		super.setParentScreen();
 	}
 	private GridWidget createPageOne() {

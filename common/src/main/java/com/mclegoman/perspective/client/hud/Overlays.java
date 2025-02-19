@@ -16,6 +16,9 @@ import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -30,6 +33,9 @@ public class Overlays {
 		timeOverlayTypes.add("twelve_hour");
 		timeOverlayTypes.add("twenty_four_hour");
 		Mouse.ProcessCPS.register(Identifier.of(Data.getVersion().getID(), "cps_overlay"), PerspectiveConfig.config.cpsOverlay::value);
+	}
+	public static void updateStats() {
+		if (ClientData.minecraft.getNetworkHandler() != null) ClientData.minecraft.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(ClientStatusC2SPacket.Mode.REQUEST_STATS));
 	}
 	public static String getCurrentTimeOverlay() {
 		return PerspectiveConfig.config.timeOverlay.value();
@@ -95,6 +101,12 @@ public class Overlays {
 								Translation.getText("biome." + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, biome) + "." + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, biome), true)
 						}));
 					}
+				}
+				if (PerspectiveConfig.config.deathsOverlay.value()) {
+					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "deaths_overlay", new Object[]{ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DEATHS)) : "?"}));
+				}
+				if (PerspectiveConfig.config.totemsOverlay.value()) {
+					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "totems_overlay", new Object[]{ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING)) : "?"}));
 				}
 				if (PerspectiveConfig.config.cpsOverlay.value()) {
 					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));

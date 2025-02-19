@@ -97,6 +97,10 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> biomeOverlay = this.value(PerspectiveDefaultConfig.config.biomeOverlay.value());
 	@SerializedName("cps_overlay")
 	public final TrackedValue<Boolean> cpsOverlay = this.value(PerspectiveDefaultConfig.config.cpsOverlay.value());
+	@SerializedName("deaths_overlay")
+	public final TrackedValue<Boolean> deathsOverlay = this.value(PerspectiveDefaultConfig.config.deathsOverlay.value());
+	@SerializedName("totems_overlay")
+	public final TrackedValue<Boolean> totemsOverlay = this.value(PerspectiveDefaultConfig.config.totemsOverlay.value());
 	@SerializedName("force_pride")
 	public final TrackedValue<Boolean> forcePride = this.value(PerspectiveDefaultConfig.config.forcePride.value());
 	@SerializedName("force_pride_type")
@@ -200,6 +204,8 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		config.dayOverlay.setValue(defaultConfig.dayOverlay.value(), false);
 		config.biomeOverlay.setValue(defaultConfig.biomeOverlay.value(), false);
 		config.cpsOverlay.setValue(defaultConfig.cpsOverlay.value(), false);
+		config.deathsOverlay.setValue(defaultConfig.deathsOverlay.value(), false);
+		config.totemsOverlay.setValue(defaultConfig.totemsOverlay.value(), false);
 		config.forcePride.setValue(defaultConfig.forcePride.value(), false);
 		config.forcePrideType.setValue(defaultConfig.forcePrideType.value(), false);
 		config.showDeathCoordinates.setValue(defaultConfig.showDeathCoordinates.value(), false);

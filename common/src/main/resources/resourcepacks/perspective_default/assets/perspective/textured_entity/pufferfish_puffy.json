@@ -1,0 +1,10 @@
+{
+  "entity": "minecraft:pufferfish",
+  "name": "Puffy",
+  "entity_specific": {
+  },
+  "overrides": [
+  ],
+  "flip": false,
+  "enabled": true
+}

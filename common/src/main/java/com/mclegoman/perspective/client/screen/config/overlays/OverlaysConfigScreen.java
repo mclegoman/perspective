@@ -58,11 +58,18 @@ public class OverlaysConfigScreen extends AbstractConfigScreen {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.biomeOverlay, false);
 			this.refresh = true;
 		}).build());
+		overlaysGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.deaths_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.deathsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.deathsOverlay, false);
+			this.refresh = true;
+		}).build());
+		overlaysGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.totems_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.totemsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+			PerspectiveConfig.toggle(PerspectiveConfig.config.totemsOverlay, false);
+			this.refresh = true;
+		}).build());
 		overlaysGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.cps_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.cpsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay, false);
 			this.refresh = true;
 		}).build());
-		overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 		return overlaysGrid;
 	}
 	public Screen getRefreshScreen() {

@@ -172,6 +172,10 @@
 
 	"gui.perspective.config.overlays.cps_overlay": "CPS Overlay: %s",
 
+	"gui.perspective.config.overlays.deaths_overlay": "Deaths Overlay: %s",
+
+	"gui.perspective.config.overlays.totems_overlay": "Totems Overlay: %s",
+
 	"gui.perspective.config.force_pride": "Force Pride: %s",
 
 	"gui.perspective.config.show_death_coordinates": "Death Coordinates: %s",
@@ -296,6 +300,10 @@
 
 	"gui.perspective.keybindings.keybinding.toggle_cps_overlay": "Toggle CPS Overlay",
 
+	"gui.perspective.keybindings.keybinding.toggle_deaths_overlay": "Toggle Deaths Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_totems_overlay": "Toggle Totems Overlay",
+
 	"gui.perspective.keybindings.keybinding.toggle_shaders": "Toggle Super Secret Settings",
 
 	"gui.perspective.keybindings.keybinding.toggle_zoom": "Toggle Zoom",
@@ -362,6 +370,8 @@
 	"gui.perspective.day_overlay": "Days played: %s",
 	"gui.perspective.biome_overlay": "Biome: %s",
 	"gui.perspective.cps_overlay": "CPS: %s:%s:%s",
+	"gui.perspective.deaths_overlay": "Number of Deaths: %s",
+	"gui.perspective.totems_overlay": "Totems Used: %s",
 
 	"gui.perspective.show_death_coordinates": "%s: %s",
 

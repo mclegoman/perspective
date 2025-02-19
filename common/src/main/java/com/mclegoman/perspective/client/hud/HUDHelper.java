@@ -26,6 +26,8 @@ public class HUDHelper {
 		if (Keybindings.togglePosOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.positionOverlay);
 		if (Keybindings.toggleDayOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.dayOverlay);
 		if (Keybindings.toggleBiomeOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.biomeOverlay);
+		if (Keybindings.toggleDeathsOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.deathsOverlay);
+		if (Keybindings.toggleTotemsOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.totemsOverlay);
 		if (Keybindings.toggleCPSOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay);
 	}
 	public static boolean shouldHideHUD() {

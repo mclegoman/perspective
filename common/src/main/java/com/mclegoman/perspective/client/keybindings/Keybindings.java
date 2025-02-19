@@ -34,6 +34,8 @@ public class Keybindings {
 	public static final KeyBinding togglePosOverlay;
 	public static final KeyBinding toggleDayOverlay;
 	public static final KeyBinding toggleBiomeOverlay;
+	public static final KeyBinding toggleDeathsOverlay;
+	public static final KeyBinding toggleTotemsOverlay;
 	public static final KeyBinding toggleCPSOverlay;
 	public static final KeyBinding toggleShaders;
 	public static final KeyBinding toggleZoom;
@@ -62,6 +64,8 @@ public class Keybindings {
 				togglePosOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_position_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleDayOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_day_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleBiomeOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_biome_overlay", GLFW.GLFW_KEY_UNKNOWN),
+				toggleDeathsOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_deaths_overlay", GLFW.GLFW_KEY_UNKNOWN),
+				toggleTotemsOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_totems_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleCPSOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_cps_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_shaders", GLFW.GLFW_KEY_F8),
 				toggleZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom", GLFW.GLFW_KEY_UNKNOWN),
