@@ -7,18 +7,15 @@
 
 package com.mclegoman.perspective.client.panorama;
 
+import com.mclegoman.luminance.client.util.CompatHelper;
 import com.mclegoman.luminance.common.util.LogType;
-import com.mclegoman.perspective.client.toasts.Toast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.option.GraphicsMode;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.resource.ResourceType;
@@ -29,31 +26,49 @@ import net.minecraft.util.Util;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 public class Panorama {
-	private static final List<String> incompatibleMods = new ArrayList<>();
+	private static final Map<String, Callable<Boolean>> incompatible = new HashMap<>();
 
-	public static void addIncompatibleMod(String modID) {
-		if (!incompatibleMods.contains(modID)) incompatibleMods.add(modID);
+	public static void addIncompatibleCallable(String id, Callable<Boolean> callable) {
+		if (!incompatible.containsKey(id)) incompatible.put(id, callable);
 	}
-
-	public static List<String> getIncompatibleMods() {
-		List<String> incompatibleModsFound = new ArrayList<>();
-		for (String modID : incompatibleMods) {
-			if (Data.isModInstalled(modID)) {
-				Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(modID);
-				modContainer.ifPresent(container -> incompatibleModsFound.add(container.getMetadata().getName()));
-			}
-		}
-		return incompatibleModsFound;
+	public static void addIncompatibleMod(String modID) {
+		addIncompatibleCallable(modID, () -> Data.isModInstalled(modID));
 	}
 
 	public static void init() {
 		addIncompatibleMod("canvas");
-		addIncompatibleMod("iris");
+		addIncompatibleCallable("iris_shaders_enabled", CompatHelper::isIrisShadersEnabled);
+	}
+	private static boolean isCompatible() {
+		boolean compatible = true;
+		for (Callable<Boolean> value : incompatible.values()) {
+			try {
+				if (value.call()) {
+					compatible = false;
+					break;
+				}
+			} catch (Exception error) {
+				compatible = false;
+				break;
+			}
+		}
+		return compatible;
+	}
+
+	public static List<String> getIncompatible() {
+		List<String> incompatibleFound = new ArrayList<>();
+		incompatible.forEach((id, callable) -> {
+			try {
+				if (callable.call()) incompatibleFound.add(id);
+			} catch (Exception error) {
+				incompatibleFound.add(id);
+			}
+		});
+		return incompatibleFound;
 	}
 
 	public static void tick() {
@@ -78,7 +93,7 @@ public class Panorama {
 	}
 
 	private static boolean shouldTakePanorama() {
-		return PerspectiveConfig.config.debug.value() || getIncompatibleMods().isEmpty() && !ClientData.minecraft.options.getGraphicsMode().getValue().equals(GraphicsMode.FABULOUS);
+		return PerspectiveConfig.config.debug.value() || isCompatible();
 	}
 
 	private static void takePanorama(int resolution, float startingYaw) {
@@ -175,18 +190,14 @@ public class Panorama {
 					ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.getVersion().getID(), "message.take_panorama_screenshot.success", new Object[]{Text.literal(panoramaName).formatted(Formatting.UNDERLINE).styled((style) -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, resourcePackDir.getAbsolutePath())))}), false);
 				}
 			} else {
-				Text errorTitle = Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.take_panorama_screenshot.failure.title")});
-				if (!getIncompatibleMods().isEmpty()) {
-					String incompatibleMods = getIncompatibleMods().toString().replace("[", "").replace("]", "");
-					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to take panoramic screenshot: Incompatible Mod(s): {}", incompatibleMods));
-					Text errorDescription = (getIncompatibleMods().size() == 1) ? Translation.getTranslation(Data.getVersion().getID(), "toasts.take_panorama_screenshot.failure.description.incompatible_mod", new Object[]{incompatibleMods}) : Translation.getTranslation(Data.getVersion().getID(), "toasts.take_panorama_screenshot.failure.description.incompatible_mods", new Object[]{incompatibleMods});
-					ClientData.minecraft.getToastManager().add(new Toast(errorTitle, errorDescription));
+				String[] incompatible = getIncompatible().toString().replace("[", "").replace("]", "").replace(" ", "").split(",");
+				if (ClientData.minecraft.player != null) {
+					Text[] incompatibleTranslated = new Text[incompatible.length];
+					for (int i = 0; i < incompatible.length; i++) incompatibleTranslated[i] = Translation.getTranslation(Data.getVersion().getID(), "message.take_panorama_screenshot.fail.incompatible." + incompatible[i]);
+					ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.getVersion().getID(), "message.take_panorama_screenshot.fail", new Object[]{Text.literal("")}), false);
+					for (Text text : incompatibleTranslated) ClientData.minecraft.player.sendMessage(text, false);
 				}
-				if (ClientData.minecraft.options.getGraphicsMode().getValue().equals(GraphicsMode.FABULOUS)) {
-					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to take panoramic screenshot: Unsupported Graphics Mode: Fabulous"));
-					Text errorDescription = Translation.getTranslation(Data.getVersion().getID(), "toasts.take_panorama_screenshot.failure.description.fabulous");
-					ClientData.minecraft.getToastManager().add(new Toast(errorTitle, errorDescription));
-				}
+				else Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to take panorama: {}", Arrays.toString(incompatible)));
 			}
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to take panoramic screenshot: {}", error));
