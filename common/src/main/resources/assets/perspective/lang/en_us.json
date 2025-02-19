@@ -394,9 +394,7 @@
 
 	"gui.perspective.debug.config": "Current Config Values",
 	"gui.perspective.debug.config.normal": "Normal Config",
-	"gui.perspective.debug.config.experimental": "Experimental Config",
-	"gui.perspective.debug.config.tutorial": "Tutorial Config",
-	"gui.perspective.debug.config.warning": "Warning Config",
+	"gui.perspective.debug.config.default": "Normal Config Defaults",
 	"gui.perspective.debug.textured_entity": "Registered Textured Entities",
 	"gui.perspective.debug.textured_entity.enabled": "Enabled Textured Entities",
 

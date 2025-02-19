@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.hud;
 
+import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -39,10 +40,11 @@ public class DebugOverlay {
 			debugTexts.add(Translation.getCombinedText(Text.literal("getZoomType(): "), Translation.getZoomTypeTranslation(Zoom.getZoomType().getNamespace(), Zoom.getZoomType().getPath())));
 			debugTexts.add(Text.literal("isNewerVersionFound(): " + Update.isNewerVersionFound()));
 		}
-		if (debugType.equals(Type.config)) {
+		if (debugType.equals(Type.normalConfig) || debugType.equals(Type.defaultConfig)) {
 			debugTexts.add(Text.empty());
 			debugTexts.add(Translation.getTranslation(Data.getVersion().getID(), "debug.config", new Formatting[]{Formatting.BOLD}));
-			debugTexts.addAll(getDebugConfigText(ConfigType.normal));
+			if (debugType.equals(Type.normalConfig)) debugTexts.addAll(getDebugConfigText(ConfigType.normal));
+			else if (debugType.equals(Type.defaultConfig)) debugTexts.addAll(getDebugConfigText(ConfigType.defaults));
 		}
 		if (debugType.equals(Type.texturedEntities) || debugType.equals(Type.enabledTexturedEntities)) {
 			debugTexts.add(Text.empty());
@@ -57,7 +59,8 @@ public class DebugOverlay {
 	public enum Type {
 		none,
 		misc,
-		config,
+		normalConfig,
+		defaultConfig,
 		texturedEntities,
 		enabledTexturedEntities;
 		private static final Type[] values = values();
@@ -81,9 +84,15 @@ public class DebugOverlay {
 			for (ValueTreeNode treeNode : PerspectiveConfig.config.nodes())
 				text.add(Text.literal(treeNode.key() + ": " + PerspectiveConfig.config.getValue(treeNode.key()).value()));
 		}
+		if (Arrays.stream(types).toList().contains(ConfigType.defaults)) {
+			text.add(Translation.getTranslation(Data.getVersion().getID(), "debug.config.default", new Formatting[]{Formatting.BOLD}));
+			for (ValueTreeNode treeNode : PerspectiveDefaultConfig.config.nodes())
+				text.add(Text.literal(treeNode.key() + ": " + PerspectiveDefaultConfig.config.getValue(treeNode.key()).value()));
+		}
 		return text;
 	}
 	public enum ConfigType {
-		normal
+		normal,
+		defaults
 	}
 }
