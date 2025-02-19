@@ -7,6 +7,10 @@
 
 package com.mclegoman.perspective.client.shaders;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
@@ -25,23 +29,24 @@ import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class SuperSecretSettings {
 	private static final Random random;
-	protected static final Reload reload;
 	private static final Map<Identifier, ShaderPack> registry;
 	private static Formatting prevColor;
 	private static final Formatting[] colors;
 	public static void init() {
-		ShaderPackDataLoaderInit.init();
-		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), reload::reloadLuminance);
+		Events.AfterShaderDataRegistered.register(getSuperSecretSettingsId(), SuperSecretSettings::reload);
 		initUniforms();
 	}
 	public static void tick() {
-		if (reload.canReload()) reload();
 		if (Keybindings.cycleShaders.wasPressed()) {
 			cycle(!ClientData.minecraft.options.sneakKey.wasPressed());
 			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
@@ -140,7 +145,25 @@ public class SuperSecretSettings {
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(!PerspectiveConfig.config.superSecretSettingsEnabled.value(), true);
 	}
 	protected static void reload() {
-		reload.finishReload();
+		try {
+			resetRegistry();
+			ClientData.minecraft.getResourceManager().findResources("perspective/shader_packs", identifier -> identifier.getPath().endsWith(".json")).forEach((identifier, resource) -> {
+				try (InputStream stream = resource.getInputStream()) {
+					JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+					JsonObject reader = jsonElement.getAsJsonObject();
+					List<ShaderPack.Shader> shaders = new ArrayList<>();
+					for (JsonElement element : JsonHelper.getArray(reader, "shaders", new JsonArray())) {
+						if (element instanceof JsonObject shaderData) shaders.add(new ShaderPack.Shader(Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())), Identifier.of(JsonHelper.getString(shaderData, "luminance_id"))));
+					}
+					Identifier id = identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json")));
+					addToRegistry(id, new ShaderPack.Translation(JsonHelper.getBoolean(reader, "translatable", false), id, true), shaders);
+				} catch (Exception error) {
+					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack: {}", error.getLocalizedMessage()));
+				}
+			});
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, com.mclegoman.luminance.client.translation.Translation.getString("Failed to apply shader packs dataloader: {}", error));
+		}
 		addDefaultShaderPacks();
 		clean();
 		applyShader();
@@ -166,25 +189,7 @@ public class SuperSecretSettings {
 	}
 	static {
 		random = new Random();
-		reload = new Reload();
 		registry = new HashMap<>();
 		colors = new Formatting[]{Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.GOLD, Formatting.BLUE, Formatting.GREEN, Formatting.AQUA, Formatting.RED, Formatting.LIGHT_PURPLE, Formatting.YELLOW};
-	}
-	protected static class Reload {
-		protected boolean perspective;
-		protected boolean luminance;
-		protected void reloadPerspective() {
-			this.perspective = true;
-		}
-		protected void reloadLuminance() {
-			this.luminance = true;
-		}
-		protected void finishReload() {
-			this.perspective = false;
-			this.luminance = false;
-		}
-		protected boolean canReload() {
-			return this.perspective && this.luminance;
-		}
 	}
 }
