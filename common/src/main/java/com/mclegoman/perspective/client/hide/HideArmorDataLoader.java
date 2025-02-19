@@ -15,7 +15,6 @@ import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -26,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class HideArmorDataLoader extends JsonDataLoader {
 	public static final List<String> registry = new ArrayList<>();
-	public static final String ID = "hide/armor";
+	public static final String resourceLocation = "perspective/hide_armor";
 
 	public HideArmorDataLoader() {
-		super(new Gson(), ID);
+		super(new Gson(), resourceLocation);
 	}
 
 	private void add(String value) {
@@ -58,11 +57,6 @@ public class HideArmorDataLoader extends JsonDataLoader implements IdentifiableR
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply hide armor dataloader: {}", Data.getVersion().getID(), error));
 		}
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 
 	private void layout$perspective(ResourceManager manager) {

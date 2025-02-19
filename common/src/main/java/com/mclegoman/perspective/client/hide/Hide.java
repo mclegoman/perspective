@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.hide;
 
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.util.MessageOverlay;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.perspective.Perspective;
@@ -15,10 +16,9 @@ import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -30,10 +30,10 @@ public class Hide {
 	public static final String[] hideCrosshairModes = new String[]{"vanilla", "dynamic", "hidden"};
 	public static float rainbowTime = 0.0F;
 	public static void init() {
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new HideArmorDataLoader());
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new HideNameTagsDataLoader());
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new HidePlayerDataLoader());
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new DynamicCrosshairItemsDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_armor"), new HideArmorDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_name_tags"), new HideNameTagsDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_player"), new HidePlayerDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "dynamic_crosshair"), new DynamicCrosshairDataLoader());
 	}
 	public static void tick() {
 		if (Keybindings.toggleArmour.wasPressed()) {
@@ -66,7 +66,7 @@ public class Hide {
 	public static boolean shouldHidePlayer(UUID uuid) {
 		if (ClientData.minecraft.player != null) {
 			if (!uuid.equals(ClientData.minecraft.player.getGameProfile().getId()))
-				return PerspectiveConfig.config.hidePlayers.value() || HidePlayerDataLoader.REGISTRY.contains(String.valueOf(uuid));
+				return PerspectiveConfig.config.hidePlayers.value() || HidePlayerDataLoader.registry.contains(String.valueOf(uuid));
 		}
 		return false;
 	}

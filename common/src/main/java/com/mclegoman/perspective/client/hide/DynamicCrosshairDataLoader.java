@@ -15,7 +15,6 @@ import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
@@ -28,20 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DynamicCrosshairItemsDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class DynamicCrosshairDataLoader extends JsonDataLoader {
 	public static final List<Item> activeRegistry = new ArrayList<>();
 	public static final List<Item> heldRegistry = new ArrayList<>();
-	public static final String ID = "hide/dynamic_crosshair";
-	public DynamicCrosshairItemsDataLoader() {
-		super(new Gson(), ID);
+	public static final String resourceLocation = "perspective/dynamic_crosshair";
+	public DynamicCrosshairDataLoader() {
+		super(new Gson(), resourceLocation);
 	}
 	private void add(Item value, ItemType itemType) {
 		try {
 			switch (itemType) {
-				case ACTIVE -> {
+				case active -> {
 					if (!activeRegistry.contains(value)) activeRegistry.add(value);
 				}
-				case HELD -> {
+				case held -> {
 					if (!heldRegistry.contains(value)) heldRegistry.add(value);
 				}
 			}
@@ -67,27 +66,21 @@ public class DynamicCrosshairItemsDataLoader extends JsonDataLoader implements I
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply dynamic crosshair item dataloader: {}", Data.getVersion().getID(), error));
 		}
 	}
-
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), ID);
-	}
-
 	private void layout$perspective(ResourceManager manager) {
 		List<Resource> hideLists = manager.getAllResources(Identifier.of(Data.getVersion().getID(), "dynamic_crosshair.json"));
 		for (Resource resource : hideLists) {
 			try {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace")) reset();
-				for (JsonElement value : JsonHelper.getArray(JsonHelper.getObject(reader, "active", new JsonObject()), "values", new JsonArray())) add(Registries.ITEM.get(Identifier.of(value.getAsString())), ItemType.ACTIVE);
-				for (JsonElement value : JsonHelper.getArray(JsonHelper.getObject(reader, "held", new JsonObject()), "values", new JsonArray())) add(Registries.ITEM.get(Identifier.of(value.getAsString())), ItemType.HELD);
+				for (JsonElement value : JsonHelper.getArray(JsonHelper.getObject(reader, "active", new JsonObject()), "values", new JsonArray())) add(Registries.ITEM.get(Identifier.of(value.getAsString())), ItemType.active);
+				for (JsonElement value : JsonHelper.getArray(JsonHelper.getObject(reader, "held", new JsonObject()), "values", new JsonArray())) add(Registries.ITEM.get(Identifier.of(value.getAsString())), ItemType.held);
 			} catch (Exception error) {
 				Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective dynamic crosshair item list: {}", error));
 			}
 		}
 	}
 	private enum ItemType {
-		ACTIVE,
-		HELD
+		active,
+		held
 	}
 }
