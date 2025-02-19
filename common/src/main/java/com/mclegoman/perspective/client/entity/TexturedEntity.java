@@ -73,7 +73,7 @@ public class TexturedEntity {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
 	}
-	private static Identifier getOverrideTexture(String prefix, String suffix, JsonArray overrides, Identifier fallback) {
+	private static Identifier getOverrideTexture(String prefix, String suffix, JsonArray overrides, Identifier fallback, Identifier vanilla) {
 		if (!overrides.isEmpty()) {
 			for (JsonElement element : overrides) {
 				String entityPrefix = JsonHelper.getString((JsonObject) element, "prefix", "");
@@ -81,13 +81,13 @@ public class TexturedEntity {
 				String entityTexture = JsonHelper.getString((JsonObject) element, "texture", IdentifierHelper.stringFromIdentifier(fallback));
 				String entityTextureNamespace = entityTexture.contains(":") ? entityTexture.substring(0, entityTexture.lastIndexOf(":")) : "minecraft";
 				String entityTexturePath = entityTexture.contains(":") ? entityTexture.substring(entityTexture.lastIndexOf(":") + 1) : entityTexture;
-				if (prefix.equals(entityPrefix) && suffix.equals(entitySuffix)) return Identifier.of(entityTextureNamespace, entityTexturePath.endsWith(".png") ? entityTexturePath : entityTexturePath + ".png");
+				if (prefix.equals(entityPrefix) && suffix.equals(entitySuffix)) return entityTexture.equalsIgnoreCase("") ? vanilla : Identifier.of(entityTextureNamespace, entityTexturePath.endsWith(".png") ? entityTexturePath : entityTexturePath + ".png");
 			}
 		}
 		return fallback;
 	}
-	private static Identifier getOverrideTexture(JsonArray overrides, Identifier fallback) {
-		return getOverrideTexture("", "", overrides, fallback);
+	private static Identifier getOverrideTexture(JsonArray overrides, Identifier fallback, Identifier vanilla) {
+		return getOverrideTexture("", "", overrides, fallback, vanilla);
 	}
 	public static Identifier getTexture(EntityRenderState renderState, Identifier fallback) {
 		return getTexture(renderState, "", "", "", fallback);
@@ -126,7 +126,7 @@ public class TexturedEntity {
 								}
 							}
 						}
-					if (shouldReplaceTexture) return TextureHelper.getTexture(getOverrideTexture(prefix, suffix, entityData.get().getOverrides(), Identifier.of(namespace, "textures/textured_entity/" + entityType.getNamespace() + "/" + entityType.getPath() + "/" + (prefix + entityData.get().getName().toLowerCase() + suffix) + ".png")), fallback);
+					if (shouldReplaceTexture) return TextureHelper.getTexture(getOverrideTexture(prefix, suffix, entityData.get().getOverrides(), Identifier.of(namespace, "textures/textured_entity/" + entityType.getNamespace() + "/" + entityType.getPath() + "/" + (prefix + entityData.get().getName().toLowerCase() + suffix) + ".png"), fallback), fallback);
 				}
 			}
 		} catch (Exception error) {

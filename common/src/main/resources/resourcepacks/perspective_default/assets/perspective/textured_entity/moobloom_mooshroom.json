@@ -26,7 +26,7 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_cape", "texture": "perspective:textures/entity/minecraft/mooshroom/mooshroom_cape" }
+    { "prefix": "", "suffix": "_cape", "texture": "" }
   ],
   "flip": false,
   "enabled": true

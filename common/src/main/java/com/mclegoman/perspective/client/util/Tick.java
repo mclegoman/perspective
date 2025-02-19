@@ -18,6 +18,7 @@ import com.mclegoman.perspective.client.perspective.Perspective;
 import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.toasts.ToastHelper;
 import com.mclegoman.perspective.client.zoom.Zoom;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class Tick {
 	public static void init() {

@@ -12,7 +12,7 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_overlay", "texture": "perspective:textures/entity/minecraft/pig/pig_overlay" }
+    { "prefix": "", "suffix": "_overlay", "texture": "" }
   ],
   "flip": false,
   "enabled": true

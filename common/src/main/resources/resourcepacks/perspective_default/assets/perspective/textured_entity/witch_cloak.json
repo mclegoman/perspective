@@ -4,7 +4,7 @@
   "entity_specific": {
   },
   "overrides": [
-    { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/witch" },
+    { "prefix": "", "suffix": "", "texture": "" },
     { "prefix": "", "suffix": "_cape", "texture": "perspective:textures/textured_entity/minecraft/illager/cloak_cape" }
   ],
   "flip": false,

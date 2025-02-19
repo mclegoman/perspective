@@ -12,8 +12,8 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/pig/pig" },
-    { "prefix": "", "suffix": "_muddy_flower", "texture": "perspective:textures/entity/minecraft/pig/muddy_flower" }
+    { "prefix": "", "suffix": "", "texture": "" },
+    { "prefix": "", "suffix": "_muddy_flower", "texture": "" }
   ],
   "flip": false,
   "enabled": true

@@ -12,7 +12,7 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_overlay", "texture": "minecraft:textures/entity/bee/bee_overlay" }
+    { "prefix": "", "suffix": "_overlay", "texture": "" }
   ],
   "flip": false,
   "enabled": true
