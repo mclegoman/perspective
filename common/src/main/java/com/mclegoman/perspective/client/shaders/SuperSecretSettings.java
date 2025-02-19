@@ -48,7 +48,7 @@ public class SuperSecretSettings {
 	}
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
-			cycle(!ClientData.minecraft.options.sneakKey.wasPressed());
+			cycle(!ClientData.minecraft.options.sneakKey.isPressed());
 			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
 		}
 		if (Keybindings.toggleShaders.wasPressed()) {
