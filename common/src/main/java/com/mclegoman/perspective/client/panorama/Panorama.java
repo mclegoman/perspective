@@ -18,7 +18,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gl.Framebuffer;
-import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.option.GraphicsMode;
 import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.RenderTickCounter;
@@ -91,11 +90,7 @@ public class Panorama {
 
 					int framebufferWidth = ClientData.minecraft.getWindow().getFramebufferWidth();
 					int framebufferHeight = ClientData.minecraft.getWindow().getFramebufferHeight();
-					Framebuffer framebuffer = new SimpleFramebuffer(resolution, resolution, true);
-					ClientData.minecraft.getWindow().setFramebufferWidth(resolution);
-					ClientData.minecraft.getWindow().setFramebufferHeight(resolution);
-
-					//if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled")) Shader.set(true, false, false, true, framebuffer, resolution, resolution);
+					Framebuffer framebuffer = ClientData.minecraft.getFramebuffer();
 
 					Perspective playerPerspective = ClientData.minecraft.options.getPerspective();
 					if (!playerPerspective.isFirstPerson()) ClientData.minecraft.options.setPerspective(Perspective.FIRST_PERSON);
@@ -113,6 +108,18 @@ public class Panorama {
 							framebuffer.beginWrite(true);
 							ClientData.minecraft.gameRenderer.renderWorld(RenderTickCounter.ONE);
 						}
+						// Create pack.png
+						ClientData.minecraft.getWindow().setFramebufferWidth(64);
+						ClientData.minecraft.getWindow().setFramebufferHeight(64);
+						framebuffer.resize(64, 64);
+						framebuffer.beginWrite(true);
+						ClientData.minecraft.gameRenderer.renderWorld(RenderTickCounter.ONE);
+						ScreenshotRecorder.saveScreenshot(resourcePackDir, "pack.png", ClientData.minecraft.getFramebuffer());
+
+						ClientData.minecraft.getWindow().setFramebufferWidth(resolution);
+						ClientData.minecraft.getWindow().setFramebufferHeight(resolution);
+						framebuffer.resize(resolution, resolution);
+
 						// Create panoramic screenshots
 						for (int l = 0; l < 6; ++l) {
 							switch (l) {
@@ -143,7 +150,7 @@ public class Panorama {
 							}
 							framebuffer.beginWrite(true);
 							ClientData.minecraft.gameRenderer.renderWorld(RenderTickCounter.ONE);
-							ScreenshotRecorder.saveScreenshot(screenshotsDir, "panorama_" + l + ".png", framebuffer);
+							ScreenshotRecorder.saveScreenshot(screenshotsDir, "panorama_" + l + ".png", ClientData.minecraft.getFramebuffer());
 						}
 
 						// Create pack.mcmeta
@@ -153,17 +160,14 @@ public class Panorama {
 							packWriter.write("{\"pack\": {\"pack_format\": " + SharedConstants.getGameVersion().getResourceVersion(ResourceType.CLIENT_RESOURCES) + ", \"supported_formats\": {\"min_inclusive\": 1, \"max_inclusive\": 2147483647}, \"description\": \"" + panoramaName + "\"}}\"}}");
 							packWriter.close();
 						}
-						// Create pack.png
-
 					}
-
-					ClientData.minecraft.getWindow().setFramebufferWidth(framebufferWidth);
-					ClientData.minecraft.getWindow().setFramebufferHeight(framebufferHeight);
-					//if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.normal, "super_secret_settings_enabled")) Shader.set(true, false, false, true);
-					framebuffer.delete();
 
 					ClientData.minecraft.player.setPitch(playerPitch);
 					ClientData.minecraft.player.setYaw(playerYaw);
+
+					ClientData.minecraft.getWindow().setFramebufferWidth(framebufferWidth);
+					ClientData.minecraft.getWindow().setFramebufferHeight(framebufferHeight);
+					framebuffer.resize(framebufferWidth, framebufferHeight);
 					if (!playerPerspective.isFirstPerson()) ClientData.minecraft.options.setPerspective(playerPerspective);
 					ClientData.minecraft.gameRenderer.setBlockOutlineEnabled(true);
 					ClientData.minecraft.gameRenderer.setRenderingPanorama(false);

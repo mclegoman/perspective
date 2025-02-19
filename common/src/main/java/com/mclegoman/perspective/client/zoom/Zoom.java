@@ -145,7 +145,7 @@ public class Zoom {
 			boolean updated = false;
 			for (int i = 0; i < multiplier; i++) {
 				if (!(getRawZoomLevel() <= 0) || !(getRawZoomLevel() >= 100)) {
-					PerspectiveConfig.config.zoomLevel.setValue(getRawZoomLevel() + amount, false);
+					PerspectiveConfig.config.zoomLevel.setValue(MathHelper.clamp(getRawZoomLevel() + amount, 0, 100), false);
 					updated = true;
 					hasUpdated = true;
 				}
