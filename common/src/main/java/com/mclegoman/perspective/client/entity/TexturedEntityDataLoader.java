@@ -16,7 +16,6 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -24,7 +23,7 @@ import net.minecraft.util.profiler.Profiler;
 
 import java.util.*;
 
-public class TexturedEntityDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class TexturedEntityDataLoader extends JsonDataLoader {
 	private static final Map<Identifier, TexturedEntityData> registry = new HashMap<>();
 	public static List<TexturedEntityData> getRegistry() {
 		return registry.values().stream().toList();
@@ -193,11 +192,6 @@ public class TexturedEntityDataLoader extends JsonDataLoader implements Identifi
 		// If the player doesn't exist, we don't worry as the problem doesn't occur.
 		// This issue relates to the creative inventory.
 		if (ClientData.minecraft.player != null && (ClientData.minecraft.player.hasPermissionLevel(2) || ClientData.minecraft.player.isInCreativeMode())) ClientData.minecraft.player.sendMessage(Translation.getTranslation(Data.getVersion().getID(), "textured_entity.creative_tab_issue"), false);
-	}
-
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), identifier);
 	}
 
 	private void layout$perspective(Identifier identifier, JsonElement jsonElement) {

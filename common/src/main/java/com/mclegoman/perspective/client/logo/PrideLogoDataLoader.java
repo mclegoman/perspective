@@ -15,7 +15,6 @@ import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class PrideLogoDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class PrideLogoDataLoader extends JsonDataLoader {
 	public static final List<LogoData> registry = new ArrayList<>();
 	public static final String identifier = "pride_logos";
 	private static LogoData logo;
@@ -67,10 +66,6 @@ public class PrideLogoDataLoader extends JsonDataLoader implements IdentifiableR
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to apply pride logo dataloader: {}", error));
 		}
-	}
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), identifier);
 	}
 	private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
 		try {

@@ -10,10 +10,9 @@ package com.mclegoman.perspective.client.appearance;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.util.IdentifierHelper;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
@@ -25,9 +24,9 @@ import java.util.*;
 
 public class Appearance {
 	public static void init() {
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new DataLoader());
+		Events.ClientResourceReload.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
 	}
-	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> implements IdentifiableResourceReloadListener {
+	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> {
 		public static final Map<String, Data> registry = new HashMap<>();
 		private final Gson gson;
 		private final String dataType;
@@ -57,25 +56,17 @@ public class Appearance {
 				com.mclegoman.perspective.common.data.Data.getVersion().sendToLog(LogType.ERROR, "Failed to apply appearance dataloader: " + error);
 			}
 		}
-
-		@Override
-		public Identifier getFabricId() {
-			return Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), this.dataType);
-		}
-
 		private void layout$perspective(Identifier identifier, JsonElement jsonElement) {
 			JsonObject reader = jsonElement.getAsJsonObject();
 			String skin = JsonHelper.getString(reader, "texture", identifier.getNamespace() + ":textures/appearance/" + identifier.getPath());
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", !skin.isEmpty());
 			add(JsonHelper.getString(reader, "uuid", identifier.getPath()), JsonHelper.getBoolean(reader, "slim", false), enabled, IdentifierHelper.identifierFromString(skin, com.mclegoman.perspective.common.data.Data.getVersion().getID()));
 		}
-
 		protected Map<Identifier, JsonElement> prepare(ResourceManager resourceManager, Profiler profiler) {
 			Map<Identifier, JsonElement> map = new HashMap<>();
 			load(resourceManager, this.dataType, this.gson, map);
 			return map;
 		}
-
 		public static void load(ResourceManager manager, String dataType, Gson gson, Map<Identifier, JsonElement> results) {
 			ResourceFinder resourceFinder = ResourceFinder.json(dataType);
 			for (Map.Entry<Identifier, Resource> resourceEntry : resourceFinder.findResources(manager).entrySet()) {

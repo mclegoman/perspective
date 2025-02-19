@@ -121,32 +121,10 @@
 							"text": "    A library mod that helps other mods with shaders.",
 							"sections": [
 								{
-									"text": "    Author: dannytaylor"
+									"text": "    Authors: dannytaylor, Nettakrim"
 								},
 								{
 									"text": "    Licence: LGPL-3.0-or-later"
-								},
-								{
-									"text": "    Contributors:",
-									"sections": [
-										{
-											"text": "      Nettakrim:",
-											"sections": [
-												{
-													"text": "        Vanilla Shader Fixes"
-												},
-												{
-													"text": "        Shader Namespace Fix"
-												},
-												{
-													"text": "        Shader Texture Namespace Fix"
-												},
-												{
-													"text": "        Depth Shader Support"
-												}
-											]
-										}
-									]
 								}
 							]
 						}
@@ -176,11 +154,11 @@
 					"spaced": true
 				},
 				{
-					"text": "  Fabric API",
+					"text": "  Fabric Loader",
 					"formatting": "white",
 					"sections": [
 						{
-							"text": "    Essential hooks for modding with Fabric.",
+							"text": "    Fabric is a modular, lightweight mod loader for Minecraft.",
 							"sections": [
 								{
 									"text": "    Author: FabricMC"
@@ -196,14 +174,14 @@
 					"spaced": true
 				},
 				{
-					"text": "  Fabric Loader",
+					"text": "  Quilt Loader",
 					"formatting": "white",
 					"sections": [
 						{
-							"text": "    Fabric is a modular, lightweight mod loader for Minecraft.",
+							"text": "     The loader for Quilt mods.",
 							"sections": [
 								{
-									"text": "    Author: FabricMC"
+									"text": "    Author: QuiltMC"
 								},
 								{
 									"text": "    Licence: Apache-2.0"

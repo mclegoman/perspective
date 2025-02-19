@@ -7,20 +7,20 @@
 
 package com.mclegoman.perspective.client.events;
 
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
 
 public class AprilFoolsPrank {
 	private static boolean seenWarning;
 	public static void init() {
 		try {
-			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new AprilFoolsPrankDataLoader());
+			Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "prank"), new AprilFoolsPrankDataLoader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize april fools prank: {}", error));
 		}

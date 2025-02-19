@@ -10,6 +10,7 @@ package com.mclegoman.perspective.client.entity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -17,13 +18,11 @@ import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
@@ -69,7 +68,7 @@ public class TexturedEntity {
 	public static void init() {
 		try {
 			addDefaultForbiddenEntities();
-			ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new TexturedEntityDataLoader());
+			Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataLoader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}

@@ -16,7 +16,6 @@ import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ContributorDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class ContributorDataLoader extends JsonDataLoader {
 	public static final List<ContributorData> registry = new ArrayList<>();
 	public static final String id = "contributors";
 	public ContributorDataLoader() {
@@ -81,9 +80,5 @@ public class ContributorDataLoader extends JsonDataLoader implements Identifiabl
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
 		}
-	}
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), id);
 	}
 }

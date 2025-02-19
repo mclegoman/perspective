@@ -17,7 +17,6 @@ import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.Halloween;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class SplashesDataloader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class SplashesDataloader extends JsonDataLoader {
 	public static final List<Translation.Data> registry = new ArrayList<>();
 	public static final String id = "splashes";
 	private static Translation.Data splashText;
@@ -84,9 +83,5 @@ public class SplashesDataloader extends JsonDataLoader implements IdentifiableRe
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load splash text from dataloader: {}", error));
 		}
-	}
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), id);
 	}
 }

@@ -7,10 +7,9 @@
 
 package com.mclegoman.perspective.client.contributor;
 
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class Contributor {
 	private static final List<ContributorLockData> allowedUuids = new ArrayList<>();
 	public static void init() {
 		initAllowedUuids();
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new ContributorDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
 	}
 	private static void initAllowedUuids() {
 		initDeveloperUuids();

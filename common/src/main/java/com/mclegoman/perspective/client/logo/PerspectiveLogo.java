@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.logo;
 
+import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.logo.LogoHelper;
 import com.mclegoman.luminance.client.util.CompatHelper;
 import com.mclegoman.luminance.common.util.Couple;
@@ -15,12 +16,10 @@ import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
@@ -30,8 +29,8 @@ import java.time.Month;
 
 public class PerspectiveLogo {
 	public static void init() {
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PrideLogoDataLoader());
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SplashesDataloader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "pride"), new PrideLogoDataLoader());
+		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "splashes"), new SplashesDataloader());
 		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
 		CompatHelper.addLuminanceModMenuBadge(Data.getVersion().getID());
 	}

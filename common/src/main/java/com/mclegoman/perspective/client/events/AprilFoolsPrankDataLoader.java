@@ -17,7 +17,6 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AprilFoolsPrankDataLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+public class AprilFoolsPrankDataLoader extends JsonDataLoader {
 	public static final List<Couple<Identifier, Boolean>> registry = new ArrayList<>();
 	public static final String ID = "prank";
 	public static String contributor;
@@ -77,9 +76,5 @@ public class AprilFoolsPrankDataLoader extends JsonDataLoader implements Identif
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load prank values: {}", error));
 		}
-	}
-	@Override
-	public Identifier getFabricId() {
-		return Identifier.of(Data.getVersion().getID(), ID);
 	}
 }
