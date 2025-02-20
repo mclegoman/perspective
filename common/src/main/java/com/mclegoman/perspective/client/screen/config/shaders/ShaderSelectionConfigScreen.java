@@ -94,4 +94,7 @@ public class ShaderSelectionConfigScreen extends Screen {
 		}
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
+	public boolean shouldPause() {
+		return false;
+	}
 }

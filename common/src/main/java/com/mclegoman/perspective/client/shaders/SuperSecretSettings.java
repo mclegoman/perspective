@@ -64,7 +64,7 @@ public class SuperSecretSettings {
 		registry.remove(identifier);
 	}
 	public static List<Identifier> getRegistryIds() {
-		return new ArrayList<>(getRegistry().keySet());
+		return getRegistry().keySet().stream().sorted().toList();
 	}
 	public static void addToRegistry(Identifier id, ShaderPack.Translation translation, List<ShaderPack.Shader> shaders) {
 		registry.put(id, new ShaderPack(translation, shaders));
@@ -91,7 +91,7 @@ public class SuperSecretSettings {
 	}
 	public static void setShader(Identifier id, boolean applyShader) {
 		PerspectiveConfig.config.superSecretSettingsShader.setValue(ConfigIdentifier.of(id), true);
-		applyShader();
+		if (applyShader) applyShader();
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
 	}
 	protected static void applyShader() {
@@ -173,7 +173,7 @@ public class SuperSecretSettings {
 	}
 	private static void clean() {
 		List<Identifier> remove = new ArrayList<>();
-		getRegistry().forEach((id, shaderPack) -> {
+		registry.forEach((id, shaderPack) -> {
 			for (ShaderPack.Shader shader : shaderPack.shaders()) {
 				try {
 					ShaderRegistryEntry shaderRegistryEntry = Shaders.get(shader.registry(), shader.luminanceId());
