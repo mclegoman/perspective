@@ -111,8 +111,12 @@ public class SuperSecretSettings {
 		return getRegistry().get(id);
 	}
 	public static Formatting getRandomColor() {
-		Formatting color = prevColor;
-		while (color == prevColor) color = colors[(random.nextInt(colors.length))];
+		return getRandomColor(List.of(Formatting.DARK_BLUE));
+	}
+	public static Formatting getRandomColor(List<Formatting> forbiddenFormatting) {
+		List<Formatting> formatting = new ArrayList<>();
+		for (Formatting color : colors) if (!forbiddenFormatting.contains(color) && color != prevColor) formatting.add(color);
+		Formatting color = formatting.get(random.nextInt(formatting.size()));
 		prevColor = color;
 		return color;
 	}
