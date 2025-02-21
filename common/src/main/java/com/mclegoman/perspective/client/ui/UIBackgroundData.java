@@ -11,7 +11,7 @@ import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
 
 public class UIBackgroundData {
-	private final String id;
+	private final Identifier id;
 	private final UIBackground.Runnable renderWorld;
 	private final boolean renderPanorama;
 	private final UIBackground.Runnable renderMenu;
@@ -20,7 +20,7 @@ public class UIBackgroundData {
 	private final boolean renderShader;
 	private final Identifier shaderId;
 	private final boolean renderDarkening;
-	private UIBackgroundData(String id, UIBackground.Runnable renderWorld, boolean renderPanorama, UIBackground.Runnable renderMenu, boolean renderTitleScreenPanorama, UIBackground.Runnable renderTitleScreen, boolean renderShader, Identifier shaderId, boolean renderDarkening) {
+	private UIBackgroundData(Identifier id, UIBackground.Runnable renderWorld, boolean renderPanorama, UIBackground.Runnable renderMenu, boolean renderTitleScreenPanorama, UIBackground.Runnable renderTitleScreen, boolean renderShader, Identifier shaderId, boolean renderDarkening) {
 		this.id = id;
 		this.renderWorld = renderWorld;
 		this.renderPanorama = renderPanorama;
@@ -31,7 +31,7 @@ public class UIBackgroundData {
 		this.shaderId = shaderId;
 		this.renderDarkening = renderDarkening;
 	}
-	public String getId() {
+	public Identifier getId() {
 		return this.id;
 	}
 	public UIBackground.Runnable getRenderWorld() {
@@ -116,7 +116,7 @@ public class UIBackgroundData {
 			return this;
 		}
 		public UIBackgroundData build() {
-			return new UIBackgroundData(this.identifier.getPath(), this.renderWorld, this.renderPanorama, this.renderMenu, this.renderTitleScreenPanorama, this.renderTitleScreen, this.renderShader, this.shaderId, this.renderDarkening);
+			return new UIBackgroundData(this.identifier, this.renderWorld, this.renderPanorama, this.renderMenu, this.renderTitleScreenPanorama, this.renderTitleScreen, this.renderShader, this.shaderId, this.renderDarkening);
 		}
 	}
 }

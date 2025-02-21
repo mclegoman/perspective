@@ -108,7 +108,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	@SerializedName("show_death_coordinates")
 	public final TrackedValue<Boolean> showDeathCoordinates = this.value(PerspectiveDefaultConfig.config.showDeathCoordinates.value());
 	@SerializedName("ui_background")
-	public final TrackedValue<String> uiBackground = this.value(PerspectiveDefaultConfig.config.uiBackground.value());
+	public final TrackedValue<ConfigIdentifier> uiBackground = this.value((PerspectiveDefaultConfig.config.uiBackground.value()));
 	@SerializedName("ui_background_texture")
 	public final TrackedValue<ConfigIdentifier> uiBackgroundTexture = this.value(PerspectiveDefaultConfig.config.uiBackgroundTexture.value());
 	@SerializedName("crosshair_type")

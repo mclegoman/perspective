@@ -11,6 +11,7 @@ import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 
 import java.util.Arrays;
@@ -46,11 +47,11 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 	public static MutableText getZoomTypeTranslation(String namespace, String zoomType) {
 		return getZoomTypeTranslation(namespace, zoomType, false);
 	}
-	public static MutableText getUIBackgroundTranslation(String namespace, String key) {
-		return getUIBackgroundTranslation(namespace, key, false);
+	public static MutableText getUIBackgroundTranslation(String namespace, Identifier ui_background) {
+		return getUIBackgroundTranslation(namespace, ui_background, false);
 	}
-	public static MutableText getUIBackgroundTranslation(String namespace, String key, boolean hover) {
-		return getConfigTranslation(namespace, "ui_background.type." + key + (hover ? ".hover" : ""));
+	public static MutableText getUIBackgroundTranslation(String namespace, Identifier ui_background, boolean hover) {
+		return getConfigTranslation(namespace, "ui_background.type." + ui_background.getNamespace() + "." + ui_background.getPath() + (hover ? ".hover" : ""));
 	}
 	public static MutableText getTimeOverlayTranslation(String namespace, String key) {
 		return getConfigTranslation(namespace, "time_overlay.type." + key);

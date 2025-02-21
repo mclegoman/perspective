@@ -103,7 +103,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("show_death_coordinates")
 	public final TrackedValue<Boolean> showDeathCoordinates = this.value(false);
 	@SerializedName("ui_background")
-	public final TrackedValue<String> uiBackground = this.value("default");
+	public final TrackedValue<ConfigIdentifier> uiBackground = this.value(ConfigIdentifier.of("default"));
 	@SerializedName("ui_background_texture")
 	public final TrackedValue<ConfigIdentifier> uiBackgroundTexture = this.value(ConfigIdentifier.of("minecraft:block/dirt"));
 	@SerializedName("crosshair_type")
