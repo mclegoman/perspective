@@ -23,15 +23,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
-public class ShaderSelectionConfigScreen extends Screen {
+public class ShaderPackSelectionScreen extends Screen {
 	public final Screen parent;
 	private final Formatting[] formatting;
-	private ShadersListWidget widget;
+	private ShaderPacksListWidget<?> widget;
 	private boolean shouldClose;
 	private final double scrollAmount;
 	private final boolean blurEnabled;
 	private boolean refresh;
-	public ShaderSelectionConfigScreen(Screen parent, Formatting[] formatting, double scrollAmount, boolean blurEnabled) {
+	public ShaderPackSelectionScreen(Screen parent, Formatting[] formatting, double scrollAmount, boolean blurEnabled) {
 		super(Text.literal(""));
 		this.parent = parent;
 		this.formatting = formatting;
@@ -40,7 +40,7 @@ public class ShaderSelectionConfigScreen extends Screen {
 		this.refresh = false;
 	}
 	protected void init() {
-		this.widget = new ShadersListWidget(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
+		this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
 		addDrawableChild(widget);
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
 			SuperSecretSettings.cycleShaderMode();
@@ -64,7 +64,7 @@ public class ShaderSelectionConfigScreen extends Screen {
 				ClientData.minecraft.setScreen(parent);
 			}
 			if (this.refresh) {
-				ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(parent, formatting, widget.getScrollY(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()));
+				ClientData.minecraft.setScreen(new ShaderPackSelectionScreen(parent, formatting, widget.getScrollY(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()));
 			}
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to tick perspective$config$shaders$select screen: {}", error));

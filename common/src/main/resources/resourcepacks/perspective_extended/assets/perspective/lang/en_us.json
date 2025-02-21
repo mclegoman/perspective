@@ -1,4 +1,5 @@
 {
 	"splashes.perspective.green_cave_spider_eyes": "Cave Spiders have green eyes!",
-	"perspective.shader_pack.perspective.extended": "Perspective: Extended"
+	"perspective.shader_pack.perspective.extended": "Perspective: Extended",
+	"perspective.shader_pack.perspective.extended.description": "outlined, health overlay, and cinematic shaders merged into one!"
 }

@@ -45,14 +45,14 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 		GridWidget shadersGrid = new GridWidget();
 		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(2);
-		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader() != null ? SuperSecretSettings.getShader().translation().getTranslation() : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}), (button) -> {
+		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.cycle", new Object[]{SuperSecretSettings.getShader() != null ? SuperSecretSettings.getShader().translation().getTranslation(SuperSecretSettings.shouldShowNamespace(SuperSecretSettings.getShader().translation().id())) : Translation.getShaderTranslation(Data.getVersion().getID(), "shader.not_loaded")}), (button) -> {
 			SuperSecretSettings.cycle(!hasShiftDown());
 			this.formatting = new Formatting[]{SuperSecretSettings.getRandomColor()};
 			this.refresh = true;
-		}).width(280).build();
+		}).tooltip(SuperSecretSettings.getTooltip()).width(280).build();
 		cycleShaders.active = SuperSecretSettings.isShadersEnabled();
 		shadersGridAdder.add(cycleShaders);
-		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderSelectionConfigScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
+		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list"), (button) -> ClientData.minecraft.setScreen(new ShaderPackSelectionScreen(getRefreshScreen(), new Formatting[]{SuperSecretSettings.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list", true))).width(20).build();
 		listShaders.active = SuperSecretSettings.isShadersEnabled();
 		shadersGridAdder.add(listShaders);
 		return shadersGrid;

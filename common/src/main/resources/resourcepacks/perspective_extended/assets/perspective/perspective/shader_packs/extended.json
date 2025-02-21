@@ -1,17 +1,21 @@
 {
 	"translatable": true,
+	"description": true,
 	"shaders": [
 		{
 			"registry": "luminance:main",
-			"luminance_id": "luminance:outlined"
+			"luminance": "luminance:outlined",
+			"amount": 1
 		},
 		{
 			"registry": "luminance:main",
-			"luminance_id": "luminance:health_overlay"
+			"luminance": "luminance:health_overlay",
+			"amount": 1
 		},
 		{
 			"registry": "perspective:extended",
-			"luminance_id": "perspective:cinematic"
+			"luminance": "perspective:cinematic",
+			"amount": 1
 		}
 	]
 }

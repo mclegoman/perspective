@@ -26,6 +26,7 @@ import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -49,12 +50,17 @@ public class SuperSecretSettings {
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
 			cycle(!ClientData.minecraft.options.sneakKey.isPressed());
-			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation()).formatted(getRandomColor()));
+			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation(shouldShowNamespace(getShader().translation().id()))).formatted(getRandomColor()));
 		}
 		if (Keybindings.toggleShaders.wasPressed()) {
 			toggle();
 			if (PerspectiveConfig.config.superSecretSettingsShowName.value()) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)).formatted(getRandomColor()));
 		}
+	}
+	public static boolean shouldShowNamespace(Identifier id) {
+		List<String> shaderNames = new ArrayList<>();
+		for (Identifier shaderId : registry.keySet()) if (shaderId.getPath().equals(id.getPath())) shaderNames.add(shaderId.getPath());
+		return shaderNames.size() > 1;
 	}
 	public static Map<Identifier, ShaderPack> getRegistry() {
 		return registry;
@@ -66,14 +72,14 @@ public class SuperSecretSettings {
 	public static List<Identifier> getRegistryIds() {
 		return getRegistry().keySet().stream().sorted().toList();
 	}
-	public static void addToRegistry(Identifier id, ShaderPack.Translation translation, List<ShaderPack.Shader> shaders) {
-		registry.put(id, new ShaderPack(translation, shaders));
+	public static void addToRegistry(Identifier id, ShaderPack.Translation translation, List<ShaderPack.Shader> shaders, JsonObject customData) {
+		registry.put(id, new ShaderPack(translation, shaders, customData));
 	}
 	public static void resetRegistry() {
 		registry.clear();
 	}
 	private static void addDefaultShaderPacks() {
-		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPack.Translation(shader.getTranslatable(), shader.getID(), false), List.of(new ShaderPack.Shader(Shaders.getMainRegistryId(), shader.getID())));
+		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPack.Translation(shader.getTranslatable(), shader.getID(), false, shader.getDescription()), List.of(new ShaderPack.Shader(Shaders.getMainRegistryId(), shader.getID())), new JsonObject());
 	}
 	private static void initUniforms() {
 		try {
@@ -109,6 +115,17 @@ public class SuperSecretSettings {
 	}
 	public static ShaderPack getShaderPack(Identifier id) {
 		return getRegistry().get(id);
+	}
+	public static Optional<JsonObject> getCustom(String namespace) {
+		return getCustom(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), namespace);
+	}
+	public static Optional<JsonObject> getCustom(Identifier id, String namespace) {
+		ShaderPack pack = getShaderPack(id);
+		if (pack != null) {
+			JsonObject customData = pack.customData();
+			if (customData != null && customData.has(namespace)) return Optional.of(JsonHelper.getObject(customData, namespace));
+		}
+		return Optional.empty();
 	}
 	public static Formatting getRandomColor() {
 		return getRandomColor(List.of(Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.DARK_GRAY));
@@ -160,12 +177,19 @@ public class SuperSecretSettings {
 					JsonObject reader = jsonElement.getAsJsonObject();
 					List<ShaderPack.Shader> shaders = new ArrayList<>();
 					for (JsonElement element : JsonHelper.getArray(reader, "shaders", new JsonArray())) {
-						if (element instanceof JsonObject shaderData) shaders.add(new ShaderPack.Shader(Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())), Identifier.of(JsonHelper.getString(shaderData, "luminance_id"))));
+						if (element instanceof JsonObject shaderData) {
+							for (int i = 0; i < JsonHelper.getInt(shaderData, "amount", 1); i++) {
+								shaders.add(new ShaderPack.Shader(
+										Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())),
+										Identifier.of(JsonHelper.getString(shaderData, "luminance"))
+								));
+							}
+						}
 					}
 					Identifier id = identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json")));
-					addToRegistry(id, new ShaderPack.Translation(JsonHelper.getBoolean(reader, "translatable", false), id, true), shaders);
+					addToRegistry(id, new ShaderPack.Translation(JsonHelper.getBoolean(reader, "translatable", false), id, true, JsonHelper.getBoolean(reader, "description", false)), shaders, JsonHelper.getObject(reader, "custom", new JsonObject()));
 				} catch (Exception error) {
-					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack: {}", error.getLocalizedMessage()));
+					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack '{}': {}", identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json"))), error.getLocalizedMessage()));
 				}
 			});
 		} catch (Exception error) {
@@ -193,6 +217,13 @@ public class SuperSecretSettings {
 			}
 		});
 		remove.forEach(SuperSecretSettings::removeFromRegistry);
+	}
+	public static Tooltip getTooltip() {
+		return getTooltip(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
+	}
+	public static Tooltip getTooltip(Identifier shaderId) {
+		ShaderPack pack = getRegistry().get(shaderId);
+		return pack.translation().description() ? Tooltip.of(pack.translation().getDescription(SuperSecretSettings.shouldShowNamespace(pack.translation().id()))) : null;
 	}
 	static {
 		random = new Random();
