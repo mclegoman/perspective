@@ -111,7 +111,7 @@ public class SuperSecretSettings {
 		return getRegistry().get(id);
 	}
 	public static Formatting getRandomColor() {
-		return getRandomColor(List.of(Formatting.DARK_BLUE));
+		return getRandomColor(List.of(Formatting.DARK_BLUE, Formatting.DARK_GREEN, Formatting.DARK_AQUA, Formatting.DARK_RED, Formatting.DARK_PURPLE, Formatting.DARK_GRAY));
 	}
 	public static Formatting getRandomColor(List<Formatting> forbiddenFormatting) {
 		List<Formatting> formatting = new ArrayList<>();
