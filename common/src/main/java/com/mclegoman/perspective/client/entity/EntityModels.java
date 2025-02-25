@@ -52,7 +52,7 @@ public class EntityModels {
 		EntityModelLayerRegistry.registerModelLayer(armorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(babyArmorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64).transform(ArmorStandEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(halloweenHat, HalloweenHatModel::getTexturedModelData);
-		EntityModelLayerRegistry.registerModelLayer(playerFace, () -> PlayerFaceModel.getTexturedModelData(new Dilation(0.001F)));
+		EntityModelLayerRegistry.registerModelLayer(playerFace, () -> PlayerFaceModel.getTexturedModelData(new Dilation(0.0F)));
 	}
 	public static void tick() {
 		entityCapeY = (entityCapeY + 0.5F) % 80.0F;

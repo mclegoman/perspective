@@ -21,7 +21,7 @@ public class PlayerFaceModel<S extends PlayerEntityRenderState> extends EntityMo
 	public static TexturedModelData getTexturedModelData(Dilation dilation) {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
-		modelPartData.addChild("face", ModelPartBuilder.create().uv(8, 8).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 0.0F, dilation).uv(0, 0).cuboid(-4.0F, -8.0F, -4.0125F, 8.0F, 8.0F, 0.0F, dilation), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		modelPartData.addChild("face", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.001F, 8.0F, 8.0F, 0.0001F, dilation), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 		return TexturedModelData.of(modelData, 64, 64);
 	}
 }
