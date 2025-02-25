@@ -8,6 +8,9 @@
 package com.mclegoman.perspective.client.contributor;
 
 import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.events.AprilFoolsPrank;
+import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
@@ -64,12 +67,10 @@ public class Contributor {
 		return null;
 	}
 	public static ContributorData getContributorData(String uuid) {
-		if (!ContributorDataLoader.registry.isEmpty()) {
-			for (ContributorData contributorData : ContributorDataLoader.registry) {
-				if (contributorData.getUuid().equals(uuid)) return contributorData;
-			}
-		}
-		return null;
+		return getRawContributorData(AprilFoolsPrank.isAprilFools() ? AprilFoolsPrankDataLoader.contributor : uuid);
+	}
+	public static ContributorData getRawContributorData(String uuid) {
+		return ContributorDataLoader.registry.get(uuid);
 	}
 	public static boolean shouldOverlayTexture(String uuid) {
 		ContributorData contributorData = getContributorData(uuid);
@@ -83,6 +84,10 @@ public class Contributor {
 		ContributorData contributorData = getContributorData(uuid);
 		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), Identifier.of(Data.getVersion().getID(), "textures/contributors/overlay/none.png"));
 		return null;
+	}
+	public static boolean canBlink(String uuid) {
+		ContributorData data = Contributor.getContributorData(uuid);
+		return data != null && data.getShouldBlink();
 	}
 	// In future, these could be used to limit functionality to specific types.
 	public enum Type {

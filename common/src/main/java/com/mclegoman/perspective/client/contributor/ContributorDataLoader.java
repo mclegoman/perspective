@@ -22,23 +22,23 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ContributorDataLoader extends JsonDataLoader {
-	public static final List<ContributorData> registry = new ArrayList<>();
+	public static final Map<String, ContributorData> registry = new HashMap<>();
 	public static final String id = "contributors";
 	public ContributorDataLoader() {
 		super(new Gson(), id);
 	}
-	private void add(List<JsonElement> inputIds, String uuid, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, String capeTexture, boolean shouldRenderOverlay, String overlayTexture, boolean isOverlayEmissive) {
+	private void add(List<JsonElement> inputIds, String uuid, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, String capeTexture, boolean shouldRenderOverlay, String overlayTexture, boolean isOverlayEmissive, boolean shouldBlink) {
 		try {
 			ContributorLockData lockData = Contributor.getUuid(uuid);
 			if (lockData != null) {
-				registry.removeIf(contributorData -> contributorData.getUuid().equals(uuid));
 				List<String> outputIds = new ArrayList<>();
 				for (JsonElement id : inputIds) outputIds.add(id.getAsString());
-				registry.add(ContributorData.builder(uuid).id(outputIds).type(lockData.getType().getName()).shouldFlipUpsideDown(shouldFlipUpsideDown).shouldReplaceCape(shouldReplaceCape).capeTexture(IdentifierHelper.identifierFromString(capeTexture)).shouldRenderOverlay(shouldRenderOverlay).overlayTexture(IdentifierHelper.identifierFromString(overlayTexture), isOverlayEmissive).build());
+				registry.put(uuid, ContributorData.builder(uuid).id(outputIds).type(lockData.getType().getName()).shouldFlipUpsideDown(shouldFlipUpsideDown).shouldReplaceCape(shouldReplaceCape).capeTexture(IdentifierHelper.identifierFromString(capeTexture)).shouldRenderOverlay(shouldRenderOverlay).overlayTexture(IdentifierHelper.identifierFromString(overlayTexture), isOverlayEmissive).shouldBlink(shouldBlink).build());
 			} else {
 				Data.getVersion().sendToLog(LogType.WARN, Translation.getString("{} is not permitted to use contributor dataloader!", uuid));
 			}
@@ -76,7 +76,8 @@ public class ContributorDataLoader extends JsonDataLoader {
 			boolean shouldRenderOverlay = JsonHelper.getBoolean(reader, "shouldRenderOverlay", false);
 			String overlayTexture = JsonHelper.getString(reader, "overlayTexture", "none");
 			boolean isOverlayEmissive = JsonHelper.getBoolean(reader, "isOverlayEmissive", false);
-			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive);
+			boolean shouldBlink = JsonHelper.getBoolean(reader, "shouldBlink", false);
+			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive, shouldBlink);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
 		}

@@ -13,5 +13,6 @@
 	"capeTexture": "developer_cape",
 	"shouldRenderOverlay": false,
 	"overlayTexture": "none",
-	"isOverlayEmissive": false
+	"isOverlayEmissive": false,
+	"shouldBlink": true
 }

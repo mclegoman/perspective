@@ -50,7 +50,10 @@ public class SuperSecretSettings {
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
 			cycle(!ClientData.minecraft.options.sneakKey.isPressed());
-			if (PerspectiveConfig.config.superSecretSettingsShowName.value() && getShader() != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", getShader().translation().getTranslation(shouldShowNamespace(getShader().translation().id()))).formatted(getRandomColor()));
+			if (PerspectiveConfig.config.superSecretSettingsShowName.value()) {
+				ShaderPack pack = getShader();
+				if (pack != null) MessageOverlay.setOverlay(Text.translatable("gui.perspective.message.shader", pack.translation().getTranslation(shouldShowNamespace(pack.translation().id()))).formatted(getRandomColor()));
+			}
 		}
 		if (Keybindings.toggleShaders.wasPressed()) {
 			toggle();
@@ -79,7 +82,7 @@ public class SuperSecretSettings {
 		registry.clear();
 	}
 	private static void addDefaultShaderPacks() {
-		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPack.Translation(shader.getTranslatable(), shader.getID(), false, shader.getDescription()), List.of(new ShaderPack.Shader(Shaders.getMainRegistryId(), shader.getID())), new JsonObject());
+		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPack.Translation(shader.getTranslatable(), shader.getID(), false, shader.getDescription()), List.of(new ShaderPack.Shader(Shaders.getMainRegistryId(), shader.getID(), new ArrayList<>())), new JsonObject());
 	}
 	private static void initUniforms() {
 		try {
@@ -109,7 +112,9 @@ public class SuperSecretSettings {
 		ShaderPack shaderPack = getShaderPack(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
 		if (shaderPack != null) {
 			int i = 0;
-			for (ShaderPack.Shader shader : shaderPack.shaders()) shaders.add(new Shader.Data(getSuperSecretSettingsId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminanceId()), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value)));
+			for (ShaderPack.Shader shader : shaderPack.shaders()) {
+				shaders.add(new Shader.Data(getSuperSecretSettingsId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value)));
+			}
 		} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!");
 		return shaders;
 	}
@@ -178,12 +183,21 @@ public class SuperSecretSettings {
 					List<ShaderPack.Shader> shaders = new ArrayList<>();
 					for (JsonElement element : JsonHelper.getArray(reader, "shaders", new JsonArray())) {
 						if (element instanceof JsonObject shaderData) {
-							for (int i = 0; i < JsonHelper.getInt(shaderData, "amount", 1); i++) {
-								shaders.add(new ShaderPack.Shader(
-										Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())),
-										Identifier.of(JsonHelper.getString(shaderData, "luminance"))
-								));
+							List<ShaderPack.Uniform> uniforms = new ArrayList<>();
+							for (JsonElement uniformElement : JsonHelper.getArray(shaderData, "uniforms", new JsonArray())) {
+								if (uniformElement instanceof JsonObject uniform) {
+									List<Float> uniformValues = new ArrayList<>();
+									List<String> uniformOverrides = new ArrayList<>();
+									for (JsonElement uniformValue : JsonHelper.getArray(uniform, "values")) uniformValues.add(uniformValue.getAsFloat());
+									for (JsonElement uniformOverride : JsonHelper.getArray(uniform, "override")) uniformOverrides.add(uniformOverride.getAsString());
+									uniforms.add(new ShaderPack.Uniform(Identifier.of(JsonHelper.getString(uniform, "post_effect")), JsonHelper.getString(uniform, "name"), uniformValues, uniformOverrides));
+								}
 							}
+							shaders.add(new ShaderPack.Shader(
+									Identifier.of(JsonHelper.getString(shaderData, "registry", Shaders.getMainRegistryId().toString())),
+									Identifier.of(JsonHelper.getString(shaderData, "luminance")),
+									uniforms
+							));
 						}
 					}
 					Identifier id = identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json")));
@@ -204,7 +218,7 @@ public class SuperSecretSettings {
 		registry.forEach((id, shaderPack) -> {
 			for (ShaderPack.Shader shader : shaderPack.shaders()) {
 				try {
-					ShaderRegistryEntry shaderRegistryEntry = Shaders.get(shader.registry(), shader.luminanceId());
+					ShaderRegistryEntry shaderRegistryEntry = Shaders.get(shader.registry(), shader.luminance());
 					if (shaderRegistryEntry == null) {
 						remove.add(id);
 						break;
@@ -223,7 +237,7 @@ public class SuperSecretSettings {
 	}
 	public static Tooltip getTooltip(Identifier shaderId) {
 		ShaderPack pack = getRegistry().get(shaderId);
-		return pack.translation().description() ? Tooltip.of(pack.translation().getDescription(SuperSecretSettings.shouldShowNamespace(pack.translation().id()))) : null;
+		return pack != null && pack.translation().description() ? Tooltip.of(pack.translation().getDescription(SuperSecretSettings.shouldShowNamespace(pack.translation().id()))) : null;
 	}
 	static {
 		random = new Random();

@@ -4,18 +4,11 @@
 	"shaders": [
 		{
 			"registry": "luminance:main",
-			"luminance": "luminance:outlined",
-			"amount": 1
+			"luminance": "luminance:outlined"
 		},
 		{
 			"registry": "luminance:main",
-			"luminance": "luminance:health_overlay",
-			"amount": 1
-		},
-		{
-			"registry": "perspective:extended",
-			"luminance": "perspective:cinematic",
-			"amount": 1
+			"luminance": "luminance:health_overlay"
 		}
 	]
 }

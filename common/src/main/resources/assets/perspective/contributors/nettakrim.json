@@ -11,5 +11,6 @@
 	"capeTexture": "none",
 	"shouldRenderOverlay": false,
 	"overlayTexture": "none",
-	"isOverlayEmissive": false
+	"isOverlayEmissive": false,
+	"shouldBlink": false
 }

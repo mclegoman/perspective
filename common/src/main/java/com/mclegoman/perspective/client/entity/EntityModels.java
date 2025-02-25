@@ -33,6 +33,7 @@ public class EntityModels {
 	public static final EntityModelLayer armorStandOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "armor_stand"), "outer");
 	public static final EntityModelLayer babyArmorStandOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "armor_stand"), "outer_baby");
 	public static final EntityModelLayer halloweenHat = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "player"), "halloween_hat");
+	public static final EntityModelLayer playerFace = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "player"), "face");
 	public static void init() {
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlaySlim, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), true), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlayWide, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), false), 64, 64));
@@ -51,6 +52,7 @@ public class EntityModels {
 		EntityModelLayerRegistry.registerModelLayer(armorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(babyArmorStandOverlay, () -> TexturedModelData.of(ArmorStandOverlayEntityModel.getModelData(new Dilation(0.01F), 0.0F), 64, 64).transform(ArmorStandEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(halloweenHat, HalloweenHatModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(playerFace, () -> PlayerFaceModel.getTexturedModelData(new Dilation(0.001F)));
 	}
 	public static void tick() {
 		entityCapeY = (entityCapeY + 0.5F) % 80.0F;

@@ -7,9 +7,6 @@
 
 package com.mclegoman.perspective.client.ui;
 
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.shaders.Shader;
-import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
@@ -103,17 +100,5 @@ public class UIBackground {
 	}
 	public interface Runnable {
 		void run(DrawContext context);
-	}
-	private static class ScrollingDirt {
-		private static Identifier getID() {
-			return Identifier.of(Data.getVersion().getID(), "scrolling_dirt");
-		}
-		private static boolean isScrollingDirt() {
-			return PerspectiveConfig.config.uiBackground.value().getIdentifier().equals(getID());
-		}
-		private static void render(Shader.RenderType renderType) {
-			Events.ShaderRender.register(getUIBackgroundId(), new ArrayList<>());
-			Events.ShaderRender.modify(getUIBackgroundId(), List.of(new Shader.Data(getID(), new Shader(Shaders.get(getUIBackgroundId(), getID()), () -> renderType, ScrollingDirt::isScrollingDirt))));
-		}
 	}
 }

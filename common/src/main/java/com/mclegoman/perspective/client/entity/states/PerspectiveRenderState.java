@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.entity.states;
 
 import net.minecraft.entity.EntityType;
 
+import java.util.Random;
 import java.util.UUID;
 
 public interface PerspectiveRenderState {

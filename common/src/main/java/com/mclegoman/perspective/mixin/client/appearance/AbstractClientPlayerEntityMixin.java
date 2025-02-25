@@ -9,8 +9,8 @@ package com.mclegoman.perspective.mixin.client.appearance;
 
 import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.perspective.client.appearance.Appearance;
+import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.contributor.ContributorData;
-import com.mclegoman.perspective.client.contributor.ContributorDataLoader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.texture.TextureHelper;
@@ -50,23 +50,14 @@ public class AbstractClientPlayerEntityMixin {
 				model = skin.getSecond() ? SkinTextures.Model.SLIM : SkinTextures.Model.WIDE;
 				stringifiedUUID = AprilFoolsPrankDataLoader.contributor;
 			} else {
-				if (!Appearance.DataLoader.registry.isEmpty()) {
-					for (Appearance.Data data : Appearance.DataLoader.registry.values()) {
-						if (uuid.equals(data.uuid())) {
-							skinTexture = TextureHelper.getTexture(data.texture(), skinTexture);
-							model = data.model();
-							break;
-						}
-					}
+				Appearance.Data appearance = Appearance.DataLoader.registry.get(stringifiedUUID);
+				if (appearance != null) {
+					skinTexture = TextureHelper.getTexture(appearance.texture(), skinTexture);
+					model = appearance.model();
 				}
 			}
-			for (ContributorData developer : ContributorDataLoader.registry) {
-				if (developer.getUuid().equals(stringifiedUUID)) {
-					if (developer.getShouldReplaceCape()) {
-						capeTexture = TextureHelper.getTexture(developer.getCapeTexture(), capeTexture);
-					}
-				}
-			}
+			ContributorData developer = Contributor.getContributorData(stringifiedUUID);
+			if (developer != null && developer.getShouldReplaceCape()) capeTexture = TextureHelper.getTexture(developer.getCapeTexture(), capeTexture);
 			cir.setReturnValue(new SkinTextures(skinTexture, currentSkinTextures.textureUrl(), capeTexture, capeTexture, model, currentSkinTextures.secure()));
 		}
 	}
