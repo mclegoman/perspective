@@ -31,7 +31,7 @@ public class PlayerFaceFeatureRenderer extends FeatureRenderer<PlayerEntityRende
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
 		if (!state.invisible && ((PerspectivePlayerRenderState)state).perspective$getBlinking()) {
 			this.model.face.copyTransform(this.getContextModel().head);
-			this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(state.skinTextures.texture())), light, LivingEntityRenderer.getOverlay(state, 0.0F));
+			this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(state.skinTextures.texture())), light, LivingEntityRenderer.getOverlay(state, 0.0F));
 		}
 	}
 }
