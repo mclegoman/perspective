@@ -206,6 +206,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 			boolean flip = JsonHelper.getBoolean(reader, "flip", false);
 			boolean item_group = JsonHelper.getBoolean(reader, "item_group", true);
 			boolean can_be_random = JsonHelper.getBoolean(reader, "can_be_random", true);
+			// TODO: Textured Entity Spectator Shaders.
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
 			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, can_be_random, enabled);
 		} catch (Exception error) {
