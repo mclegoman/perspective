@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "perspective:item/puffy_pufferfish_spawn_egg"
+  }
+}

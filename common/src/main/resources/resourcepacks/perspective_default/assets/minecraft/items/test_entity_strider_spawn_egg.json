@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "perspective:item/test_entity_strider_spawn_egg"
+  }
+}

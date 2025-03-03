@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "perspective:item/stone_creeper_spawn_egg"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "perspective:item/berry_panda_spawn_egg"
+  }
+}

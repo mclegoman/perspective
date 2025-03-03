@@ -44,19 +44,30 @@ public class ItemGroup {
 	private static void addItem(TexturedEntityData data, FabricItemGroupEntries content) {
 		Item item = SpawnEggItem.forEntity(TexturedEntity.getEntityType(Identifier.of(data.getNamespace(), data.getType())));
 		ItemStack itemStack = item != null ? item.getDefaultStack() : Items.GOAT_SPAWN_EGG.getDefaultStack();
-		itemStack.set(DataComponentTypes.CUSTOM_NAME, Translation.getItemTranslation(Data.getVersion().getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
+		itemStack.set(DataComponentTypes.ITEM_NAME, Translation.getItemTranslation(Data.getVersion().getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
 		NbtCompound entityData = new NbtCompound();
 		entityData.putString("id", Identifier.of(data.getNamespace(), data.getType()).toString());
 		entityData.putString("CustomName", "[{\"text\": " + data.getName() + "}]");
 		itemStack.set(DataComponentTypes.ENTITY_DATA, NbtComponent.of(entityData));
+		try {
+			// We put this in a try/catch as the name could contain something that identifiers can't have.
+			itemStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of(data.getNamespace().toLowerCase(), data.getName().toLowerCase() + "_" + data.getType().toLowerCase() + "_spawn_egg"));
+		} catch (Exception ignored) {
+			itemStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of(data.getNamespace().toLowerCase(), data.getType().toLowerCase() + "_spawn_egg"));
+		}
 		content.add(itemStack, net.minecraft.item.ItemGroup.StackVisibility.PARENT_TAB_ONLY);
 	}
 	public static ItemGroupData register(Identifier id, net.minecraft.item.ItemGroup itemGroup) {
 		RegistryKey<net.minecraft.item.ItemGroup> key = RegistryKey.of(Registries.ITEM_GROUP.getKey(), id);
 		return new ItemGroupData(key, Registry.register(Registries.ITEM_GROUP, key, itemGroup));
 	}
+	private static ItemStack getIconStack() {
+		ItemStack itemStack = Items.PIG_SPAWN_EGG.getDefaultStack();
+		itemStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of("technoblade_pig_spawn_egg"));
+		return itemStack;
+	}
 	static {
-		texturedEntity = register(Identifier.of(Data.getVersion().getID(), "textured_entity"), FabricItemGroup.builder().icon(() -> new ItemStack(Items.CAT_SPAWN_EGG)).displayName(Translation.getItemGroupTranslation(Data.getVersion().getID(), "textured_entity", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name")})).build());
+		texturedEntity = register(Identifier.of(Data.getVersion().getID(), "textured_entity"), FabricItemGroup.builder().icon(ItemGroup::getIconStack).displayName(Translation.getItemGroupTranslation(Data.getVersion().getID(), "textured_entity", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name")})).build());
 	}
 
 	public record ItemGroupData(RegistryKey<net.minecraft.item.ItemGroup> key, net.minecraft.item.ItemGroup itemGroup) {

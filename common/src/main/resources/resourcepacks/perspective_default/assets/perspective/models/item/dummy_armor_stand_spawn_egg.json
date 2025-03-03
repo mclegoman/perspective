@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "perspective:item/dummy_armor_stand_spawn_egg"
+  }
+}

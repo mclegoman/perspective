@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "perspective:item/waffel_goat_spawn_egg"
+  }
+}

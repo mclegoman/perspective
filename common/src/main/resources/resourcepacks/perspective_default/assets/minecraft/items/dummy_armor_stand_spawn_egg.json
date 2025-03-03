@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "perspective:item/dummy_armor_stand_spawn_egg"
+  }
+}
