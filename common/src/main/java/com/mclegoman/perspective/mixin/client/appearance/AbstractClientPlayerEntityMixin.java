@@ -7,7 +7,6 @@
 
 package com.mclegoman.perspective.mixin.client.appearance;
 
-import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.perspective.client.appearance.Appearance;
 import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.contributor.ContributorData;
@@ -45,10 +44,10 @@ public class AbstractClientPlayerEntityMixin {
 			UUID uuid = this.playerListEntry.getProfile().getId();
 			String stringifiedUUID = String.valueOf(uuid);
 			if (isAprilFools) {
-				Couple<Identifier, Boolean> skin = AprilFoolsPrankDataLoader.registry.get(AprilFoolsPrank.getAprilFoolsIndex(this.playerListEntry.getProfile().getId().getLeastSignificantBits(), AprilFoolsPrankDataLoader.registry.size()));
-				skinTexture = skin.getFirst();
-				model = skin.getSecond() ? SkinTextures.Model.SLIM : SkinTextures.Model.WIDE;
-				stringifiedUUID = AprilFoolsPrankDataLoader.contributor;
+				AprilFoolsPrank.PrankTexture texture = AprilFoolsPrank.getTexture(uuid);
+				skinTexture = texture.texture();
+				model = texture.isSlim() ? SkinTextures.Model.SLIM : SkinTextures.Model.WIDE;
+				stringifiedUUID = texture.contributor();
 			} else {
 				Appearance.Data appearance = Appearance.DataLoader.registry.get(stringifiedUUID);
 				if (appearance != null) {

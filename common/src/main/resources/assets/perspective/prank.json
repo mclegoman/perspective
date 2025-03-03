@@ -1,15 +1,20 @@
 {
 	"replace": false,
-	"skins": {
-		"slim": [
-			"perspective:entity/minecraft/player/slim/legotaylor",
-			"perspective:entity/minecraft/player/slim/legotaylor_create",
-			"perspective:entity/minecraft/player/slim/legotaylor_pride",
-			"perspective:entity/minecraft/player/slim/legotaylor_reversed",
-			"perspective:entity/minecraft/player/slim/legotaylor_suit",
-			"perspective:entity/minecraft/player/slim/legotaylor_trans",
-			"perspective:entity/minecraft/player/slim/legobrine"
-		]
-	},
-	"contributor": "772eb47b-a24e-4d43-a685-6ca9e9e132f7"
+	"values": [
+		{
+			"skins": {
+				"slim": [
+					"perspective:entity/minecraft/player/slim/legotaylor",
+					"perspective:entity/minecraft/player/slim/legotaylor_create",
+					"perspective:entity/minecraft/player/slim/legotaylor_demiromantic",
+					"perspective:entity/minecraft/player/slim/legotaylor_pride",
+					"perspective:entity/minecraft/player/slim/legotaylor_reversed",
+					"perspective:entity/minecraft/player/slim/legotaylor_suit",
+					"perspective:entity/minecraft/player/slim/legotaylor_trans",
+					"perspective:entity/minecraft/player/slim/legobrine"
+				]
+			},
+			"contributor": "772eb47b-a24e-4d43-a685-6ca9e9e132f7"
+		}
+	]
 }

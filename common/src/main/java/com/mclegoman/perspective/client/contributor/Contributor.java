@@ -8,15 +8,14 @@
 package com.mclegoman.perspective.client.contributor;
 
 import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
-import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Contributor {
 	/**
@@ -67,7 +66,7 @@ public class Contributor {
 		return null;
 	}
 	public static ContributorData getContributorData(String uuid) {
-		return getRawContributorData(AprilFoolsPrank.isAprilFools() ? AprilFoolsPrankDataLoader.contributor : uuid);
+		return getRawContributorData(AprilFoolsPrank.isAprilFools() ? AprilFoolsPrank.getContributor(UUID.fromString(uuid)) : uuid);
 	}
 	public static ContributorData getRawContributorData(String uuid) {
 		return ContributorDataLoader.registry.get(uuid);

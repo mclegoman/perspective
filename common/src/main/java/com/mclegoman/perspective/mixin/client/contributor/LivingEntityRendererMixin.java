@@ -8,8 +8,6 @@
 package com.mclegoman.perspective.mixin.client.contributor;
 
 import com.mclegoman.perspective.client.contributor.Contributor;
-import com.mclegoman.perspective.client.events.AprilFoolsPrank;
-import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
 import com.mclegoman.perspective.client.contributor.ContributorData;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;

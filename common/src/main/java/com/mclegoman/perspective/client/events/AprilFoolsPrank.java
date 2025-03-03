@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.events;
 
 import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
@@ -15,6 +16,9 @@ import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.util.Identifier;
+
+import java.util.List;
+import java.util.UUID;
 
 public class AprilFoolsPrank {
 	private static boolean seenWarning;
@@ -54,5 +58,17 @@ public class AprilFoolsPrank {
 	public static int getAprilFoolsIndex(long getLeastSignificantBits, int registrySize) {
 		// We add the current year to the player's uuid, so they get a different skin each year.
 		return Math.floorMod(getLeastSignificantBits + DateHelper.getDate().getYear(), registrySize);
+	}
+	public static AprilFoolsPrankDataLoader.PrankData getData(UUID uuid) {
+		return AprilFoolsPrankDataLoader.registry.get(AprilFoolsPrankDataLoader.registry.keySet().stream().toList().get(AprilFoolsPrank.getAprilFoolsIndex(uuid.getLeastSignificantBits(), AprilFoolsPrankDataLoader.registry.size())));
+	}
+	public static PrankTexture getTexture(UUID uuid) {
+		AprilFoolsPrankDataLoader.PrankData data = getData(uuid);
+		return new PrankTexture(data.textures().get(AprilFoolsPrank.getAprilFoolsIndex(uuid.getLeastSignificantBits(), data.textures().size())), data.isSlim(), data.contributor());
+	}
+	public static String getContributor(UUID uuid) {
+		return AprilFoolsPrankDataLoader.registry.get(AprilFoolsPrankDataLoader.registry.keySet().stream().toList().get(AprilFoolsPrank.getAprilFoolsIndex(uuid.getLeastSignificantBits(), AprilFoolsPrankDataLoader.registry.size()))).contributor();
+	}
+	public record PrankTexture(Identifier texture, boolean isSlim, String contributor) {
 	}
 }

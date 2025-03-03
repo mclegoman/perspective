@@ -15,7 +15,6 @@ import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -24,33 +23,37 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AprilFoolsPrankDataLoader extends JsonDataLoader {
-	public static final List<Couple<Identifier, Boolean>> registry = new ArrayList<>();
+	public static final Map<String, PrankData> registry = new HashMap<>();
 	public static final String ID = "prank";
-	public static String contributor;
 	public AprilFoolsPrankDataLoader() {
 		super(new Gson(), ID);
 	}
-	private void add(Identifier id, Boolean isSlim) {
+	private void add(List<Identifier> textures, boolean isSlim, String contributor) {
 		try {
-			Couple<Identifier, Boolean> skin = new Couple<>(id, isSlim);
-			if (!registry.contains(skin)) registry.add(skin);
+			registry.put(contributor + (isSlim ? "_slim" : "_wide"), new PrankData(textures, isSlim, contributor));
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add april fools prank to registry: {}", error));
 		}
 	}
-	private void addSkin(String id, boolean isSlim) {
-		String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, id);
-		String texture = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, id);
-		if (namespace != null && texture != null) {
-			texture = texture.toLowerCase();
-			texture = !texture.startsWith("textures/") ? "textures/" + texture : texture;
-			texture = !texture.endsWith(".png") ? texture + ".png" : texture;
-			add(Identifier.of(namespace, texture), isSlim);
+	private void addSkins(JsonArray textureIds, boolean isSlim, String contributor) {
+		List<Identifier> textures = new ArrayList<>();
+		for (JsonElement skin : textureIds) {
+			String id = skin.getAsString();
+			String namespace = IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, id);
+			String texture = IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, id);
+			if (namespace != null && texture != null) {
+				texture = texture.toLowerCase();
+				texture = !texture.startsWith("textures/") ? "textures/" + texture : texture;
+				texture = !texture.endsWith(".png") ? texture + ".png" : texture;
+				textures.add(Identifier.of(namespace, texture));
+			}
 		}
+		if (!textures.isEmpty()) add(textures, isSlim, contributor);
 	}
 	private void reset() {
 		try {
@@ -66,15 +69,20 @@ public class AprilFoolsPrankDataLoader extends JsonDataLoader {
 			for (Resource resource : manager.getAllResources(Identifier.of(Data.getVersion().getID(), ID + ".json"))) {
 				JsonObject reader = JsonHelper.deserialize(resource.getReader());
 				if (JsonHelper.getBoolean(reader, "replace", false)) reset();
-				JsonObject skins = JsonHelper.getObject(reader, "skins", new JsonObject());
-				JsonArray slimSkins = JsonHelper.getArray(skins, "slim", new JsonArray());
-				slimSkins.forEach((skin) -> addSkin(skin.getAsString(), true));
-				JsonArray wideSkins = JsonHelper.getArray(skins, "wide", new JsonArray());
-				wideSkins.forEach((skin) -> addSkin(skin.getAsString(), false));
-				contributor = JsonHelper.getString(reader, "contributor", "772eb47b-a24e-4d43-a685-6ca9e9e132f7");
+				JsonArray values = JsonHelper.getArray(reader, "values", new JsonArray());
+				for (JsonElement element : values) {
+					if (element instanceof JsonObject value) {
+						String contributor = JsonHelper.getString(value, "contributor", "772eb47b-a24e-4d43-a685-6ca9e9e132f7");
+						JsonObject skins = JsonHelper.getObject(value, "skins", new JsonObject());
+						addSkins(JsonHelper.getArray(skins, "slim", new JsonArray()), true, contributor);
+						addSkins(JsonHelper.getArray(skins, "wide", new JsonArray()), false, contributor);
+					}
+				}
 			}
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load prank values: {}", error));
 		}
+	}
+	public record PrankData(List<Identifier> textures, boolean isSlim, String contributor) {
 	}
 }

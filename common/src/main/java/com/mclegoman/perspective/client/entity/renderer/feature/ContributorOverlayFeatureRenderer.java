@@ -29,7 +29,7 @@ public class ContributorOverlayFeatureRenderer<P extends PlayerEntityRenderState
 		this.model = model;
 	}
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, P state, float limbAngle, float limbDistance) {
-		String uuid = (PerspectiveConfig.config.allowAprilFools.value() && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty()) ? AprilFoolsPrankDataLoader.contributor : String.valueOf(((PerspectiveRenderState)state).perspective$getUUID());
+		String uuid = (PerspectiveConfig.config.allowAprilFools.value() && AprilFoolsPrank.isAprilFools() && !AprilFoolsPrankDataLoader.registry.isEmpty()) ? AprilFoolsPrank.getContributor(((PerspectiveRenderState)state).perspective$getUUID()) : String.valueOf(((PerspectiveRenderState)state).perspective$getUUID());
 		if (Contributor.shouldOverlayTexture(uuid)) {
 			Identifier texture = Contributor.getOverlayTexture(uuid);
 			if (texture != null) {
