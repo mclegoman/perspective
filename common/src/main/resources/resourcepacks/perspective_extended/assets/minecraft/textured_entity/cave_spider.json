@@ -5,5 +5,7 @@
   "overrides": [
   ],
   "flip": false,
+  "item_group": false,
+  "can_be_random": true,
   "enabled": true
 }

@@ -75,5 +75,7 @@
     { "prefix": "", "suffix": "_black", "texture": "minecraft:textures/textured_entity/minecraft/shulker/carton" }
   ],
   "flip": false,
+  "item_group": true,
+  "can_be_random": true,
   "enabled": true
 }

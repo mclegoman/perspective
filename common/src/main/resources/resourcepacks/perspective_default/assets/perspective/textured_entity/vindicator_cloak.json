@@ -8,5 +8,7 @@
     { "prefix": "", "suffix": "_cape", "texture": "perspective:textures/textured_entity/minecraft/illager/cloak_cape" }
   ],
   "flip": false,
+  "item_group": true,
+  "can_be_random": true,
   "enabled": true
 }

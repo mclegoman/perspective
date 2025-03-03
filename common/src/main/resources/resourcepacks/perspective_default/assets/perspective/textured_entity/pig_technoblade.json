@@ -16,5 +16,7 @@
     { "prefix": "", "suffix": "_muddy_flower", "texture": "" }
   ],
   "flip": false,
+  "item_group": true,
+  "can_be_random": true,
   "enabled": true
 }

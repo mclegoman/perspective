@@ -145,15 +145,28 @@ public class TexturedEntity {
 		}
 		return entityRegistry;
 	}
+	private static List<TexturedEntityData> getRandomRegistry(List<TexturedEntityData> registry) {
+		List<TexturedEntityData> entityRegistry = new ArrayList<>();
+		try {
+			for (TexturedEntityData data : registry) if (data.getCanBeRandom() && (data.getEnabled() || data.getName().equalsIgnoreCase("default"))) entityRegistry.add(data);
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get random textured entity string registry: {}", error));
+		}
+		return entityRegistry;
+	}
 	private static Optional<String> getEntityName(EntityRenderState renderState) {
 		if (renderState.displayName != null) return Optional.of(renderState.displayName.getString());
 		else return Optional.of("default");
 	}
 	private static Optional<TexturedEntityData> getEntityData(List<TexturedEntityData> registry, String entityName) {
-		for (TexturedEntityData entityData : registry) {
-			if (entityName.equals(entityData.getName())) {
-				if (entityData.getEnabled()) return Optional.of(entityData);
+		try {
+			for (TexturedEntityData entityData : registry) {
+				if (entityName.equals(entityData.getName())) {
+					if (entityData.getEnabled()) return Optional.of(entityData);
+				}
 			}
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity data for entity '{}': {}", entityName, error));
 		}
 		return Optional.empty();
 	}
@@ -183,14 +196,18 @@ public class TexturedEntity {
 			Identifier entityId = getEntityTypeId(entityType);
 			if (!isForbiddenEntity(entityId)) {
 				List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
+				List<TexturedEntityData> randomRegistry = getRandomRegistry(registry);
 				if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
 					if (PerspectiveConfig.config.texturedNamedEntity.value()) {
 						Optional<TexturedEntityData> entityData = getEntityData(registry, entityName);
 						if (entityData.isPresent()) return entityData;
 					}
 					if (PerspectiveConfig.config.texturedRandomEntity.value()) {
-						TexturedEntityData entityData = registry.get(Math.floorMod(uuid.getLeastSignificantBits(), registry.size()));
-						if (entityData.getEnabled()) return Optional.of(entityData);
+						TexturedEntityData data = randomRegistry.get(Math.floorMod(uuid.getLeastSignificantBits(), randomRegistry.size()));
+						if (data.getName().equalsIgnoreCase("default")) {
+							Optional<TexturedEntityData> entityData = getEntityData(randomRegistry, "default");
+							if (entityData.isPresent()) return entityData;
+						} else return Optional.of(data);
 					}
 					if (PerspectiveConfig.config.texturedNamedEntity.value()) {
 						// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
@@ -203,7 +220,7 @@ public class TexturedEntity {
 				}
 			}
 		} catch (Exception error) {
-			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity specific data: {}", error));
+			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get textured entity entity data: {}", error));
 		}
 		return Optional.empty();
 	}

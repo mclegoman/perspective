@@ -60,5 +60,7 @@
     { "prefix": "", "suffix": "_all_black", "texture": "minecraft:textures/textured_entity/minecraft/cat/gorgie" }
   ],
   "flip": false,
+  "item_group": true,
+  "can_be_random": true,
   "enabled": true
 }

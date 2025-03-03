@@ -45,12 +45,12 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 	public TexturedEntityDataLoader() {
 		super(new Gson(), identifier);
 	}
-	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean enabled) {
-		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, item_group, enabled);
+	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean canBeRandom, boolean enabled) {
+		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, item_group, canBeRandom, enabled);
 	}
-	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean enabled) {
+	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean canBeRandom, boolean enabled) {
 		try {
-			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, enabled));
+			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, canBeRandom, enabled));
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
@@ -172,7 +172,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
 		for (String entity : entityTypes) {
-			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,false);
+			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,true, false);
 		}
 	}
 	@Override
@@ -205,8 +205,9 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 			JsonArray overrides = JsonHelper.getArray(reader, "overrides", new JsonArray());
 			boolean flip = JsonHelper.getBoolean(reader, "flip", false);
 			boolean item_group = JsonHelper.getBoolean(reader, "item_group", true);
+			boolean can_be_random = JsonHelper.getBoolean(reader, "can_be_random", true);
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
-			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, enabled);
+			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, can_be_random, enabled);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}

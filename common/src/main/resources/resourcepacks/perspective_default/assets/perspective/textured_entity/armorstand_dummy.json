@@ -7,5 +7,7 @@
     { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/armorstand/wood" }
   ],
   "flip": false,
+  "item_group": true,
+  "can_be_random": true,
   "enabled": true
 }

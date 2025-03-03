@@ -28,5 +28,6 @@
   ],
   "flip": true,
   "item_group": false,
+  "can_be_random": false,
   "enabled": true
 }
