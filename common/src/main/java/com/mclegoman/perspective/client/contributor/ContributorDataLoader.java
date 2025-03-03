@@ -77,7 +77,7 @@ public class ContributorDataLoader extends JsonDataLoader {
 			String overlayTexture = JsonHelper.getString(reader, "overlayTexture", "none");
 			boolean isOverlayEmissive = JsonHelper.getBoolean(reader, "isOverlayEmissive", false);
 			boolean shouldBlink = JsonHelper.getBoolean(reader, "shouldBlink", false);
-			String blinkTexture = JsonHelper.getString(reader, "blinkTexture", "skin");
+			String blinkTexture = JsonHelper.getString(reader, "blinkTexture", "none");
 			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive, shouldBlink, blinkTexture);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
