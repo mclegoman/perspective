@@ -26,7 +26,10 @@ public class EntityModels {
 	public static final EntityModelLayer babyBeeOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "bee"), "outer_baby");
 	public static final EntityModelLayer mooshroomOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "mooshroom"), "outer");
 	public static final EntityModelLayer babyMooshroomOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "mooshroom"), "outer_baby");
+	public static final EntityModelLayer cowOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "cow"), "outer");
+	public static final EntityModelLayer babyCowOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "cow"), "outer_baby");
 	public static final EntityModelLayer skeletonOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "skeleton"), "outer");
+	public static final EntityModelLayer witherSkeletonOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "wither_skeleton"), "outer");
 	public static final EntityModelLayer zombieOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "zombie"), "outer");
 	public static final EntityModelLayer giantOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "giant"), "outer");
 	public static final EntityModelLayer babyZombieOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "zombie"), "outer_baby");
@@ -45,7 +48,10 @@ public class EntityModels {
 		EntityModelLayerRegistry.registerModelLayer(babyBeeOverlay, () -> getBeeEntityModelData(new Dilation(0.5F)).transform(BeeEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(mooshroomOverlay, CowOverlayEntityModel::getTexturedOverlayModelData);
 		EntityModelLayerRegistry.registerModelLayer(babyMooshroomOverlay, () -> CowOverlayEntityModel.getTexturedOverlayModelData().transform(CowEntityModel.BABY_TRANSFORMER));
+		EntityModelLayerRegistry.registerModelLayer(cowOverlay, CowOverlayEntityModel::getTexturedOverlayModelData);
+		EntityModelLayerRegistry.registerModelLayer(babyCowOverlay, () -> CowOverlayEntityModel.getTexturedOverlayModelData().transform(CowEntityModel.BABY_TRANSFORMER));
 		EntityModelLayerRegistry.registerModelLayer(skeletonOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 32));
+		EntityModelLayerRegistry.registerModelLayer(witherSkeletonOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 32));
 		EntityModelLayerRegistry.registerModelLayer(zombieOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(giantOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64).transform(new PerspectiveModelTransformer(6.0F, -20.0F)));
 		EntityModelLayerRegistry.registerModelLayer(babyZombieOverlay, () -> getBipedEntityModelData(new Dilation(0.5F), 64, 64).transform(ZombieEntityModel.BABY_TRANSFORMER));

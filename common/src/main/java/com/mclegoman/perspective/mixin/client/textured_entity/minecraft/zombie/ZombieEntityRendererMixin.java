@@ -11,6 +11,7 @@ import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
 import com.mclegoman.perspective.client.entity.renderer.feature.OverlayFeatureRenderer;
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.ZombieBaseEntityRenderer;
 import net.minecraft.client.render.entity.ZombieEntityRenderer;
@@ -30,7 +31,7 @@ public abstract class ZombieEntityRendererMixin extends ZombieBaseEntityRenderer
 	}
 	@Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;)V", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, CallbackInfo ci) {
-		this.addFeature(new OverlayFeatureRenderer<>(this, new ZombieEntityModel<>(context.getPart(EntityModels.zombieOverlay)), new ZombieEntityModel<>(context.getPart(EntityModels.babyZombieOverlay)), Identifier.of("textures/entity/zombie/zombie_overlay.png")));
-		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of("perspective", "textures/entity/minecraft/zombie/zombie_cape.png")).build());
+		this.addFeature(new OverlayFeatureRenderer<>(this, new ZombieEntityModel<>(context.getPart(EntityModels.zombieOverlay)), new ZombieEntityModel<>(context.getPart(EntityModels.babyZombieOverlay)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/zombie_overlay.png")));
+		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/zombie_cape.png")).build());
 	}
 }

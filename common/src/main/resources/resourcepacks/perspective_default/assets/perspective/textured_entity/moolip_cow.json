@@ -1,6 +1,6 @@
 {
-  "entity": "minecraft:mooshroom",
-  "name": "Moobloom",
+  "entity": "minecraft:cow",
+  "name": "Moolip",
   "entity_specific": {
     "ages": {
       "baby": {
@@ -11,26 +11,21 @@
       }
     },
     "variants": {
-      "red": {
+      "temperate": {
         "enabled": true,
         "block": {
-          "identifier": "minecraft:dandelion"
-        }
-      },
-      "brown": {
-        "enabled": true,
-        "block": {
-          "identifier": "minecraft:torchflower"
+          "identifier": "minecraft:oxeye_daisy"
         }
       }
     }
   },
   "overrides": [
+    { "prefix": "temperate_", "suffix": "_overlay", "texture": "" },
     { "prefix": "", "suffix": "_cape", "texture": "" }
   ],
   "flip": false,
   "item_group": true,
-  "item_model": "minecraft:moobloom_mooshroom_spawn_egg",
+  "item_model": "minecraft:moolip_cow_spawn_egg",
   "can_be_random": true,
   "enabled": true
 }

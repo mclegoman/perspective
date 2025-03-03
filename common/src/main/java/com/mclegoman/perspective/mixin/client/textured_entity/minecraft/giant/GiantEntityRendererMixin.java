@@ -12,6 +12,7 @@ import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
 import com.mclegoman.perspective.client.entity.renderer.feature.OverlayFeatureRenderer;
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -32,8 +33,8 @@ public abstract class GiantEntityRendererMixin extends MobEntityRenderer<GiantEn
 	}
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, float scale, CallbackInfo ci) {
-		this.addFeature(new OverlayFeatureRenderer<>(this, new GiantEntityModel(context.getPart(EntityModels.giantOverlay)), null, Identifier.of("textures/entity/zombie/zombie_overlay.png")));
-		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of("perspective", "textures/entity/minecraft/zombie/zombie_cape.png")).scale(6.0F).offsetY(-1.25F).build());
+		this.addFeature(new OverlayFeatureRenderer<>(this, new GiantEntityModel(context.getPart(EntityModels.giantOverlay)), null, Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/zombie_overlay.png")));
+		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/zombie_cape.png")).scale(6.0F).offsetY(-1.25F).build());
 	}
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/client/render/entity/state/ZombieEntityRenderState;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(ZombieEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {

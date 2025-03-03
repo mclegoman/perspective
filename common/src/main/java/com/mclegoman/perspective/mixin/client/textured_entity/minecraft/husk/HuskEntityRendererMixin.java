@@ -12,13 +12,12 @@ import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
 import com.mclegoman.perspective.client.entity.renderer.feature.OverlayFeatureRenderer;
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.HuskEntityRenderer;
-import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.ZombieEntityRenderer;
 import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.client.render.entity.state.ZombieEntityRenderState;
-import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,8 +32,8 @@ public abstract class HuskEntityRendererMixin extends ZombieEntityRenderer {
 	}
 	@Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;)V", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, CallbackInfo ci) {
-		this.addFeature(new OverlayFeatureRenderer<>(this, new ZombieEntityModel<>(context.getPart(EntityModels.zombieOverlay)), new ZombieEntityModel<>(context.getPart(EntityModels.babyZombieOverlay)), Identifier.of("textures/entity/zombie/husk_overlay.png")));
-		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of("perspective", "textures/entity/minecraft/zombie/husk_cape.png")).build());
+		this.addFeature(new OverlayFeatureRenderer<>(this, new ZombieEntityModel<>(context.getPart(EntityModels.zombieOverlay)), new ZombieEntityModel<>(context.getPart(EntityModels.babyZombieOverlay)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/husk_overlay.png")));
+		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/zombie/husk_cape.png")).build());
 	}
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/client/render/entity/state/ZombieEntityRenderState;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(ZombieEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {

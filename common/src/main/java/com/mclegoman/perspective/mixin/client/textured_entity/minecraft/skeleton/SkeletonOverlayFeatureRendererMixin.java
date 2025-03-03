@@ -9,6 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.skeleto
 
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.SkeletonOverlayFeatureRenderer;
 import net.minecraft.client.render.entity.state.SkeletonEntityRenderState;
@@ -28,7 +29,8 @@ public class SkeletonOverlayFeatureRendererMixin<S extends SkeletonEntityRenderS
 	@Mutable @Shadow @Final private Identifier texture;
 	@Inject(at = @At("HEAD"), method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/SkeletonEntityRenderState;FF)V")
 	private void perspective$getTexture(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, S skeletonEntityRenderState, float f, float g, CallbackInfo ci) {
-		Identifier entityType = Registries.ENTITY_TYPE.getId(((PerspectiveRenderState)skeletonEntityRenderState).perspective$getType());
-		texture = TexturedEntity.getTexture(skeletonEntityRenderState, "", "_overlay", Identifier.of(entityType.getNamespace(), "textures/entity/skeleton/" + entityType.getPath() + "_overlay.png"));
+		Identifier entityType = Registries.ENTITY_TYPE.getId(((PerspectiveRenderState) skeletonEntityRenderState).perspective$getType());
+		Identifier defaultTexture = (entityType.equals(Identifier.ofVanilla("stray")) || entityType.equals(Identifier.ofVanilla("bogged"))) ? Identifier.of(entityType.getNamespace(), "textures/entity/skeleton/" + entityType.getPath() + "_overlay.png") : Identifier.of(Data.getVersion().getID(), "textures/entity/" + entityType.getNamespace() + "/skeleton/" + entityType.getPath() + "_overlay.png");
+		texture = TexturedEntity.getTexture(skeletonEntityRenderState, "", "_overlay", defaultTexture);
 	}
 }

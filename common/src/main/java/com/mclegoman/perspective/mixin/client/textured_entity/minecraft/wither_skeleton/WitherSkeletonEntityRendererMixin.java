@@ -11,6 +11,7 @@ import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
+import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.entity.AbstractSkeletonEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.WitherSkeletonEntityRenderer;
@@ -32,8 +33,8 @@ public abstract class WitherSkeletonEntityRendererMixin extends AbstractSkeleton
 	}
 	@Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;)V", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, CallbackInfo ci) {
-		this.addFeature(new SkeletonOverlayFeatureRenderer<>(this, context.getEntityModels(), EntityModels.skeletonOverlay, Identifier.of("textures/entity/skeleton/wither_skeleton_overlay.png")));
-		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of("perspective", "textures/entity/minecraft/skeleton/skeleton_cape.png")).build());
+		this.addFeature(new SkeletonOverlayFeatureRenderer<>(this, context.getEntityModels(), EntityModels.witherSkeletonOverlay, Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/skeleton/wither_skeleton_overlay.png")));
+		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/skeleton/skeleton_cape.png")).build());
 	}
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/client/render/entity/state/SkeletonEntityRenderState;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(SkeletonEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {

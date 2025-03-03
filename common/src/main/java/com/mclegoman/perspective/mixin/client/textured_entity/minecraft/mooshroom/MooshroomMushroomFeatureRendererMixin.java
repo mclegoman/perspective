@@ -47,12 +47,11 @@ public class MooshroomMushroomFeatureRendererMixin {
 									if (typeRegistry != null) {
 										boolean enabled = JsonHelper.getBoolean(typeRegistry, "enabled", true);
 										if (enabled) {
-											if (typeRegistry.has("mushroom")) {
-												JsonObject mushroom = JsonHelper.getObject(typeRegistry, "mushroom");
-												if (mushroom.has("identifier")) {
-													Identifier blockId = IdentifierHelper.identifierFromString(JsonHelper.getString(mushroom, "identifier", IdentifierHelper.stringFromIdentifier(Registries.BLOCK.getId(mooshroomType.getMushroomState().getBlock()))));
-													if (Registries.BLOCK.containsId(blockId))
-														return Registries.BLOCK.get(blockId).getDefaultState();
+											if (typeRegistry.has("block") || typeRegistry.has("mushroom")) {
+												JsonObject block = typeRegistry.has("block") ? JsonHelper.getObject(typeRegistry, "block") : JsonHelper.getObject(typeRegistry, "mushroom");
+												if (block.has("identifier")) {
+													Identifier blockId = IdentifierHelper.identifierFromString(JsonHelper.getString(block, "identifier", IdentifierHelper.stringFromIdentifier(Registries.BLOCK.getId(mooshroomType.getMushroomState().getBlock()))));
+													if (Registries.BLOCK.containsId(blockId)) return Registries.BLOCK.get(blockId).getDefaultState();
 												}
 											}
 										}
