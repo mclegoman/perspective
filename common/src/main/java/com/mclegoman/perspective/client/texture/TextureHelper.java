@@ -36,4 +36,9 @@ public class TextureHelper {
 		}
 		return current;
 	}
+	public static Identifier getTexture(Identifier texture, Identifier current, Identifier skin) {
+		String path = texture.getPath();
+		if (path.equalsIgnoreCase("skin")) return skin;
+		return getTexture(texture, current);
+	}
 }

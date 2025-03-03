@@ -88,11 +88,7 @@ public class Contributor {
 	public static Identifier getBlinkTexture(String uuid, Identifier skin) {
 		ContributorData contributorData = getContributorData(uuid);
 		Identifier none = Identifier.of(Data.getVersion().getID(), "textures/contributors/blink/none.png");
-		if (contributorData != null) {
-			Identifier texture = TextureHelper.getTexture(contributorData.getBlinkTexture(), none);
-			if (texture.getPath().equalsIgnoreCase("skin")) texture = skin;
-			return texture;
-		}
+		if (contributorData != null) return TextureHelper.getTexture(contributorData.getBlinkTexture(), none, skin);
 		return none;
 	}
 	public static boolean canBlink(String uuid) {
