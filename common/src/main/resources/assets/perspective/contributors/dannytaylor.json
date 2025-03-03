@@ -14,5 +14,6 @@
 	"shouldRenderOverlay": false,
 	"overlayTexture": "none",
 	"isOverlayEmissive": false,
-	"shouldBlink": true
+	"shouldBlink": true,
+	"blinkTexture": "skin"
 }

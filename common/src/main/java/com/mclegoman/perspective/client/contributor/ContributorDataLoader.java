@@ -32,13 +32,13 @@ public class ContributorDataLoader extends JsonDataLoader {
 	public ContributorDataLoader() {
 		super(new Gson(), id);
 	}
-	private void add(List<JsonElement> inputIds, String uuid, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, String capeTexture, boolean shouldRenderOverlay, String overlayTexture, boolean isOverlayEmissive, boolean shouldBlink) {
+	private void add(List<JsonElement> inputIds, String uuid, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, String capeTexture, boolean shouldRenderOverlay, String overlayTexture, boolean isOverlayEmissive, boolean shouldBlink, String blinkTexture) {
 		try {
 			ContributorLockData lockData = Contributor.getUuid(uuid);
 			if (lockData != null) {
 				List<String> outputIds = new ArrayList<>();
 				for (JsonElement id : inputIds) outputIds.add(id.getAsString());
-				registry.put(uuid, ContributorData.builder(uuid).id(outputIds).type(lockData.getType().getName()).shouldFlipUpsideDown(shouldFlipUpsideDown).shouldReplaceCape(shouldReplaceCape).capeTexture(IdentifierHelper.identifierFromString(capeTexture)).shouldRenderOverlay(shouldRenderOverlay).overlayTexture(IdentifierHelper.identifierFromString(overlayTexture), isOverlayEmissive).shouldBlink(shouldBlink).build());
+				registry.put(uuid, ContributorData.builder(uuid).id(outputIds).type(lockData.getType().getName()).shouldFlipUpsideDown(shouldFlipUpsideDown).shouldReplaceCape(shouldReplaceCape).capeTexture(IdentifierHelper.identifierFromString(capeTexture)).shouldRenderOverlay(shouldRenderOverlay).overlayTexture(IdentifierHelper.identifierFromString(overlayTexture), isOverlayEmissive).shouldBlink(shouldBlink).blinkTexture(IdentifierHelper.identifierFromString(blinkTexture)).build());
 			} else {
 				Data.getVersion().sendToLog(LogType.WARN, Translation.getString("{} is not permitted to use contributor dataloader!", uuid));
 			}
@@ -77,7 +77,8 @@ public class ContributorDataLoader extends JsonDataLoader {
 			String overlayTexture = JsonHelper.getString(reader, "overlayTexture", "none");
 			boolean isOverlayEmissive = JsonHelper.getBoolean(reader, "isOverlayEmissive", false);
 			boolean shouldBlink = JsonHelper.getBoolean(reader, "shouldBlink", false);
-			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive, shouldBlink);
+			String blinkTexture = JsonHelper.getString(reader, "blinkTexture", "skin");
+			for (JsonElement uuid : uuids) add(id, uuid.getAsString(), shouldFlipUpsideDown, shouldReplaceCape, capeTexture, shouldRenderOverlay, overlayTexture, isOverlayEmissive, shouldBlink, blinkTexture);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.WARN, Translation.getString("Failed to load contributor from dataloader: {}", error));
 		}

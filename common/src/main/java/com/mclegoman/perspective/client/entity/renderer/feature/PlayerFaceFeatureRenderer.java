@@ -7,11 +7,11 @@
 
 package com.mclegoman.perspective.client.entity.renderer.feature;
 
-import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.PlayerFaceModel;
 import com.mclegoman.perspective.client.entity.states.PerspectivePlayerRenderState;
-import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -29,9 +29,13 @@ public class PlayerFaceFeatureRenderer extends FeatureRenderer<PlayerEntityRende
 		this.model = new PlayerFaceModel<>(entityModels.getModelPart(EntityModels.playerFace));
 	}
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-		if (!state.invisible && ((PerspectivePlayerRenderState)state).perspective$getBlinking()) {
-			this.model.face.copyTransform(this.getContextModel().head);
-			this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(state.skinTextures.texture())), light, LivingEntityRenderer.getOverlay(state, 0.0F));
+		if (!state.invisible) {
+			if (((PerspectivePlayerRenderState)state).perspective$getBlinking()) {
+				// We don't need to check if we can blink, since we do that when setting blinking.
+				//if (Contributor.getContributorData(uuid).getShouldBlink()) {}
+				this.model.face.copyTransform(this.getContextModel().head);
+				this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(Contributor.getBlinkTexture(((PerspectiveRenderState)state).perspective$getUUID().toString(), state.skinTextures.texture()))), light, LivingEntityRenderer.getOverlay(state, 0.0F));
+			}
 		}
 	}
 }

@@ -25,7 +25,8 @@ public class ContributorData {
 	private final Identifier overlayTexture;
 	private final boolean isOverlayEmissive;
 	private final boolean shouldBlink;
-	private ContributorData(List<String> ids, String uuid, String type, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, Identifier capeTexture, boolean shouldRenderOverlay, Identifier overlayTexture, boolean isOverlayEmissive, boolean shouldBlink) {
+	private final Identifier blinkTexture;
+	private ContributorData(List<String> ids, String uuid, String type, boolean shouldFlipUpsideDown, boolean shouldReplaceCape, Identifier capeTexture, boolean shouldRenderOverlay, Identifier overlayTexture, boolean isOverlayEmissive, boolean shouldBlink, Identifier blinkTexture) {
 		this.ids = ids;
 		this.uuid = uuid;
 		this.type = type;
@@ -36,6 +37,7 @@ public class ContributorData {
 		this.overlayTexture = overlayTexture;
 		this.isOverlayEmissive = isOverlayEmissive;
 		this.shouldBlink = shouldBlink;
+		this.blinkTexture = blinkTexture;
 	}
 	public static Builder builder(String uuid) {
 		return new Builder(uuid);
@@ -51,6 +53,7 @@ public class ContributorData {
 		private Identifier overlayTexture;
 		private boolean isOverlayEmissive;
 		private boolean shouldBlink;
+		private Identifier blinkTexture;
 		public Builder(String uuid) {
 			this.ids = new ArrayList<>();
 			this.uuid = uuid;
@@ -62,6 +65,7 @@ public class ContributorData {
 			this.overlayTexture = IdentifierHelper.identifierFromString("none");
 			this.isOverlayEmissive = false;
 			this.shouldBlink = false;
+			this.blinkTexture = IdentifierHelper.identifierFromString("none");
 		}
 		public Builder id(String... ids) {
 			Collections.addAll(this.ids, ids);
@@ -103,8 +107,12 @@ public class ContributorData {
 			this.shouldBlink = shouldBlink;
 			return this;
 		}
+		public Builder blinkTexture(Identifier blinkTexture) {
+			this.blinkTexture = blinkTexture;
+			return this;
+		}
 		public ContributorData build() {
-			return new ContributorData(this.ids, this.uuid, this.type, this.shouldFlipUpsideDown, this.shouldReplaceCape, this.capeTexture, this.shouldRenderOverlay, this.overlayTexture, this.isOverlayEmissive, this.shouldBlink);
+			return new ContributorData(this.ids, this.uuid, this.type, this.shouldFlipUpsideDown, this.shouldReplaceCape, this.capeTexture, this.shouldRenderOverlay, this.overlayTexture, this.isOverlayEmissive, this.shouldBlink, this.blinkTexture);
 		}
 	}
 	public List<String> getIds() {
@@ -136,5 +144,8 @@ public class ContributorData {
 	}
 	public boolean getShouldBlink() {
 		return this.shouldBlink;
+	}
+	public Identifier getBlinkTexture() {
+		return this.blinkTexture;
 	}
 }

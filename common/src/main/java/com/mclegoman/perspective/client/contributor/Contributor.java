@@ -81,8 +81,19 @@ public class Contributor {
 	}
 	public static Identifier getOverlayTexture(String uuid) {
 		ContributorData contributorData = getContributorData(uuid);
-		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), Identifier.of(Data.getVersion().getID(), "textures/contributors/overlay/none.png"));
-		return null;
+		Identifier none = Identifier.of(Data.getVersion().getID(), "textures/contributors/overlay/none.png");
+		if (contributorData != null) return TextureHelper.getTexture(contributorData.getOverlayTexture(), none);
+		return none;
+	}
+	public static Identifier getBlinkTexture(String uuid, Identifier skin) {
+		ContributorData contributorData = getContributorData(uuid);
+		Identifier none = Identifier.of(Data.getVersion().getID(), "textures/contributors/blink/none.png");
+		if (contributorData != null) {
+			Identifier texture = TextureHelper.getTexture(contributorData.getBlinkTexture(), none);
+			if (texture.getPath().equalsIgnoreCase("skin")) texture = skin;
+			return texture;
+		}
+		return none;
 	}
 	public static boolean canBlink(String uuid) {
 		ContributorData data = Contributor.getContributorData(uuid);
