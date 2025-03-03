@@ -21,6 +21,7 @@ import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
 public class PlayerFaceFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
 	private final PlayerFaceModel<PlayerEntityRenderState> model;
@@ -34,7 +35,8 @@ public class PlayerFaceFeatureRenderer extends FeatureRenderer<PlayerEntityRende
 				// We don't need to check if we can blink, since we do that when setting blinking.
 				//if (Contributor.getContributorData(uuid).getShouldBlink()) {}
 				this.model.face.copyTransform(this.getContextModel().head);
-				this.model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(Contributor.getBlinkTexture(((PerspectiveRenderState)state).perspective$getUUID().toString(), state.skinTextures.texture()))), light, LivingEntityRenderer.getOverlay(state, 0.0F));
+				Identifier texture = Contributor.getBlinkTexture(((PerspectiveRenderState)state).perspective$getUUID().toString(), state.skinTextures.texture());
+				this.model.render(matrices, vertexConsumers.getBuffer(texture.equals(state.skinTextures.texture()) ? RenderLayer.getEntitySolid(texture) : RenderLayer.getEntityTranslucent(texture)), light, LivingEntityRenderer.getOverlay(state, 0.0F));
 			}
 		}
 	}
