@@ -32,7 +32,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 		// This should only be used if the list needs to be sorted alphabetically.
 		Map<String, TexturedEntityData> unprocessedRegistry = new HashMap<>();
 		List<TexturedEntityData> processedRegistry = new ArrayList<>();
-		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getName().toLowerCase() + data.getNamespace() + data.getType(), data);
+		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getNamespace() + data.getType() + data.getName().toLowerCase(), data);
 		for (String name : new TreeSet<>(unprocessedRegistry.keySet())) processedRegistry.add(unprocessedRegistry.get(name));
 		return processedRegistry;
 	}
