@@ -76,7 +76,7 @@
   ],
   "flip": false,
   "item_group": true,
-  "item_model": "minecraft:carton_skulker_spawn_egg",
+  "item_model": "minecraft:carton_shulker_spawn_egg",
   "can_be_random": true,
   "enabled": true
 }
