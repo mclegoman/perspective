@@ -8,6 +8,7 @@
   ],
   "flip": false,
   "item_group": true,
+  "item_model": "minecraft:dummy_armor_stand_spawn_egg",
   "can_be_random": true,
   "enabled": true
 }

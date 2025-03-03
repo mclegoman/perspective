@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.entity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.util.Identifier;
 
 public class TexturedEntityData {
 	private final String namespace;
@@ -18,12 +19,10 @@ public class TexturedEntityData {
 	private final JsonArray overrides;
 	private final boolean flip;
 	private final boolean item_group;
+	private final Identifier item_model;
 	private final boolean canBeRandom;
 	private final boolean enabled;
-	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean enabled) {
-		this(namespace, type, name, entity_specific, overrides, false, true, true, enabled);
-	}
-	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, boolean canBeRandom, boolean enabled) {
+	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, boolean enabled) {
 		this.namespace = namespace;
 		this.type = type;
 		this.name = name;
@@ -31,6 +30,7 @@ public class TexturedEntityData {
 		this.overrides = overrides;
 		this.flip = flip;
 		this.item_group = item_group;
+		this.item_model = item_model;
 		this.canBeRandom = canBeRandom;
 		this.enabled = enabled;
 	}
@@ -54,6 +54,9 @@ public class TexturedEntityData {
 	}
 	public boolean getItemGroup() {
 		return this.item_group;
+	}
+	public Identifier getItemModel() {
+		return this.item_model;
 	}
 	public boolean getEnabled() {
 		return this.enabled;

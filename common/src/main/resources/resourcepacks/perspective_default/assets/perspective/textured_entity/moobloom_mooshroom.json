@@ -30,6 +30,7 @@
   ],
   "flip": false,
   "item_group": true,
+  "item_model": "minecraft:moobloom_mooshroom_spawn_egg",
   "can_be_random": true,
   "enabled": true
 }

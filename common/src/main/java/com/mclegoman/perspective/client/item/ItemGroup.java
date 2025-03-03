@@ -7,7 +7,6 @@
 
 package com.mclegoman.perspective.client.item;
 
-import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.TexturedEntityData;
 import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -17,10 +16,8 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -42,19 +39,13 @@ public class ItemGroup {
 		});
 	}
 	private static void addItem(TexturedEntityData data, FabricItemGroupEntries content) {
-		Item item = SpawnEggItem.forEntity(TexturedEntity.getEntityType(Identifier.of(data.getNamespace(), data.getType())));
-		ItemStack itemStack = item != null ? item.getDefaultStack() : Items.GOAT_SPAWN_EGG.getDefaultStack();
+		ItemStack itemStack = Items.PIG_SPAWN_EGG.getDefaultStack();
 		itemStack.set(DataComponentTypes.ITEM_NAME, Translation.getItemTranslation(Data.getVersion().getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
 		NbtCompound entityData = new NbtCompound();
 		entityData.putString("id", Identifier.of(data.getNamespace(), data.getType()).toString());
 		entityData.putString("CustomName", "[{\"text\": " + data.getName() + "}]");
 		itemStack.set(DataComponentTypes.ENTITY_DATA, NbtComponent.of(entityData));
-		try {
-			// We put this in a try/catch as the name could contain something that identifiers can't have.
-			itemStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of(data.getNamespace().toLowerCase(), data.getName().toLowerCase() + "_" + data.getType().toLowerCase() + "_spawn_egg"));
-		} catch (Exception ignored) {
-			itemStack.set(DataComponentTypes.ITEM_MODEL, Identifier.of(data.getNamespace().toLowerCase(), data.getType().toLowerCase() + "_spawn_egg"));
-		}
+		if (data.getItemModel() != null) itemStack.set(DataComponentTypes.ITEM_MODEL, data.getItemModel());
 		content.add(itemStack, net.minecraft.item.ItemGroup.StackVisibility.PARENT_TAB_ONLY);
 	}
 	public static ItemGroupData register(Identifier id, net.minecraft.item.ItemGroup itemGroup) {

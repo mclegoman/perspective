@@ -17,6 +17,7 @@
   ],
   "flip": false,
   "item_group": true,
+  "item_model": "minecraft:technoblade_pig_spawn_egg",
   "can_be_random": true,
   "enabled": true
 }
