@@ -26,7 +26,8 @@
     }
   },
   "overrides": [
-    { "prefix": "", "suffix": "_cape", "texture": "" }
+    { "prefix": "", "suffix": "_cape", "texture": "" },
+    { "prefix": "red_", "suffix": "_overlay", "texture": "" }
   ],
   "flip": false,
   "item_group": true,
