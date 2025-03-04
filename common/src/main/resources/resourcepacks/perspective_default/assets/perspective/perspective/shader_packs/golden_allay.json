@@ -5,7 +5,7 @@
 	"shaders": [
 		{
 			"registry": "perspective:textured_entity",
-			"luminance": "perspective:golden"
+			"luminance": "perspective:golden_blobs2"
 		}
 	]
 }

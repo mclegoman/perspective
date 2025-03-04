@@ -9,7 +9,7 @@ package com.mclegoman.perspective.client.entity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -74,7 +74,7 @@ public class TexturedEntityEntry {
 	}
 	public record SpectatorShader(Identifier registry, Identifier shaderPack) {
 		public SpectatorShader(Identifier shaderPack) {
-			this(SuperSecretSettings.getShadersId(), shaderPack);
+			this(ShaderPacks.getShadersId(), shaderPack);
 		}
 	}
 }

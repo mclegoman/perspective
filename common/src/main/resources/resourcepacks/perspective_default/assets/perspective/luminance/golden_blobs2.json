@@ -1,0 +1,9 @@
+{
+	"post_effect": "perspective:golden_blobs2",
+	"enabled": true,
+	"translatable": false,
+	"description": false,
+	"disable_game_rendertype": true,
+	"custom": {},
+	"registries": [ "perspective:textured_entity" ]
+}

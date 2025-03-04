@@ -9,8 +9,8 @@
   "item_group": false,
   "can_be_random": true,
   "shader": {
-    "registry": "perspective:main",
-    "pack": "perspective:blue"
+    "registry": "perspective:textured_entity",
+    "pack": "perspective:blue_vex"
   },
   "enabled": true
 }

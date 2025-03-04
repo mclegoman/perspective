@@ -9,7 +9,7 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
@@ -43,12 +43,12 @@ public class ShaderPackSelectionScreen extends Screen {
 		this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
 		addDrawableChild(widget);
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
-			SuperSecretSettings.cycleShaderMode();
+			ShaderPacks.cycleShaderMode();
 			this.refresh = true;
 		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
 
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
-			SuperSecretSettings.toggle();
+			ShaderPacks.toggle();
 			this.refresh = true;
 		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 + 2, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
 

@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.resource.ResourceManager;
@@ -209,7 +209,7 @@ public class TexturedEntityDataReloader extends JsonDataLoader {
 			Optional<TexturedEntityEntry.SpectatorShader> shaderPack = Optional.empty();
 			if (JsonHelper.hasJsonObject(reader, "shader")) {
 				JsonObject shaderData = JsonHelper.getObject(reader, "shader");
-				shaderPack = Optional.of(new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", SuperSecretSettings.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack"))));
+				shaderPack = Optional.of(new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", ShaderPacks.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack"))));
 			}
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
 			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, shaderPack, enabled);

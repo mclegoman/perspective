@@ -16,7 +16,7 @@ import java.util.List;
 
 public record ShaderPackEntry(Identifier registry, Translation translation, List<Shader> shaders, JsonObject customData) {
 	public ShaderPackEntry(Translation translation, List<Shader> shaders, JsonObject customData) {
-		this(SuperSecretSettings.getShadersId(), translation, shaders, customData);
+		this(ShaderPacks.getShadersId(), translation, shaders, customData);
 	}
 	public record Translation(boolean isTranslatable, Identifier id, boolean isShaderPack, boolean description) {
 		public Translation(Identifier id) {

@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.gui.DrawContext;
@@ -23,7 +23,7 @@ public class ShaderListEntry<E extends ShaderListEntry<E>> extends AlwaysSelecte
 	}
 	@Override
 	public void render(DrawContext context, int index, int y, int x, int rowWidth, int rowHeight, int mouseX, int mouseY, boolean hovered, float delta) {
-		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list.shader", new Object[]{SuperSecretSettings.getRegistry().get(id).translation().getTranslation(SuperSecretSettings.shouldShowNamespace(SuperSecretSettings.getShadersId(), id))}), ClientData.minecraft.getWindow().getScaledWidth() / 2, y + (rowHeight / 2) - (9 / 2), 0xFFFFFF);
+		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.list.shader", new Object[]{ShaderPacks.getRegistry().get(id).translation().getTranslation(ShaderPacks.shouldShowNamespace(ShaderPacks.getShadersId(), id))}), ClientData.minecraft.getWindow().getScaledWidth() / 2, y + (rowHeight / 2) - (9 / 2), 0xFFFFFF);
 	}
 	@Override
 	public Text getNarration() {

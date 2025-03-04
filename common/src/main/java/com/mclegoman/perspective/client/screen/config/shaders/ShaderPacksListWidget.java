@@ -9,7 +9,7 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer;
 import net.minecraft.client.gui.tooltip.TooltipState;
@@ -23,9 +23,9 @@ import java.util.Objects;
 public class ShaderPacksListWidget<E extends ShaderListEntry<E>> extends AlwaysSelectedEntryListWidget<E> {
 	protected ShaderPacksListWidget(int width, int height, int top, int bottom, int itemHeight, double scrollAmount) {
 		super(ClientData.minecraft, width, height - top - bottom, top, itemHeight);
-		SuperSecretSettings.getRegistryIds().forEach((id) -> this.addEntry((E) new ShaderListEntry<E>(id)));
+		ShaderPacks.getRegistryIds().forEach((id) -> this.addEntry((E) new ShaderListEntry<E>(id)));
 		if (this.getEntryCount() > 0) {
-			int index = SuperSecretSettings.getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
+			int index = ShaderPacks.getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
 			if (index >= 0) {
 				super.setSelected(getEntry(index));
 				this.setScrollY(scrollAmount >= 0 ? scrollAmount : index * 20);
@@ -36,7 +36,7 @@ public class ShaderPacksListWidget<E extends ShaderListEntry<E>> extends AlwaysS
 	@Override
 	public void setSelected(@Nullable E entry) {
 		super.setSelected(entry);
-		if (entry != null && PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier() != entry.id) SuperSecretSettings.setShader(entry.id);
+		if (entry != null && PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier() != entry.id) ShaderPacks.setShader(entry.id);
 	}
 	@Override
 	protected int addEntry(E entry) {
@@ -72,7 +72,7 @@ public class ShaderPacksListWidget<E extends ShaderListEntry<E>> extends AlwaysS
 	}
 	private TooltipState getEntryTooltip() {
 		TooltipState entryTooltip = new TooltipState();
-		if (getHoveredEntry() != null) entryTooltip.setTooltip(SuperSecretSettings.getTooltip(getHoveredEntry().id));
+		if (getHoveredEntry() != null) entryTooltip.setTooltip(ShaderPacks.getTooltip(getHoveredEntry().id));
 		return entryTooltip;
 	}
 }

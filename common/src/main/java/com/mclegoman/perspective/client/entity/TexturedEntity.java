@@ -17,7 +17,7 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.shaders.ShaderPackEntry;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
@@ -254,7 +254,7 @@ public class TexturedEntity {
 		if (ClientData.minecraft.getCameraEntity() != null) {
 			Optional<TexturedEntityEntry.SpectatorShader> spectatorShader = getShaderPack(ClientData.minecraft.getCameraEntity());
 			if (spectatorShader.isPresent()) {
-				ShaderPackEntry shaderPack = SuperSecretSettings.getShaderPack(spectatorShader.get().registry(), spectatorShader.get().shaderPack());
+				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.get().registry(), spectatorShader.get().shaderPack());
 				if (shaderPack != null) {
 					int i = 0;
 					for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {

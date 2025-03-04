@@ -22,6 +22,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
@@ -38,13 +39,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class SuperSecretSettings {
+public class ShaderPacks {
 	private static final Random random;
 	private static final Map<Identifier, Map<Identifier, ShaderPackEntry>> registries;
 	private static Formatting prevColor;
 	private static final Formatting[] colors;
 	public static void init() {
-		Events.AfterShaderDataRegistered.register(getShadersId(), SuperSecretSettings::reload);
+		Events.AfterShaderDataRegistered.register(getShadersId(), ShaderPacks::reload);
 		initUniforms();
 	}
 	public static void tick() {
@@ -228,6 +229,7 @@ public class SuperSecretSettings {
 		addDefaultShaderPacks();
 		clean();
 		applyShader();
+		TexturedEntity.applyShader();
 	}
 	private static void clean() {
 		List<Identifier> remove = new ArrayList<>();
@@ -249,7 +251,7 @@ public class SuperSecretSettings {
 					}
 				}
 			});
-			remove.forEach(SuperSecretSettings::removeFromRegistry);
+			remove.forEach(ShaderPacks::removeFromRegistry);
 		});
 	}
 	public static Tooltip getTooltip() {
@@ -257,7 +259,7 @@ public class SuperSecretSettings {
 	}
 	public static Tooltip getTooltip(Identifier shaderId) {
 		ShaderPackEntry pack = getRegistry().get(shaderId);
-		return pack != null && pack.translation().description() ? Tooltip.of(pack.translation().getDescription(SuperSecretSettings.shouldShowNamespace(getShadersId(), pack.translation().id()))) : null;
+		return pack != null && pack.translation().description() ? Tooltip.of(pack.translation().getDescription(ShaderPacks.shouldShowNamespace(getShadersId(), pack.translation().id()))) : null;
 	}
 	static {
 		random = new Random();

@@ -16,7 +16,7 @@ import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.panorama.Panorama;
-import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
+import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.ui.UIBackground;
@@ -36,7 +36,7 @@ public class PerspectiveClient {
 			AprilFoolsPrank.init();
 			Appearance.init();
 			UIBackground.init();
-			SuperSecretSettings.init();
+			ShaderPacks.init();
 			Overlays.init();
 			Zoom.init();
 			Contributor.init();

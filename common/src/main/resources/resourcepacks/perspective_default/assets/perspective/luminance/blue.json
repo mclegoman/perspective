@@ -1,8 +1,0 @@
-{
-	"post_effect": "perspective:blue",
-	"enabled": true,
-	"translatable": true,
-	"description": false,
-	"disable_game_rendertype": true,
-	"custom": {}
-}
