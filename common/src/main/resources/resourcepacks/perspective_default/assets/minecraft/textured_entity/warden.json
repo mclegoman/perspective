@@ -1,0 +1,21 @@
+{
+  "entity": "minecraft:warden",
+  "entity_specific": {
+  },
+  "overrides": [
+    { "prefix": "", "suffix": "", "texture": "" },
+    { "prefix": "", "suffix": "_bioluminescent_layer", "texture": "" },
+    { "prefix": "", "suffix": "_heart", "texture": "" },
+    { "prefix": "", "suffix": "_pulsating_spots_1", "texture": "" },
+    { "prefix": "", "suffix": "_pulsating_spots_2", "texture": "" },
+    { "prefix": "", "suffix": "_emissive", "texture": "" }
+  ],
+  "flip": false,
+  "item_group": false,
+  "can_be_random": true,
+  "shader": {
+    "registry": "perspective:main",
+    "pack": "luminance:silhouette"
+  },
+  "enabled": true
+}

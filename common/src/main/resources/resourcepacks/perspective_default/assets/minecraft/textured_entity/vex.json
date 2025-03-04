@@ -3,7 +3,7 @@
   "entity_specific": {
   },
   "overrides": [
-    { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/vex/vex" }
+    { "prefix": "", "suffix": "", "texture": "" }
   ],
   "flip": false,
   "item_group": false,

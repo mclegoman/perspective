@@ -33,8 +33,8 @@ public abstract class ArmorStandEntityRendererMixin extends LivingEntityRenderer
 	}
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void perspective$init(EntityRendererFactory.Context context, CallbackInfo ci) {
-		this.addFeature(new OverlayFeatureRenderer(this, new ArmorStandOverlayEntityModel(context.getPart(EntityModels.armorStandOverlay)), new ArmorStandOverlayEntityModel(context.getPart(EntityModels.babyArmorStandOverlay)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/armorstand/armor_stand_overlay.png")));
-		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/armorstand/armor_stand_cape.png")).build());
+		this.addFeature(new OverlayFeatureRenderer(this, new ArmorStandOverlayEntityModel(context.getPart(EntityModels.armorStandOverlay)), new ArmorStandOverlayEntityModel(context.getPart(EntityModels.babyArmorStandOverlay)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/armor_stand/armor_stand_overlay.png")));
+		this.addFeature(new EntityCapeFeatureRenderer.Builder(this, new LivingEntityCapeModel(context.getPart(EntityModels.entityCape)), Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/armor_stand/armor_stand_cape.png")).build());
 	}
 	@Inject(at = @At("RETURN"), method = "getTexture(Lnet/minecraft/client/render/entity/state/ArmorStandEntityRenderState;)Lnet/minecraft/util/Identifier;", cancellable = true)
 	private void perspective$getTexture(ArmorStandEntityRenderState armorStandEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
