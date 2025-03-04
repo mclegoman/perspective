@@ -9,7 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.shulker
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.ShulkerEntityRenderer;
 import net.minecraft.client.render.entity.state.ShulkerEntityRenderState;
 import net.minecraft.util.Identifier;
@@ -27,7 +27,7 @@ public class ShulkerEntityRendererMixin {
 	private void perspective$getTexture(ShulkerEntityRenderState shulkerEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
 		if (shulkerEntityRenderState != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(shulkerEntityRenderState);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(shulkerEntityRenderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

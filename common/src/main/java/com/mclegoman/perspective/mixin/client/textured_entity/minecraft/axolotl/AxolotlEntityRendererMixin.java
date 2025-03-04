@@ -9,7 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.axolotl
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.state.AxolotlEntityRenderState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -26,7 +26,7 @@ public class AxolotlEntityRendererMixin {
 	private void perspective$getTexture(AxolotlEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(entity);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

@@ -10,7 +10,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.cow;
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.CowFlowerFeatureRenderer;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
@@ -19,7 +19,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.render.entity.state.MooshroomEntityRenderState;
 import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -46,7 +45,7 @@ public abstract class CowEntityRendererMixin extends MobEntityRenderer<CowEntity
 	@Inject(method = "getTexture", at = @At("RETURN"), cancellable = true)
 	public void perspective$getTexture(LivingEntityRenderState state, CallbackInfoReturnable<Identifier> cir) {
 		boolean isTexturedEntity = true;
-		Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(state);
+		Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(state);
 		if (entityData.isPresent()) {
 			JsonObject entitySpecific = entityData.get().getEntitySpecific();
 			String cowVariant = "temperate";

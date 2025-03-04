@@ -9,7 +9,7 @@ package com.mclegoman.perspective.client.entity.renderer.feature;
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -42,7 +42,7 @@ public class CowOverlayFeatureRenderer<T extends LivingEntityRenderState, M exte
 	}
 	public Identifier getFinalTexture(LivingEntityRenderState state) {
 		boolean isTexturedEntity = true;
-		Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(state);
+		Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(state);
 		String type = (state instanceof MooshroomEntityRenderState mooshroomState) ? String.valueOf(mooshroomState.type).toLowerCase() : "temperate";
 		Identifier defaultId = Identifier.of(Data.getVersion().getID(), "textures/entity/minecraft/" + (state instanceof MooshroomEntityRenderState ? "mooshroom" : "cow") + "/" + type + "_" + (state instanceof MooshroomEntityRenderState ? "mooshroom" : "cow") + "_overlay.png");
 		if (entityData.isPresent()) {

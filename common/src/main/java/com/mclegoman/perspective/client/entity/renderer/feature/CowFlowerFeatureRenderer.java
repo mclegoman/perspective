@@ -10,7 +10,7 @@ package com.mclegoman.perspective.client.entity.renderer.feature;
 import com.google.gson.JsonObject;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.RenderLayer;
@@ -77,7 +77,7 @@ public class CowFlowerFeatureRenderer extends FeatureRenderer<LivingEntityRender
 	}
 	private BlockState getBlockstate(LivingEntityRenderState state) {
 		if (state != null) {
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(state);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(state);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

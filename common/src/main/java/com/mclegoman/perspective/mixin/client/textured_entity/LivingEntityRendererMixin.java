@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.mixin.client.textured_entity;
 
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public abstract class LivingEntityRendererMixin {
 	@Inject(at = @At("RETURN"), method = "shouldFlipUpsideDown", cancellable = true)
 	private static void perspective$shouldFlipUpsideDown(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-		Optional<TexturedEntityData> data = TexturedEntity.getEntity(entity);
+		Optional<TexturedEntityEntry> data = TexturedEntity.getEntity(entity);
 		if (data.isPresent()) {
 			boolean shouldFlip = cir.getReturnValue();
 			if (data.get().getFlip()) shouldFlip = !shouldFlip;

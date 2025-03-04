@@ -9,7 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.panda;
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.PandaEntityRenderer;
 import net.minecraft.client.render.entity.state.PandaEntityRenderState;
 import net.minecraft.util.Identifier;
@@ -27,7 +27,7 @@ public class PandaEntityRendererMixin {
 	private void perspective$getTexture(PandaEntityRenderState pandaEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
 		if (pandaEntityRenderState != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(pandaEntityRenderState);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(pandaEntityRenderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

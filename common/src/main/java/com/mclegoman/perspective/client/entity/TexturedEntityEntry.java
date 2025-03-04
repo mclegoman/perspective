@@ -9,9 +9,12 @@ package com.mclegoman.perspective.client.entity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import net.minecraft.util.Identifier;
 
-public class TexturedEntityData {
+import java.util.Optional;
+
+public class TexturedEntityEntry {
 	private final String namespace;
 	private final String type;
 	private final String name;
@@ -21,8 +24,9 @@ public class TexturedEntityData {
 	private final boolean item_group;
 	private final Identifier item_model;
 	private final boolean canBeRandom;
+	private final Optional<SpectatorShader> shaderPack;
 	private final boolean enabled;
-	public TexturedEntityData(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, boolean enabled) {
+	public TexturedEntityEntry(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, Optional<SpectatorShader> shaderPack, boolean enabled) {
 		this.namespace = namespace;
 		this.type = type;
 		this.name = name;
@@ -32,6 +36,7 @@ public class TexturedEntityData {
 		this.item_group = item_group;
 		this.item_model = item_model;
 		this.canBeRandom = canBeRandom;
+		this.shaderPack = shaderPack;
 		this.enabled = enabled;
 	}
 	public String getNamespace() {
@@ -63,5 +68,13 @@ public class TexturedEntityData {
 	}
 	public boolean getCanBeRandom() {
 		return this.canBeRandom;
+	}
+	public Optional<SpectatorShader> getShaderPack() {
+		return this.shaderPack;
+	}
+	public record SpectatorShader(Identifier registry, Identifier shaderPack) {
+		public SpectatorShader(Identifier shaderPack) {
+			this(SuperSecretSettings.getShadersId(), shaderPack);
+		}
 	}
 }

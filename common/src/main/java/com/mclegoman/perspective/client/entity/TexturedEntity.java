@@ -11,8 +11,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.client.shaders.Shader;
+import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
+import com.mclegoman.perspective.client.shaders.ShaderPackEntry;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
@@ -68,7 +73,7 @@ public class TexturedEntity {
 	public static void init() {
 		try {
 			addDefaultForbiddenEntities();
-			Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataLoader());
+			Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
@@ -100,11 +105,11 @@ public class TexturedEntity {
 	}
 	public static Identifier getTexture(EntityRenderState renderState, String overrideNamespace, String prefix, String suffix, Identifier fallback) {
 		try {
-			if (TexturedEntityDataLoader.isReady) {
+			if (TexturedEntityDataReloader.isReady) {
 				Identifier entityType = getEntityTypeId(((PerspectiveRenderState)renderState).perspective$getType());
 				String namespace = fallback.getNamespace();
 				if (!overrideNamespace.isEmpty()) namespace = overrideNamespace;
-				Optional<TexturedEntityData> entityData = getEntity(renderState);
+				Optional<TexturedEntityEntry> entityData = getEntity(renderState);
 				if (entityData.isPresent()) {
 					boolean shouldReplaceTexture = true;
 						if (renderState instanceof LivingEntityRenderState) {
@@ -134,10 +139,10 @@ public class TexturedEntity {
 		}
 		return fallback;
 	}
-	private static List<TexturedEntityData> getRegistry(String namespace, String entity_type) {
-		List<TexturedEntityData> entityRegistry = new ArrayList<>();
+	private static List<TexturedEntityEntry> getRegistry(String namespace, String entity_type) {
+		List<TexturedEntityEntry> entityRegistry = new ArrayList<>();
 		try {
-			for (TexturedEntityData registry : TexturedEntityDataLoader.getRegistry()) {
+			for (TexturedEntityEntry registry : TexturedEntityDataReloader.getRegistry()) {
 				if (registry.getNamespace().equals(namespace) && registry.getType().equals(entity_type)) entityRegistry.add(registry);
 			}
 		} catch (Exception error) {
@@ -145,10 +150,10 @@ public class TexturedEntity {
 		}
 		return entityRegistry;
 	}
-	private static List<TexturedEntityData> getRandomRegistry(List<TexturedEntityData> registry) {
-		List<TexturedEntityData> entityRegistry = new ArrayList<>();
+	private static List<TexturedEntityEntry> getRandomRegistry(List<TexturedEntityEntry> registry) {
+		List<TexturedEntityEntry> entityRegistry = new ArrayList<>();
 		try {
-			for (TexturedEntityData data : registry) if (data.getCanBeRandom() && (data.getEnabled() || data.getName().equalsIgnoreCase("default"))) entityRegistry.add(data);
+			for (TexturedEntityEntry data : registry) if (data.getCanBeRandom() && (data.getEnabled() || data.getName().equalsIgnoreCase("default"))) entityRegistry.add(data);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to get random textured entity string registry: {}", error));
 		}
@@ -158,9 +163,9 @@ public class TexturedEntity {
 		if (renderState.displayName != null) return Optional.of(renderState.displayName.getString());
 		else return Optional.of("default");
 	}
-	private static Optional<TexturedEntityData> getEntityData(List<TexturedEntityData> registry, String entityName) {
+	private static Optional<TexturedEntityEntry> getEntityData(List<TexturedEntityEntry> registry, String entityName) {
 		try {
-			for (TexturedEntityData entityData : registry) {
+			for (TexturedEntityEntry entityData : registry) {
 				if (entityName.equals(entityData.getName())) {
 					if (entityData.getEnabled()) return Optional.of(entityData);
 				}
@@ -172,7 +177,7 @@ public class TexturedEntity {
 	}
 	public static Optional<Identifier> getEntitySpecificModel(EntityRenderState renderState) {
 		if (renderState != null) {
-			Optional<TexturedEntityData> entityData = getEntity(renderState);
+			Optional<TexturedEntityEntry> entityData = getEntity(renderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {
@@ -184,28 +189,28 @@ public class TexturedEntity {
 		}
 		return Optional.of(Identifier.of(Data.getVersion().getID(), "default"));
 	}
-	public static Optional<TexturedEntityData> getEntity(Entity entity) {
+	public static Optional<TexturedEntityEntry> getEntity(Entity entity) {
 		return getEntity(entity.getCustomName() != null ? entity.getCustomName().getLiteralString() : null, entity.getUuid(), entity.getType());
 	}
-	public static Optional<TexturedEntityData> getEntity(EntityRenderState renderState) {
+	public static Optional<TexturedEntityEntry> getEntity(EntityRenderState renderState) {
 		return getEntity(((PerspectiveRenderState) renderState).perspective$getStringName(), ((PerspectiveRenderState)renderState).perspective$getUUID(), ((PerspectiveRenderState)renderState).perspective$getType());
 	}
-	private static Optional<TexturedEntityData> getEntity(@Nullable String entityName, UUID uuid, EntityType<?> entityType) {
+	private static Optional<TexturedEntityEntry> getEntity(@Nullable String entityName, UUID uuid, EntityType<?> entityType) {
 		try {
 			if (entityName == null) entityName = "default";
 			Identifier entityId = getEntityTypeId(entityType);
 			if (!isForbiddenEntity(entityId)) {
-				List<TexturedEntityData> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
-				List<TexturedEntityData> randomRegistry = getRandomRegistry(registry);
-				if (TexturedEntityDataLoader.isReady && !registry.isEmpty()) {
+				List<TexturedEntityEntry> registry = getRegistry(IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(entityId)), IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(entityId)));
+				List<TexturedEntityEntry> randomRegistry = getRandomRegistry(registry);
+				if (TexturedEntityDataReloader.isReady && !registry.isEmpty()) {
 					if (PerspectiveConfig.config.texturedNamedEntity.value()) {
-						Optional<TexturedEntityData> entityData = getEntityData(registry, entityName);
+						Optional<TexturedEntityEntry> entityData = getEntityData(registry, entityName);
 						if (entityData.isPresent()) return entityData;
 					}
 					if (PerspectiveConfig.config.texturedRandomEntity.value()) {
-						TexturedEntityData data = randomRegistry.get(Math.floorMod(uuid.getLeastSignificantBits(), randomRegistry.size()));
+						TexturedEntityEntry data = randomRegistry.get(Math.floorMod(uuid.getLeastSignificantBits(), randomRegistry.size()));
 						if (data.getName().equalsIgnoreCase("default")) {
-							Optional<TexturedEntityData> entityData = getEntityData(randomRegistry, "default");
+							Optional<TexturedEntityEntry> entityData = getEntityData(randomRegistry, "default");
 							if (entityData.isPresent()) return entityData;
 						} else return Optional.of(data);
 					}
@@ -213,7 +218,7 @@ public class TexturedEntity {
 						// If the entity texture isn't replaced by the previous checks, it doesn't have a valid textured entity,
 						// so we return the default textured entity if it exists.
 						if (!entityName.equalsIgnoreCase("default")) {
-							Optional<TexturedEntityData> entityData = getEntityData(registry, "default");
+							Optional<TexturedEntityEntry> entityData = getEntityData(registry, "default");
 							if (entityData.isPresent()) return entityData;
 						}
 					}
@@ -226,5 +231,38 @@ public class TexturedEntity {
 	}
 	public static boolean setTexturedEntity(boolean oldValue, boolean newValue) {
 		return oldValue && newValue;
+	}
+
+	public static void applyShader() {
+		Events.ShaderRender.register(getTexturedEntityId(), new ArrayList<>());
+		Events.ShaderRender.modify(getTexturedEntityId(), getShaders());
+	}
+	public static Identifier getTexturedEntityId(String suffix) {
+		return Identifier.of(Data.getVersion().getID(), "textured_entity" + suffix);
+	}
+	public static Identifier getTexturedEntityId() {
+		return getTexturedEntityId("");
+	}
+	public static Optional<TexturedEntityEntry.SpectatorShader> getShaderPack(Entity entity) {
+		Optional<TexturedEntityEntry.SpectatorShader> shaderPack = Optional.empty();
+		Optional<TexturedEntityEntry> texturedEntityEntry = getEntity(entity);
+		if (texturedEntityEntry.isPresent()) shaderPack = texturedEntityEntry.get().getShaderPack();
+		return shaderPack;
+	}
+	private static List<Shader.Data> getShaders() {
+		List<Shader.Data> shaders = new ArrayList<>();
+		if (ClientData.minecraft.getCameraEntity() != null) {
+			Optional<TexturedEntityEntry.SpectatorShader> spectatorShader = getShaderPack(ClientData.minecraft.getCameraEntity());
+			if (spectatorShader.isPresent()) {
+				ShaderPackEntry shaderPack = SuperSecretSettings.getShaderPack(spectatorShader.get().registry(), spectatorShader.get().shaderPack());
+				if (shaderPack != null) {
+					int i = 0;
+					for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
+						shaders.add(new Shader.Data(getTexturedEntityId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> Shader.RenderType.WORLD, () -> ClientData.minecraft.player != null && ClientData.minecraft.player.isSpectator())));
+					}
+				} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!: " + spectatorShader.get().registry() + ":" + spectatorShader.get().shaderPack());
+			}
+		}
+		return shaders;
 	}
 }

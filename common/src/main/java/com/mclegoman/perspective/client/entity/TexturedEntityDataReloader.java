@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.mclegoman.luminance.client.util.JsonDataLoader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.shaders.SuperSecretSettings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.resource.ResourceManager;
@@ -23,39 +24,37 @@ import net.minecraft.util.profiler.Profiler;
 
 import java.util.*;
 
-public class TexturedEntityDataLoader extends JsonDataLoader {
-	private static final Map<Identifier, TexturedEntityData> registry = new HashMap<>();
-	public static List<TexturedEntityData> getRegistry() {
+public class TexturedEntityDataReloader extends JsonDataLoader {
+	private static final Map<Identifier, TexturedEntityEntry> registry = new HashMap<>();
+	public static List<TexturedEntityEntry> getRegistry() {
 		return registry.values().stream().toList();
 	}
-	public static List<TexturedEntityData> getSortedRegistry() {
+	public static List<TexturedEntityEntry> getSortedRegistry() {
 		// This should only be used if the list needs to be sorted alphabetically.
-		Map<String, TexturedEntityData> unprocessedRegistry = new HashMap<>();
-		List<TexturedEntityData> processedRegistry = new ArrayList<>();
-		for (TexturedEntityData data : getRegistry()) unprocessedRegistry.put(data.getNamespace() + data.getType() + data.getName().toLowerCase(), data);
+		Map<String, TexturedEntityEntry> unprocessedRegistry = new HashMap<>();
+		List<TexturedEntityEntry> processedRegistry = new ArrayList<>();
+		for (TexturedEntityEntry data : getRegistry()) unprocessedRegistry.put(data.getType() + data.getNamespace() + data.getName().toLowerCase(), data);
 		for (String name : new TreeSet<>(unprocessedRegistry.keySet())) processedRegistry.add(unprocessedRegistry.get(name));
 		return processedRegistry;
 	}
-	public static Map<Identifier, TexturedEntityData> getRegistryMap() {
+	public static Map<Identifier, TexturedEntityEntry> getRegistryMap() {
 		return registry;
 	}
 	public static final String identifier = "textured_entity";
 	public static boolean isReady;
-
-	public TexturedEntityDataLoader() {
+	public TexturedEntityDataReloader() {
 		super(new Gson(), identifier);
 	}
-	private TexturedEntityData data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, boolean enabled) {
-		return new TexturedEntityData(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, enabled);
+	private TexturedEntityEntry data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, Optional<TexturedEntityEntry.SpectatorShader> shaderPack, boolean enabled) {
+		return new TexturedEntityEntry(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, shaderPack, enabled);
 	}
-	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, boolean enabled) {
+	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, Optional<TexturedEntityEntry.SpectatorShader> shaderPack, boolean enabled) {
 		try {
-			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, enabled));
+			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, shaderPack, enabled));
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
 	}
-
 	private void reset() {
 		try {
 			registry.clear();
@@ -172,7 +171,7 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
 		for (String entity : entityTypes) {
-			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,null, true, false);
+			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,null, true, Optional.empty(), false);
 		}
 	}
 	@Override
@@ -207,9 +206,13 @@ public class TexturedEntityDataLoader extends JsonDataLoader {
 			boolean item_group = JsonHelper.getBoolean(reader, "item_group", true);
 			Identifier item_model = Identifier.of(JsonHelper.getString(reader, "item_model", namespace.toLowerCase() + ":" + name.toLowerCase() + "_" + type.toLowerCase() + "_spawn_egg"));
 			boolean can_be_random = JsonHelper.getBoolean(reader, "can_be_random", true);
-			// TODO: Textured Entity Spectator Shaders.
+			Optional<TexturedEntityEntry.SpectatorShader> shaderPack = Optional.empty();
+			if (JsonHelper.hasJsonObject(reader, "shader")) {
+				JsonObject shaderData = JsonHelper.getObject(reader, "shader");
+				shaderPack = Optional.of(new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", SuperSecretSettings.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack"))));
+			}
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
-			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, enabled);
+			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, shaderPack, enabled);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}

@@ -7,8 +7,8 @@
 
 package com.mclegoman.perspective.client.item;
 
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
-import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
+import com.mclegoman.perspective.client.entity.TexturedEntityDataReloader;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -31,14 +31,14 @@ public class ItemGroup {
 		// The items in the item group are refreshed on world load.
 		// Ideally, we would be able to refresh them on resource load as well.
 		ItemGroupEvents.modifyEntriesEvent(texturedEntity.key()).register(content -> {
-			for (TexturedEntityData data : TexturedEntityDataLoader.getSortedRegistry()) {
+			for (TexturedEntityEntry data : TexturedEntityDataReloader.getSortedRegistry()) {
 				if (data.getEnabled() && data.getItemGroup() && !data.getName().equalsIgnoreCase("default")) {
 					addItem(data, content);
 				}
 			}
 		});
 	}
-	private static void addItem(TexturedEntityData data, FabricItemGroupEntries content) {
+	private static void addItem(TexturedEntityEntry data, FabricItemGroupEntries content) {
 		ItemStack itemStack = Items.PIG_SPAWN_EGG.getDefaultStack();
 		itemStack.set(DataComponentTypes.ITEM_NAME, Translation.getItemTranslation(Data.getVersion().getID(), "textured_entity_spawn_egg", new Object[]{data.getName(), Text.translatable("entity." + data.getNamespace() + "." + data.getType())}));
 		NbtCompound entityData = new NbtCompound();

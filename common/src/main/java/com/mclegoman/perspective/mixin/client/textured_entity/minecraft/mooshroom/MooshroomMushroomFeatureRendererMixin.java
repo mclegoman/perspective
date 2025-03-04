@@ -10,7 +10,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.mooshro
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.MooshroomMushroomFeatureRenderer;
@@ -35,7 +35,7 @@ public class MooshroomMushroomFeatureRendererMixin {
 	private BlockState perspective$getMushroom(MooshroomEntity.Type mooshroomType) {
 		try {
 			if (this.state != null) {
-				Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(this.state);
+				Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(this.state);
 				if (entityData.isPresent()) {
 					JsonObject entitySpecific = entityData.get().getEntitySpecific();
 					if (entitySpecific != null) {

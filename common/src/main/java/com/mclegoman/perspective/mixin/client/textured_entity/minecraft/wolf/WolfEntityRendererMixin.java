@@ -10,7 +10,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.wolf;
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.states.PerspectiveTamedRenderState;
 import com.mclegoman.perspective.client.entity.states.PerspectiveVariantRenderState;
 import net.minecraft.client.render.entity.WolfEntityRenderer;
@@ -30,7 +30,7 @@ public class WolfEntityRendererMixin {
 	private void perspective$getTexture(WolfEntityRenderState wolfEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
 		if (wolfEntityRenderState != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(wolfEntityRenderState);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(wolfEntityRenderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				String variant = ((PerspectiveVariantRenderState)wolfEntityRenderState).perspective$getVariantId();

@@ -1,0 +1,16 @@
+{
+  "entity": "minecraft:allay",
+  "entity_specific": {
+  },
+  "overrides": [
+    { "prefix": "", "suffix": "", "texture": "minecraft:textures/entity/allay/allay" }
+  ],
+  "flip": false,
+  "item_group": false,
+  "can_be_random": true,
+  "shader": {
+    "registry": "perspective:main",
+    "pack": "perspective:blue"
+  },
+  "enabled": true
+}

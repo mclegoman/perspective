@@ -10,7 +10,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.fox;
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -42,7 +42,7 @@ public abstract class FoxEntityRendererMixin extends MobEntityRenderer<FoxEntity
 	private void perspective$getTexture(FoxEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(entity);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

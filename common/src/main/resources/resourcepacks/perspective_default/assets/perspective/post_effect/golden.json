@@ -1,0 +1,67 @@
+{
+    "targets": {
+        "0": {},
+        "1": {},
+        "2": {}
+    },
+    "passes": [
+        {
+            "program": "minecraft:post/blobs2",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "0"
+        },
+        {
+            "program": "minecraft:post/color_convolve",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "1",
+            "uniforms": [
+                {
+                    "name": "RedMatrix",
+                    "values": [ 1.0, 1.0, 1.0 ]
+                },
+                {
+                    "name": "GreenMatrix",
+                    "values": [ 0.6667, 0.6667, 0.6667 ]
+                },
+                {
+                    "name": "BlueMatrix",
+                    "values": [ 0.0, 0.0, 0.0 ]
+                }
+            ]
+        },
+        {
+            "program": "luminance:post/merge",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                },
+                {
+                    "sampler_name": "Merge",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "2"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "2"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

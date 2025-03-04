@@ -13,9 +13,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
-import java.util.Map;
 
-public record ShaderPack(Translation translation, List<Shader> shaders, JsonObject customData) {
+public record ShaderPackEntry(Identifier registry, Translation translation, List<Shader> shaders, JsonObject customData) {
+	public ShaderPackEntry(Translation translation, List<Shader> shaders, JsonObject customData) {
+		this(SuperSecretSettings.getShadersId(), translation, shaders, customData);
+	}
 	public record Translation(boolean isTranslatable, Identifier id, boolean isShaderPack, boolean description) {
 		public Translation(Identifier id) {
 			this(false, id, true, false);

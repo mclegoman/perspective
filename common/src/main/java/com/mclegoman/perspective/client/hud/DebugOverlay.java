@@ -8,7 +8,7 @@
 package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
-import com.mclegoman.perspective.client.entity.TexturedEntityDataLoader;
+import com.mclegoman.perspective.client.entity.TexturedEntityDataReloader;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
@@ -49,7 +49,7 @@ public class DebugOverlay {
 		if (debugType.equals(Type.texturedEntities) || debugType.equals(Type.enabledTexturedEntities)) {
 			debugTexts.add(Text.empty());
 			debugTexts.add(Translation.getTranslation(Data.getVersion().getID(), "debug.textured_entity" + (debugType.equals(Type.enabledTexturedEntities) ? ".enabled" : ""), new Formatting[]{Formatting.BOLD}));
-			TexturedEntityDataLoader.getRegistryMap().forEach((id, data) -> {
+			TexturedEntityDataReloader.getRegistryMap().forEach((id, data) -> {
 				if (debugType.equals(Type.enabledTexturedEntities) && data.getEnabled() || debugType.equals(Type.texturedEntities)) debugTexts.add(Text.literal(id.toString() + ":" + data.getNamespace() + ":" + data.getType() + ":" + data.getName()));
 			});
 		}

@@ -9,7 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.mooshro
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
@@ -49,7 +49,7 @@ public abstract class MooshroomEntityRendererMixin extends MobEntityRenderer<Moo
 	@Inject(method = "getTexture(Lnet/minecraft/client/render/entity/state/MooshroomEntityRenderState;)Lnet/minecraft/util/Identifier;", at = @At("RETURN"), cancellable = true)
 	public void perspective$getTexture(MooshroomEntityRenderState entity, CallbackInfoReturnable<Identifier> cir) {
 		boolean isTexturedEntity = true;
-		Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+		Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(entity);
 		if (entityData.isPresent()) {
 			JsonObject entitySpecific = entityData.get().getEntitySpecific();
 			if (entitySpecific != null) {

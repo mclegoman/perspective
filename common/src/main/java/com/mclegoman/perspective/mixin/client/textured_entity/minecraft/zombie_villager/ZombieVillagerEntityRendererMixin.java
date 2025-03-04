@@ -10,7 +10,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.zombie_
 import com.google.gson.JsonObject;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.EntityModels;
 import com.mclegoman.perspective.client.entity.model.LivingEntityCapeModel;
 import com.mclegoman.perspective.client.entity.renderer.feature.EntityCapeFeatureRenderer;
@@ -45,7 +45,7 @@ public abstract class ZombieVillagerEntityRendererMixin extends BipedEntityRende
 	private void perspective$getTexture(ZombieVillagerRenderState entity, CallbackInfoReturnable<Identifier> cir) {
 		if (entity != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(entity);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(entity);
 			if (entityData.isPresent()) {
 				Identifier variantId = Registries.VILLAGER_TYPE.getId(entity.getVillagerData().getType());
 				String variant = variantId.toString().toLowerCase();

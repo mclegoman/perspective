@@ -12,7 +12,7 @@ import com.mclegoman.perspective.client.entity.states.PerspectiveTamedRenderStat
 import com.mclegoman.perspective.client.entity.states.PerspectiveVariantRenderState;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -30,7 +30,7 @@ public class CatEntityRendererMixin {
 		if (state != null) {
 			boolean isTexturedEntity = true;
 			String variant = ((PerspectiveVariantRenderState)state).perspective$getVariantId();
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(state);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(state);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

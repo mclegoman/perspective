@@ -9,7 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.goat;
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.entity.states.PerspectiveGoatRenderState;
 import net.minecraft.client.render.entity.state.GoatEntityRenderState;
 import net.minecraft.util.Identifier;
@@ -27,7 +27,7 @@ public class GoatEntityRendererMixin {
 	private void perspective$getTexture(GoatEntityRenderState goatEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
 		if (goatEntityRenderState != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(goatEntityRenderState);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(goatEntityRenderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

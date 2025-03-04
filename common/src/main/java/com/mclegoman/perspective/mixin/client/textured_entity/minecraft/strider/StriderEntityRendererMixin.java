@@ -9,8 +9,7 @@ package com.mclegoman.perspective.mixin.client.textured_entity.minecraft.strider
 
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
-import com.mclegoman.perspective.client.entity.TexturedEntityData;
-import com.mclegoman.perspective.client.entity.states.PerspectiveGoatRenderState;
+import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.client.render.entity.StriderEntityRenderer;
 import net.minecraft.client.render.entity.state.StriderEntityRenderState;
 import net.minecraft.util.Identifier;
@@ -28,7 +27,7 @@ public class StriderEntityRendererMixin {
 	private void perspective$getTexture(StriderEntityRenderState striderEntityRenderState, CallbackInfoReturnable<Identifier> cir) {
 		if (striderEntityRenderState != null) {
 			boolean isTexturedEntity = true;
-			Optional<TexturedEntityData> entityData = TexturedEntity.getEntity(striderEntityRenderState);
+			Optional<TexturedEntityEntry> entityData = TexturedEntity.getEntity(striderEntityRenderState);
 			if (entityData.isPresent()) {
 				JsonObject entitySpecific = entityData.get().getEntitySpecific();
 				if (entitySpecific != null) {

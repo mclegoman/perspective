@@ -9,5 +9,9 @@
   "item_group": true,
   "item_model": "minecraft:golden_allay_spawn_egg",
   "can_be_random": true,
+  "shader": {
+    "registry": "perspective:textured_entity",
+    "pack": "perspective:golden"
+  },
   "enabled": true
 }
