@@ -1,7 +1,7 @@
 /*
     Perspective
     Contributor(s): dannytaylor
-    Github: https://github.com/MCLegoMan/Perspective
+    Github: https://github.com/mclegoman/perspective
     Licence: GNU LGPLv3
 */
 
@@ -10,7 +10,7 @@ package com.mclegoman.perspective.client.logo;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.client.util.JsonResourceReloader;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class PrideLogoDataLoader extends JsonDataLoader {
+public class PrideLogoDataLoader extends JsonResourceReloader {
 	public static final List<LogoData> registry = new ArrayList<>();
 	public static final String identifier = "pride_logos";
 	private static LogoData logo;

@@ -1,7 +1,7 @@
 /*
     Perspective
     Contributor(s): dannytaylor
-    Github: https://github.com/MCLegoMan/Perspective
+    Github: https://github.com/mclegoman/perspective
     Licence: GNU LGPLv3
 */
 
@@ -42,6 +42,7 @@ public abstract class AbstractConfigScreen extends Screen {
 		this.page = page;
 	}
 	public void init() {
+		super.init();
 		this.grid.getMainPositioner().alignHorizontalCenter().margin(getGridMargin());
 		this.gridAdder = grid.createAdder(1);
 		this.gridAdder.add(new EmptyWidget(20, 20), 1);

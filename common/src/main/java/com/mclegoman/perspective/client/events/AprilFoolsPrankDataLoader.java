@@ -1,7 +1,7 @@
 /*
     Perspective
     Contributor(s): dannytaylor
-    Github: https://github.com/MCLegoMan/Perspective
+    Github: https://github.com/mclegoman/perspective
     Licence: GNU LGPLv3
 */
 
@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.client.util.JsonResourceReloader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AprilFoolsPrankDataLoader extends JsonDataLoader {
+public class AprilFoolsPrankDataLoader extends JsonResourceReloader {
 	public static final Map<String, PrankData> registry = new HashMap<>();
 	public static final String ID = "prank";
 	public AprilFoolsPrankDataLoader() {

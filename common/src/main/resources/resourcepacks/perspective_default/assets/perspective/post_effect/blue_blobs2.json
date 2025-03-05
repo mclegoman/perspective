@@ -5,24 +5,14 @@
     },
     "passes": [
         {
-            "program": "minecraft:post/blobs2",
+            "program": "minecraft:post/color_convolve",
             "inputs": [
                 {
                     "sampler_name": "In",
                     "target": "minecraft:main"
                 }
             ],
-            "output": "0"
-        },
-        {
-            "program": "minecraft:post/color_convolve",
-            "inputs": [
-                {
-                    "sampler_name": "In",
-                    "target": "0"
-                }
-            ],
-            "output": "1",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "RedMatrix",
@@ -37,6 +27,16 @@
                     "values": [ 1.0, 1.0, 1.0 ]
                 }
             ]
+        },
+        {
+            "program": "minecraft:post/blobs2",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/blit",

@@ -1,17 +1,40 @@
 {
 	"targets": {
+		"shift": {},
 		"swap": {}
 	},
 	"passes": [
 		{
-			"program": "perspective:post/invert_brightness",
+			"program": "minecraft:post/invert",
 			"inputs": [
 				{
 					"sampler_name": "In",
 					"target": "minecraft:main"
 				}
 			],
-			"output": "swap"
+			"output": "shift",
+			"uniforms": [
+				{
+					"name": "InverseAmount",
+					"values": [ 1.0 ]
+				}
+			]
+		},
+		{
+			"program": "luminance:post/hue_shift",
+			"inputs": [
+				{
+					"sampler_name": "In",
+					"target": "shift"
+				}
+			],
+			"output": "swap",
+			"uniforms": [
+				{
+					"name": "Amount",
+					"values": [ 0.5, 0.5, 0.5 ]
+				}
+			]
 		},
 		{
 			"program": "minecraft:post/blit",

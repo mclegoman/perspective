@@ -1,7 +1,7 @@
 /*
     Perspective
     Contributor(s): dannytaylor
-    Github: https://github.com/MCLegoMan/Perspective
+    Github: https://github.com/mclegoman/perspective
     Licence: GNU LGPLv3
 */
 
@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mclegoman.luminance.client.util.JsonDataLoader;
+import com.mclegoman.luminance.client.util.JsonResourceReloader;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
@@ -24,7 +24,7 @@ import net.minecraft.util.profiler.Profiler;
 
 import java.util.*;
 
-public class TexturedEntityDataReloader extends JsonDataLoader {
+public class TexturedEntityDataReloader extends JsonResourceReloader {
 	private static final Map<Identifier, TexturedEntityEntry> registry = new HashMap<>();
 	public static List<TexturedEntityEntry> getRegistry() {
 		return registry.values().stream().toList();
