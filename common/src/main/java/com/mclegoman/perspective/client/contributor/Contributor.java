@@ -38,7 +38,7 @@ public class Contributor {
 	private static final List<ContributorLockData> allowedUuids = new ArrayList<>();
 	public static void init() {
 		initAllowedUuids();
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
 	}
 	private static void initAllowedUuids() {
 		initDeveloperUuids();

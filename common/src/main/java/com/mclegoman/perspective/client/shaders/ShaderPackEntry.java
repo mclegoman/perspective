@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.shaders;
 
 import com.google.gson.JsonObject;
+import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -18,18 +19,18 @@ public record ShaderPackEntry(Identifier registry, Translation translation, List
 	public ShaderPackEntry(Translation translation, List<Shader> shaders, JsonObject customData) {
 		this(ShaderPacks.getShadersId(), translation, shaders, customData);
 	}
-	public record Translation(boolean isTranslatable, Identifier id, boolean isShaderPack, boolean description) {
+	public record Translation(Identifier id, boolean isShaderPack) {
 		public Translation(Identifier id) {
-			this(false, id, true, false);
+			this(id, true);
 		}
-		public Text getTranslation(boolean showNamespace, boolean description) {
-			return (isShaderPack ? Text.translatable(Data.getVersion().getID() + ".shader_pack." + id.getNamespace() + "." + id.getPath() + (description ? ".description" : "")) : com.mclegoman.perspective.client.translation.Translation.getShaderText(id, description, isTranslatable, showNamespace));
+		public Text getTranslation(boolean description, boolean shouldShowNamespace) {
+			return (isShaderPack ? Text.translatableWithFallback(Data.getVersion().getID() + ".shader_pack." + id.getNamespace() + "." + id.getPath() + (description ? ".description" : ""), description ? "" : com.mclegoman.perspective.client.translation.Translation.getString((shouldShowNamespace ? id().getNamespace() + ":" : "") + id().getPath())) : com.mclegoman.perspective.client.translation.Translation.getShaderText(id(), shouldShowNamespace, description));
 		}
-		public Text getTranslation(boolean showNamespace) {
-			return getTranslation(showNamespace, false);
+		public Text getTranslation(boolean shouldShowNamespace) {
+			return getTranslation(false, shouldShowNamespace);
 		}
-		public Text getDescription(boolean showNamespace) {
-			return getTranslation(showNamespace, true);
+		public Text getDescription(boolean shouldShowNamespace) {
+			return getTranslation(true, shouldShowNamespace);
 		}
 	}
 	public record Shader(Identifier registry, Identifier luminance, List<Uniform> uniforms) {

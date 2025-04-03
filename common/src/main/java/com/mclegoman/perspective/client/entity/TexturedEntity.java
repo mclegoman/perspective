@@ -73,7 +73,7 @@ public class TexturedEntity {
 	public static void init() {
 		try {
 			addDefaultForbiddenEntities();
-			Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
+			Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}

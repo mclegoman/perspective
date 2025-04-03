@@ -29,8 +29,8 @@ import java.time.Month;
 
 public class PerspectiveLogo {
 	public static void init() {
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "pride"), new PrideLogoDataLoader());
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "splashes"), new SplashesDataloader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "pride"), new PrideLogoDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "splashes"), new SplashesDataloader());
 		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
 		CompatHelper.addLuminanceModMenuBadge(Data.getVersion().getID());
 	}

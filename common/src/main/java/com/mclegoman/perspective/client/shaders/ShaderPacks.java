@@ -93,7 +93,7 @@ public class ShaderPacks {
 		registries.clear();
 	}
 	private static void addDefaultShaderPacks() {
-		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPackEntry.Translation(shader.getTranslatable(), shader.getID(), false, shader.getDescription()), List.of(new ShaderPackEntry.Shader(Shaders.getMainRegistryId(), shader.getID(), new ArrayList<>())), new JsonObject());
+		for (ShaderRegistryEntry shader : Shaders.getRegistry()) addToRegistry(shader.getID(), new ShaderPackEntry.Translation(shader.getID(), false), List.of(new ShaderPackEntry.Shader(Shaders.getMainRegistryId(), shader.getID(), new ArrayList<>())), new JsonObject());
 	}
 	private static void initUniforms() {
 		try {
@@ -218,7 +218,7 @@ public class ShaderPacks {
 						}
 					}
 					Identifier id = identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json")));
-					registryIds.forEach((registryId) -> addToRegistry(Identifier.of(registryId.getAsString()), id, new ShaderPackEntry.Translation(JsonHelper.getBoolean(reader, "translatable", false), id, true, JsonHelper.getBoolean(reader, "description", false)), shaders, JsonHelper.getObject(reader, "custom", new JsonObject())));
+					registryIds.forEach((registryId) -> addToRegistry(Identifier.of(registryId.getAsString()), id, new ShaderPackEntry.Translation(id, true), shaders, JsonHelper.getObject(reader, "custom", new JsonObject())));
 				} catch (Exception error) {
 					Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load shader pack '{}': {}", identifier.withPath(identifier.getPath().substring(identifier.getPath().lastIndexOf("/") + 1, identifier.getPath().lastIndexOf(".json"))), error.getLocalizedMessage()));
 				}
@@ -259,7 +259,8 @@ public class ShaderPacks {
 	}
 	public static Tooltip getTooltip(Identifier shaderId) {
 		ShaderPackEntry pack = getRegistry().get(shaderId);
-		return pack != null && pack.translation().description() ? Tooltip.of(pack.translation().getDescription(ShaderPacks.shouldShowNamespace(getShadersId(), pack.translation().id()))) : null;
+		Text description = pack != null ? pack.translation().getDescription(ShaderPacks.shouldShowNamespace(getShadersId(), pack.translation().id())) : null;
+		return description != null && !description.getString().isEmpty() ? Tooltip.of(description) : null;
 	}
 	static {
 		random = new Random();

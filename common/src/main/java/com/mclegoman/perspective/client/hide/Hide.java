@@ -30,10 +30,10 @@ public class Hide {
 	public static final String[] hideCrosshairModes = new String[]{"vanilla", "dynamic", "hidden"};
 	public static float rainbowTime = 0.0F;
 	public static void init() {
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_armor"), new HideArmorDataLoader());
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_name_tags"), new HideNameTagsDataLoader());
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "hide_player"), new HidePlayerDataLoader());
-		Events.ClientResourceReload.register(Identifier.of(Data.getVersion().getID(), "dynamic_crosshair"), new DynamicCrosshairDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_armor"), new HideArmorDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_name_tags"), new HideNameTagsDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_player"), new HidePlayerDataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "dynamic_crosshair"), new DynamicCrosshairDataLoader());
 	}
 	public static void tick() {
 		if (Keybindings.toggleArmour.wasPressed()) {

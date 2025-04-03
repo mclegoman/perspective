@@ -10,6 +10,7 @@ package com.mclegoman.perspective.client.translation;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;

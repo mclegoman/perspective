@@ -24,7 +24,7 @@ import java.util.*;
 
 public class Appearance {
 	public static void init() {
-		Events.ClientResourceReload.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
+		Events.ClientResourceReloaders.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
 	}
 	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> {
 		public static final Map<String, Data> registry = new HashMap<>();

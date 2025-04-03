@@ -1,7 +1,5 @@
 {
 	"registries": [ "perspective:textured_entity" ],
-	"translatable": false,
-	"description": false,
 	"shaders": [
 		{
 			"registry": "perspective:textured_entity",

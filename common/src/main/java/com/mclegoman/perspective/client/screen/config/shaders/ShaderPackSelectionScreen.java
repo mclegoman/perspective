@@ -40,8 +40,6 @@ public class ShaderPackSelectionScreen extends Screen {
 		this.refresh = false;
 	}
 	protected void init() {
-		this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
-		addDrawableChild(widget);
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
 			ShaderPacks.cycleShaderMode();
 			this.refresh = true;
@@ -57,6 +55,9 @@ public class ShaderPackSelectionScreen extends Screen {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
 			this.refresh = true;
 		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 38, 20, 20).build());
+
+		this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
+		addDrawableChild(widget);
 	}
 	public void tick() {
 		try {
