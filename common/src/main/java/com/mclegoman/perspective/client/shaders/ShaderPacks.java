@@ -22,7 +22,6 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.client.data.ClientData;
-import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
@@ -45,8 +44,9 @@ public class ShaderPacks {
 	private static Formatting prevColor;
 	private static final Formatting[] colors;
 	public static void init() {
-		Events.AfterShaderDataRegistered.register(getShadersId(), ShaderPacks::reload);
 		initUniforms();
+		Events.AfterShaderDataRegistered.register(getShadersId(), ShaderPacks::reload);
+		Events.AfterClientResourceReload.register(getShadersId(), ShaderPacks::applyShader);
 	}
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
@@ -228,7 +228,6 @@ public class ShaderPacks {
 		}
 		addDefaultShaderPacks();
 		clean();
-		applyShader();
 	}
 	private static void clean() {
 		List<Identifier> remove = new ArrayList<>();

@@ -3,6 +3,8 @@
 	"gui.perspective.version": "%s %s",
 	"gui.perspective.license": "Licensed under LGPL-3.0-or-later.",
 
+	"gui.perspective.config": "%s %s",
+
 	"gui.perspective.toasts.title": "%s: %s",
 
 	"gui.perspective.toasts.keybinding_conflicts.title": "Conflicting Keybinding",

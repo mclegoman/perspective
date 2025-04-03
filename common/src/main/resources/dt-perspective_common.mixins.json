@@ -33,6 +33,7 @@
 		"client.hud.InGameHudMixin",
 		"client.hud.LivingEntityMixin",
 		"client.hud.MinecraftClientMixin",
+		"client.hud.VideoOptionsScreenMixin",
 		"client.perspective.CameraMixin",
 		"client.show_death_coordinates.DeathScreenMixin",
 		"client.textured_entity.LivingEntityRendererMixin",

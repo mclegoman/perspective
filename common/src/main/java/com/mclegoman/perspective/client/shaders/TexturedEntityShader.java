@@ -11,7 +11,6 @@ import com.mclegoman.luminance.client.shaders.SpectatorHandler;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import net.minecraft.entity.Entity;
-import org.w3c.dom.Text;
 
 import java.util.Optional;
 
