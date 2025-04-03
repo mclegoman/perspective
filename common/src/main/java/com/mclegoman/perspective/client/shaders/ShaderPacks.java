@@ -23,6 +23,7 @@ import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
+import com.mclegoman.perspective.client.screen.config.shaders.ShaderPackSelectionScreen;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
@@ -113,6 +114,9 @@ public class ShaderPacks {
 		PerspectiveConfig.config.superSecretSettingsShader.setValue(ConfigIdentifier.of(id), true);
 		if (applyShader) applyShader();
 		PerspectiveConfig.config.superSecretSettingsEnabled.setValue(true, true);
+		if (ClientData.minecraft.currentScreen instanceof ShaderPackSelectionScreen) {
+			((ShaderPackSelectionScreen)ClientData.minecraft.currentScreen).refresh = true;
+		}
 	}
 	protected static void applyShader() {
 		Events.ShaderRender.register(getShadersId(), new ArrayList<>());

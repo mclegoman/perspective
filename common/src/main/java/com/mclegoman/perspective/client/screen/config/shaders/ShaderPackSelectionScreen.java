@@ -30,7 +30,7 @@ public class ShaderPackSelectionScreen extends Screen {
 	private boolean shouldClose;
 	private final double scrollAmount;
 	private final boolean blurEnabled;
-	private boolean refresh;
+	public boolean refresh;
 	public ShaderPackSelectionScreen(Screen parent, Formatting[] formatting, double scrollAmount, boolean blurEnabled) {
 		super(Text.literal(""));
 		this.parent = parent;
