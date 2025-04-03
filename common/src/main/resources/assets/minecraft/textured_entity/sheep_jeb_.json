@@ -7,7 +7,7 @@
   ],
   "flip": false,
   "item_group": false,
-  "can_be_random": true,
+  "can_be_random": false,
   "shader": {
     "pack": "minecraft:wobble",
     "priority": 0
