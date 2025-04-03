@@ -11,7 +11,8 @@
   "can_be_random": true,
   "shader": {
     "registry": "perspective:textured_entity",
-    "pack": "perspective:golden_vex"
+    "pack": "perspective:golden_vex",
+    "priority": 200
   },
   "enabled": true
 }

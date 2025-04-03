@@ -1,0 +1,16 @@
+{
+  "entity": "minecraft:sheep",
+  "name": "jeb_",
+  "overrides": [
+    { "prefix": "", "suffix": "", "texture": "" },
+    { "prefix": "", "suffix": "_fur", "texture": "" }
+  ],
+  "flip": false,
+  "item_group": false,
+  "can_be_random": true,
+  "shader": {
+    "pack": "minecraft:wobble",
+    "priority": 0
+  },
+  "enabled": true
+}

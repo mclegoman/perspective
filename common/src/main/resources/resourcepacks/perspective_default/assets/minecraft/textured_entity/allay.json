@@ -10,7 +10,8 @@
   "can_be_random": true,
   "shader": {
     "registry": "perspective:textured_entity",
-    "pack": "perspective:blue_allay"
+    "pack": "perspective:blue_allay",
+    "priority": 50
   },
   "enabled": true
 }

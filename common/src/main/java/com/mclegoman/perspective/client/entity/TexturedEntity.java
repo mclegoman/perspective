@@ -18,6 +18,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
 import com.mclegoman.perspective.client.shaders.ShaderPackEntry;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
+import com.mclegoman.perspective.client.shaders.TexturedEntityShader;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
@@ -27,6 +28,7 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -74,6 +76,7 @@ public class TexturedEntity {
 		try {
 			addDefaultForbiddenEntities();
 			Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
+			Events.SpectatorHandlers.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityShader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
@@ -232,10 +235,15 @@ public class TexturedEntity {
 	public static boolean setTexturedEntity(boolean oldValue, boolean newValue) {
 		return oldValue && newValue;
 	}
-
-	public static void applyShader() {
+	public static void applyShader(Entity entity) {
+		setShader(getShaders(entity));
+	}
+	public static void clearShader() {
+		setShader(new ArrayList<>());
+	}
+	public static void setShader(List<Shader.Data> shaders) {
 		Events.ShaderRender.register(getTexturedEntityId(), new ArrayList<>());
-		Events.ShaderRender.modify(getTexturedEntityId(), getShaders());
+		Events.ShaderRender.modify(getTexturedEntityId(), shaders);
 	}
 	public static Identifier getTexturedEntityId(String suffix) {
 		return Identifier.of(Data.getVersion().getID(), "textured_entity" + suffix);
@@ -249,16 +257,16 @@ public class TexturedEntity {
 		if (texturedEntityEntry.isPresent()) shaderPack = texturedEntityEntry.get().getShaderPack();
 		return shaderPack;
 	}
-	private static List<Shader.Data> getShaders() {
+	private static List<Shader.Data> getShaders(Entity entity) {
 		List<Shader.Data> shaders = new ArrayList<>();
-		if (ClientData.minecraft.getCameraEntity() != null) {
-			Optional<TexturedEntityEntry.SpectatorShader> spectatorShader = getShaderPack(ClientData.minecraft.getCameraEntity());
+		if (entity != null) {
+			Optional<TexturedEntityEntry.SpectatorShader> spectatorShader = getShaderPack(entity);
 			if (spectatorShader.isPresent()) {
 				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.get().registry(), spectatorShader.get().shaderPack());
 				if (shaderPack != null) {
 					int i = 0;
 					for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
-						shaders.add(new Shader.Data(getTexturedEntityId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> Shader.RenderType.WORLD, () -> ClientData.minecraft.player != null && ClientData.minecraft.player.isSpectator())));
+						shaders.add(new Shader.Data(getTexturedEntityId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> Shader.RenderType.WORLD, () -> ClientData.minecraft.cameraEntity != null && (ClientData.minecraft.cameraEntity == entity))));
 					}
 				} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!: " + spectatorShader.get().registry() + ":" + spectatorShader.get().shaderPack());
 			}

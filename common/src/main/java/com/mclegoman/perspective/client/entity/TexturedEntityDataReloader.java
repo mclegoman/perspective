@@ -209,7 +209,11 @@ public class TexturedEntityDataReloader extends JsonResourceReloader {
 			Optional<TexturedEntityEntry.SpectatorShader> shaderPack = Optional.empty();
 			if (JsonHelper.hasJsonObject(reader, "shader")) {
 				JsonObject shaderData = JsonHelper.getObject(reader, "shader");
-				shaderPack = Optional.of(new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", ShaderPacks.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack"))));
+				// Priority - defaults to 200
+				// vanilla: 0
+				// soup: 100
+				// perspective: 50-200
+				shaderPack = Optional.of(new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", ShaderPacks.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack")), JsonHelper.getInt(shaderData, "priority", 200)));
 			}
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
 			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, shaderPack, enabled);

@@ -35,7 +35,6 @@
 		"client.hud.MinecraftClientMixin",
 		"client.perspective.CameraMixin",
 		"client.show_death_coordinates.DeathScreenMixin",
-		"client.textured_entity.GameRendererMixin",
 		"client.textured_entity.LivingEntityRendererMixin",
 		"client.textured_entity.minecraft.EmissiveFeatureRendererMixin",
 		"client.textured_entity.minecraft.EyesFeatureRendererMixin",

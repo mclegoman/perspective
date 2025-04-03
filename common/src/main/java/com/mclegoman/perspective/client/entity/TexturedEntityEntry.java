@@ -72,9 +72,9 @@ public class TexturedEntityEntry {
 	public Optional<SpectatorShader> getShaderPack() {
 		return this.shaderPack;
 	}
-	public record SpectatorShader(Identifier registry, Identifier shaderPack) {
-		public SpectatorShader(Identifier shaderPack) {
-			this(ShaderPacks.getShadersId(), shaderPack);
+	public record SpectatorShader(Identifier registry, Identifier shaderPack, int priority) {
+		public SpectatorShader(Identifier shaderPack, int priority) {
+			this(ShaderPacks.getShadersId(), shaderPack, priority);
 		}
 	}
 }

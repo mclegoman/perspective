@@ -15,7 +15,8 @@
   "can_be_random": true,
   "shader": {
     "registry": "perspective:main",
-    "pack": "luminance:silhouette"
+    "pack": "luminance:silhouette",
+    "priority": 50
   },
   "enabled": true
 }

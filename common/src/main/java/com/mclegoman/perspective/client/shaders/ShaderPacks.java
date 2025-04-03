@@ -229,7 +229,6 @@ public class ShaderPacks {
 		addDefaultShaderPacks();
 		clean();
 		applyShader();
-		TexturedEntity.applyShader();
 	}
 	private static void clean() {
 		List<Identifier> remove = new ArrayList<>();
@@ -261,6 +260,12 @@ public class ShaderPacks {
 		ShaderPackEntry pack = getRegistry().get(shaderId);
 		Text description = pack != null ? pack.translation().getDescription(ShaderPacks.shouldShowNamespace(getShadersId(), pack.translation().id())) : null;
 		return description != null && !description.getString().isEmpty() ? Tooltip.of(description) : null;
+	}
+	public static boolean exists(Identifier shaderId) {
+		return exists(getShadersId(), shaderId);
+	}
+	public static boolean exists(Identifier registryId, Identifier shaderId) {
+		return getRegistry(registryId).containsKey(shaderId);
 	}
 	static {
 		random = new Random();
