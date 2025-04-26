@@ -7,11 +7,12 @@
 
 package com.mclegoman.perspective.modloader.client;
 
-import com.mclegoman.luminance.api.entrypoint.LuminanceInit;
 import com.mclegoman.perspective.client.PerspectiveClient;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.client.ClientModInitializer;
 
-public class PerspectiveQuiltLoader implements LuminanceInit {
-    public void init(String modId) {
+public class PerspectiveQuiltLoader implements ClientModInitializer {
+    public void onInitializeClient(ModContainer mod) {
         PerspectiveClient.init();
     }
 }

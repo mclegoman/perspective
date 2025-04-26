@@ -7,7 +7,7 @@
 
 package com.mclegoman.perspective.common.data;
 
-import com.mclegoman.luminance.api.mod.ModHelper;
+import com.mclegoman.luminance.common.util.ModHelper;
 import com.mclegoman.luminance.common.util.Version;
 
 public class Data extends com.mclegoman.luminance.common.data.Data {

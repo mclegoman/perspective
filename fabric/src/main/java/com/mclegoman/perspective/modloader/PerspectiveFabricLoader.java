@@ -7,11 +7,11 @@
 
 package com.mclegoman.perspective.modloader;
 
-import com.mclegoman.luminance.api.entrypoint.LuminanceInit;
 import com.mclegoman.perspective.common.Perspective;
+import net.fabricmc.api.ModInitializer;
 
-public class PerspectiveFabricLoader implements LuminanceInit {
-	public void init(String modId) {
+public class PerspectiveFabricLoader implements ModInitializer {
+	public void onInitialize() {
 		Perspective.init();
 	}
 }

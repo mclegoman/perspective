@@ -18,10 +18,10 @@
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "luminance_client": [
+      "client_init": [
         "com.mclegoman.perspective.modloader.client.PerspectiveQuiltLoader"
       ],
-      "luminance_common": [
+      "init": [
         "com.mclegoman.perspective.modloader.PerspectiveQuiltLoader"
       ]
     },

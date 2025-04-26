@@ -21,10 +21,10 @@
   "icon": "assets/perspective/textures/icons/default/icon.png",
   "environment": "client",
   "entrypoints": {
-    "luminance_common": [
+    "main": [
       "com.mclegoman.perspective.modloader.PerspectiveFabricLoader"
     ],
-    "luminance_client": [
+    "client": [
       "com.mclegoman.perspective.modloader.client.PerspectiveFabricLoader"
     ],
     "modmenu": [
