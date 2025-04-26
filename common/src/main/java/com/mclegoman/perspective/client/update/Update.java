@@ -43,90 +43,94 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 		checkForUpdates(currentVersion);
 	}
 	public static void checkForUpdates(Version currentVersion) {
-		Util.getMainWorkerExecutor().execute(() -> {
-			updateCheckerComplete = false;
-			newerVersionFound = false;
-			try {
-				if (!PerspectiveConfig.config.detectUpdateChannel.value().equals("none") && currentVersion.hasModrinthID()) {
-					currentVersion.sendToLog(LogType.INFO, "Checking for new updates...");
-					currentVersion.sendToLog(LogType.INFO, Translation.getString("Current Version: {}", currentVersion.getFriendlyString()));
-					currentVersion.sendToLog(LogType.INFO, Translation.getString("Update Channel: {}", PerspectiveConfig.config.detectUpdateChannel.value()));
-					currentVersion.sendToLog(LogType.INFO, Translation.getString("Minecraft Version: {}", SharedConstants.getGameVersion().getName()));
-					JsonArray apiDataVersion = (JsonArray) getModrinthData(currentVersion.getModrinthID(), "version");
-					if (apiDataVersion != null) {
-						boolean compatible_version = false;
-						for (JsonElement version : apiDataVersion) {
-							JsonObject version_obj = (JsonObject) version;
-							JsonArray game_versions = JsonHelper.getArray(version_obj, "game_versions");
-							for (JsonElement game_version : game_versions) {
-								if (game_version.getAsString().equalsIgnoreCase(SharedConstants.getGameVersion().getName())) {
-									compatible_version = true;
-									break;
-								}
-							}
-							if (compatible_version) {
-								String version_number = JsonHelper.getString(version_obj, "version_number");
-								int indexOfPlus = version_number.indexOf("+");
-								if (indexOfPlus != -1) version_number = version_number.substring(0, indexOfPlus);
-								if (!version_number.contains("-")) version_number = version_number + "-release.1";
-								int major = Integer.parseInt(version_number.substring(0, 1));
-								int minor = Integer.parseInt(version_number.substring(2, 3));
-								int patch = Integer.parseInt(version_number.substring(4, 5));
-								ReleaseType type = Helper.stringToType(version_number.substring(6, version_number.lastIndexOf(".")));
-								int build = Integer.parseInt(version_number.substring((version_number.lastIndexOf(".") + 1)));
-								apiVersion = Version.create(currentVersion.getName(), currentVersion.getID(), major, minor, patch, type, build, currentVersion.getModrinthID());
-								if (apiVersion.compareTo(currentVersion) > 0) {
-									if (PerspectiveConfig.config.detectUpdateChannel.value().equals("alpha")) {
-										if (apiVersion.getType().equals(ReleaseType.ALPHA) || apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
-											newerVersionFound = true;
-											String version_id = JsonHelper.getString(version_obj, "version_number");
-											if (!version_id.contains("-"))
-												version_id = version_id.replace("+", "-release.1+");
-											latestVersionFound = version_id;
-											downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
-										}
-									} else if (PerspectiveConfig.config.detectUpdateChannel.value().equals("beta")) {
-										if (apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
-											newerVersionFound = true;
-											String version_id = JsonHelper.getString(version_obj, "version_number");
-											if (!version_id.contains("-"))
-												version_id = version_id.replace("+", "-release.1+");
-											latestVersionFound = version_id;
-											downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
-										}
-									} else {
-										if (apiVersion.getType().equals(ReleaseType.RELEASE)) {
-											newerVersionFound = true;
-											String version_id = JsonHelper.getString(version_obj, "version_number");
-											if (!version_id.contains("-"))
-												version_id = version_id.replace("+", "-release.1+");
-											latestVersionFound = version_id;
-											downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
-										}
+		// When perspective cannot be found, the version is set to 0.0.0-release.0.
+		// In this case, we disable the update checker as this should only ever happen when someone changes the mod id.
+		if (!currentVersion.getFriendlyString().equals("0.0.0-release.0")) {
+			Util.getMainWorkerExecutor().execute(() -> {
+				updateCheckerComplete = false;
+				newerVersionFound = false;
+				try {
+					if (!PerspectiveConfig.config.detectUpdateChannel.value().equals("none") && currentVersion.hasModrinthID()) {
+						currentVersion.sendToLog(LogType.INFO, "Checking for new updates...");
+						currentVersion.sendToLog(LogType.INFO, Translation.getString("Current Version: {}", currentVersion.getFriendlyString()));
+						currentVersion.sendToLog(LogType.INFO, Translation.getString("Update Channel: {}", PerspectiveConfig.config.detectUpdateChannel.value()));
+						currentVersion.sendToLog(LogType.INFO, Translation.getString("Minecraft Version: {}", SharedConstants.getGameVersion().getName()));
+						JsonArray apiDataVersion = (JsonArray) getModrinthData(currentVersion.getModrinthID(), "version");
+						if (apiDataVersion != null) {
+							boolean compatible_version = false;
+							for (JsonElement version : apiDataVersion) {
+								JsonObject version_obj = (JsonObject) version;
+								JsonArray game_versions = JsonHelper.getArray(version_obj, "game_versions");
+								for (JsonElement game_version : game_versions) {
+									if (game_version.getAsString().equalsIgnoreCase(SharedConstants.getGameVersion().getName())) {
+										compatible_version = true;
+										break;
 									}
 								}
-								if (newerVersionFound) {
-									currentVersion.sendToLog(LogType.INFO, Translation.getString("A newer version of {} was found using Modrinth API: {}", currentVersion.getName(), apiVersion.getFriendlyString()));
-									break;
+								if (compatible_version) {
+									String version_number = JsonHelper.getString(version_obj, "version_number");
+									int indexOfPlus = version_number.indexOf("+");
+									if (indexOfPlus != -1) version_number = version_number.substring(0, indexOfPlus);
+									if (!version_number.contains("-")) version_number = version_number + "-release.1";
+									int major = Integer.parseInt(version_number.substring(0, 1));
+									int minor = Integer.parseInt(version_number.substring(2, 3));
+									int patch = Integer.parseInt(version_number.substring(4, 5));
+									ReleaseType type = Helper.stringToType(version_number.substring(6, version_number.lastIndexOf(".")));
+									int build = Integer.parseInt(version_number.substring((version_number.lastIndexOf(".") + 1)));
+									apiVersion = Version.create(currentVersion.getName(), currentVersion.getID(), major, minor, patch, type, build, currentVersion.getModrinthID());
+									if (apiVersion.compareTo(currentVersion) > 0) {
+										if (PerspectiveConfig.config.detectUpdateChannel.value().equals("alpha")) {
+											if (apiVersion.getType().equals(ReleaseType.ALPHA) || apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
+												newerVersionFound = true;
+												String version_id = JsonHelper.getString(version_obj, "version_number");
+												if (!version_id.contains("-"))
+													version_id = version_id.replace("+", "-release.1+");
+												latestVersionFound = version_id;
+												downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
+											}
+										} else if (PerspectiveConfig.config.detectUpdateChannel.value().equals("beta")) {
+											if (apiVersion.getType().equals(ReleaseType.BETA) || apiVersion.getType().equals(ReleaseType.RELEASE_CANDIDATE) || apiVersion.getType().equals(ReleaseType.RELEASE)) {
+												newerVersionFound = true;
+												String version_id = JsonHelper.getString(version_obj, "version_number");
+												if (!version_id.contains("-"))
+													version_id = version_id.replace("+", "-release.1+");
+												latestVersionFound = version_id;
+												downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
+											}
+										} else {
+											if (apiVersion.getType().equals(ReleaseType.RELEASE)) {
+												newerVersionFound = true;
+												String version_id = JsonHelper.getString(version_obj, "version_number");
+												if (!version_id.contains("-"))
+													version_id = version_id.replace("+", "-release.1+");
+												latestVersionFound = version_id;
+												downloadLink = "https://modrinth.com/mod/mclegoman-perspective/version/" + JsonHelper.getString(version_obj, "version_number");
+											}
+										}
+									}
+									if (newerVersionFound) {
+										currentVersion.sendToLog(LogType.INFO, Translation.getString("A newer version of {} was found using Modrinth API: {}", currentVersion.getName(), apiVersion.getFriendlyString()));
+										break;
+									}
 								}
 							}
-						}
-						if (!compatible_version) {
-							currentVersion.sendToLog(LogType.INFO, Translation.getString("Could not find a compatible version of {} using Modrinth API.", currentVersion.getName()));
-						} else {
-							if (!newerVersionFound) currentVersion.sendToLog(LogType.INFO, Translation.getString("You are already running the latest version of {}: {}", currentVersion.getName(), currentVersion.getFriendlyString()));
+							if (!compatible_version) {
+								currentVersion.sendToLog(LogType.INFO, Translation.getString("Could not find a compatible version of {} using Modrinth API.", currentVersion.getName()));
+							} else {
+								if (!newerVersionFound) currentVersion.sendToLog(LogType.INFO, Translation.getString("You are already running the latest version of {}: {}", currentVersion.getName(), currentVersion.getFriendlyString()));
+							}
 						}
 					}
+				} catch (Exception error) {
+					currentVersion.sendToLog(LogType.INFO, Translation.getString("Failed to check for updates using Modrinth API: {}", error));
 				}
-			} catch (Exception error) {
-				currentVersion.sendToLog(LogType.INFO, Translation.getString("Failed to check for updates using Modrinth API: {}", error));
-			}
-			updateCheckerComplete = true;
-		});
-		if (newerVersionFound) {
-			if (!seenUpdateToast) {
-				Toast.add(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}));
-				seenUpdateToast = true;
+				updateCheckerComplete = true;
+			});
+			if (newerVersionFound) {
+				if (!seenUpdateToast) {
+					Toast.add(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}));
+					seenUpdateToast = true;
+				}
 			}
 		}
 	}
