@@ -10,10 +10,9 @@ package com.mclegoman.perspective.client.texture;
 import com.mclegoman.luminance.client.texture.ActivationType;
 import com.mclegoman.luminance.client.texture.ResourcePackHelper;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.luminance.common.util.ModContainer;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -29,7 +28,7 @@ public class ResourcePacks {
 	 */
 	public static void init() {
 		try {
-			Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer(Data.getVersion().getID());
+			Optional<ModContainer> modContainer = Data.getVersion().getModContainer();
 			if (modContainer.isPresent()) {
 				Data.getVersion().sendToLog(LogType.INFO, Translation.getString("Initializing resource packs!"));
 				/*

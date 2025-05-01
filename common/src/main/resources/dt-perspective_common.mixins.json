@@ -145,13 +145,11 @@
 		"client.ui.ScreenMixin",
 		"client.ui.TitleScreenMixin",
 		"client.zoom.GameRendererMixin",
-		"client.zoom.MouseMixin"
+		"client.zoom.MouseMixin",
+		"client.entity.PlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
 	},
-	"refmap": "perspective-common-common-refmap.json",
-	"mixins": [
-		"client.entity.PlayerEntityMixin"
-	]
+	"refmap": "perspective-common-common-refmap.json"
 }

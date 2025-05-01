@@ -162,8 +162,8 @@ public class ShaderPacks {
 	}
 	public static void cycleShaderMode() {
 		switch (PerspectiveConfig.config.superSecretSettingsMode.value()) {
-			case ShaderRenderType.screen -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.game, true);
-			case ShaderRenderType.game -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.screen, true);
+			case ShaderRenderType.ui -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.game, true);
+			case ShaderRenderType.game -> PerspectiveConfig.config.superSecretSettingsMode.setValue(ShaderRenderType.ui, true);
 		}
 	}
 	public static Identifier getShadersId() {

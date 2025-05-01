@@ -14,6 +14,6 @@ public class ClientData {
 	public static final float configVersion;
 	static {
 		minecraft = MinecraftClient.getInstance();
-		configVersion = 24.0F;
+		configVersion = 25.0F;
 	}
 }
