@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
+import com.mclegoman.perspective.client.ui.UIBackground;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -41,10 +42,14 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 		GridWidget shaderOptionsGrid = new GridWidget();
 		shaderOptionsGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shaderOptionsGridAdder = shaderOptionsGrid.createAdder(2);
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings", new Formatting[]{ShaderPacks.getRandomColor()}), (button) -> ClientData.minecraft.setScreen(new SuperSecretSettingsConfigScreen(getRefreshScreen(), false, new Formatting[]{ShaderPacks.getRandomColor()}))).width(300).build(), 2);
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.kaleidoscope.value(), Translation.Type.ONFF)}), (button) -> PerspectiveConfig.toggle(PerspectiveConfig.config.kaleidoscope)).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope", true))).width(300).build(), 2);
-		shaderOptionsGridAdder.add(new EmptyWidget(20, 20), 1);
-		shaderOptionsGridAdder.add(new EmptyWidget(20, 20), 1);
+		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings", new Formatting[]{ShaderPacks.getRandomColor()}), (button) -> ClientData.minecraft.setScreen(new SuperSecretSettingsConfigScreen(getRefreshScreen(), false, new Formatting[]{ShaderPacks.getRandomColor()}))).width(304).build(), 2);
+		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.kaleidoscope.value(), Translation.Type.ONFF)}), (button) -> PerspectiveConfig.toggle(PerspectiveConfig.config.kaleidoscope)).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope", true))).build());
+		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.ui_background", new Object[]{Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId())}), (button) -> {
+			UIBackground.cycleUIBackgroundType(!hasShiftDown());
+			this.refresh = true;
+		}).tooltip(Tooltip.of(Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId(), true))).build());
+		shaderOptionsGridAdder.add(new EmptyWidget(20, 20), 2);
+		shaderOptionsGridAdder.add(new EmptyWidget(20, 20), 2);
 		return shaderOptionsGrid;
 	}
 	public Screen getRefreshScreen() {

@@ -69,10 +69,6 @@ public class ConfigScreen extends AbstractConfigScreen {
 		GridWidget grid = new GridWidget();
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "ui_background", new Object[]{Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId())}), (button) -> {
-			UIBackground.cycleUIBackgroundType(!hasShiftDown());
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId(), true))).build());
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "show_death_coordinates", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.showDeathCoordinates.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.showDeathCoordinates);
 			this.refresh = true;
@@ -88,11 +84,11 @@ public class ConfigScreen extends AbstractConfigScreen {
 		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", new Object[]{Translation.getDetectUpdateChannelTranslation(Data.getVersion().getID(), PerspectiveConfig.config.detectUpdateChannel.value())}), (button) -> {
 			PerspectiveConfig.config.detectUpdateChannel.setValue(Update.nextUpdateChannel(), false);
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
-		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen(), false))).build());
-		ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).build();
+		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).build());
+		gridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen(), false))).width(304).build(), 2);
+		ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).width(304).build();
 		experimental.active = ToastHelper.experimentsAvailable;
-		gridAdder.add(experimental);
+		gridAdder.add(experimental, 2);
 		return grid;
 	}
 	public Screen getRefreshScreen() {

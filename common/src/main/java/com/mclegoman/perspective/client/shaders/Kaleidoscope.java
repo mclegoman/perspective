@@ -14,6 +14,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
@@ -24,15 +25,18 @@ public class Kaleidoscope {
 	public static void init() {
 		PerspectiveEvents.AfterClientResourceReload.register(getId(), Kaleidoscope::apply);
 		PerspectiveEvents.OnStartItemUse.register(getId(), (stack, world, player, hand) -> {
-			if (stack.isOf(Items.SPYGLASS)) apply();
+			if (stack.isOf(Items.SPYGLASS)) apply(stack);
 		});
 	}
 	protected static void apply() {
-		PerspectiveEvents.ShaderRender.register(getId(), new ArrayList<>());
-		PerspectiveEvents.ShaderRender.modify(getId(), ShaderPacks.getShaders(Kaleidoscope::getShaderPack, Kaleidoscope::getRenderType, Kaleidoscope::getEnabled));
+		apply(ItemStack.EMPTY);
 	}
-	public static Identifier getShaderPack() {
-		shaderPack = ShaderPacks.randomize(shaderPack);
+	protected static void apply(ItemStack stack) {
+		PerspectiveEvents.ShaderRender.register(getId(), new ArrayList<>());
+		PerspectiveEvents.ShaderRender.modify(getId(), ShaderPacks.getShaders(() -> getShaderPack(stack), Kaleidoscope::getRenderType, Kaleidoscope::getEnabled));
+	}
+	public static Identifier getShaderPack(ItemStack stack) {
+		shaderPack = stack.getCustomName() != null ? ShaderPacks.guessPackId(stack.getCustomName().getString()).orElse(ShaderPacks.randomize(shaderPack)) : ShaderPacks.randomize(shaderPack);
 		return shaderPack;
 	}
 	public static Shader.RenderType getRenderType() {

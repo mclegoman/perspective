@@ -33,6 +33,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -91,7 +92,7 @@ public class ShaderPacks {
 		addToRegistry(getShadersId(), shaderId, translation, shaders, customData);
 	}
 	public static void addToRegistry(Identifier registryId, Identifier shaderId, ShaderPackEntry.Translation translation, List<ShaderPackEntry.Shader> shaders, JsonObject customData) {
-		getRegistry(registryId).put(shaderId, new ShaderPackEntry(translation, shaders, customData));
+		getRegistry(registryId).put(shaderId, new ShaderPackEntry(shaderId, translation, shaders, customData));
 	}
 	public static void resetRegistry() {
 		registries.clear();
@@ -280,6 +281,35 @@ public class ShaderPacks {
 	}
 	public static boolean exists(Identifier registryId, Identifier shaderId) {
 		return getRegistry(registryId).containsKey(shaderId);
+	}
+	public static Optional<Identifier> guessPackId(@NotNull String id) {
+		return guessPackId(getShadersId(), id);
+	}
+	public static Optional<Identifier> guessPackId(@NotNull Identifier registry, @NotNull String id) {
+		// If the shader registry contains at least one shader with the name, the first detected instance will be used.
+		id = id.toLowerCase(Locale.ROOT);
+
+		if (id.contains(":")) {
+			Identifier identifier = Identifier.tryParse(id);
+			if (identifier == null) {
+				return Optional.empty();
+			}
+
+			ShaderPackEntry entry = getShaderPack(registry, identifier);
+			if (entry != null) {
+				return Optional.of(identifier);
+			}
+
+			id = identifier.getPath();
+		}
+
+		for (Identifier shaderId : getRegistry(registry).keySet()) {
+			if (shaderId.getPath().equals(id)) {
+				return Optional.of(shaderId);
+			}
+		}
+
+		return Optional.empty();
 	}
 	static {
 		random = new Random();

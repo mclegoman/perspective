@@ -55,7 +55,7 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 		return getUIBackgroundTranslation(namespace, ui_background, false);
 	}
 	public static MutableText getUIBackgroundTranslation(String namespace, Identifier ui_background, boolean hover) {
-		return getConfigTranslation(namespace, "ui_background.type." + ui_background.getNamespace() + "." + ui_background.getPath() + (hover ? ".hover" : ""));
+		return getConfigTranslation(namespace, "shaders.ui_background.type." + ui_background.getNamespace() + "." + ui_background.getPath() + (hover ? ".hover" : ""));
 	}
 	public static MutableText getTimeOverlayTranslation(String namespace, String key) {
 		return getConfigTranslation(namespace, "time_overlay.type." + key);
