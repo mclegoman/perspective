@@ -9,12 +9,9 @@ package com.mclegoman.perspective.client.screen.config;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
-import com.mclegoman.perspective.client.logo.PerspectiveLogo;
 import com.mclegoman.perspective.client.screen.config.events.EventsConfigScreen;
 import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScreen;
-import com.mclegoman.perspective.client.logo.SplashesDataloader;
 import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
-import com.mclegoman.perspective.client.ui.UIBackground;
 import com.mclegoman.perspective.client.toasts.ToastHelper;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.config.hide.HideConfigScreen;
@@ -64,7 +61,7 @@ public class ConfigScreen extends AbstractConfigScreen {
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "hide"), (button) -> ClientData.minecraft.setScreen(new HideConfigScreen(getRefreshScreen(), 1))).build());
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "hold_perspective"), (button) -> ClientData.minecraft.setScreen(new HoldPerspectiveConfigScreen(getRefreshScreen(), 1))).build());
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays"), (button) -> ClientData.minecraft.setScreen(new OverlaysConfigScreen(getRefreshScreen(), 1))).build());
-			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "luminance"), (button) -> ClientData.minecraft.setScreen(new com.mclegoman.luminance.client.screen.config.ConfigScreen(getRefreshScreen(), SplashesDataloader.getSplashText(), PerspectiveLogo.isPride()))).build());
+			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "show_death_coordinates", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.showDeathCoordinates.value(), Translation.Type.ONFF)}), (button) -> PerspectiveConfig.toggle(PerspectiveConfig.config.showDeathCoordinates)).build());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "Error creating config/page1: " + error.getLocalizedMessage());
 		}
@@ -75,18 +72,15 @@ public class ConfigScreen extends AbstractConfigScreen {
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
 		try {
-			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "show_death_coordinates", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.showDeathCoordinates.value(), Translation.Type.ONFF)}), (button) -> {
-				PerspectiveConfig.toggle(PerspectiveConfig.config.showDeathCoordinates);
+			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.forcePride);
 			}).build());
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.tutorials.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.tutorials);
 			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", true))).build());
-			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
-				PerspectiveConfig.toggle(PerspectiveConfig.config.forcePride);
-			}).build());
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", new Object[]{Translation.getDetectUpdateChannelTranslation(Data.getVersion().getID(), PerspectiveConfig.config.detectUpdateChannel.value())}), (button) -> {
 				PerspectiveConfig.config.detectUpdateChannel.setValue(Update.nextUpdateChannel(), false);
-			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).build());
+			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen()))).width(304).build(), 2);
 			ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).width(304).build();
 			experimental.active = ToastHelper.experimentsAvailable;

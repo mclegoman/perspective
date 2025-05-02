@@ -9,6 +9,8 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.client.logo.PerspectiveLogo;
+import com.mclegoman.perspective.client.logo.SplashesDataloader;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
@@ -18,7 +20,6 @@ import com.mclegoman.perspective.client.ui.UIBackground;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Formatting;
 
@@ -47,7 +48,7 @@ public class ShadersConfigScreen extends AbstractConfigScreen {
 			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope.random", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.randomKaleidoscope.value(), Translation.Type.ONFF)}), (button) -> PerspectiveConfig.toggle(PerspectiveConfig.config.randomKaleidoscope)).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope.random", true))).build());
 			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope.named", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.namedKaleidoscope.value(), Translation.Type.ONFF)}), (button) -> PerspectiveConfig.toggle(PerspectiveConfig.config.namedKaleidoscope)).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.kaleidoscope.named", true))).build());
 			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.ui_background", new Object[]{Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId())}), (button) -> UIBackground.cycleUIBackgroundType(!hasShiftDown())).tooltip(() -> Tooltip.of(Translation.getUIBackgroundTranslation(Data.getVersion().getID(), UIBackground.getCurrentUIBackground().getId(), true))).width(304).build(), 2);
-			shaderOptionsGridAdder.add(new EmptyWidget(20, 20), 2);
+			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "luminance"), (button) -> ClientData.minecraft.setScreen(new com.mclegoman.luminance.client.screen.config.ConfigScreen(getRefreshScreen(), SplashesDataloader.getSplashText(), PerspectiveLogo.isPride()))).width(304).build(), 2);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "An error occurred on config/shaders/page1: " + error.getLocalizedMessage());
 		}
