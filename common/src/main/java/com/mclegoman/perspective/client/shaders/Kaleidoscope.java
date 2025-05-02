@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.common.data.Data;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
@@ -38,7 +39,10 @@ public class Kaleidoscope {
 		return Shader.RenderType.WORLD;
 	}
 	public static boolean getEnabled() {
-		return PerspectiveConfig.config.kaleidoscope.value() && (ClientData.minecraft.player != null && ClientData.minecraft.player.isUsingSpyglass());
+		return PerspectiveConfig.config.kaleidoscope.value() && (ClientData.minecraft.player != null && isUsingSpyglass(ClientData.minecraft.player));
+	}
+	public static boolean isUsingSpyglass(PlayerEntity player) {
+		return player.isUsingSpyglass() && ClientData.minecraft.options.getPerspective().isFirstPerson();
 	}
 	public static Identifier getId() {
 		return Identifier.of(Data.getVersion().getID(), "kaleidoscope");
