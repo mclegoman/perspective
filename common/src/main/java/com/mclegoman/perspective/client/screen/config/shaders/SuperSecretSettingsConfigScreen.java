@@ -64,7 +64,7 @@ public class SuperSecretSettingsConfigScreen extends AbstractConfigScreen {
 		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
 			ShaderPacks.cycleShaderMode();
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).build());
+		}).tooltip(Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).build());
 		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.random"), (button) -> {
 			ShaderPacks.randomize();
 			this.refresh = true;

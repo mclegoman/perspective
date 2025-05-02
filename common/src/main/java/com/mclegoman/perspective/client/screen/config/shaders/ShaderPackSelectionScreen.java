@@ -40,18 +40,18 @@ public class ShaderPackSelectionScreen extends Screen {
 		this.refresh = false;
 	}
 	protected void init() {
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
+		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
 			ShaderPacks.cycleShaderMode();
 			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "super_secret_settings.mode", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.mode." + PerspectiveConfig.config.superSecretSettingsMode.value().name(), true)}, true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+		}).tooltip(Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
 
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
+		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
 			ShaderPacks.toggle();
 			this.refresh = true;
 		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 + 2, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
 
 		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
-		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "super_secret_settings.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
+		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
 			this.refresh = true;
 		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 38, 20, 20).build());
@@ -75,7 +75,7 @@ public class ShaderPackSelectionScreen extends Screen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "super_secret_settings.list.select", formatting), ClientData.minecraft.getWindow().getScaledWidth() / 2, 12, 0xFFFFFF);
+		context.drawCenteredTextWithShadow(ClientData.minecraft.textRenderer, Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.list.select", formatting), ClientData.minecraft.getWindow().getScaledWidth() / 2, 12, 0xFFFFFF);
 	}
 	@Override
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {

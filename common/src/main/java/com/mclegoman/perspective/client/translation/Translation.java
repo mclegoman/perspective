@@ -24,10 +24,13 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 	public static MutableText getShaderTranslation(String namespace, String shaderName) {
 		return getText("shader." + namespace + "." + shaderName, true);
 	}
-	public static MutableText getShaderModeTranslation(String namespace, String key) {
-		if (key.equalsIgnoreCase("game")) return getConfigTranslation(namespace, "shaders.super_secret_settings.mode.game");
-		else if (key.equalsIgnoreCase("ui") || key.equalsIgnoreCase("screen")) return getConfigTranslation(namespace, "shaders.super_secret_settings.mode.ui");
+	public static MutableText getShaderModeTranslation(String namespace, String key, boolean hover) {
+		if (key.equalsIgnoreCase("game")) return getConfigTranslation(namespace, "shaders.super_secret_settings.mode.game", hover);
+		else if (key.equalsIgnoreCase("ui") || key.equalsIgnoreCase("screen")) return getConfigTranslation(namespace, "shaders.super_secret_settings.mode.ui", hover);
 		else return getErrorTranslation(namespace);
+	}
+	public static MutableText getShaderModeTranslation(String namespace, String key) {
+		return getShaderModeTranslation(namespace, key, false);
 	}
 	public static MutableText getZoomTransitionTranslation(String namespace, String key) {
 		if (key.equalsIgnoreCase("instant")) return getConfigTranslation(namespace, "zoom.transition.instant");
