@@ -108,8 +108,10 @@
 
 	"gui.perspective.config.shaders": "Shaders",
 	"gui.perspective.config.shaders.super_secret_settings": "Super Secret Settings",
-	"gui.perspective.config.shaders.kaleidoscope": "Kaleidoscope: %s",
-	"gui.perspective.config.shaders.kaleidoscope.hover": "Renders a random shader pack whilst using the Spyglass.",
+	"gui.perspective.config.shaders.kaleidoscope.random": "Random Kaleidoscope: %s",
+	"gui.perspective.config.shaders.kaleidoscope.random.hover": "Renders a random shader pack whilst using the Spyglass.",
+	"gui.perspective.config.shaders.kaleidoscope.named": "Named Kaleidoscope: %s",
+	"gui.perspective.config.shaders.kaleidoscope.named.hover": "Renders a specific shader pack whilst using a named Spyglass.",
 
 	"gui.perspective.config.shaders.super_secret_settings.cycle": "Shader: %s",
 

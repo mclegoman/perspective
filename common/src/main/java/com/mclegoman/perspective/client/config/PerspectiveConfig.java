@@ -73,8 +73,10 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> superSecretSettingsShowName = this.value(PerspectiveDefaultConfig.config.superSecretSettingsShowName.value());
 	@SerializedName("super_secret_settings_selection_blur")
 	public final TrackedValue<Boolean> superSecretSettingsSelectionBlur = this.value(PerspectiveDefaultConfig.config.superSecretSettingsSelectionBlur.value());
-	@SerializedName("kaleidoscope")
-	public final TrackedValue<Boolean> kaleidoscope = this.value(PerspectiveDefaultConfig.config.kaleidoscope.value());
+	@SerializedName("kaleidoscope_random")
+	public final TrackedValue<Boolean> randomKaleidoscope = this.value(PerspectiveDefaultConfig.config.randomKaleidoscope.value());
+	@SerializedName("kaleidoscope_named")
+	public final TrackedValue<Boolean> namedKaleidoscope = this.value(PerspectiveDefaultConfig.config.namedKaleidoscope.value());
 	@SerializedName("textured_named_entity")
 	public final TrackedValue<Boolean> texturedNamedEntity = this.value(PerspectiveDefaultConfig.config.texturedNamedEntity.value());
 	@SerializedName("textured_random_entity")
@@ -156,7 +158,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	}
 	public static void tick() {
 		try {
-			if (Keybindings.openConfig.wasPressed()) ClientData.minecraft.setScreen(new ConfigScreen(ClientData.minecraft.currentScreen, false, 1));
+			if (Keybindings.openConfig.wasPressed()) ClientData.minecraft.setScreen(new ConfigScreen(ClientData.minecraft.currentScreen, 1));
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.WARN, "Failed to tick config!");
 		}
@@ -194,6 +196,8 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		config.superSecretSettingsEnabled.setValue(defaultConfig.superSecretSettingsEnabled.value(), false);
 		config.superSecretSettingsShowName.setValue(defaultConfig.superSecretSettingsShowName.value(), false);
 		config.superSecretSettingsSelectionBlur.setValue(defaultConfig.superSecretSettingsSelectionBlur.value(), false);
+		config.randomKaleidoscope.setValue(defaultConfig.randomKaleidoscope.value(), false);
+		config.namedKaleidoscope.setValue(defaultConfig.namedKaleidoscope.value(), false);
 		config.texturedNamedEntity.setValue(defaultConfig.texturedNamedEntity.value(), false);
 		config.texturedRandomEntity.setValue(defaultConfig.texturedRandomEntity.value(), false);
 		config.allowAprilFools.setValue(defaultConfig.allowAprilFools.value(), false);

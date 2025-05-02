@@ -41,7 +41,7 @@ public abstract class VideoOptionsScreenMixin extends GameOptionsScreen {
 				path = path.replaceFirst("assets/", "").replaceFirst("/", ":");
 			}
 			return path != null ? Identifier.of(path) : null;
-		}, (button) -> ClientData.minecraft.setScreen(new ConfigScreen(this, false, 1))).width(20).position(2, perspective$getY()).tooltip(Tooltip.of(Translation.getTranslation(Data.getVersion().getID(), "config", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getConfigTranslation(Data.getVersion().getID(), "config")}))).build();
+		}, (button) -> ClientData.minecraft.setScreen(new ConfigScreen(this, 1))).width(20).position(2, perspective$getY()).tooltip(Tooltip.of(Translation.getTranslation(Data.getVersion().getID(), "config", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getConfigTranslation(Data.getVersion().getID(), "config")}))).build();
 		this.addDrawableChild(perspective$widget);
 	}
 	protected void refreshWidgetPositions() {

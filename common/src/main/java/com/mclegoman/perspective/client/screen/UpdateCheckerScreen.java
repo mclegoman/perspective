@@ -19,7 +19,7 @@ import net.minecraft.client.gui.widget.MultilineTextWidget;
 
 public class UpdateCheckerScreen extends AbstractConfigScreen {
 	public UpdateCheckerScreen(Screen parentScreen) {
-		super(parentScreen, false, 1);
+		super(parentScreen, 1);
 	}
 	public void init() {
 		try {

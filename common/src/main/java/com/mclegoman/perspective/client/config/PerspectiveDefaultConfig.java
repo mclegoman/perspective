@@ -68,8 +68,10 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> superSecretSettingsShowName = this.value(true);
 	@SerializedName("super_secret_settings_selection_blur")
 	public final TrackedValue<Boolean> superSecretSettingsSelectionBlur = this.value(false);
-	@SerializedName("kaleidoscope")
-	public final TrackedValue<Boolean> kaleidoscope = this.value(false);
+	@SerializedName("kaleidoscope_random")
+	public final TrackedValue<Boolean> randomKaleidoscope = this.value(false);
+	@SerializedName("kaleidoscope_named")
+	public final TrackedValue<Boolean> namedKaleidoscope = this.value(true);
 	@SerializedName("textured_named_entity")
 	public final TrackedValue<Boolean> texturedNamedEntity = this.value(true);
 	@SerializedName("textured_random_entity")
@@ -153,6 +155,8 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.superSecretSettingsEnabled.setValue(perspectiveConfig.superSecretSettingsEnabled.value(), false);
 		config.superSecretSettingsShowName.setValue(perspectiveConfig.superSecretSettingsShowName.value(), false);
 		config.superSecretSettingsSelectionBlur.setValue(perspectiveConfig.superSecretSettingsSelectionBlur.value(), false);
+		config.randomKaleidoscope.setValue(perspectiveConfig.randomKaleidoscope.value(), false);
+		config.namedKaleidoscope.setValue(perspectiveConfig.namedKaleidoscope.value(), false);
 		config.texturedNamedEntity.setValue(perspectiveConfig.texturedNamedEntity.value(), false);
 		config.texturedRandomEntity.setValue(perspectiveConfig.texturedRandomEntity.value(), false);
 		config.allowAprilFools.setValue(perspectiveConfig.allowAprilFools.value(), false);

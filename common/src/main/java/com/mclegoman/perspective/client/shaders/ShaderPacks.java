@@ -124,19 +124,30 @@ public class ShaderPacks {
 	}
 	protected static void applyShader() {
 		PerspectiveEvents.ShaderRender.register(getShadersId(), new ArrayList<>());
-		PerspectiveEvents.ShaderRender.modify(getShadersId(), getShaders());
+		PerspectiveEvents.ShaderRender.modify(getShadersId(), getShadersFromId());
 	}
-	private static List<Shader.Data> getShaders() {
-		return getShaders(() -> PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value);
+	private static List<Shader.Data> getShadersFromId() {
+		return ShaderPacks.getShadersFromId(() -> PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value);
 	}
-	public static List<Shader.Data> getShaders(Callable<Identifier> shaderId, Callable<Shader.RenderType> renderType, Callable<Boolean> enabled) {
+	public static List<Shader.Data> getShadersFromId(Callable<Identifier> shaderId, Callable<Shader.RenderType> renderType, Callable<Boolean> enabled) {
 		List<Shader.Data> shaders = new ArrayList<>();
 		try {
-			ShaderPackEntry shaderPack = getShaderPack(shaderId.call());
-			if (shaderPack != null) {
+			if (shaderId != null) return getShaders(() -> getShaderPack(shaderId.call()), renderType, enabled);
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, error.getLocalizedMessage());
+		}
+		return shaders;
+	}
+	public static List<Shader.Data> getShaders(Callable<ShaderPackEntry> callablePack, Callable<Shader.RenderType> renderType, Callable<Boolean> enabled) {
+		List<Shader.Data> shaders = new ArrayList<>();
+		try {
+			if (callablePack != null) {
 				int i = 0;
-				for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
-					shaders.add(new Shader.Data(getShadersId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), renderType, enabled)));
+				ShaderPackEntry shaderPack = callablePack.call();
+				if (shaderPack != null) {
+					for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
+						shaders.add(new Shader.Data(getShadersId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), renderType, enabled)));
+					}
 				}
 			} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!");
 		} catch (Exception error) {

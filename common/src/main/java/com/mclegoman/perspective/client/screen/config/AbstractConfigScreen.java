@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.logo.PerspectiveLogo;
+import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.update.Update;
 import com.mclegoman.perspective.common.data.Data;
@@ -32,13 +33,11 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected final Screen parentScreen;
 	protected final GridWidget grid;
 	protected GridWidget.Adder gridAdder;
-	protected boolean refresh;
 	protected boolean shouldClose;
-	public AbstractConfigScreen(Screen parentScreen, boolean refresh, int page) {
+	public AbstractConfigScreen(Screen parentScreen, int page) {
 		super(Text.literal(""));
 		this.grid = new GridWidget();
 		this.parentScreen = parentScreen;
-		this.refresh = refresh;
 		this.page = page;
 	}
 	public void init() {
@@ -64,7 +63,6 @@ public abstract class AbstractConfigScreen extends Screen {
 					this.defaultsTicksRemaining = 0;
 				}
 			}
-			if (this.refresh) ClientData.minecraft.setScreen(getRefreshScreen());
 			if (this.shouldClose) {
 				setParentScreen();
 			}
@@ -79,26 +77,30 @@ public abstract class AbstractConfigScreen extends Screen {
 		GridWidget footerGrid = new GridWidget();
 		footerGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder footerGridAdder = footerGrid.createAdder(3);
-		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "reset"), (button) -> {
-			PerspectiveConfig.reset(false);
-			this.refresh = true;
-		}).build());
-		footerGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> {
-			if (this.page <= 1) {
-				this.shouldClose = true;
-			} else {
-				this.page -= 1;
-				this.refresh = true;
-			}
-		}).width(73).build());
-		ButtonWidget nextButtonWidget = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "next"), (button) -> {
-			if (!(this.page >= getMaxPage())) {
-				this.page += 1;
-				this.refresh = true;
-			}
-		}).width(73).build();
-		if (this.page >= getMaxPage()) nextButtonWidget.active = false;
-		footerGridAdder.add(nextButtonWidget);
+		try {
+			footerGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "reset"), (button) -> {
+				PerspectiveConfig.reset(false);
+				ClientData.minecraft.setScreen(getRefreshScreen());
+			}).build());
+			footerGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> {
+				if (this.page <= 1) {
+					this.shouldClose = true;
+				} else {
+					this.page -= 1;
+					ClientData.minecraft.setScreen(getRefreshScreen());
+				}
+			}).width(73).build());
+			ButtonWidget nextButtonWidget = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "next"), (button) -> {
+				if (!(this.page >= getMaxPage())) {
+					this.page += 1;
+					ClientData.minecraft.setScreen(getRefreshScreen());
+				}
+			}).width(73).build();
+			if (this.page >= getMaxPage()) nextButtonWidget.active = false;
+			footerGridAdder.add(nextButtonWidget);
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, "An error occurred whilst creating config footer: " + error.getLocalizedMessage());
+		}
 		return footerGrid;
 	}
 	public void initTabNavigation() {
@@ -116,7 +118,7 @@ public abstract class AbstractConfigScreen extends Screen {
 				this.shouldClose = true;
 			} else {
 				this.page -= 1;
-				this.refresh = true;
+				ClientData.minecraft.setScreen(getRefreshScreen());
 			}
 		}
 		return super.keyPressed(keyCode, scanCode, modifiers);
@@ -124,7 +126,6 @@ public abstract class AbstractConfigScreen extends Screen {
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == GLFW.GLFW_KEY_F5) {
 			Update.checkForUpdates(Data.getVersion(), true);
-			this.refresh = true;
 		}
 		if (hasControlDown() && keyCode == GLFW.GLFW_KEY_S) {
 			PerspectiveDefaultConfig.setDefaults(true);
@@ -191,6 +192,6 @@ public abstract class AbstractConfigScreen extends Screen {
 
 	public void resize(MinecraftClient client, int width, int height) {
 		super.resize(client, width, height);
-		this.refresh = true;
+		ClientData.minecraft.setScreen(getRefreshScreen());
 	}
 }

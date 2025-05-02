@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.screen.config.shaders;
 
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
@@ -18,7 +19,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
@@ -40,23 +40,28 @@ public class ShaderPackSelectionScreen extends Screen {
 		this.refresh = false;
 	}
 	protected void init() {
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
-			ShaderPacks.cycleShaderMode();
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+		try {
+			addDrawableChild(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
+				ShaderPacks.cycleShaderMode();
 
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
-			ShaderPacks.toggle();
-			this.refresh = true;
-		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 + 2, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+			}).tooltip(() -> Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 150, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
 
-		addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
-		if (ClientData.minecraft.world != null) addDrawableChild(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
-			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
-			this.refresh = true;
-		}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 38, 20, 20).build());
+			addDrawableChild(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
+				ShaderPacks.toggle();
 
-		this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
+			}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 + 2, ClientData.minecraft.getWindow().getScaledHeight() - 50, 148, 20).build());
+
+			addDrawableChild(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "back"), (button) -> this.shouldClose = true).dimensions(ClientData.minecraft.getWindow().getScaledWidth() / 2 - 75, ClientData.minecraft.getWindow().getScaledHeight() - 26, 150, 20).build());
+			if (ClientData.minecraft.world != null)
+				addDrawableChild(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle_blur", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsSelectionBlur.value(), Translation.Type.BLUR)}), (button) -> {
+					PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
+
+				}).dimensions(ClientData.minecraft.getWindow().getScaledWidth() - 42, ClientData.minecraft.getWindow().getScaledHeight() - 38, 20, 20).build());
+
+			this.widget = new ShaderPacksListWidget<>(ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 56, 20, this.scrollAmount);
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, "Error occurred on shader selection screen: " + error.getLocalizedMessage());
+		}
 		addDrawableChild(widget);
 	}
 	public void tick() {
@@ -91,7 +96,7 @@ public class ShaderPackSelectionScreen extends Screen {
 			this.shouldClose = true;
 		if (keyCode == GLFW.GLFW_KEY_F1) {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsSelectionBlur, true);
-			this.refresh = true;
+			
 		}
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}

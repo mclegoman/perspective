@@ -11,20 +11,20 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
+import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.util.Formatting;
 
 public class SuperSecretSettingsConfigScreen extends AbstractConfigScreen {
 	private Formatting[] formatting;
-	public SuperSecretSettingsConfigScreen(Screen parentScreen, boolean refresh, Formatting[] formatting) {
-		super(parentScreen, refresh, 1);
+	public SuperSecretSettingsConfigScreen(Screen parentScreen, Formatting[] formatting) {
+		super(parentScreen, 1);
 		this.formatting = formatting;
 	}
 	public void init() {
@@ -45,44 +45,51 @@ public class SuperSecretSettingsConfigScreen extends AbstractConfigScreen {
 		GridWidget shadersGrid = new GridWidget();
 		shadersGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shadersGridAdder = shadersGrid.createAdder(2);
-		ButtonWidget cycleShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.cycle", new Object[]{ShaderPacks.getShader() != null ? ShaderPacks.getShader().translation().getTranslation(ShaderPacks.shouldShowNamespace(ShaderPacks.getShadersId(), ShaderPacks.getShader().translation().id())) : Translation.getShaderTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.not_loaded")}), (button) -> {
-			ShaderPacks.cycle(!hasShiftDown());
-			this.formatting = new Formatting[]{ShaderPacks.getRandomColor()};
-			this.refresh = true;
-		}).tooltip(ShaderPacks.getTooltip()).width(280).build();
-		cycleShaders.active = ShaderPacks.isShadersEnabled();
-		shadersGridAdder.add(cycleShaders);
-		ButtonWidget listShaders = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.list"), (button) -> ClientData.minecraft.setScreen(new ShaderPackSelectionScreen(getRefreshScreen(), new Formatting[]{ShaderPacks.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.list", true))).width(20).build();
-		listShaders.active = ShaderPacks.isShadersEnabled();
-		shadersGridAdder.add(listShaders);
+		try {
+			ConfigButtonWidget cycleShaders = ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.cycle", new Object[]{ShaderPacks.getShader() != null ? ShaderPacks.getShader().translation().getTranslation(ShaderPacks.shouldShowNamespace(ShaderPacks.getShadersId(), ShaderPacks.getShader().translation().id())) : Translation.getShaderTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.not_loaded")}), (button) -> {
+				ShaderPacks.cycle(!hasShiftDown());
+				this.formatting = new Formatting[]{ShaderPacks.getRandomColor()};
+
+			}).tooltip(ShaderPacks::getTooltip).width(280).build();
+			cycleShaders.active = ShaderPacks.isShadersEnabled();
+			shadersGridAdder.add(cycleShaders);
+			ConfigButtonWidget listShaders = ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.list"), (button) -> ClientData.minecraft.setScreen(new ShaderPackSelectionScreen(getRefreshScreen(), new Formatting[]{ShaderPacks.getRandomColor()}, -1, PerspectiveConfig.config.superSecretSettingsSelectionBlur.value()))).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.list", true))).width(20).build();
+			listShaders.active = ShaderPacks.isShadersEnabled();
+			shadersGridAdder.add(listShaders);
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, "error creating shaders on super secret settings screen: " + error.getLocalizedMessage());
+		}
 		return shadersGrid;
 	}
 	private GridWidget createPageOne() {
 		GridWidget shaderOptionsGrid = new GridWidget();
 		shaderOptionsGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder shaderOptionsGridAdder = shaderOptionsGrid.createAdder(2);
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
-			ShaderPacks.cycleShaderMode();
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).build());
-		ButtonWidget randomShader = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.random"), (button) -> {
-			ShaderPacks.randomize();
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.random", true))).build();
-		randomShader.active = ShaderPacks.isShadersEnabled();
-		shaderOptionsGridAdder.add(randomShader);
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsShowName.value(), Translation.Type.ONFF)}), (button) -> {
-			PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsShowName, false);
-			this.refresh = true;
-		}).tooltip(Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name." + (PerspectiveConfig.config.superSecretSettingsShowName.value() ? "on" : "off"), true)}, true))).build());
-		shaderOptionsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
-			ShaderPacks.toggle();
-			this.refresh = true;
-		}).build());
+		try {
+			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.mode", new Object[]{Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name())}), (button) -> {
+				ShaderPacks.cycleShaderMode();
+
+			}).tooltip(() -> Tooltip.of(Translation.getShaderModeTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsMode.value().name(), true))).build());
+			ConfigButtonWidget randomShader = ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.random"), (button) -> {
+				ShaderPacks.randomize();
+			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.random", true))).build();
+			randomShader.active = ShaderPacks.isShadersEnabled();
+			shaderOptionsGridAdder.add(randomShader);
+			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsShowName.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.superSecretSettingsShowName, false);
+
+			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.show_name." + (PerspectiveConfig.config.superSecretSettingsShowName.value() ? "on" : "off"), true)}, true))).build());
+			shaderOptionsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "shaders.super_secret_settings.toggle", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.superSecretSettingsEnabled.value(), Translation.Type.ENDISABLE)}), (button) -> {
+				ShaderPacks.toggle();
+
+			}).build());
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, "error on super secret settings screen: " + error.getLocalizedMessage());
+		}
 		return shaderOptionsGrid;
 	}
 	public Screen getRefreshScreen() {
-		return new SuperSecretSettingsConfigScreen(parentScreen, false, formatting);
+		return new SuperSecretSettingsConfigScreen(parentScreen, formatting);
 	}
 	public String getPageId() {
 		return "shaders.super_secret_settings";
