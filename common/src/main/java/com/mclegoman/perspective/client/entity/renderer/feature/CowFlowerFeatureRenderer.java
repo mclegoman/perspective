@@ -42,32 +42,34 @@ public class CowFlowerFeatureRenderer extends FeatureRenderer<LivingEntityRender
 			boolean bl = state.hasOutline && state.invisible;
 			if (!state.invisible || bl) {
 				BlockState blockState = getBlockstate(state);
-				int j = LivingEntityRenderer.getOverlay(state, 0.0F);
-				BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
-				matrixStack.push();
-				matrixStack.translate(0.2F, -0.35F, 0.5F);
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-48.0F));
-				matrixStack.scale(-1.0F, -1.0F, 1.0F);
-				matrixStack.translate(-0.5F, -0.5F, -0.5F);
-				this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, j, bakedModel);
-				matrixStack.pop();
-				matrixStack.push();
-				matrixStack.translate(0.2F, -0.35F, 0.5F);
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(42.0F));
-				matrixStack.translate(0.1F, 0.0F, -0.6F);
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-48.0F));
-				matrixStack.scale(-1.0F, -1.0F, 1.0F);
-				matrixStack.translate(-0.5F, -0.5F, -0.5F);
-				this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, j, bakedModel);
-				matrixStack.pop();
-				matrixStack.push();
-				this.getContextModel().getHead().rotate(matrixStack);
-				matrixStack.translate(0.0F, -0.7F, -0.2F);
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-78.0F));
-				matrixStack.scale(-1.0F, -1.0F, 1.0F);
-				matrixStack.translate(-0.5F, -0.5F, -0.5F);
-				this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, j, bakedModel);
-				matrixStack.pop();
+				if (!blockState.isAir()) {
+					int overlay = LivingEntityRenderer.getOverlay(state, 0.0F);
+					BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
+					matrixStack.push();
+					matrixStack.translate(0.2F, -0.35F, 0.5F);
+					matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-48.0F));
+					matrixStack.scale(-1.0F, -1.0F, 1.0F);
+					matrixStack.translate(-0.5F, -0.5F, -0.5F);
+					this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, overlay, bakedModel);
+					matrixStack.pop();
+					matrixStack.push();
+					matrixStack.translate(0.2F, -0.35F, 0.5F);
+					matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(42.0F));
+					matrixStack.translate(0.1F, 0.0F, -0.6F);
+					matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-48.0F));
+					matrixStack.scale(-1.0F, -1.0F, 1.0F);
+					matrixStack.translate(-0.5F, -0.5F, -0.5F);
+					this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, overlay, bakedModel);
+					matrixStack.pop();
+					matrixStack.push();
+					this.getContextModel().getHead().rotate(matrixStack);
+					matrixStack.translate(0.0F, -0.7F, -0.2F);
+					matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-78.0F));
+					matrixStack.scale(-1.0F, -1.0F, 1.0F);
+					matrixStack.translate(-0.5F, -0.5F, -0.5F);
+					this.renderBlockstate(matrixStack, vertexConsumerProvider, i, bl, blockState, overlay, bakedModel);
+					matrixStack.pop();
+				}
 			}
 		}
 	}

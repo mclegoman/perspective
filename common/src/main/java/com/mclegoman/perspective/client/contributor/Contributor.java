@@ -7,8 +7,9 @@
 
 package com.mclegoman.perspective.client.contributor;
 
-import com.mclegoman.luminance.client.events.Events;
+
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
+import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
 import net.minecraft.util.Identifier;
@@ -38,7 +39,7 @@ public class Contributor {
 	private static final List<ContributorLockData> allowedUuids = new ArrayList<>();
 	public static void init() {
 		initAllowedUuids();
-		Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
 	}
 	private static void initAllowedUuids() {
 		initDeveloperUuids();

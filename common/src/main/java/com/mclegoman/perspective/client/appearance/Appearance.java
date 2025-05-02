@@ -10,8 +10,8 @@ package com.mclegoman.perspective.client.appearance;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.util.IdentifierHelper;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.resource.*;
@@ -24,7 +24,7 @@ import java.util.*;
 
 public class Appearance {
 	public static void init() {
-		Events.ClientResourceReloaders.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
 	}
 	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> {
 		public static final Map<String, Data> registry = new HashMap<>();

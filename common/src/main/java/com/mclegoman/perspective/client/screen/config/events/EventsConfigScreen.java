@@ -37,19 +37,19 @@ public class EventsConfigScreen extends AbstractConfigScreen {
 		GridWidget eventsGrid = new GridWidget();
 		eventsGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder eventsGridAdder = eventsGrid.createAdder(2);
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.april_fools_prank.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "PerspectiveEvents.april_fools_prank.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.allowAprilFools, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.april_fools_prank.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "PerspectiveEvents.april_fools_prank.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceAprilFools.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.forceAprilFools, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.halloween.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowHalloween.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "PerspectiveEvents.halloween.allow", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.allowHalloween.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.allowHalloween, false);
 			refresh = true;
 		}).build());
-		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "events.halloween.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceHalloween.value(), Translation.Type.ONFF)}), (button) -> {
+		eventsGridAdder.add(ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "PerspectiveEvents.halloween.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceHalloween.value(), Translation.Type.ONFF)}), (button) -> {
 			PerspectiveConfig.toggle(PerspectiveConfig.config.forceHalloween, false);
 			refresh = true;
 		}).build());

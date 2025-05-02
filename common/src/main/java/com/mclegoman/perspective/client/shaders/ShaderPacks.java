@@ -11,7 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mclegoman.luminance.client.events.Events;
+
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
 import com.mclegoman.luminance.client.shaders.Shaders;
@@ -22,6 +22,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.screen.config.shaders.ShaderPackSelectionScreen;
 import com.mclegoman.perspective.client.translation.Translation;
@@ -38,6 +39,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 public class ShaderPacks {
 	private static final Random random;
@@ -46,8 +48,9 @@ public class ShaderPacks {
 	private static final Formatting[] colors;
 	public static void init() {
 		initUniforms();
-		Events.AfterShaderDataRegistered.register(getShadersId(), ShaderPacks::reload);
-		Events.AfterClientResourceReload.register(getShadersId(), ShaderPacks::applyShader);
+		PerspectiveEvents.AfterShaderDataRegistered.register(getShadersId(), ShaderPacks::reload);
+		PerspectiveEvents.AfterClientResourceReload.register(getShadersId(), ShaderPacks::applyShader);
+		Kaleidoscope.init();
 	}
 	public static void tick() {
 		if (Keybindings.cycleShaders.wasPressed()) {
@@ -119,18 +122,25 @@ public class ShaderPacks {
 		}
 	}
 	protected static void applyShader() {
-		Events.ShaderRender.register(getShadersId(), new ArrayList<>());
-		Events.ShaderRender.modify(getShadersId(), getShaders());
+		PerspectiveEvents.ShaderRender.register(getShadersId(), new ArrayList<>());
+		PerspectiveEvents.ShaderRender.modify(getShadersId(), getShaders());
 	}
 	private static List<Shader.Data> getShaders() {
+		return getShaders(() -> PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value);
+	}
+	public static List<Shader.Data> getShaders(Callable<Identifier> shaderId, Callable<Shader.RenderType> renderType, Callable<Boolean> enabled) {
 		List<Shader.Data> shaders = new ArrayList<>();
-		ShaderPackEntry shaderPack = getShaderPack(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier());
-		if (shaderPack != null) {
-			int i = 0;
-			for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
-				shaders.add(new Shader.Data(getShadersId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value)));
-			}
-		} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!");
+		try {
+			ShaderPackEntry shaderPack = getShaderPack(shaderId.call());
+			if (shaderPack != null) {
+				int i = 0;
+				for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
+					shaders.add(new Shader.Data(getShadersId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), renderType, enabled)));
+				}
+			} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!");
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.ERROR, error.getLocalizedMessage());
+		}
 		return shaders;
 	}
 	public static ShaderPackEntry getShaderPack(Identifier registryId, Identifier id) {
@@ -179,11 +189,12 @@ public class ShaderPacks {
 		return getShaderAmount() > 0;
 	}
 	public static void randomize() {
-		if (isShadersEnabled()) {
-			Identifier shaderId = PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier();
-			while (shaderId == PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) shaderId = getRegistryIds().get(random.nextInt(getRegistryIds().size()));
-			setShader(shaderId);
-		}
+		if (isShadersEnabled()) setShader(randomize(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()));
+	}
+	public static Identifier randomize(Identifier current) {
+		Identifier shaderId = current;
+		while (shaderId == current) shaderId = getRegistryIds().get(random.nextInt(getRegistryIds().size()));
+		return shaderId;
 	}
 	public static void cycle(boolean forwards) {
 		if (isShadersEnabled()) setShader(getRegistryIds().get(forwards ? (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) + 1) % getRegistryIds().size() : (getRegistryIds().indexOf(PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier()) - 1 + getRegistryIds().size()) % getRegistryIds().size()));

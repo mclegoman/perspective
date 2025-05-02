@@ -9,9 +9,9 @@ package com.mclegoman.perspective.client.entity.renderer.feature;
 
 import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.AprilFoolsPrankDataLoader;
-import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

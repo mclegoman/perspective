@@ -7,7 +7,6 @@
 
 package com.mclegoman.perspective.client.events;
 
-import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
@@ -22,7 +21,7 @@ public class AprilFoolsPrank {
 	private static boolean seenWarning;
 	public static void init() {
 		try {
-			Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "prank"), new AprilFoolsPrankDataLoader());
+			PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "prank"), new AprilFoolsPrankDataLoader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize april fools prank: {}", error));
 		}

@@ -10,12 +10,13 @@ package com.mclegoman.perspective.client.entity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mclegoman.luminance.client.events.Events;
+
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.entity.states.PerspectiveRenderState;
+import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.shaders.ShaderPackEntry;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.shaders.TexturedEntityShader;
@@ -28,7 +29,6 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -75,8 +75,8 @@ public class TexturedEntity {
 	public static void init() {
 		try {
 			addDefaultForbiddenEntities();
-			Events.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
-			Events.SpectatorHandlers.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityShader());
+			PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
+			PerspectiveEvents.SpectatorHandlers.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityShader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
@@ -242,8 +242,8 @@ public class TexturedEntity {
 		setShader(new ArrayList<>());
 	}
 	public static void setShader(List<Shader.Data> shaders) {
-		Events.ShaderRender.register(getTexturedEntityId(), new ArrayList<>());
-		Events.ShaderRender.modify(getTexturedEntityId(), shaders);
+		PerspectiveEvents.ShaderRender.register(getTexturedEntityId(), new ArrayList<>());
+		PerspectiveEvents.ShaderRender.modify(getTexturedEntityId(), shaders);
 	}
 	public static Identifier getTexturedEntityId(String suffix) {
 		return Identifier.of(Data.getVersion().getID(), "textured_entity" + suffix);

@@ -68,6 +68,8 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> superSecretSettingsShowName = this.value(true);
 	@SerializedName("super_secret_settings_selection_blur")
 	public final TrackedValue<Boolean> superSecretSettingsSelectionBlur = this.value(false);
+	@SerializedName("kaleidoscope")
+	public final TrackedValue<Boolean> kaleidoscope = this.value(false);
 	@SerializedName("textured_named_entity")
 	public final TrackedValue<Boolean> texturedNamedEntity = this.value(true);
 	@SerializedName("textured_random_entity")

@@ -16,11 +16,11 @@
 		"client.entity.GoatEntityRenderStateMixin",
 		"client.entity.LivingEntityRendererMixin",
 		"client.entity.LivingEntityRenderStateMixin",
+		"client.entity.PlayerEntityMixin",
 		"client.entity.PlayerEntityRendererMixin",
 		"client.entity.PlayerEntityRenderStateMixin",
 		"client.entity.WolfEntityRendererMixin",
 		"client.entity.WolfEntityRenderStateMixin",
-		"client.events.PlayerEntityRendererMixin",
 		"client.hide.ArmorFeatureRendererMixin",
 		"client.hide.GameRendererMixin",
 		"client.hide.InGameHudMixin",
@@ -35,6 +35,7 @@
 		"client.hud.MinecraftClientMixin",
 		"client.hud.VideoOptionsScreenMixin",
 		"client.perspective.CameraMixin",
+		"client.events.PlayerEntityRendererMixin",
 		"client.show_death_coordinates.DeathScreenMixin",
 		"client.textured_entity.LivingEntityRendererMixin",
 		"client.textured_entity.minecraft.EmissiveFeatureRendererMixin",
@@ -146,7 +147,7 @@
 		"client.ui.TitleScreenMixin",
 		"client.zoom.GameRendererMixin",
 		"client.zoom.MouseMixin",
-		"client.entity.PlayerEntityMixin"
+		"client.shaders.ItemStackMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

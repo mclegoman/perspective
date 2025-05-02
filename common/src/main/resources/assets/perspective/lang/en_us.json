@@ -106,34 +106,36 @@
 	"gui.perspective.config.hold_perspective.back.hide_hud": "Back Hide HUD: %s",
 	"gui.perspective.config.hold_perspective.front.hide_hud": "Front Hide HUD: %s",
 
-	"gui.perspective.config.shaders": "Super Secret Settings",
-	"gui.perspective.config.shaders_raw": "Shaders",
+	"gui.perspective.config.shaders": "Shaders",
+	"gui.perspective.config.shaders.super_secret_settings": "Super Secret Settings",
+	"gui.perspective.config.shaders.kaleidoscope": "Kaleidoscope: %s",
+	"gui.perspective.config.shaders.kaleidoscope.hover": "Renders a random shader pack whilst using the Spyglass.",
 
-	"gui.perspective.config.shaders.cycle": "Shader: %s",
+	"gui.perspective.config.shaders.super_secret_settings.cycle": "Shader: %s",
 
-	"gui.perspective.config.shaders.list": "☰",
-	"gui.perspective.config.shaders.list.hover": "Open Shader Selection Screen",
-	"gui.perspective.config.shaders.list.select": "Select Super Secret Setting",
-	"gui.perspective.config.shaders.list.shader": "%s",
+	"gui.perspective.config.super_secret_settings.list": "☰",
+	"gui.perspective.config.super_secret_settings.list.hover": "Open Shader Selection Screen",
+	"gui.perspective.config.super_secret_settings.list.select": "Select Super Secret Setting",
+	"gui.perspective.config.super_secret_settings.list.shader": "%s",
 
-	"gui.perspective.config.shaders.mode": "Renderer: %s",
-	"gui.perspective.config.shaders.mode.game": "Game",
-	"gui.perspective.config.shaders.mode.screen": "Screen",
-	"gui.perspective.config.shaders.mode.hover": "%s",
-	"gui.perspective.config.shaders.mode.game.hover": "Shaders are rendered in-game.",
-	"gui.perspective.config.shaders.mode.screen.hover": "Shaders are rendered over the gui. Please Note: Some shaders, such as depth shaders, will instead be rendered in-game.",
+	"gui.perspective.config.shaders.super_secret_settings.mode": "Renderer: %s",
+	"gui.perspective.config.shaders.super_secret_settings.mode.game": "Game",
+	"gui.perspective.config.shaders.super_secret_settings.mode.ui": "Gui",
+	"gui.perspective.config.shaders.super_secret_settings.mode.hover": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.mode.game.hover": "Shaders are rendered in-game.",
+	"gui.perspective.config.shaders.super_secret_settings.mode.ui.hover": "Shaders are rendered over the gui. Please Note: Some shaders, such as depth shaders, will instead be rendered in-game.",
 
-	"gui.perspective.config.shaders.random": "Randomize",
-	"gui.perspective.config.shaders.random.hover": "Selects a random shader.",
+	"gui.perspective.config.shaders.super_secret_settings.random": "Randomize",
+	"gui.perspective.config.shaders.super_secret_settings.random.hover": "Selects a random shader.",
 
-	"gui.perspective.config.shaders.show_name": "Shader Name Overlay: %s",
-	"gui.perspective.config.shaders.show_name.hover": "%s",
-	"gui.perspective.config.shaders.show_name.on.hover": "The shader name will be displayed when cycling through shaders using the in-game keybinding.",
-	"gui.perspective.config.shaders.show_name.off.hover": "The shader name will be hidden when cycling through shaders using the in-game keybinding.",
+	"gui.perspective.config.shaders.super_secret_settings.show_name": "Shader Name Overlay: %s",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.hover": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.on.hover": "The shader name will be displayed when cycling through shaders using the in-game keybinding.",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.off.hover": "The shader name will be hidden when cycling through shaders using the in-game keybinding.",
 
-	"gui.perspective.config.shaders.toggle": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.toggle": "%s",
 
-	"gui.perspective.config.shaders.toggle_blur": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.toggle_blur": "%s",
 
 	"gui.perspective.config.textured_entity": "Textured Entity",
 
@@ -143,13 +145,13 @@
 
 	"gui.perspective.config.events": "Events",
 
-	"gui.perspective.config.events.april_fools_prank.allow": "April Fools' Prank: %s",
+	"gui.perspective.config.PerspectiveEvents.april_fools_prank.allow": "April Fools' Prank: %s",
 
-	"gui.perspective.config.events.april_fools_prank.force": "Force April Fools': %s",
+	"gui.perspective.config.PerspectiveEvents.april_fools_prank.force": "Force April Fools': %s",
 
-	"gui.perspective.config.events.halloween.allow": "Halloween: %s",
+	"gui.perspective.config.PerspectiveEvents.halloween.allow": "Halloween: %s",
 
-	"gui.perspective.config.events.halloween.force": "Force Halloween: %s",
+	"gui.perspective.config.PerspectiveEvents.halloween.force": "Force Halloween: %s",
 
 	"gui.perspective.config.overlays": "Overlays",
 
