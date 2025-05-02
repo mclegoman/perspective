@@ -54,10 +54,10 @@ public class Kaleidoscope {
 		return Shader.RenderType.WORLD;
 	}
 	public static boolean getEnabled() {
-		return shouldBeEnabled() && shaderPack != null;
+		return shouldBeEnabled(false) && shaderPack != null;
 	}
-	public static boolean shouldBeEnabled() {
-		return (getEnabledNamed() || getEnabledRandom()) && (ClientData.minecraft.player != null && isUsingSpyglass(ClientData.minecraft.player));
+	public static boolean shouldBeEnabled(boolean firstPerson) {
+		return (getEnabledNamed() || getEnabledRandom()) && (ClientData.minecraft.player != null && isUsingSpyglass(ClientData.minecraft.player, firstPerson));
 	}
 	public static boolean getEnabledRandom() {
 		return PerspectiveConfig.config.randomKaleidoscope.value();
@@ -65,8 +65,8 @@ public class Kaleidoscope {
 	public static boolean getEnabledNamed() {
 		return PerspectiveConfig.config.namedKaleidoscope.value();
 	}
-	public static boolean isUsingSpyglass(PlayerEntity player) {
-		return player.isUsingSpyglass() && ClientData.minecraft.options.getPerspective().isFirstPerson();
+	public static boolean isUsingSpyglass(PlayerEntity player, boolean firstPerson) {
+		return player.isUsingSpyglass() && (ClientData.minecraft.options.getPerspective().isFirstPerson() || firstPerson);
 	}
 	public static Identifier getId() {
 		return Identifier.of(Data.getVersion().getID(), "kaleidoscope");
@@ -78,6 +78,6 @@ public class Kaleidoscope {
 		return (!randomize && getEnabledNamed()) ? shaderPack : (getEnabledRandom() ? ShaderPacks.randomize(shaderPack) : null);
 	}
 	private static Callable<Identifier> getShader(ItemStack stack) {
-		return shouldBeEnabled() ? () -> getShaderPack(stack) : null;
+		return shouldBeEnabled(true) ? () -> getShaderPack(stack) : null;
 	}
 }
