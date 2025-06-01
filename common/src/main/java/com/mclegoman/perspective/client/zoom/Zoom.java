@@ -16,6 +16,7 @@ import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -199,7 +200,7 @@ public class Zoom {
 	}
 	public static class Logarithmic {
 		public static Identifier getIdentifier() {
-			return Identifier.of(Data.getVersion().getID(), "logarithmic");
+			return Identifiers.LOGARITHMIC;
 		}
 		public static float getLimitFOV(float input) {
 			return MathHelper.clamp(input, 0.1F, 179.9F);
@@ -210,7 +211,7 @@ public class Zoom {
 	}
 	public static class Linear {
 		public static Identifier getIdentifier() {
-			return Identifier.of(Data.getVersion().getID(), "linear");
+			return Identifiers.LINEAR;
 		}
 		public static float getLimitFOV(float input) {
 			return MathHelper.clamp(input, 0.1F, 179.9F);

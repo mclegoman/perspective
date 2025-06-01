@@ -11,6 +11,7 @@ import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.util.Identifier;
 import org.quiltmc.config.api.ReflectiveConfig;
 import org.quiltmc.config.api.annotations.FloatRange;
@@ -43,7 +44,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("zoom_show_percentage")
 	public final TrackedValue<Boolean> zoomShowPercentage = this.value(false);
 	@SerializedName("zoom_type")
-	public final TrackedValue<ConfigIdentifier> zoomType = this.value(ConfigIdentifier.of(Identifier.of(Data.getVersion().getID(), "logarithmic")));
+	public final TrackedValue<ConfigIdentifier> zoomType = this.value(ConfigIdentifier.of(Identifiers.LOGARITHMIC));
 	@SerializedName("zoom_reset")
 	public final TrackedValue<Boolean> zoomReset = this.value(false);
 	@SerializedName("zoom_cinematic")
@@ -59,7 +60,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("hold_perspective_front_hide_hud")
 	public final TrackedValue<Boolean> holdPerspectiveFrontHideHud = this.value(true);
 	@SerializedName("super_secret_settings_shader")
-	public final TrackedValue<ConfigIdentifier> superSecretSettingsShader = this.value(ConfigIdentifier.of(Identifier.of("minecraft:box_blur")));
+	public final TrackedValue<ConfigIdentifier> superSecretSettingsShader = this.value(ConfigIdentifier.of(Identifiers.FALLBACK_SHADER));
 	@SerializedName("super_secret_settings_mode")
 	public final TrackedValue<ShaderRenderType> superSecretSettingsMode = this.value(ShaderRenderType.game);
 	@SerializedName("super_secret_settings_enabled")
@@ -107,7 +108,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@SerializedName("show_death_coordinates")
 	public final TrackedValue<Boolean> showDeathCoordinates = this.value(false);
 	@SerializedName("ui_background")
-	public final TrackedValue<ConfigIdentifier> uiBackground = this.value(ConfigIdentifier.of("default"));
+	public final TrackedValue<ConfigIdentifier> uiBackground = this.value(ConfigIdentifier.of(Identifiers.DEFAULT));
 	@SerializedName("ui_background_texture")
 	public final TrackedValue<ConfigIdentifier> uiBackgroundTexture = this.value(ConfigIdentifier.of("minecraft:block/dirt"));
 	@SerializedName("crosshair_type")

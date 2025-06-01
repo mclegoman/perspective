@@ -14,6 +14,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -25,9 +26,9 @@ import java.util.List;
 public class UIBackground {
 	private static final List<UIBackgroundData> uiBackgroundTypes = new ArrayList<>();
 	public static void init() {
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "default")).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "gaussian")).shaderId(Identifier.of(Data.getVersion().getID(), "gaussian")).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "legacy")).renderWorld(context -> {
+		registerUIBackground(new UIBackgroundData.Builder(Identifiers.DEFAULT).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifiers.GAUSSIAN).shaderId(Identifier.of(Data.getVersion().getID(), "gaussian")).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifiers.LEGACY).renderWorld(context -> {
 				RenderSystem.enableBlend();
 				context.fillGradient(0, 0, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), -1072689136, -804253680);
 				RenderSystem.disableBlend();
@@ -37,7 +38,7 @@ public class UIBackground {
 				context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 				RenderSystem.disableBlend();
 		}).renderPanorama(false).renderShader(false).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "classic")).renderWorld(context -> {
+		registerUIBackground(new UIBackgroundData.Builder(Identifiers.CLASSIC).renderWorld(context -> {
 				RenderSystem.enableBlend();
 				context.fillGradient(0, 0, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), -1072689136, -804253680);
 				RenderSystem.disableBlend();
@@ -52,7 +53,7 @@ public class UIBackground {
 				context.drawTexture(RenderLayer::getGuiTextured, Identifier.of(Data.getVersion().getID(), "textures/gui/uibackground_menu_background.png"), 0, 0, 0, 0.0F, ClientData.minecraft.getWindow().getScaledWidth(), ClientData.minecraft.getWindow().getScaledHeight(), 32, 32);
 				RenderSystem.disableBlend();
 		}).renderPanorama(false).renderTitleScreenPanorama(false).renderShader(false).build());
-		registerUIBackground(new UIBackgroundData.Builder(Identifier.of(Data.getVersion().getID(), "none")).renderShader(false).renderDarkening(false).build());
+		registerUIBackground(new UIBackgroundData.Builder(Identifiers.NONE).renderShader(false).renderDarkening(false).build());
 	}
 	public static void registerUIBackground(UIBackgroundData data) {
 		if (!ClientData.minecraft.isFinishedLoading()) {
@@ -96,7 +97,7 @@ public class UIBackground {
 		return (namespace != null && key != null) ? Identifier.of(namespace, (!key.startsWith("textures/") ? "textures/" : "") + key + (!key.endsWith(".png") ? ".png" : "")) : Identifier.of("minecraft", "textures/block/dirt.png");
 	}
 	public static Identifier getUIBackgroundId() {
-		return Identifier.of(Data.getVersion().getID(), "ui_background");
+		return Identifiers.UI_BACKGROUND;
 	}
 	public interface Runnable {
 		void run(DrawContext context);

@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -69,7 +70,7 @@ public class Kaleidoscope {
 		return player.isUsingSpyglass() && (ClientData.minecraft.options.getPerspective().isFirstPerson() || firstPerson);
 	}
 	public static Identifier getId() {
-		return Identifier.of(Data.getVersion().getID(), "kaleidoscope");
+		return Identifiers.KALEIDOSCOPE;
 	}
 	public static Optional<Identifier> guessPackId(@NotNull String id) {
 		return ShaderPacks.guessPackId(id.toLowerCase().replace(" ", "_"));

@@ -12,6 +12,7 @@ import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.texture.TextureHelper;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Contributor {
 	private static final List<ContributorLockData> allowedUuids = new ArrayList<>();
 	public static void init() {
 		initAllowedUuids();
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "contributors"), new ContributorDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.CONTRIBUTORS, new ContributorDataLoader());
 	}
 	private static void initAllowedUuids() {
 		initDeveloperUuids();

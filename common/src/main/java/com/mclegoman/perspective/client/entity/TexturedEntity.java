@@ -26,6 +26,7 @@ import com.mclegoman.perspective.client.util.ListHelper;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
@@ -76,8 +77,8 @@ public class TexturedEntity {
 	public static void init() {
 		try {
 			addDefaultForbiddenEntities();
-			PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityDataReloader());
-			PerspectiveEvents.SpectatorHandlers.register(Identifier.of(Data.getVersion().getID(), "textured_entity"), new TexturedEntityShader());
+			PerspectiveEvents.ClientResourceReloaders.register(Identifiers.TEXTURED_ENTITY, new TexturedEntityDataReloader());
+			PerspectiveEvents.SpectatorHandlers.register(Identifiers.TEXTURED_ENTITY, new TexturedEntityShader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize textured entity: {}", error));
 		}
@@ -261,7 +262,7 @@ public class TexturedEntity {
 		if (entity != null) {
 			if (spectatorShader != null) {
 				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.registry(), spectatorShader.shaderPack());
-				if (shaderPack == null && spectatorShader.shaderPack().equals(TexturedEntityShader.random)) {
+				if (shaderPack == null && spectatorShader.shaderPack().equals(Identifiers.RANDOM)) {
 					// Check if shader isn't valid AND id is perspective:random, then set shaderPack to random based on uuid.
 					shaderPack = (ShaderPackEntry) ListHelper.getRandom(entity.getUuid(), ShaderPacks.getRegistry(spectatorShader.registry()).values().stream().toList());
 				}

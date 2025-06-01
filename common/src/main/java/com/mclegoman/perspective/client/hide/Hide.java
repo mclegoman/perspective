@@ -17,6 +17,7 @@ import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -31,10 +32,10 @@ public class Hide {
 	public static final String[] hideCrosshairModes = new String[]{"vanilla", "dynamic", "hidden"};
 	public static float rainbowTime = 0.0F;
 	public static void init() {
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_armor"), new HideArmorDataLoader());
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_name_tags"), new HideNameTagsDataLoader());
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "hide_player"), new HidePlayerDataLoader());
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "dynamic_crosshair"), new DynamicCrosshairDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.HIDE_ARMOR, new HideArmorDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.HIDE_NAME_TAGS, new HideNameTagsDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.HIDE_PLAYER, new HidePlayerDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.DYNAMIC_CROSSHAIR, new DynamicCrosshairDataLoader());
 	}
 	public static void tick() {
 		if (Keybindings.toggleArmour.wasPressed()) {

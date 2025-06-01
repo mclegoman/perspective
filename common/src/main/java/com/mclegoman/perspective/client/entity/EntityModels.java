@@ -8,35 +8,34 @@
 package com.mclegoman.perspective.client.entity;
 
 import com.mclegoman.perspective.client.entity.model.*;
-import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.*;
-import net.minecraft.util.Identifier;
 
 public class EntityModels {
 	public static double entityCapeY = 0.0F;
-	public static final EntityModelLayer contributorOverlaySlim = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "contributor"), "slim");
-	public static final EntityModelLayer contributorOverlayWide = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "contributor"), "wide");
-	public static final EntityModelLayer entityCape = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "entity"), "cape");
-	public static final EntityModelLayer babyPigOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "pig"), "baby_outer");
-	public static final EntityModelLayer pigOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "pig"), "outer");
-	public static final EntityModelLayer pigMuddyFlower = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "pig"), "muddy_flower");
-	public static final EntityModelLayer beeOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "bee"), "outer");
-	public static final EntityModelLayer babyBeeOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "bee"), "outer_baby");
-	public static final EntityModelLayer mooshroomOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "mooshroom"), "outer");
-	public static final EntityModelLayer babyMooshroomOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "mooshroom"), "outer_baby");
-	public static final EntityModelLayer cowOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "cow"), "outer");
-	public static final EntityModelLayer babyCowOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "cow"), "outer_baby");
-	public static final EntityModelLayer skeletonOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "skeleton"), "outer");
-	public static final EntityModelLayer witherSkeletonOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "wither_skeleton"), "outer");
-	public static final EntityModelLayer zombieOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "zombie"), "outer");
-	public static final EntityModelLayer giantOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "giant"), "outer");
-	public static final EntityModelLayer babyZombieOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "zombie"), "outer_baby");
-	public static final EntityModelLayer armorStandOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "armor_stand"), "outer");
-	public static final EntityModelLayer babyArmorStandOverlay = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "armor_stand"), "outer_baby");
-	public static final EntityModelLayer halloweenHat = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "player"), "halloween_hat");
-	public static final EntityModelLayer playerFace = new EntityModelLayer(Identifier.of(Data.getVersion().getID(), "player"), "face");
+	public static final EntityModelLayer contributorOverlaySlim = new EntityModelLayer(Identifiers.CONTRIBUTOR, "slim");
+	public static final EntityModelLayer contributorOverlayWide = new EntityModelLayer(Identifiers.CONTRIBUTOR, "wide");
+	public static final EntityModelLayer entityCape = new EntityModelLayer(Identifiers.ENTITY, "cape");
+	public static final EntityModelLayer babyPigOverlay = new EntityModelLayer(Identifiers.PIG, "baby_outer");
+	public static final EntityModelLayer pigOverlay = new EntityModelLayer(Identifiers.PIG, "outer");
+	public static final EntityModelLayer pigMuddyFlower = new EntityModelLayer(Identifiers.PIG, "muddy_flower");
+	public static final EntityModelLayer beeOverlay = new EntityModelLayer(Identifiers.BEE, "outer");
+	public static final EntityModelLayer babyBeeOverlay = new EntityModelLayer(Identifiers.BEE, "outer_baby");
+	public static final EntityModelLayer mooshroomOverlay = new EntityModelLayer(Identifiers.MOOSHROOM, "outer");
+	public static final EntityModelLayer babyMooshroomOverlay = new EntityModelLayer(Identifiers.MOOSHROOM, "outer_baby");
+	public static final EntityModelLayer cowOverlay = new EntityModelLayer(Identifiers.COW, "outer");
+	public static final EntityModelLayer babyCowOverlay = new EntityModelLayer(Identifiers.COW, "outer_baby");
+	public static final EntityModelLayer skeletonOverlay = new EntityModelLayer(Identifiers.SKELETON, "outer");
+	public static final EntityModelLayer witherSkeletonOverlay = new EntityModelLayer(Identifiers.WITHER_SKELETON, "outer");
+	public static final EntityModelLayer zombieOverlay = new EntityModelLayer(Identifiers.ZOMBIE, "outer");
+	public static final EntityModelLayer giantOverlay = new EntityModelLayer(Identifiers.GIANT, "outer");
+	public static final EntityModelLayer babyZombieOverlay = new EntityModelLayer(Identifiers.ZOMBIE, "outer_baby");
+	public static final EntityModelLayer armorStandOverlay = new EntityModelLayer(Identifiers.ARMOR_STAND, "outer");
+	public static final EntityModelLayer babyArmorStandOverlay = new EntityModelLayer(Identifiers.ARMOR_STAND, "outer_baby");
+	public static final EntityModelLayer halloweenHat = new EntityModelLayer(Identifiers.PLAYER, "halloween_hat");
+	public static final EntityModelLayer playerFace = new EntityModelLayer(Identifiers.PLAYER, "face");
 	public static void init() {
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlaySlim, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), true), 64, 64));
 		EntityModelLayerRegistry.registerModelLayer(contributorOverlayWide, () -> TexturedModelData.of(PlayerEntityModel.getTexturedModelData(new Dilation(0.001F), false), 64, 64));

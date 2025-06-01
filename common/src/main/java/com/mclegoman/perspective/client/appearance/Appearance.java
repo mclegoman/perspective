@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.client.util.IdentifierHelper;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
@@ -24,7 +25,7 @@ import java.util.*;
 
 public class Appearance {
 	public static void init() {
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(com.mclegoman.perspective.common.data.Data.getVersion().getID(), "appearance"), new DataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.APPEARANCE, new DataLoader());
 	}
 	public static class DataLoader extends SinglePreparationResourceReloader<Map<Identifier, JsonElement>> {
 		public static final Map<String, Data> registry = new HashMap<>();

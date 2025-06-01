@@ -28,6 +28,7 @@ import com.mclegoman.perspective.client.screen.config.shaders.ShaderPackSelectio
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import com.mclegoman.perspective.common.data.Data;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -189,7 +190,7 @@ public class ShaderPacks {
 		}
 	}
 	public static Identifier getShadersId() {
-		return Identifier.of(Data.getVersion().getID(), "main");
+		return Identifiers.MAIN;
 	}
 	public static Identifier getShadersId(String string) {
 		return getShadersId().withPath(getShadersId().getPath() + "_" + string);

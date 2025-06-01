@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.util.Identifier;
 
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class AprilFoolsPrank {
 	private static boolean seenWarning;
 	public static void init() {
 		try {
-			PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "prank"), new AprilFoolsPrankDataLoader());
+			PerspectiveEvents.ClientResourceReloaders.register(Identifiers.PRANK, new AprilFoolsPrankDataLoader());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to initialize april fools prank: {}", error));
 		}

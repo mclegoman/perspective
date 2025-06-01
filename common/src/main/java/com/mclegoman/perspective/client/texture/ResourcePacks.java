@@ -13,7 +13,7 @@ import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.luminance.common.util.ModContainer;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
-import net.minecraft.util.Identifier;
+import com.mclegoman.perspective.common.util.Identifiers;
 
 import java.util.Optional;
 
@@ -36,12 +36,12 @@ public class ResourcePacks {
 		            Contributor(s): dannytaylor
 		            Attribution(s): Phantazap ('Jester' Giant Textured Entity)
 		        */
-				ResourcePackHelper.register(Identifier.of("perspective_default"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_default"), ActivationType.enabledDefault);
+				ResourcePackHelper.register(Identifiers.PERSPECTIVE_DEFAULT, modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_default"), ActivationType.enabledDefault);
 				/*
 		            Perspective: Extended
 		            Contributor(s): dannytaylor
 		        */
-				ResourcePackHelper.register(Identifier.of("perspective_extended"), modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_extended"), ActivationType.disabledDefault);
+				ResourcePackHelper.register(Identifiers.PERSPECTIVE_EXTENDED, modContainer.get(), Translation.getTranslation(Data.getVersion().getID(), "resource_pack.perspective_extended"), ActivationType.disabledDefault);
 			}
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to init resource packs: {}", error));

@@ -14,6 +14,7 @@ import com.mclegoman.perspective.client.util.Mouse;
 import com.mclegoman.perspective.client.util.Position;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.Items;
@@ -32,7 +33,7 @@ public class Overlays {
 		timeOverlayTypes.add("false");
 		timeOverlayTypes.add("twelve_hour");
 		timeOverlayTypes.add("twenty_four_hour");
-		Mouse.ProcessCPS.register(Identifier.of(Data.getVersion().getID(), "cps_overlay"), PerspectiveConfig.config.cpsOverlay::value);
+		Mouse.ProcessCPS.register(Identifiers.CPS_OVERLAY, PerspectiveConfig.config.cpsOverlay::value);
 	}
 	public static void updateStats() {
 		if (ClientData.minecraft.getNetworkHandler() != null) ClientData.minecraft.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(ClientStatusC2SPacket.Mode.REQUEST_STATS));

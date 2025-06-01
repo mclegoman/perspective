@@ -17,6 +17,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -30,8 +31,8 @@ import java.time.Month;
 
 public class PerspectiveLogo {
 	public static void init() {
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "pride"), new PrideLogoDataLoader());
-		PerspectiveEvents.ClientResourceReloaders.register(Identifier.of(Data.getVersion().getID(), "splashes"), new SplashesDataloader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.PRIDE, new PrideLogoDataLoader());
+		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.SPLASHES, new SplashesDataloader());
 		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
 		CompatHelper.addLuminanceModMenuBadge(Data.getVersion().getID());
 	}
