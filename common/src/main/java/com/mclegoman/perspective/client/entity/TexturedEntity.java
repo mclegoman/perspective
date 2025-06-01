@@ -237,7 +237,7 @@ public class TexturedEntity {
 		return oldValue && newValue;
 	}
 	public static void applyShader(Entity entity) {
-		setShader(getShaders(entity));
+		setShader(getShaders(entity, getShaderPack(entity)));
 	}
 	public static void clearShader() {
 		setShader(new ArrayList<>());
@@ -256,13 +256,11 @@ public class TexturedEntity {
 		Optional<TexturedEntityEntry> texturedEntityEntry = getEntity(entity);
 		return texturedEntityEntry.map(TexturedEntityEntry::getShaderPack).orElse(null);
 	}
-	private static List<Shader.Data> getShaders(Entity entity) {
+	public static List<Shader.Data> getShaders(Entity entity, TexturedEntityEntry.SpectatorShader spectatorShader) {
 		List<Shader.Data> shaders = new ArrayList<>();
 		if (entity != null) {
-			TexturedEntityEntry.SpectatorShader spectatorShader = getShaderPack(entity);
 			if (spectatorShader != null) {
 				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.registry(), spectatorShader.shaderPack());
-				System.out.println(spectatorShader.shaderPack());
 				if (shaderPack == null && spectatorShader.shaderPack().equals(TexturedEntityShader.random)) {
 					// Check if shader isn't valid AND id is perspective:random, then set shaderPack to random based on uuid.
 					shaderPack = (ShaderPackEntry) ListHelper.getRandom(entity.getUuid(), ShaderPacks.getRegistry(spectatorShader.registry()).values().stream().toList());
@@ -273,8 +271,8 @@ public class TexturedEntity {
 						shaders.add(new Shader.Data(getTexturedEntityId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> Shader.RenderType.WORLD, () -> ClientData.minecraft.cameraEntity != null && (ClientData.minecraft.cameraEntity == entity))));
 					}
 				} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!: " + spectatorShader.registry() + ":" + spectatorShader.shaderPack());
-			} else System.out.println("NOT PRESENT!");
-		} else System.out.println("ENTTIY NULL!");
+			}
+		}
 		return shaders;
 	}
 }
