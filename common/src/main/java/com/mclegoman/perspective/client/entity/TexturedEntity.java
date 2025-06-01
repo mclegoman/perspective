@@ -22,6 +22,7 @@ import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import com.mclegoman.perspective.client.shaders.TexturedEntityShader;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.texture.TextureHelper;
+import com.mclegoman.perspective.client.util.ListHelper;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
@@ -211,7 +212,7 @@ public class TexturedEntity {
 						if (entityData.isPresent()) return entityData;
 					}
 					if (PerspectiveConfig.config.texturedRandomEntity.value()) {
-						TexturedEntityEntry data = randomRegistry.get(Math.floorMod(uuid.getLeastSignificantBits(), randomRegistry.size()));
+						TexturedEntityEntry data = (TexturedEntityEntry) ListHelper.getRandom(uuid, randomRegistry);
 						if (data.getName().equalsIgnoreCase("default")) {
 							Optional<TexturedEntityEntry> entityData = getEntityData(randomRegistry, "default");
 							if (entityData.isPresent()) return entityData;
@@ -251,26 +252,29 @@ public class TexturedEntity {
 	public static Identifier getTexturedEntityId() {
 		return getTexturedEntityId("");
 	}
-	public static Optional<TexturedEntityEntry.SpectatorShader> getShaderPack(Entity entity) {
-		Optional<TexturedEntityEntry.SpectatorShader> shaderPack = Optional.empty();
+	public static TexturedEntityEntry.SpectatorShader getShaderPack(Entity entity) {
 		Optional<TexturedEntityEntry> texturedEntityEntry = getEntity(entity);
-		if (texturedEntityEntry.isPresent()) shaderPack = texturedEntityEntry.get().getShaderPack();
-		return shaderPack;
+		return texturedEntityEntry.map(TexturedEntityEntry::getShaderPack).orElse(null);
 	}
 	private static List<Shader.Data> getShaders(Entity entity) {
 		List<Shader.Data> shaders = new ArrayList<>();
 		if (entity != null) {
-			Optional<TexturedEntityEntry.SpectatorShader> spectatorShader = getShaderPack(entity);
-			if (spectatorShader.isPresent()) {
-				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.get().registry(), spectatorShader.get().shaderPack());
+			TexturedEntityEntry.SpectatorShader spectatorShader = getShaderPack(entity);
+			if (spectatorShader != null) {
+				ShaderPackEntry shaderPack = ShaderPacks.getShaderPack(spectatorShader.registry(), spectatorShader.shaderPack());
+				System.out.println(spectatorShader.shaderPack());
+				if (shaderPack == null && spectatorShader.shaderPack().equals(TexturedEntityShader.random)) {
+					// Check if shader isn't valid AND id is perspective:random, then set shaderPack to random based on uuid.
+					shaderPack = (ShaderPackEntry) ListHelper.getRandom(entity.getUuid(), ShaderPacks.getRegistry(spectatorShader.registry()).values().stream().toList());
+				}
 				if (shaderPack != null) {
 					int i = 0;
 					for (ShaderPackEntry.Shader shader : shaderPack.shaders()) {
 						shaders.add(new Shader.Data(getTexturedEntityId(String.valueOf(i++)), new Shader(Shaders.get(shader.registry(), shader.luminance()), () -> Shader.RenderType.WORLD, () -> ClientData.minecraft.cameraEntity != null && (ClientData.minecraft.cameraEntity == entity))));
 					}
-				} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!: " + spectatorShader.get().registry() + ":" + spectatorShader.get().shaderPack());
-			}
-		}
+				} else Data.getVersion().sendToLog(LogType.WARN, "Could not locate the current shader pack!: " + spectatorShader.registry() + ":" + spectatorShader.shaderPack());
+			} else System.out.println("NOT PRESENT!");
+		} else System.out.println("ENTTIY NULL!");
 		return shaders;
 	}
 }

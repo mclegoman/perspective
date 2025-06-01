@@ -11,8 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
 import net.minecraft.util.Identifier;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 public class TexturedEntityEntry {
 	private final String namespace;
@@ -24,9 +23,9 @@ public class TexturedEntityEntry {
 	private final boolean item_group;
 	private final Identifier item_model;
 	private final boolean canBeRandom;
-	private final Optional<SpectatorShader> shaderPack;
+	private final SpectatorShader shaderPack;
 	private final boolean enabled;
-	public TexturedEntityEntry(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, Optional<SpectatorShader> shaderPack, boolean enabled) {
+	public TexturedEntityEntry(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, @Nullable SpectatorShader shaderPack, boolean enabled) {
 		this.namespace = namespace;
 		this.type = type;
 		this.name = name;
@@ -69,7 +68,7 @@ public class TexturedEntityEntry {
 	public boolean getCanBeRandom() {
 		return this.canBeRandom;
 	}
-	public Optional<SpectatorShader> getShaderPack() {
+	public SpectatorShader getShaderPack() {
 		return this.shaderPack;
 	}
 	public record SpectatorShader(Identifier registry, Identifier shaderPack, int priority) {
