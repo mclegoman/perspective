@@ -51,7 +51,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> zoomCinematic = this.value(false);
 	@SerializedName("hold_perspective_multiplier_increment_size")
 	@IntegerRange(min = 1, max = 10)
-	public final TrackedValue<Integer> holdPerspectiveMultiplierIncrementSize = this.value(1);
+	public final TrackedValue<Integer> holdPerspectiveMultiplierIncrementSize = this.value(5);
 	@SerializedName("hold_perspective_back_multiplier")
 	@FloatRange(min = 0.5, max = 8)
 	public final TrackedValue<Float> holdPerspectiveBackMultiplier = this.value(1.0F);
