@@ -7,15 +7,20 @@
 
 package com.mclegoman.perspective.client.perspective;
 
+import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
+import net.minecraft.util.math.MathHelper;
 
 public class Perspective {
 	private static boolean holdThirdPersonBackLock;
 	private static net.minecraft.client.option.Perspective holdThirdPersonBackPrev;
 	private static boolean holdThirdPersonFrontLock;
 	private static net.minecraft.client.option.Perspective holdThirdPersonFrontPrev;
+	public static boolean isHoldingAdjust() {
+		return Keybindings.adjustHoldPerspective.isPressed();
+	}
 	public static boolean isHoldingPerspective() {
 		return isHoldingPerspectiveBack() || isHoldingPerspectiveFront();
 	}
@@ -42,6 +47,10 @@ public class Perspective {
 		if (Keybindings.setPerspectiveThirdPersonFront.wasPressed())
 			setPerspective(net.minecraft.client.option.Perspective.THIRD_PERSON_FRONT);
 		getHoldAll();
+		if (!(isHoldingPerspective() && isHoldingAdjust()) && hasUpdated) {
+			PerspectiveConfig.config.holdPerspectiveBackMultiplier.serializeAndInvokeCallbacks();
+			PerspectiveConfig.config.holdPerspectiveFrontMultiplier.serializeAndInvokeCallbacks();
+		}
 	}
 	private static void setThirdPersonFront(net.minecraft.client.option.Perspective perspective) {
 		if (!Keybindings.holdPerspectiveThirdPersonBack.isPressed() && !holdThirdPersonBackLock) {
@@ -105,5 +114,43 @@ public class Perspective {
 	public static void setPerspective(net.minecraft.client.option.Perspective perspective) {
 		ClientData.minecraft.worldRenderer.scheduleTerrainUpdate();
 		ClientData.minecraft.options.setPerspective(perspective);
+	}
+
+
+
+
+
+	private static boolean hasUpdated;
+
+	public static float getMultiplier() {
+		if (isHoldingPerspective()) {
+			if (isHoldBack()) return PerspectiveConfig.config.holdPerspectiveBackMultiplier.value();
+			else if (isHoldFront()) return PerspectiveConfig.config.holdPerspectiveFrontMultiplier.value();
+		}
+		return 1.0F;
+	}
+	public static void adjust(float amount, int multiplier) {
+		if (isHoldingPerspective()) {
+			for (int i = 0; i < multiplier; i++) {
+				if (!(getMultiplier() <= 0.5F) || !(getMultiplier() >= 16.0F)) {
+					if (isHoldBack()) {
+						PerspectiveConfig.config.holdPerspectiveBackMultiplier.setValue(MathHelper.clamp(getMultiplier() + amount, 0.5F, 16.0F), false);
+					} else if (isHoldFront()) {
+						PerspectiveConfig.config.holdPerspectiveFrontMultiplier.setValue(MathHelper.clamp(getMultiplier() + amount, 0.5F, 16.0F), false);
+					}
+					hasUpdated = true;
+				}
+			}
+		}
+	}
+	public static void reset() {
+		if (isHoldingPerspective()) {
+			if (isHoldBack()) {
+				PerspectiveConfig.config.holdPerspectiveBackMultiplier.setValue(MathHelper.clamp(PerspectiveDefaultConfig.config.holdPerspectiveBackMultiplier.value(), 0.5F, 16.0F), false);
+			} else if (isHoldFront()) {
+				PerspectiveConfig.config.holdPerspectiveFrontMultiplier.setValue(MathHelper.clamp(PerspectiveDefaultConfig.config.holdPerspectiveFrontMultiplier.value(), 0.5F, 16.0F), false);
+			}
+			hasUpdated = true;
+		}
 	}
 }

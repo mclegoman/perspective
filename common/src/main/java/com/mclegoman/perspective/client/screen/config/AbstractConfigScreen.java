@@ -125,7 +125,10 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == GLFW.GLFW_KEY_F5) {
-			Update.checkForUpdates(Data.getVersion(), true);
+			if (hasControlDown()) {
+				PerspectiveConfig.init();
+			}
+			else Update.checkForUpdates(Data.getVersion(), true);
 		}
 		if (hasControlDown() && keyCode == GLFW.GLFW_KEY_S) {
 			PerspectiveDefaultConfig.setDefaults(true);

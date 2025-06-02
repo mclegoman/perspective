@@ -128,7 +128,7 @@ public class ShaderPacks {
 		PerspectiveEvents.ShaderRender.modify(getShadersId(), getShadersFromId());
 	}
 	private static List<Shader.Data> getShadersFromId() {
-		return ShaderPacks.getShadersFromId(() -> PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), PerspectiveConfig.config.superSecretSettingsEnabled::value);
+		return ShaderPacks.getShadersFromId(() -> PerspectiveConfig.config.superSecretSettingsShader.value().getIdentifier(), () -> PerspectiveConfig.config.superSecretSettingsMode.value().getRenderType(), () -> PerspectiveConfig.config.superSecretSettingsEnabled.value() != Keybindings.holdShaders.isPressed());
 	}
 	public static List<Shader.Data> getShadersFromId(Callable<Identifier> shaderId, Callable<Shader.RenderType> renderType, Callable<Boolean> enabled) {
 		List<Shader.Data> shaders = new ArrayList<>();

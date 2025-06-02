@@ -99,32 +99,32 @@ public class ZoomConfigScreen extends AbstractConfigScreen {
 		zoomGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder zoomGridAdder = zoomGrid.createAdder(2);
 		try {
-		zoomGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value())}), (button) -> {
-			PerspectiveConfig.config.zoomHideHud.setValue(Hide.nextZoomHideHudMode(), false);
-			
-		}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value(), true)}, true))).build(), 1);
-		zoomGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.show_percentage", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomShowPercentage.value(), Translation.Type.ONFF)}), (button) -> {
-			PerspectiveConfig.toggle(PerspectiveConfig.config.zoomShowPercentage, false);
-			
-		}).build(), 1);
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedIn.value()))}, false), (PerspectiveConfig.config.zoomSmoothSpeedIn.value() - 0.001F) / 1.999F) {
-			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.getVersion().getID(),  "zoom.smooth_speed_in", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedIn.value()))}, false));
-			}
-			protected void applyValue() {
-				PerspectiveConfig.config.zoomSmoothSpeedIn.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)), false);
-			}
-		});
-		zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedOut.value()))}, false), (PerspectiveConfig.config.zoomSmoothSpeedOut.value() - 0.001F) / 1.999F) {
-			protected void updateMessage() {
-				setMessage(Translation.getConfigTranslation(Data.getVersion().getID(),  "zoom.smooth_speed_out", new Object[]{Text.literal(String.valueOf(PerspectiveConfig.config.zoomSmoothSpeedOut.value()))}, false));
-			}
-			protected void applyValue() {
-				PerspectiveConfig.config.zoomSmoothSpeedIn.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.999F) + 0.001F)), false);
-			}
-		});
-		zoomGridAdder.add(new EmptyWidget(20, 20), 2);
-		zoomGridAdder.add(new EmptyWidget(20, 20), 2);
+			zoomGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value())}), (button) -> {
+				PerspectiveConfig.config.zoomHideHud.setValue(Hide.nextZoomHideHudMode(), false);
+
+			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud", new Object[]{Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.hide_hud." + PerspectiveConfig.config.zoomHideHud.value(), true)}, true))).build(), 1);
+			zoomGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.show_percentage", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomShowPercentage.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.zoomShowPercentage, false);
+
+			}).build(), 1);
+			zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_in", new Object[]{Translation.getZoomSmoothSpeedTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomSmoothSpeedIn.value())}, false), (PerspectiveConfig.config.zoomSmoothSpeedIn.value() - 0.01F) / 1.99F) {
+				protected void updateMessage() {
+					setMessage(Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_in", new Object[]{Translation.getZoomSmoothSpeedTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomSmoothSpeedIn.value())}, false));
+				}
+				protected void applyValue() {
+					PerspectiveConfig.config.zoomSmoothSpeedIn.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.99F) + 0.01F)), false);
+				}
+			});
+			zoomGridAdder.add(new ConfigSliderWidget(zoomGridAdder.getGridWidget().getX(), zoomGridAdder.getGridWidget().getY(), 150, 20, Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_out", new Object[]{Translation.getZoomSmoothSpeedTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomSmoothSpeedOut.value())}, false), (PerspectiveConfig.config.zoomSmoothSpeedOut.value() - 0.01F) / 1.99F) {
+				protected void updateMessage() {
+					setMessage(Translation.getConfigTranslation(Data.getVersion().getID(), "zoom.smooth_speed_out", new Object[]{Translation.getZoomSmoothSpeedTranslation(Data.getVersion().getID(), PerspectiveConfig.config.zoomSmoothSpeedOut.value())}, false));
+				}
+				protected void applyValue() {
+					PerspectiveConfig.config.zoomSmoothSpeedOut.setValue(Float.valueOf(String.format("%.2f", ((value) * 1.99F) + 0.01F)), false);
+				}
+			});
+			zoomGridAdder.add(new EmptyWidget(20, 20), 2);
+			zoomGridAdder.add(new EmptyWidget(20, 20), 2);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "Error creating config/zoom/page2: " + error.getLocalizedMessage());
 		}

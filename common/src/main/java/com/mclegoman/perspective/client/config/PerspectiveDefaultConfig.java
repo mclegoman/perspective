@@ -27,7 +27,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	@IntegerRange(min = 0, max = 100)
 	public final TrackedValue<Integer> zoomLevel = this.value(40);
 	@SerializedName("zoom_increment_size")
-	@IntegerRange(min = 0, max = 10)
+	@IntegerRange(min = 1, max = 10)
 	public final TrackedValue<Integer> zoomIncrementSize = this.value(2);
 	@SerializedName("zoom_transition")
 	public final TrackedValue<String> zoomTransition = this.value("smooth");
@@ -49,6 +49,9 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> zoomReset = this.value(false);
 	@SerializedName("zoom_cinematic")
 	public final TrackedValue<Boolean> zoomCinematic = this.value(false);
+	@SerializedName("hold_perspective_multiplier_increment_size")
+	@IntegerRange(min = 1, max = 10)
+	public final TrackedValue<Integer> holdPerspectiveMultiplierIncrementSize = this.value(1);
 	@SerializedName("hold_perspective_back_multiplier")
 	@FloatRange(min = 0.5, max = 8)
 	public final TrackedValue<Float> holdPerspectiveBackMultiplier = this.value(1.0F);
@@ -73,6 +76,9 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> randomKaleidoscope = this.value(false);
 	@SerializedName("kaleidoscope_named")
 	public final TrackedValue<Boolean> namedKaleidoscope = this.value(true);
+	@SerializedName("star_brightness_multiplier")
+	@FloatRange(min = -1.0F, max = 2.0F)
+	public final TrackedValue<Float> starBrightnessMultiplier = this.value(1.0F);
 	@SerializedName("textured_named_entity")
 	public final TrackedValue<Boolean> texturedNamedEntity = this.value(true);
 	@SerializedName("textured_random_entity")
@@ -147,6 +153,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.zoomType.setValue(perspectiveConfig.zoomType.value(), false);
 		config.zoomReset.setValue(perspectiveConfig.zoomReset.value(), false);
 		config.zoomCinematic.setValue(perspectiveConfig.zoomCinematic.value(), false);
+		config.holdPerspectiveMultiplierIncrementSize.setValue(perspectiveConfig.holdPerspectiveMultiplierIncrementSize.value(), false);
 		config.holdPerspectiveBackMultiplier.setValue(perspectiveConfig.holdPerspectiveBackMultiplier.value(), false);
 		config.holdPerspectiveFrontMultiplier.setValue(perspectiveConfig.holdPerspectiveFrontMultiplier.value(), false);
 		config.holdPerspectiveBackHideHud.setValue(perspectiveConfig.holdPerspectiveBackHideHud.value(), false);
@@ -158,6 +165,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.superSecretSettingsSelectionBlur.setValue(perspectiveConfig.superSecretSettingsSelectionBlur.value(), false);
 		config.randomKaleidoscope.setValue(perspectiveConfig.randomKaleidoscope.value(), false);
 		config.namedKaleidoscope.setValue(perspectiveConfig.namedKaleidoscope.value(), false);
+		config.starBrightnessMultiplier.setValue(perspectiveConfig.starBrightnessMultiplier.value(), false);
 		config.texturedNamedEntity.setValue(perspectiveConfig.texturedNamedEntity.value(), false);
 		config.texturedRandomEntity.setValue(perspectiveConfig.texturedRandomEntity.value(), false);
 		config.allowAprilFools.setValue(perspectiveConfig.allowAprilFools.value(), false);

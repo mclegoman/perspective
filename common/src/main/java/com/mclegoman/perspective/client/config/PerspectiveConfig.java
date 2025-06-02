@@ -31,7 +31,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	@IntegerRange(min = 0, max = 100)
 	public final TrackedValue<Integer> zoomLevel = this.value(PerspectiveDefaultConfig.config.zoomLevel.value());
 	@SerializedName("zoom_increment_size")
-	@IntegerRange(min = 0, max = 10)
+	@IntegerRange(min = 1, max = 10)
 	public final TrackedValue<Integer> zoomIncrementSize = this.value(PerspectiveDefaultConfig.config.zoomIncrementSize.value());
 	@SerializedName("zoom_transition")
 	public final TrackedValue<String> zoomTransition = this.value(PerspectiveDefaultConfig.config.zoomTransition.value());
@@ -53,11 +53,14 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> zoomReset = this.value(PerspectiveDefaultConfig.config.zoomReset.value());
 	@SerializedName("zoom_cinematic")
 	public final TrackedValue<Boolean> zoomCinematic = this.value(PerspectiveDefaultConfig.config.zoomCinematic.value());
+	@SerializedName("hold_perspective_multiplier_increment_size")
+	@IntegerRange(min = 1, max = 10)
+	public final TrackedValue<Integer> holdPerspectiveMultiplierIncrementSize = this.value(PerspectiveDefaultConfig.config.holdPerspectiveMultiplierIncrementSize.value());
 	@SerializedName("hold_perspective_back_multiplier")
-	@FloatRange(min = 0.5, max = 8)
+	@FloatRange(min = 0.5, max = 16)
 	public final TrackedValue<Float> holdPerspectiveBackMultiplier = this.value(PerspectiveDefaultConfig.config.holdPerspectiveBackMultiplier.value());
 	@SerializedName("hold_perspective_front_multiplier")
-	@FloatRange(min = 0.5, max = 8)
+	@FloatRange(min = 0.5, max = 16)
 	public final TrackedValue<Float> holdPerspectiveFrontMultiplier = this.value(PerspectiveDefaultConfig.config.holdPerspectiveFrontMultiplier.value());
 	@SerializedName("hold_perspective_back_hide_hud")
 	public final TrackedValue<Boolean> holdPerspectiveBackHideHud = this.value(PerspectiveDefaultConfig.config.holdPerspectiveBackHideHud.value());
@@ -77,6 +80,8 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> randomKaleidoscope = this.value(PerspectiveDefaultConfig.config.randomKaleidoscope.value());
 	@SerializedName("kaleidoscope_named")
 	public final TrackedValue<Boolean> namedKaleidoscope = this.value(PerspectiveDefaultConfig.config.namedKaleidoscope.value());
+	@SerializedName("star_brightness_multiplier")
+	public final TrackedValue<Float> starBrightnessMultiplier = this.value(PerspectiveDefaultConfig.config.starBrightnessMultiplier.value());
 	@SerializedName("textured_named_entity")
 	public final TrackedValue<Boolean> texturedNamedEntity = this.value(PerspectiveDefaultConfig.config.texturedNamedEntity.value());
 	@SerializedName("textured_random_entity")
@@ -187,6 +192,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		config.zoomType.setValue(defaultConfig.zoomType.value(), false);
 		config.zoomReset.setValue(defaultConfig.zoomReset.value(), false);
 		config.zoomCinematic.setValue(defaultConfig.zoomCinematic.value(), false);
+		config.holdPerspectiveMultiplierIncrementSize.setValue(defaultConfig.holdPerspectiveMultiplierIncrementSize.value(), false);
 		config.holdPerspectiveBackMultiplier.setValue(defaultConfig.holdPerspectiveBackMultiplier.value(), false);
 		config.holdPerspectiveFrontMultiplier.setValue(defaultConfig.holdPerspectiveFrontMultiplier.value(), false);
 		config.holdPerspectiveBackHideHud.setValue(defaultConfig.holdPerspectiveBackHideHud.value(), false);
@@ -198,6 +204,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		config.superSecretSettingsSelectionBlur.setValue(defaultConfig.superSecretSettingsSelectionBlur.value(), false);
 		config.randomKaleidoscope.setValue(defaultConfig.randomKaleidoscope.value(), false);
 		config.namedKaleidoscope.setValue(defaultConfig.namedKaleidoscope.value(), false);
+		config.starBrightnessMultiplier.setValue(defaultConfig.starBrightnessMultiplier.value(), false);
 		config.texturedNamedEntity.setValue(defaultConfig.texturedNamedEntity.value(), false);
 		config.texturedRandomEntity.setValue(defaultConfig.texturedRandomEntity.value(), false);
 		config.allowAprilFools.setValue(defaultConfig.allowAprilFools.value(), false);

@@ -38,8 +38,10 @@ public class Keybindings {
 	public static final KeyBinding toggleTotemsOverlay;
 	public static final KeyBinding toggleCPSOverlay;
 	public static final KeyBinding toggleShaders;
+	public static final KeyBinding holdShaders;
 	public static final KeyBinding toggleZoom;
 	public static final KeyBinding toggleZoomCinematic;
+	public static final KeyBinding adjustHoldPerspective;
 	public static final KeyBinding[] allKeybindings;
 
 	static {
@@ -68,8 +70,10 @@ public class Keybindings {
 				toggleTotemsOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_totems_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleCPSOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_cps_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_shaders", GLFW.GLFW_KEY_F8),
+				holdShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "hold_shaders", GLFW.GLFW_KEY_UNKNOWN),
 				toggleZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom", GLFW.GLFW_KEY_UNKNOWN),
-				toggleZoomCinematic = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom_cinematic", GLFW.GLFW_KEY_UNKNOWN)
+				toggleZoomCinematic = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom_cinematic", GLFW.GLFW_KEY_UNKNOWN),
+				adjustHoldPerspective = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "adjust_hold_perspective", GLFW.GLFW_KEY_R)
 		};
 	}
 	public static void init() {

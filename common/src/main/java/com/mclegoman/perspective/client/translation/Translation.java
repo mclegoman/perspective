@@ -83,6 +83,9 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 	public static MutableText getItemGroupTranslation(String namespace, String key) {
 		return getTranslation("item_group", namespace, key);
 	}
+	public static MutableText getZoomSmoothSpeedTranslation(String namespace, float value) {
+		return getConfigTranslation(namespace, "zoom.smooth_speed." + (value <= 0.01F ? "min" : (value == 1.0F ? "normal" : (value >= 2.0F ? "max" : "value"))), new Object[]{value});
+	}
 	public enum Type implements StringIdentifiable {
 		ENDISABLE("endisable"),
 		ONFF("onff"),

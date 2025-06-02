@@ -85,6 +85,10 @@
 
 	"gui.perspective.config.zoom.smooth_speed_in": "Smooth Speed In: %s",
 	"gui.perspective.config.zoom.smooth_speed_out": "Smooth Speed Out: %s",
+	"gui.perspective.config.zoom.smooth_speed.value": "%s",
+	"gui.perspective.config.zoom.smooth_speed.min": "Slow",
+	"gui.perspective.config.zoom.smooth_speed.normal": "Normal",
+	"gui.perspective.config.zoom.smooth_speed.max": "Fast",
 
 	"gui.perspective.config.zoom.enabled": "Allow Zoom: %s",
 	"gui.perspective.config.zoom.enabled.hover": "%s",
@@ -105,6 +109,9 @@
 	"gui.perspective.config.hold_perspective.front.multiplier.hover": "Sets how far away the camera is when using Hold Perspective Front.",
 	"gui.perspective.config.hold_perspective.back.hide_hud": "Back Hide HUD: %s",
 	"gui.perspective.config.hold_perspective.front.hide_hud": "Front Hide HUD: %s",
+
+	"gui.perspective.config.hold_perspective.increment_size": "Increment Multiplier: %s",
+	"gui.perspective.config.hold_perspective.increment_size.hover": "Sets the multiplier of hold perspective multiplier adjustment when using the scroll wheel.",
 
 	"gui.perspective.config.shaders": "Shaders",
 	"gui.perspective.config.shaders.super_secret_settings": "Super Secret Settings",
@@ -304,6 +311,8 @@
 	"gui.perspective.keybindings.keybinding.toggle_totems_overlay": "Toggle Totems Overlay",
 
 	"gui.perspective.keybindings.keybinding.toggle_shaders": "Toggle Super Secret Settings",
+
+	"gui.perspective.keybindings.keybinding.hold_shaders": "Hold Super Secret Settings",
 
 	"gui.perspective.keybindings.keybinding.toggle_zoom": "Toggle Zoom",
 
