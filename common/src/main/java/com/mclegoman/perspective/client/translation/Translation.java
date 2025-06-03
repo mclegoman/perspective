@@ -7,6 +7,7 @@
 
 package com.mclegoman.perspective.client.translation;
 
+import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
@@ -18,6 +19,9 @@ import net.minecraft.util.StringIdentifiable;
 import java.util.Arrays;
 
 public class Translation extends com.mclegoman.luminance.client.translation.Translation {
+	public static MutableText getQualityTranslation(String namespace, QualityToggle type) {
+		return type.asString().equalsIgnoreCase("off") ? getVariableTranslation(namespace, false, Type.ONFF) : getTranslation(namespace, "quality." + type.asString());
+	}
 	public static MutableText getVariableTranslation(String namespace, boolean toggle, Type type) {
 		return toggle ? getTranslation(namespace, "variable." + type.asString() + ".on") : getTranslation(namespace, "variable." + type.asString() + ".off");
 	}

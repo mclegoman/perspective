@@ -9,6 +9,7 @@ package com.mclegoman.perspective.client.config;
 
 import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
+import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.common.util.Identifiers;
@@ -101,6 +102,8 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> dayOverlay = this.value(false);
 	@SerializedName("biome_overlay")
 	public final TrackedValue<Boolean> biomeOverlay = this.value(false);
+	@SerializedName("looking_at_overlay")
+	public final TrackedValue<QualityToggle> lookingAtOverlay = this.value(QualityToggle.off);
 	@SerializedName("cps_overlay")
 	public final TrackedValue<Boolean> cpsOverlay = this.value(false);
 	@SerializedName("deaths_overlay")

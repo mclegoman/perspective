@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.hud;
 
 import com.mclegoman.luminance.common.util.IdentifierHelper;
+import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.util.Mouse;
@@ -21,7 +22,6 @@ import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
@@ -112,6 +112,10 @@ public class Overlays {
 				if (PerspectiveConfig.config.cpsOverlay.value()) {
 					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));
 				}
+
+				// TODO: move to it's own.
+				if (PerspectiveConfig.config.lookingAtOverlay.value() != QualityToggle.off) overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "looking_at_overlay", new Object[]{LookingAtOverlay.getLookingAt(ClientData.minecraft.world)}));
+
 				renderOverlays(context, overlayTexts, 0, y, false);
 			} else DebugOverlay.renderDebugHUD(context);
 		}
