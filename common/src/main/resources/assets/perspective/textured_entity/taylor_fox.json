@@ -30,5 +30,6 @@
   "item_group": false,
   "item_model": "minecraft:fox_spawn_egg",
   "can_be_random": false,
+  "override_looking_at_variant": true,
   "enabled": true
 }

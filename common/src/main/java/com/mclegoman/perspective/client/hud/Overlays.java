@@ -18,6 +18,7 @@ import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.common.util.Identifiers;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.stat.Stats;
@@ -114,7 +115,7 @@ public class Overlays {
 				}
 
 				// TODO: move to it's own.
-				if (PerspectiveConfig.config.lookingAtOverlay.value() != QualityToggle.off) overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "looking_at_overlay", new Object[]{LookingAtOverlay.getLookingAt(ClientData.minecraft.world)}));
+				if (PerspectiveConfig.config.lookingAtOverlay.value() != QualityToggle.off) overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "looking_at_overlay", new Object[]{LookingAtOverlay.getLookingAt((LivingEntity) ClientData.minecraft.cameraEntity)}));
 
 				renderOverlays(context, overlayTexts, 0, y, false);
 			} else DebugOverlay.renderDebugHUD(context);

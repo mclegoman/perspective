@@ -46,12 +46,12 @@ public class TexturedEntityDataReloader extends JsonResourceReloader {
 	public TexturedEntityDataReloader() {
 		super(new Gson(), identifier);
 	}
-	private TexturedEntityEntry data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, @Nullable TexturedEntityEntry.SpectatorShader shaderPack, boolean enabled) {
-		return new TexturedEntityEntry(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, shaderPack, enabled);
+	private TexturedEntityEntry data(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, boolean overrideLookingAtVariant, @Nullable TexturedEntityEntry.SpectatorShader shaderPack, boolean enabled) {
+		return new TexturedEntityEntry(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, overrideLookingAtVariant, shaderPack, enabled);
 	}
-	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, @Nullable TexturedEntityEntry.SpectatorShader shaderPack, boolean enabled) {
+	private void add(Identifier id, String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier itemModel, boolean canBeRandom, boolean overrideLookingAtVariant, @Nullable TexturedEntityEntry.SpectatorShader shaderPack, boolean enabled) {
 		try {
-			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, shaderPack, enabled));
+			registry.put(id, data(namespace, type, name, entity_specific, overrides, flip, item_group, itemModel, canBeRandom, overrideLookingAtVariant, shaderPack, enabled));
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to add textured entity to registry: {}", error));
 		}
@@ -172,7 +172,7 @@ public class TexturedEntityDataReloader extends JsonResourceReloader {
 	}
 	public void addDefaultTexturedEntities(String namespace, String[] entityTypes) {
 		for (String entity : entityTypes) {
-			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,null, true, null, false);
+			add(Identifier.of(namespace, entity), namespace, entity, "default", new JsonObject(), new JsonArray(), false, false,null, true, true, null, false);
 		}
 	}
 	@Override
@@ -207,6 +207,7 @@ public class TexturedEntityDataReloader extends JsonResourceReloader {
 			boolean item_group = JsonHelper.getBoolean(reader, "item_group", true);
 			Identifier item_model = Identifier.of(JsonHelper.getString(reader, "item_model", namespace.toLowerCase() + ":" + name.toLowerCase() + "_" + type.toLowerCase() + "_spawn_egg"));
 			boolean can_be_random = JsonHelper.getBoolean(reader, "can_be_random", true);
+			boolean overrideLookingAtVariant = JsonHelper.getBoolean(reader, "override_looking_at_variant", true);
 			TexturedEntityEntry.SpectatorShader shaderPack = null;
 			if (JsonHelper.hasJsonObject(reader, "shader")) {
 				JsonObject shaderData = JsonHelper.getObject(reader, "shader");
@@ -217,7 +218,7 @@ public class TexturedEntityDataReloader extends JsonResourceReloader {
 				shaderPack = new TexturedEntityEntry.SpectatorShader(Identifier.of(JsonHelper.getString(shaderData, "registry", ShaderPacks.getShadersId().toString())), Identifier.of(JsonHelper.getString(shaderData, "pack")), JsonHelper.getInt(shaderData, "priority", 200));
 			}
 			boolean enabled = JsonHelper.getBoolean(reader, "enabled", true);
-			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, shaderPack, enabled);
+			add(identifier, namespace, type, name, entity_specific, overrides, flip, item_group, item_model, can_be_random, overrideLookingAtVariant, shaderPack, enabled);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to load perspective textured entity: {}", error));
 		}

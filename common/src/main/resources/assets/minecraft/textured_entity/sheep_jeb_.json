@@ -8,6 +8,7 @@
   "flip": false,
   "item_group": false,
   "can_be_random": false,
+  "override_looking_at_variant": true,
   "shader": {
     "pack": "minecraft:wobble",
     "priority": 0

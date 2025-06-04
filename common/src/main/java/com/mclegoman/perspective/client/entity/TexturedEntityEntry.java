@@ -23,9 +23,10 @@ public class TexturedEntityEntry {
 	private final boolean item_group;
 	private final Identifier item_model;
 	private final boolean canBeRandom;
+	private final boolean overrideLookingAtVariant;
 	private final SpectatorShader shaderPack;
 	private final boolean enabled;
-	public TexturedEntityEntry(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, @Nullable SpectatorShader shaderPack, boolean enabled) {
+	public TexturedEntityEntry(String namespace, String type, String name, JsonObject entity_specific, JsonArray overrides, boolean flip, boolean item_group, Identifier item_model, boolean canBeRandom, boolean overrideLookingAtVariant, @Nullable SpectatorShader shaderPack, boolean enabled) {
 		this.namespace = namespace;
 		this.type = type;
 		this.name = name;
@@ -35,6 +36,7 @@ public class TexturedEntityEntry {
 		this.item_group = item_group;
 		this.item_model = item_model;
 		this.canBeRandom = canBeRandom;
+		this.overrideLookingAtVariant = overrideLookingAtVariant;
 		this.shaderPack = shaderPack;
 		this.enabled = enabled;
 	}
@@ -67,6 +69,9 @@ public class TexturedEntityEntry {
 	}
 	public boolean getCanBeRandom() {
 		return this.canBeRandom;
+	}
+	public boolean getOverrideLookingAtVariant() {
+		return this.overrideLookingAtVariant;
 	}
 	public SpectatorShader getShaderPack() {
 		return this.shaderPack;

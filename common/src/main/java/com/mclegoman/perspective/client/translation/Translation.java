@@ -11,7 +11,6 @@ import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
@@ -19,6 +18,17 @@ import net.minecraft.util.StringIdentifiable;
 import java.util.Arrays;
 
 public class Translation extends com.mclegoman.luminance.client.translation.Translation {
+	public static String getTitleCase(String key) {
+		if (key != null && !key.isEmpty()) {
+			String[] words = key.replace('_', ' ').split(" ");
+			StringBuilder result = new StringBuilder();
+			for (String word : words) {
+				if (!word.isEmpty()) result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1).toLowerCase()).append(" ");
+			}
+			return result.toString().trim();
+		}
+		return key;
+	}
 	public static MutableText getQualityTranslation(String namespace, QualityToggle type) {
 		return type.asString().equalsIgnoreCase("off") ? getVariableTranslation(namespace, false, Type.ONFF) : getTranslation(namespace, "quality." + type.asString());
 	}
