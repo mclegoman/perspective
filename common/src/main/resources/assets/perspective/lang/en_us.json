@@ -178,6 +178,8 @@
 
 	"gui.perspective.config.overlays.cps_overlay": "CPS Overlay: %s",
 
+	"gui.perspective.config.overlays.armor_overlay": "Armor Overlay: %s",
+
 	"gui.perspective.config.overlays.deaths_overlay": "Deaths Overlay: %s",
 
 	"gui.perspective.config.overlays.totems_overlay": "Totems Overlay: %s",
@@ -307,6 +309,8 @@
 	"gui.perspective.keybindings.keybinding.toggle_biome_overlay": "Toggle Biome Overlay",
 
 	"gui.perspective.keybindings.keybinding.toggle_cps_overlay": "Toggle CPS Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_armor_overlay": "Toggle Armor Overlay",
 
 	"gui.perspective.keybindings.keybinding.toggle_deaths_overlay": "Toggle Deaths Overlay",
 

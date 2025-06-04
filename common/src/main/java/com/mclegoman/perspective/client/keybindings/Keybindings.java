@@ -37,6 +37,7 @@ public class Keybindings {
 	public static final KeyBinding toggleDeathsOverlay;
 	public static final KeyBinding toggleTotemsOverlay;
 	public static final KeyBinding toggleCPSOverlay;
+	public static final KeyBinding toggleArmorOverlay;
 	public static final KeyBinding toggleShaders;
 	public static final KeyBinding holdShaders;
 	public static final KeyBinding toggleZoom;
@@ -69,6 +70,7 @@ public class Keybindings {
 				toggleDeathsOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_deaths_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleTotemsOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_totems_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleCPSOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_cps_overlay", GLFW.GLFW_KEY_UNKNOWN),
+				toggleArmorOverlay = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_armor_overlay", GLFW.GLFW_KEY_UNKNOWN),
 				toggleShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_shaders", GLFW.GLFW_KEY_F8),
 				holdShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "hold_shaders", GLFW.GLFW_KEY_UNKNOWN),
 				toggleZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom", GLFW.GLFW_KEY_UNKNOWN),

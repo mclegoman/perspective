@@ -110,6 +110,8 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> deathsOverlay = this.value(false);
 	@SerializedName("totems_overlay")
 	public final TrackedValue<Boolean> totemsOverlay = this.value(false);
+	@SerializedName("armor_overlay")
+	public final TrackedValue<Boolean> armorOverlay = this.value(false);
 	@SerializedName("force_pride")
 	public final TrackedValue<Boolean> forcePride = this.value(false);
 	@SerializedName("force_pride_type")
@@ -183,6 +185,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.cpsOverlay.setValue(perspectiveConfig.cpsOverlay.value(), false);
 		config.deathsOverlay.setValue(perspectiveConfig.deathsOverlay.value(), false);
 		config.totemsOverlay.setValue(perspectiveConfig.totemsOverlay.value(), false);
+		config.armorOverlay.setValue(perspectiveConfig.armorOverlay.value(), false);
 		config.forcePride.setValue(perspectiveConfig.forcePride.value(), false);
 		config.forcePrideType.setValue(perspectiveConfig.forcePrideType.value(), false);
 		config.showDeathCoordinates.setValue(perspectiveConfig.showDeathCoordinates.value(), false);

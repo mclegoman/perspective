@@ -29,6 +29,7 @@ public class HUDHelper {
 		if (Keybindings.toggleDeathsOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.deathsOverlay);
 		if (Keybindings.toggleTotemsOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.totemsOverlay);
 		if (Keybindings.toggleCPSOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay);
+		if (Keybindings.toggleArmorOverlay.wasPressed()) PerspectiveConfig.toggle(PerspectiveConfig.config.armorOverlay);
 	}
 	public static boolean shouldHideHUD() {
 		return Hide.shouldHideHud(HideHudTypes.zoom) || Hide.shouldHideHud(HideHudTypes.holdPerspectiveBack) || Hide.shouldHideHud(HideHudTypes.holdPerspectiveFront);

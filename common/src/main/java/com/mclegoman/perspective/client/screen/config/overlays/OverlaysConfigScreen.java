@@ -81,8 +81,10 @@ public class OverlaysConfigScreen extends AbstractConfigScreen {
 		try {
 			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.cps_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.cpsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay, false);
-			}).build(), 1);
-			overlaysGridAdder.add(new EmptyWidget(150, 20), 1);
+			}).build());
+			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.armor_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.armorOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.armorOverlay, false);
+			}).build());
 			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
