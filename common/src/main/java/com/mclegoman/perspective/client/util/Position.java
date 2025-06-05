@@ -25,40 +25,40 @@ public class Position {
 	public static boolean shouldShowPos() {
 		return hidePos.isEmpty();
 	}
-	public static Text getX(Vec3d pos, boolean integer) {
-		return Text.of(!shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.x) : String.valueOf(pos.x)));
+	public static String getX(Vec3d pos, boolean integer) {
+		return !shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.x) : String.valueOf(pos.x));
 	}
-	public static Text getX(Vec3d pos) {
+	public static String getX(Vec3d pos) {
 		return getX(pos, false);
 	}
-	public static Text getX(LivingEntity entity) {
+	public static String getX(LivingEntity entity) {
 		return getX(entity.getPos());
 	}
-	public static Text getX(LivingEntity entity, boolean integer) {
+	public static String getX(LivingEntity entity, boolean integer) {
 		return getX(entity.getPos(), integer);
 	}
-	public static Text getY(Vec3d pos, boolean integer) {
-		return Text.of(!shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.y) : String.valueOf(pos.y)));
+	public static String getY(Vec3d pos, boolean integer) {
+		return !shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.y) : String.valueOf(pos.y));
 	}
-	public static Text getY(Vec3d pos) {
+	public static String getY(Vec3d pos) {
 		return getY(pos, false);
 	}
-	public static Text getY(LivingEntity entity) {
+	public static String getY(LivingEntity entity) {
 		return getY(entity.getPos());
 	}
-	public static Text getY(LivingEntity entity, boolean integer) {
+	public static String getY(LivingEntity entity, boolean integer) {
 		return getY(entity.getPos(), integer);
 	}
-	public static Text getZ(Vec3d pos, boolean integer) {
-		return Text.of(!shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.z) : String.valueOf(pos.z)));
+	public static String getZ(Vec3d pos, boolean integer) {
+		return !shouldShowPos() ? "?" : (integer ? String.valueOf((int) pos.z) : String.valueOf(pos.z));
 	}
-	public static Text getZ(Vec3d pos) {
+	public static String getZ(Vec3d pos) {
 		return getZ(pos, false);
 	}
-	public static Text getZ(LivingEntity entity) {
+	public static String getZ(LivingEntity entity) {
 		return getZ(entity.getPos());
 	}
-	public static Text getZ(LivingEntity entity, boolean integer) {
+	public static String getZ(LivingEntity entity, boolean integer) {
 		return getZ(entity.getPos(), integer);
 	}
 }

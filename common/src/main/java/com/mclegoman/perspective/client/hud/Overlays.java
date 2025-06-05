@@ -73,6 +73,8 @@ public class Overlays {
 		});
 	}
 	public static void renderOverlays(DrawContext context) {
+		// TODO: Update config to have a overlays List<String> which gets parsed, this will replace the current overlay values, and the config screen will add ways to add them and custom ones!
+		// TODO: Add a variable system... eg. {overlay_biome}.
 		if (!ClientData.minecraft.getDebugHud().shouldShowDebugHud() && !ClientData.minecraft.options.hudHidden && !HUDHelper.shouldHideHUD()) {
 			if (DebugOverlay.debugType.equals(DebugOverlay.Type.none)) {
 				// Version Overlay
@@ -82,12 +84,7 @@ public class Overlays {
 				int y = 40;
 				List<Text> overlayTexts = new ArrayList<>();
 				if (PerspectiveConfig.config.positionOverlay.value()) {
-					if (ClientData.minecraft.player != null) {
-						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "position_overlay", new Object[]{
-								getEntityPositionTextTitle(),
-								getEntityPositionTextDescription(ClientData.minecraft.player.getPos())
-						}));
-					}
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "position_overlay") + "](" + ("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "position.title") + "]," + (ClientData.minecraft.player != null ? "Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "position.description") + "](" + Position.getX(ClientData.minecraft.player.getPos(), true) + "," + Position.getY(ClientData.minecraft.player.getPos(), true) + "," + Position.getZ(ClientData.minecraft.player.getPos(), true) + ")" : "?")) + ")"));
 				}
 				if (!PerspectiveConfig.config.timeOverlay.value().equals("false")) {
 					if (ClientData.minecraft.world != null) {
@@ -96,38 +93,28 @@ public class Overlays {
 						int rawMinute = (int)(time / 16.666666) % 60;
 						String hour = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? String.valueOf(rawHour == 0 || rawHour == 12 ? 12 : rawHour % 12) : String.valueOf(rawHour);
 						if (rawHour < 10 && rawHour != 0) hour = "0" + hour;
-						Text timePeriod = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.getVersion().getID(), "time_overlay.am") : Translation.getTranslation(Data.getVersion().getID(), "time_overlay.pm")) : Text.empty();
-						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "time_overlay", new Object[]{
-								hour, (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)), timePeriod
-						}));
+						overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "time_overlay") + "](" + hour + "," + (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)) + "," + Translation.getStringFromText(PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.getVersion().getID(), "time_overlay.am") : Translation.getTranslation(Data.getVersion().getID(), "time_overlay.pm")) : Text.empty()) + ")"));
 					}
 				}
 				if (PerspectiveConfig.config.dayOverlay.value()) {
-					if (ClientData.minecraft.world != null) {
-						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "day_overlay", new Object[]{
-								ClientData.minecraft.world.getTimeOfDay() / 24000L
-						}));
-					}
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "day_overlay") + "](" + (ClientData.minecraft.world != null ? ClientData.minecraft.world.getTimeOfDay() / 24000L : "?") + ")"));
 				}
 				if (PerspectiveConfig.config.biomeOverlay.value()) {
-					if (ClientData.minecraft.player != null && ClientData.minecraft.world != null) {
-						String biome = ClientData.minecraft.world.getBiome(ClientData.minecraft.player.getBlockPos()).getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
-						overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "biome_overlay", new Object[]{
-								Translation.getText("biome." + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, biome) + "." + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, biome), true)
-						}));
-					}
+					String biome = ClientData.minecraft.player != null && ClientData.minecraft.world != null ? ClientData.minecraft.world.getBiome(ClientData.minecraft.player.getBlockPos()).getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]") : null;
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "biome_overlay") + "](" + (biome != null ? ("Translatable[biome." + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, biome) + "." + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, biome)) + "])" : "?")));
 				}
 				if (PerspectiveConfig.config.deathsOverlay.value()) {
-					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "deaths_overlay", new Object[]{ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DEATHS)) : "?"}));
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "deaths_overlay") + "](" + (ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.DEATHS)) : "?") + ")"));
 				}
 				if (PerspectiveConfig.config.totemsOverlay.value()) {
-					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "totems_overlay", new Object[]{ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING)) : "?"}));
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "totems_overlay") + "](" + (ClientData.minecraft.player != null ? ClientData.minecraft.player.getStatHandler().getStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING)) : "?") + ")"));
 				}
 				if (PerspectiveConfig.config.cpsOverlay.value()) {
-					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "cps_overlay", new Object[]{Mouse.getLeftCPS(), Mouse.getMiddleCPS(), Mouse.getRightCPS()}));
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "cps_overlay") + "](" + Mouse.getLeftCPS() + "," + Mouse.getMiddleCPS() + "," + Mouse.getRightCPS() + ")"));
+
 				}
 				if (PerspectiveConfig.config.lookingAtOverlay.value() != QualityToggle.off) {
-					overlayTexts.add(Translation.getTranslation(Data.getVersion().getID(), "looking_at_overlay", new Object[]{getLookingAt((LivingEntity) ClientData.minecraft.cameraEntity)}));
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "looking_at_overlay") + "](" + Translation.getStringFromText(getLookingAt((LivingEntity) ClientData.minecraft.cameraEntity)) + ")"));
 				}
 				renderOverlays(context, overlayTexts, 0, y, false);
 			} else DebugOverlay.renderDebugHUD(context);
