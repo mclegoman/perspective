@@ -93,7 +93,7 @@ public class Overlays {
 						int rawMinute = (int)(time / 16.666666) % 60;
 						String hour = PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? String.valueOf(rawHour == 0 || rawHour == 12 ? 12 : rawHour % 12) : String.valueOf(rawHour);
 						if (rawHour < 10 && rawHour != 0) hour = "0" + hour;
-						overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "time_overlay") + "](" + hour + "," + (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)) + "," + Translation.getStringFromText(PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.getVersion().getID(), "time_overlay.am") : Translation.getTranslation(Data.getVersion().getID(), "time_overlay.pm")) : Text.literal("")) + ")"));
+						overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "time_overlay") + "](" + hour + "," + (rawMinute < 10 ? "0" + rawMinute : String.valueOf(rawMinute)) + "," + Translation.getStringFromText(PerspectiveConfig.config.timeOverlay.value().equals("twelve_hour") ? (rawHour < 12 ? Translation.getTranslation(Data.getVersion().getID(), "time_overlay.am") : Translation.getTranslation(Data.getVersion().getID(), "time_overlay.pm")) : Text.literal(" ")) + ")"));
 					}
 				}
 				if (PerspectiveConfig.config.dayOverlay.value()) {
