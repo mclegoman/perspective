@@ -11,11 +11,16 @@ import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Translation extends com.mclegoman.luminance.client.translation.Translation {
 	public static String getTitleCase(String key) {
@@ -28,6 +33,9 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 			return result.toString().trim();
 		}
 		return key;
+	}
+	public static MutableText getCombinedText(List<MutableText> texts) {
+		return getCombinedText(texts.toArray(new MutableText[0]));
 	}
 	public static MutableText getQualityTranslation(String namespace, QualityToggle type) {
 		return type.asString().equalsIgnoreCase("off") ? getVariableTranslation(namespace, false, Type.ONFF) : getTranslation(namespace, "quality." + type.asString());
@@ -112,5 +120,53 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 		public String asString() {
 			return this.name;
 		}
+	}
+	public static Text getParsedTextFromString(String value) {
+		Matcher matcher = Pattern.compile("Translatable\\[([^]]+)](?:\\(([^)]*)\\))?").matcher(value);
+		int lastEnd = 0;
+		List<MutableText> result = new ArrayList<>();
+		while (matcher.find()) {
+			if (matcher.start() > lastEnd) {
+				String literalPart = value.substring(lastEnd, matcher.start());
+				result.add(Text.literal(literalPart));
+			}
+			String key = matcher.group(1);
+			String argsGroup = matcher.group(2);
+			if (argsGroup == null) result.add(Text.translatable(key));
+			else result.add(Text.translatable(key, splitArgs(argsGroup).stream().map(Translation::parseStringToText).toArray()));
+			lastEnd = matcher.end();
+		}
+		if (lastEnd < value.length()) result.add(Text.literal(value.substring(lastEnd)));
+		return Translation.getCombinedText(result);
+	}
+	private static Text parseStringToText(String input) {
+		Text parsed = tryParseTranslatable(input.trim());
+		if (parsed != null) return parsed;
+		return Text.literal(input.trim());
+	}
+	private static Text tryParseTranslatable(String input) {
+		Pattern pattern = Pattern.compile("^Translatable\\[([^]]+)](?:\\((.*)\\))?$");
+		Matcher matcher = pattern.matcher(input);
+		if (!matcher.matches()) return null;
+		String key = matcher.group(1);
+		String argsGroup = matcher.group(2);
+		if (argsGroup == null || argsGroup.isEmpty()) return Text.translatable(key);
+		return Text.translatable(key, splitArgs(argsGroup).stream().map(Translation::parseStringToText).toArray());
+	}
+	private static List<String> splitArgs(String argsString) {
+		List<String> result = new ArrayList<>();
+		int depth = 0;
+		StringBuilder current = new StringBuilder();
+		for (int i = 0; i < argsString.length(); i++) {
+			char c = argsString.charAt(i);
+			if (c == '(' || c == '[') depth++;
+			else if (c == ')' || c == ']') depth--;
+			if (c == ',' && depth == 0) {
+				result.add(current.toString().trim());
+				current.setLength(0);
+			} else current.append(c);
+		}
+		if (!current.isEmpty()) result.add(current.toString().trim());
+		return result;
 	}
 }
