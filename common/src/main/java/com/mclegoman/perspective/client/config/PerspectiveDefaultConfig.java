@@ -182,6 +182,7 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 		config.timeOverlay.setValue(perspectiveConfig.timeOverlay.value(), false);
 		config.dayOverlay.setValue(perspectiveConfig.dayOverlay.value(), false);
 		config.biomeOverlay.setValue(perspectiveConfig.biomeOverlay.value(), false);
+		config.lookingAtOverlay.setValue(perspectiveConfig.lookingAtOverlay.value(), false);
 		config.cpsOverlay.setValue(perspectiveConfig.cpsOverlay.value(), false);
 		config.deathsOverlay.setValue(perspectiveConfig.deathsOverlay.value(), false);
 		config.totemsOverlay.setValue(perspectiveConfig.totemsOverlay.value(), false);
