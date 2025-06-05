@@ -21,4 +21,7 @@ public class PerspectiveRunnables extends Runnables {
 	public interface FinishUsingItem {
 		void run(ItemStack stack, World world, LivingEntity user);
 	}
+	public interface Variable<T> {
+		T call(String... args);
+	}
 }

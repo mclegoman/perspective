@@ -7,14 +7,18 @@
 
 package com.mclegoman.perspective.client.events;
 
-import com.mclegoman.luminance.client.translation.Translation;
 import com.mclegoman.luminance.common.data.Data;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.translation.Translation;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+
+import java.util.Arrays;
 
 public class PerspectiveExecute extends com.mclegoman.luminance.client.events.Execute {
 	public static void onStartItemUse(ItemStack stack, World world, PlayerEntity user, Hand hand) {
@@ -34,5 +38,12 @@ public class PerspectiveExecute extends com.mclegoman.luminance.client.events.Ex
 				Data.getVersion().sendToLog(LogType.ERROR, Translation.getString("Failed to execute OnFinishItemUse event with id: {}: {}", id, error));
 			}
 		});
+	}
+	public static Text getVariable(Identifier id, String[] args) {
+		try {
+			return PerspectiveEvents.Variables.registry.get(id).call(args);
+		} catch (Exception error) {
+			return Text.literal(id.toString() + Arrays.toString(args));
+		}
 	}
 }

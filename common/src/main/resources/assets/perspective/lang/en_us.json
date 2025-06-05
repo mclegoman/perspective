@@ -383,7 +383,8 @@
 
 	"gui.perspective.version_overlay": "Minecraft %s",
 	"gui.perspective.position_overlay": "%s: %s",
-	"gui.perspective.time_overlay": "Time of day: %s:%s%s",
+	"gui.perspective.time_overlay": "Time of day: %s",
+	"gui.perspective.time": "%s:%s%s",
 	"gui.perspective.time_overlay.am": " am",
 	"gui.perspective.time_overlay.pm": " pm",
 	"gui.perspective.day_overlay": "Days played: %s",

@@ -8,6 +8,7 @@
 package com.mclegoman.perspective.client.translation;
 
 import com.mclegoman.perspective.client.config.value.QualityToggle;
+import com.mclegoman.perspective.client.events.PerspectiveExecute;
 import com.mclegoman.perspective.client.hide.Hide;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.minecraft.text.*;
@@ -120,56 +121,24 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 			return this.name;
 		}
 	}
-	public static Text getParsedTextFromString(String value) {
-		Matcher matcher = Pattern.compile("Translatable\\[[^]]+]").matcher(value);
-		int lastEnd = 0;
-		List<MutableText> result = new ArrayList<>();
-		while (matcher.find()) {
-			if (matcher.start() > lastEnd) {
-				String literalPart = value.substring(lastEnd, matcher.start());
-				result.add(Text.literal(literalPart));
-			}
-			int index = matcher.start();
-			int end = findEndOfTranslatable(value, index);
-			String translatableText = value.substring(index, end);
-			result.add((MutableText) parseStringToText(translatableText));
-			lastEnd = end;
-			matcher.region(lastEnd, value.length());
-		}
-		if (lastEnd < value.length()) {
-			result.add(Text.literal(value.substring(lastEnd)));
-		}
-		return Translation.getCombinedText(result);
-	}
-	private static int findEndOfTranslatable(String value, int index) {
-		int length = value.length();
-		index = value.indexOf(']', index);
-		if (index == -1) return length;
-		index++;
-		if (index >= length || value.charAt(index) != '(') return index;
-		int depth = 1;
-		index++;
-		while (index < length && depth > 0) {
-			char c = value.charAt(index);
-			if (c == '(') depth++;
-			else if (c == ')') depth--;
-			index++;
-		}
-		return index;
-	}
-	private static Text parseStringToText(String input) {
-		Text parsed = tryParseTranslatable(input.trim());
+	public static Text getParsedTextFromString(String input) {
+		Text parsed = tryParse(input.trim());
 		if (parsed != null) return parsed;
 		return Text.literal(input.trim());
 	}
-	private static Text tryParseTranslatable(String input) {
-		Pattern pattern = Pattern.compile("^Translatable\\[([^]]+)](?:\\((.*)\\))?$");
+	private static Text tryParse(String input) {
+		Pattern pattern = Pattern.compile("^(Translatable|Variable)\\[([^]]+)](?:\\((.*)\\))?$");
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.matches()) return null;
-		String key = matcher.group(1);
-		String argsGroup = matcher.group(2);
-		if (argsGroup == null || argsGroup.isEmpty()) return Text.translatable(key);
-		return Text.translatable(key, splitArgs(argsGroup).stream().map(Translation::parseStringToText).toArray());
+		String type = matcher.group(1);
+		String key = matcher.group(2);
+		String argsGroup = matcher.group(3);
+		List<Text> args = argsGroup == null || argsGroup.isEmpty() ? List.of() : splitArgs(argsGroup).stream().map(Translation::getParsedTextFromString).toList();
+		if ("Translatable".equals(type)) return Text.translatable(key, args.toArray());
+		else if ("Variable".equals(type)) {
+			return PerspectiveExecute.getVariable(Identifier.of(key), argsGroup != null ? splitArgs(argsGroup).toArray(new String[0]) : new String[]{});
+		}
+		return null;
 	}
 	private static List<String> splitArgs(String argsString) {
 		List<String> result = new ArrayList<>();
@@ -195,9 +164,9 @@ public class Translation extends com.mclegoman.luminance.client.translation.Tran
 				arguments.append(args[i].toString());
 				if (i < args.length - 1) arguments.append(", ");
 			}
-			return "Translatable[" + translatable.getKey() + "]" + (!arguments.isEmpty() ? "(" + arguments + ")": "");
+			return "Translatable[" + translatable.getKey() + "]" + (!arguments.isEmpty() ? "(" + arguments + ")" : "");
 		}
-		return text.getString();
+		return text.getLiteralString();
 	}
 	public static String getTranslationKey(String namespace, String key) {
 		return "gui." + namespace + "." + key;
