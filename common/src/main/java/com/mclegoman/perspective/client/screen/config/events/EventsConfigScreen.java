@@ -50,7 +50,9 @@ public class EventsConfigScreen extends AbstractConfigScreen {
 			eventsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "PerspectiveEvents.halloween.force", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forceHalloween.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.forceHalloween, false);
 			}).build());
-			eventsGridAdder.add(new EmptyWidget(20, 20), 2);
+			eventsGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.forcePride);
+			}).width(304).build(), 2);
 			eventsGridAdder.add(new EmptyWidget(20, 20), 2);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "Error creating config/events/page1: " + error.getLocalizedMessage());

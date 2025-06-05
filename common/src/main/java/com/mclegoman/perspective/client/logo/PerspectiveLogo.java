@@ -9,22 +9,29 @@ package com.mclegoman.perspective.client.logo;
 
 
 import com.mclegoman.luminance.client.logo.LogoHelper;
+import com.mclegoman.luminance.client.translation.Translation;
 import com.mclegoman.luminance.client.util.CompatHelper;
 import com.mclegoman.luminance.common.util.Couple;
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.IdentifierHelper;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.events.AprilFoolsPrank;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.common.util.Identifiers;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -87,8 +94,20 @@ public class PerspectiveLogo {
 		return getLogo((experimental ? Logo.Type.EXPERIMENTAL : (isPride() ? Logo.Type.PRIDE : Logo.Type.DEFAULT))).getLogoTexture();
 	}
 	public static void renderLogo(DrawContext context, int x, int y, int width, int height, Identifier logoTexture) {
-		context.drawTexture(RenderLayer::getGuiTextured, logoTexture, x, y, 0.0F, 0.0F, width, (int) (height * 0.6875), width, height);
+		renderLogo(context, x, y, width, height, logoTexture, AprilFoolsPrank.isAprilFools());
+	}
+	public static void renderLogo(DrawContext context, int x, int y, int width, int height, Identifier logoTexture, boolean flip) {
+		MatrixStack matrixStack = context.getMatrices();
+		matrixStack.push();
+		if (flip) {
+			matrixStack.translate(0, -(110 * (height / 256.0F)), 0);
+			matrixStack.translate(x + width / 2.0, y + height / 2.0F, 0);
+			matrixStack.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(180.0F));
+			matrixStack.translate(-(x + width / 2.0), -(y + height / 2.0F), 0);
+		}
+		context.drawTexture(RenderLayer::getGuiTextured, logoTexture, x, y, 0.0F, 0.0F, width, (int) (height * 0.6875F), width, height);
 		LogoHelper.renderDevelopmentOverlay(context, (int) ((x + ((float) width / 2)) - ((width * 0.75F) / 2)), (int) (y + (height - (height * 0.54F))), width, height, Data.getVersion().isDevelopmentBuild(), 0, 0);
+		matrixStack.pop();
 	}
 	public record Logo(LogoData data) {
 		public Identifier getIconTexture() {
@@ -121,7 +140,7 @@ public class PerspectiveLogo {
 		}
 		public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 			renderLogo(context, this.getX(), this.getY(), this.getWidth(), this.getHeight(), getLogoTexture(experimental));
-			LogoHelper.createSplashText(context, this.getWidth(), this.getX(), this.getY() + 32, ClientData.minecraft.textRenderer, SplashesDataloader.getSplashText(), -20.0F);
+			createSplashText(context, this.getWidth(), this.getX(), this.getY() + 32, ClientData.minecraft.textRenderer, SplashesDataloader.getSplashText(), -20.0F, AprilFoolsPrank.isAprilFools());
 		}
 		@Override
 		protected void appendClickableNarrations(NarrationMessageBuilder builder) {
@@ -129,6 +148,18 @@ public class PerspectiveLogo {
 		@Override
 		protected boolean isValidClickButton(int button) {
 			return false;
+		}
+	}
+	public static void createSplashText(DrawContext context, int width, int x, int y, TextRenderer textRenderer, Translation.Data splashText, float rotation, boolean flip) {
+		if (splashText != null && !(Boolean) com.mclegoman.luminance.client.data.ClientData.minecraft.options.getHideSplashTexts().getValue()) {
+			MatrixStack matrixStack = context.getMatrices();
+			matrixStack.push();
+			matrixStack.translate((float)(x + width), (float)y, 0.0F);
+			matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rotation + (flip ? 180.0F : 0.0F)));
+			float scale = (1.8F - MathHelper.abs(MathHelper.sin((float)(Util.getMeasuringTimeMs() % 1000L) / 1000.0F * ((float)Math.PI * 2F)) * 0.1F)) * 100.0F / (float)(textRenderer.getWidth(Translation.getText(splashText)) + 32);
+			matrixStack.scale(scale, scale, scale);
+			context.drawCenteredTextWithShadow(textRenderer, Translation.getText(splashText), 0, -8 + (flip ? textRenderer.fontHeight : 0), 16776960);
+			matrixStack.pop();
 		}
 	}
 }

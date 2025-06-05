@@ -72,12 +72,9 @@ public class ConfigScreen extends AbstractConfigScreen {
 		grid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder gridAdder = grid.createAdder(2);
 		try {
-			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "force_pride", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.forcePride.value(), Translation.Type.ONFF)}), (button) -> {
-				PerspectiveConfig.toggle(PerspectiveConfig.config.forcePride);
-			}).build());
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.tutorials.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.tutorials);
-			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", true))).build());
+			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "tutorials", true))).width(304).build(), 2);
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", new Object[]{Translation.getDetectUpdateChannelTranslation(Data.getVersion().getID(), PerspectiveConfig.config.detectUpdateChannel.value())}), (button) -> {
 				PerspectiveConfig.config.detectUpdateChannel.setValue(Update.nextUpdateChannel(), false);
 			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
