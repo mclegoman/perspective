@@ -33,7 +33,8 @@ public class SplashesDataloader extends JsonResourceReloader {
 	public static final String id = "splashes";
 	private static Translation.Data splashText;
 	public static Translation.Data getSplashText() {
-		if (PerspectiveLogo.isPerspectiveBirthday()) return new Translation.Data("splashes.perspective.special.birthday", true);
+		if (PerspectiveLogo.isPerspectiveBirthday()) return new Translation.Data("splashes.perspective.special.birthday.perspective", true);
+		else if (PerspectiveLogo.isMinecraftBirthday()) return new Translation.Data("splashes.perspective.special.birthday.minecraft", true);
 		else if (PerspectiveLogo.isActuallyPride()) return new Translation.Data("splashes.perspective.special.pride_month", true);
 		else if (AprilFoolsPrank.isAprilFools() && !AprilFoolsPrank.isForceAprilFools()) return new Translation.Data("splashes.perspective.special.april_fools", true);
 		else if (Halloween.isHalloween() && !Halloween.isForceHalloween()) return new Translation.Data("splashes.perspective.special.halloween", true);

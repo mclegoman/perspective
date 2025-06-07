@@ -40,7 +40,14 @@ public class PerspectiveLogo {
 	public static void init() {
 		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.PRIDE, new PrideLogoDataLoader());
 		PerspectiveEvents.ClientResourceReloaders.register(Identifiers.SPLASHES, new SplashesDataloader());
-		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> "assets/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())) + "/" + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, IdentifierHelper.stringFromIdentifier(getLogo(Logo.Type.PRIDE).getIconTexture())), PerspectiveLogo::isPride);
+		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "pride"), () -> {
+			Identifier id = getLogo(Logo.Type.PRIDE).getIconTexture();
+			return "assets/" + id.getNamespace() + "/" + id.getPath();
+		}, PerspectiveLogo::isPride);
+		CompatHelper.addOverrideModMenuIcon(new Couple<>(Data.getVersion().getID(), "birthday/minecraft"), () -> {
+			Identifier id = getLogo(Logo.Type.SPECIAL, "birthday/minecraft").getIconTexture();
+			return "assets/" + id.getNamespace() + "/" + id.getPath();
+		}, PerspectiveLogo::isMinecraftBirthday);
 		CompatHelper.addLuminanceModMenuBadge(Data.getVersion().getID());
 	}
 	public static boolean isPerspectiveBirthday() {
@@ -48,20 +55,28 @@ public class PerspectiveLogo {
 		LocalDate date = DateHelper.getDate();
 		return date.getMonth() == Month.JUNE && date.getDayOfMonth() >= 14 && date.getDayOfMonth() <= 15;
 	}
-	public static LogoData getDefaultLogo() {
-		return new LogoData("default", Data.getVersion().getID(), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.getVersion().getID())), IdentifierHelper.identifierFromString(getLogoTexture("default", Data.getVersion().getID())));
+	public static boolean isMinecraftBirthday() {
+		// May 17, 2009 (Source: https://www.minecraft.net/en-us/article/the-15th-anniversary-cape)
+		LocalDate date = DateHelper.getDate();
+		return date.getMonth() == Month.MAY && date.getDayOfMonth() >= 17 && date.getDayOfMonth() <= 18;
 	}
-	public static LogoData getExperimentalLogo() {
-		return new LogoData("experimental", Data.getVersion().getID(), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.getVersion().getID())), IdentifierHelper.identifierFromString(getLogoTexture("experimental", Data.getVersion().getID())));
+	public static LogoData getDefaultLogo(String arg) {
+		return new LogoData("default", Data.getVersion().getID(), Identifier.of(Data.getVersion().getID(), getLogoTexture("default", Data.getVersion().getID())), Identifier.of(Data.getVersion().getID(), getIconTexture("default", Data.getVersion().getID())));
+	}
+	public static LogoData getExperimentalLogo(String arg) {
+		return new LogoData("experimental", Data.getVersion().getID(), Identifier.of(Data.getVersion().getID(), getLogoTexture("experimental", Data.getVersion().getID())), Identifier.of(Data.getVersion().getID(), getIconTexture("experimental", Data.getVersion().getID())));
 	}
 	public static String getLogoTexture(String type, String id) {
-		return "perspective:textures/logos/" + type + "/" + id + ".png";
+		return "textures/logos/" + type + "/" + id + ".png";
 	}
 	public static String getIconTexture(String type, String id) {
-		return "perspective:textures/icons/" + type + "/" + id + ".png";
+		return "textures/icons/" + type + "/" + id + ".png";
 	}
 	public static boolean isPride() {
 		return isActuallyPride() || isForcePride();
+	}
+	public static Couple<Boolean, String> isSpecial() {
+		return isMinecraftBirthday() ? new Couple<>(true, "birthday/minecraft") : new Couple<>(false, "");
 	}
 	public static boolean isActuallyPride() {
 		return DateHelper.isPride();
@@ -69,29 +84,41 @@ public class PerspectiveLogo {
 	public static boolean isForcePride() {
 		return PerspectiveConfig.config.forcePride.value();
 	}
-	private static LogoData getPrideLogo() {
-		if (!PerspectiveConfig.config.forcePrideType.value().equals("random")) return getPrideLogoFromId(PerspectiveConfig.config.forcePrideType.value());
+	private static LogoData getPrideLogo(String arg) {
+		if (!PerspectiveConfig.config.forcePrideType.value().equals("random")) return getPrideLogoFromId(PerspectiveConfig.config.forcePrideType.value(), arg);
 		else return PrideLogoDataLoader.getLogo();
 	}
-	public static LogoData getPrideLogoFromId(String id) {
+	public static LogoData getPrideLogoFromId(String id, String arg) {
 		for (LogoData logoData : PrideLogoDataLoader.registry) if (id.equals(logoData.getId())) return logoData;
-		return getDefaultLogo();
+		return getDefaultLogo(arg);
+	}
+	private static LogoData getSpecialLogo(String arg) {
+		String type = "special";
+		String id = arg.toLowerCase();
+		return new LogoData(type, id, Identifier.of(Data.getVersion().getID(), getLogoTexture(type, id)), Identifier.of(Data.getVersion().getID(), getIconTexture(type, id)));
 	}
 	public static Logo getLogo(Logo.Type type) {
+		return getLogo(type, "");
+	}
+	public static Logo getLogo(Logo.Type type, String arg) {
 		switch (type) {
 			case PRIDE -> {
-				return new Logo(getPrideLogo());
+				return new Logo(getPrideLogo(arg));
 			}
 			case EXPERIMENTAL -> {
-				return new Logo(getExperimentalLogo());
+				return new Logo(getExperimentalLogo(arg));
+			}
+			case SPECIAL -> {
+				return new Logo(getSpecialLogo(arg));
 			}
 			default -> {
-				return new Logo(getDefaultLogo());
+				return new Logo(getDefaultLogo(arg));
 			}
 		}
 	}
 	public static Identifier getLogoTexture(boolean experimental) {
-		return getLogo((experimental ? Logo.Type.EXPERIMENTAL : (isPride() ? Logo.Type.PRIDE : Logo.Type.DEFAULT))).getLogoTexture();
+		Couple<Boolean, String> special = isSpecial();
+		return getLogo((experimental ? Logo.Type.EXPERIMENTAL : (special.getFirst() ? Logo.Type.SPECIAL : (isPride() ? Logo.Type.PRIDE : Logo.Type.DEFAULT))), special.getSecond()).getLogoTexture();
 	}
 	public static void renderLogo(DrawContext context, int x, int y, int width, int height, Identifier logoTexture) {
 		renderLogo(context, x, y, width, height, logoTexture, AprilFoolsPrank.isAprilFools());
@@ -119,7 +146,8 @@ public class PerspectiveLogo {
 		public enum Type implements StringIdentifiable {
 			DEFAULT("default"),
 			PRIDE("pride"),
-			EXPERIMENTAL("experimental");
+			EXPERIMENTAL("experimental"),
+			SPECIAL("special");
 			private final String name;
 			Type(String name) {
 				this.name = name;

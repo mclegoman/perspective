@@ -39,7 +39,7 @@ public class PrideLogoDataLoader extends JsonResourceReloader {
 			logo = logos.get(new Random().nextInt(logos.size()));
 		} else {
 			if (registry.size() == 1) logo = registry.getFirst();
-			else logo = PerspectiveLogo.getDefaultLogo();
+			else logo = PerspectiveLogo.getDefaultLogo("");
 		}
 	}
 	public static List<String> getLogoNames() {
