@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "${modId}",
+	"version": "${version}",
+	"name": "${modName}",
+	"description": "${modDescription}",
+	"authors": [
+		"${authors}"
+	],
+	"contributors": [
+		"${contributors}"
+	],
+	"contact": {
+		"homepage": "${homepage}",
+		"issues": "${issues}",
+		"sources": "${sources}"
+	},
+	"license": "${license}",
+	"icon": "assets/${modId}/icon.png",
+	"depends": {
+	},
+	"suggests": {
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"dannytaylor.donate": "https://dannytaylor.dev/donate"
+			}
+		}
+	}
+}

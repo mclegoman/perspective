@@ -1,0 +1,4 @@
+dependencies {
+    modImplementation libs.kaleido
+    include(implementation rootProject.project(":perspective-base"))
+}
