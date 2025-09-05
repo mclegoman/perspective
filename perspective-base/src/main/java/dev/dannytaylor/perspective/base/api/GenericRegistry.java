@@ -1,6 +1,6 @@
 /*
     Perspective
-    Contributor(s): dannytaylor
+    Contributor(s): dannytaylor, Nettakrim
     Github: https://github.com/mclegoman/perspective
     Licence: LGPL-3.0-or-later
 */
@@ -10,6 +10,9 @@ package dev.dannytaylor.perspective.base.api;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Generic Registry for storing specified types.
+ */
 public class GenericRegistry<K, V> {
     public final Map<K, V> registry = new HashMap<>();
     public void register(K key, V value) {

@@ -7,8 +7,16 @@
 
 package dev.dannytaylor.perspective.base;
 
+import net.minecraft.util.Identifier;
+
+/**
+ * This is where Perspective's common data is stored.
+ */
 public class Perspective {
     public static String id;
+    public static Identifier ofId(String path) {
+        return Identifier.of(id, path);
+    }
     static {
         id = "perspective";
     }

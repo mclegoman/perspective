@@ -12,7 +12,7 @@ import dev.dannytaylor.perspective.config.api.config.ConfigEntry;
 @FunctionalInterface
 public interface ClientParameterInitializer {
     /**
-     * Runs on perspective client config initialization.
+     * Runs on parameter client config initialization.
      */
     String key = "parameter_client_config";
     ConfigEntry register();
