@@ -7,6 +7,7 @@ yarn = "1.21.8+build.1"
 fapi = "0.133.0+1.21.8"
 modmenu = "15.0.0"
 kaleido = "0.3.3+1.3.2"
+quiltconfig = "1.3.2"
 
 [plugins]
 loom = { id = "fabric-loom", version.ref = "loom" }
@@ -18,3 +19,5 @@ yarn = { group = "net.fabricmc", name = "yarn", version.ref = "yarn" }
 fapi = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fapi" }
 modmenu = { group = "com.terraformersmc", name = "modmenu", version.ref = "modmenu" }
 kaleido = { group = "folk.sisby", name = "kaleido-config", version.ref = "kaleido" }
+quiltconfig = { group = "org.quiltmc", name = "quilt-config", version.ref = "quiltconfig" }
+quiltconfigtoml = { group = "org.quiltmc.quilt-config.serializers", name = "toml", version.ref = "quiltconfig" }

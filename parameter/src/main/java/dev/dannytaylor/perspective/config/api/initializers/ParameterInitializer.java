@@ -1,4 +1,6 @@
-package dev.dannytaylor.perspective.config.api;
+package dev.dannytaylor.perspective.config.api.initializers;
+
+import dev.dannytaylor.perspective.config.api.config.ConfigEntry;
 
 @FunctionalInterface
 public interface ParameterInitializer {

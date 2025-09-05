@@ -18,14 +18,19 @@
 	"license": "${license}",
 	"icon": "assets/${modId}/icon.png",
 	"depends": {
-		"minecraft": ">=${mc}",
-		"fabric-api": ">=${fapi}"
+		"minecraft": ">=${mc}"
 	},
 	"suggests": {
 	},
 	"entrypoints": {
 		"main": [
-			"dev.dannytaylor.perspective.config.initializers.ParameterCommon"
+			"dev.dannytaylor.perspective.config.init.Common"
+		],
+		"client": [
+			"dev.dannytaylor.perspective.config.init.Client"
+		],
+		"server": [
+			"dev.dannytaylor.perspective.config.init.Server"
 		]
 	},
 	"custom": {
@@ -34,8 +39,5 @@
 				"dannytaylor.donate": "https://dannytaylor.dev/donate"
 			}
 		}
-	},
-	"mixins": [
-		"perspective_config.mixins.json"
-	]
+	}
 }

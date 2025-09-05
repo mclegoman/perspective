@@ -5,7 +5,7 @@ plugins {
 	alias libs.plugins.loom
 }
 
-version = "${project.modVersion}+${libs.mc}"
+version = "${project.modVersion}+${libs.versions.mc.get()}"
 base.archivesName = "${project.modId}"
 
 repositories {
@@ -22,6 +22,9 @@ repositories {
 		}
 	}
 	maven { url 'https://repo.sleeping.town/' }
+	maven { url 'https://maven.quiltmc.org/repository/release'}
+	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
@@ -31,6 +34,8 @@ dependencies {
 	modImplementation(libs.fapi)
 	modImplementation(libs.modmenu)
 	modImplementation(libs.kaleido)
+	modCompileOnly(libs.quiltconfig)
+	modCompileOnly(libs.quiltconfigtoml)
 	include(libs.kaleido)
 }
 
