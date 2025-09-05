@@ -1,3 +1,10 @@
+/*
+    Perspective
+    Contributor(s): dannytaylor
+    Github: https://github.com/mclegoman/perspective
+    Licence: LGPL-3.0-or-later
+*/
+
 package dev.dannytaylor.perspective.config.init;
 
 import dev.dannytaylor.perspective.config.api.config.Config;
@@ -10,6 +17,9 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
+	/**
+	 * Runs `ClientParameterInitializer`, then runs parameter `AfterClientParameterInitializer`s.
+	 */
 	@Override
 	public void onInitializeClient() {
 		FabricLoader.getInstance().invokeEntrypoints(ClientParameterInitializer.key, ClientParameterInitializer.class, (initializer) -> Config.Client.instance.register(initializer.register()));

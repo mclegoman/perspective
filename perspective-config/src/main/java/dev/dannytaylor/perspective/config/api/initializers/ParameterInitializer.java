@@ -12,7 +12,7 @@ import dev.dannytaylor.perspective.config.api.config.ConfigEntry;
 @FunctionalInterface
 public interface ParameterInitializer {
     /**
-     * Runs on parameter config initialization.
+     * Runs on parameter common config initialization.
      */
     String key = "parameter_config";
     ConfigEntry register();

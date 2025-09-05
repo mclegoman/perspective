@@ -10,7 +10,7 @@ package dev.dannytaylor.perspective.config.api.initializers;
 @FunctionalInterface
 public interface AfterParameterInitializer {
     /**
-     * Runs after parameter config initialization.
+     * Runs after parameter common config initialization.
      */
     String key = "parameter_after_config";
     void init();

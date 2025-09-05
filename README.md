@@ -10,18 +10,18 @@ Splitting perspective into sub-mods, also lets us make things more generalized f
 ##
 | ID                                          | Name                  | Features                                      | Includes                                                | Progress |
 |---------------------------------------------|-----------------------|-----------------------------------------------|---------------------------------------------------------|----------|
-| `perspective-base`                          | P:Base                | Abstract/Generic classes, Utils               | Config                                                  | 🚧       |
-| `perspective-zoom`                          | Lens                  | Zoom                                          | Base, Config                                            | ❌        |
+| `perspective-base`                          | P:Base                | Abstract/Generic classes, Utils               |                                                         | 🚧       |
+| `perspective-zoom`                          | Lens                  | Zoom                                          | Base, Parameter                                         | ❌        |
 | `perspective-shaders`                       | Radience              | Shaders                                       | Base, Shader Packs, Kaleidoscope, Super Secret Settings | ❌        |
-| `perspective-shaders-shader-packs`          | P:Shader Packs        | Shader Packs                                  | Base, Config, Resources                                 | ❌        |
-| `perspective-shaders-kaleidoscope`          | P:Kaleidoscope        | Kaleidoscope                                  | Base, Config, Shader Packs, Luminance                   | ❌        |
-| `perspective-shaders-super-secret-settings` | P:SuperSecretSettings | Super Secret Settings                         | Base, Config, Shader Packs, Luminance                   | ❌        |
-| `perspective-textured-entity`               | Textured Entity       | Textured Entity                               | Base, Config, Resources                                 | ❌        |
-| `perspective-config`                        | P:Config              | Config, Config Screen                         | Base, UI                                                | 🚧       |
+| `perspective-shaders-shader-packs`          | P:Shader Packs        | Shader Packs                                  | Base, Parameter, Resources                              | ❌        |
+| `perspective-shaders-kaleidoscope`          | P:Kaleidoscope        | Kaleidoscope                                  | Base, Parameter, Shader Packs, Luminance                | ❌        |
+| `perspective-shaders-super-secret-settings` | P:SuperSecretSettings | Super Secret Settings                         | Base, Parameter, Shader Packs, Luminance                | ❌        |
+| `perspective-textured-entity`               | Textured Entity       | Textured Entity                               | Base, Parameter, Resources                              | ❌        |
+| `perspective-config`                        | Parameter             | Config, Config Screen                         | Base, UI                                                | 🚧       |
 | `perspective-resources`                     | P:Resources           | Resource Packs                                | Base                                                    | ❌        |
 | `perspective-contributors`                  | P:Contributors        | Contributor Features (inc w/ everything)      | Base                                                    | ❌        |
-| `perspective-overlays`                      | P:Overlays            | Overlays                                      | Base, Config, UI                                        | ❌        |
-| `perspective-ui`                            | P:UI                  | Abstract Widgets, Abstract Screens, UI Events | Base, Config                                            | ❌        |
-| `perspective-ui-background`                 | P:UI Background       | UI Background                                 | Base, Config, Shader Packs                              | ❌        |
+| `perspective-overlays`                      | P:Overlays            | Overlays                                      | Base, Parameter, UI                                     | ❌        |
+| `perspective-ui`                            | P:UI                  | Abstract Widgets, Abstract Screens, UI Events | Base, Parameter                                         | ❌        |
+| `perspective-ui-background`                 | P:UI Background       | UI Background                                 | Base, Parameter, Shader Packs                           | ❌        |
 
 ✅ = Complete 🚧 = Work In Progress ❌ = Not Started Yet

@@ -1,3 +1,10 @@
+/*
+    Perspective
+    Contributor(s): dannytaylor
+    Github: https://github.com/mclegoman/perspective
+    Licence: LGPL-3.0-or-later
+*/
+
 package dev.dannytaylor.perspective.config.init;
 
 import dev.dannytaylor.perspective.config.api.config.Config;
@@ -8,6 +15,9 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class Common implements ModInitializer {
+	/**
+	 * Runs `CommonParameterInitializer`, then runs parameter `AfterCommonParameterInitializer`s.
+	 */
 	@Override
 	public void onInitialize() {
 		FabricLoader.getInstance().invokeEntrypoints(ParameterInitializer.key, ParameterInitializer.class, (initializer) -> Config.Common.instance.register(initializer.register()));
