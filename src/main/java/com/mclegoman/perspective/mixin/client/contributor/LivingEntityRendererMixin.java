@@ -7,8 +7,11 @@
 
 package com.mclegoman.perspective.mixin.client.contributor;
 
+import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.client.contributor.Contributor;
 import com.mclegoman.perspective.client.contributor.ContributorData;
+import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.perspective.Perspective;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,8 +25,10 @@ public abstract class LivingEntityRendererMixin {
 	@Inject(at = @At("RETURN"), method = "shouldFlipUpsideDown", cancellable = true)
 	private static void perspective$shouldFlipUpsideDown(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {		
 		if (entity instanceof PlayerEntity) {
-			ContributorData data = Contributor.getContributorData(((PlayerEntity) entity).getGameProfile().getId().toString());
-			if (data != null) cir.setReturnValue(data.getShouldFlipUpsideDown());
+			if (!(PerspectiveConfig.config.preventFlipContributorOnHoldPerspectiveFront.value() && entity.equals(ClientData.minecraft.player) && Perspective.isHoldingPerspectiveFront())) {
+				ContributorData data = Contributor.getContributorData(((PlayerEntity) entity).getGameProfile().getId().toString());
+				if (data != null) cir.setReturnValue(data.getShouldFlipUpsideDown());
+			}
 		}
 	}
 }

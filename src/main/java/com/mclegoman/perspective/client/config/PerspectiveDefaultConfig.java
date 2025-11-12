@@ -25,6 +25,8 @@ import org.quiltmc.config.api.values.TrackedValue;
 
 public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public static final PerspectiveDefaultConfig config = LuminanceConfigHelper.register(LuminanceConfigHelper.SerializerType.PROPERTIES, Data.getVersion().getID(),  "default", PerspectiveDefaultConfig.class);
+	@SerializedName("prevent_flip_contributor_on_hold_perspective_front")
+	public final TrackedValue<Boolean> preventFlipContributorOnHoldPerspectiveFront = this.value(true);
 	@SerializedName("zoom_enabled")
 	public final TrackedValue<Boolean> zoomEnabled = this.value(true);
 	@SerializedName("zoom_level")
