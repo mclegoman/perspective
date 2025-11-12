@@ -9,11 +9,15 @@ package com.mclegoman.perspective.client.events;
 
 import com.mclegoman.luminance.common.util.DateHelper;
 import com.mclegoman.luminance.common.util.LogType;
+import com.mclegoman.perspective.client.config.PerspectiveWarnings;
 import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.keybindings.Keybindings;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import com.mclegoman.perspective.common.util.Identifiers;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.util.Identifier;
 
 import java.util.UUID;
@@ -28,23 +32,19 @@ public class AprilFoolsPrank {
 		}
 	}
 	public static void tick() {
-		boolean shouldSave = false;
 		if (!seenWarning && ClientData.minecraft.world != null) {
 			if (isAprilFools()) {
-				//if (!(boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
-					//ClientData.minecraft.getToastManager().add(new Toast(Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()})));
-					//ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", true);
-					//shouldSave = true;
+				if (!PerspectiveWarnings.config.aprilFools.value()) {
+					PerspectiveToast.show(ClientData.minecraft, PerspectiveToast.Type.WARNING, Translation.getTranslation(Data.getVersion().getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.tutorial.prank.description", new Object[]{KeyBindingHelper.getBoundKeyOf(Keybindings.openConfig).getLocalizedText()}));
+					PerspectiveWarnings.config.aprilFools.setValue(true, true);
 					seenWarning = true;
-				//}
+				}
 			} else {
-				//if ((boolean) ConfigHelper.getConfig(ConfigHelper.ConfigType.warning, "prank")) {
-					//ConfigHelper.setConfig(ConfigHelper.ConfigType.warning, "prank", false);
-					//shouldSave = true;
-				//}
+				if (PerspectiveWarnings.config.aprilFools.value()) {
+					PerspectiveWarnings.config.aprilFools.setValue(false, true);
+				}
 			}
 		}
-		//if (shouldSave) ConfigHelper.saveConfig();
 	}
 	public static boolean isAprilFools() {
 		if (!PerspectiveConfig.config.allowAprilFools.value()) return false;

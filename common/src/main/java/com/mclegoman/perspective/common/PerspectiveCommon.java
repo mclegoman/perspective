@@ -12,7 +12,7 @@ import com.mclegoman.perspective.client.item.ItemGroup;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 
-public class Perspective {
+public class PerspectiveCommon {
 	public static void init() {
 		try {
 			Data.getVersion().sendToLog(LogType.INFO, Translation.getString("Initializing {}", Data.getVersion().getName()));

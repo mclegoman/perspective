@@ -16,7 +16,7 @@ import com.mclegoman.luminance.common.util.ReleaseType;
 import com.mclegoman.luminance.common.util.Version;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.UpdateCheckerScreen;
-import com.mclegoman.perspective.client.toasts.Toast;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
@@ -128,7 +128,7 @@ public class Update extends com.mclegoman.luminance.client.update.Update {
 			});
 			if (newerVersionFound) {
 				if (!seenUpdateToast) {
-					Toast.add(Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}));
+					PerspectiveToast.show(ClientData.minecraft, PerspectiveToast.Type.UPDATE, Translation.getTranslation(currentVersion.getID(), "toasts.title", new Object[]{Translation.getTranslation(Data.getVersion().getID(), "name"), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.title")}), Translation.getTranslation(Data.getVersion().getID(), "toasts.update.description", new Object[]{Update.latestVersionFound}));
 					seenUpdateToast = true;
 				}
 			}

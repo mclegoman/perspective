@@ -25,6 +25,7 @@ public class Identifiers {
     public static final Identifier FALLBACK_SHADER;
     public static final Identifier GAUSSIAN;
     public static final Identifier GIANT;
+    public static final Identifier GREGORIAN;
     public static final Identifier HIDE_ARMOR;
     public static final Identifier HIDE_NAME_TAGS;
     public static final Identifier HIDE_PLAYER;
@@ -33,6 +34,7 @@ public class Identifiers {
     public static final Identifier LINEAR;
     public static final Identifier LOGARITHMIC;
     public static final Identifier MAIN;
+    public static final Identifier MOON_PHASES;
     public static final Identifier MOOSHROOM;
     public static final Identifier NONE;
     public static final Identifier PERSPECTIVE_DEFAULT;
@@ -66,6 +68,7 @@ public class Identifiers {
         FALLBACK_SHADER = Identifier.ofVanilla("box_blur");
         GAUSSIAN = of("gaussian");
         GIANT = of("giant");
+        GREGORIAN = of("gregorian");
         HIDE_ARMOR = of("hide_armor");
         HIDE_NAME_TAGS = of("hide_name_tags");
         HIDE_PLAYER = of("hide_player");
@@ -74,6 +77,7 @@ public class Identifiers {
         LINEAR = of("linear");
         LOGARITHMIC = of("logarithmic");
         MAIN = of("main");
+        MOON_PHASES = of("moon_phases");
         MOOSHROOM = of("mooshroom");
         NONE = of("none");
         PERSPECTIVE_DEFAULT = of("perspective_default");

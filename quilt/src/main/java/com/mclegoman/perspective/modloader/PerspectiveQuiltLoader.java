@@ -7,12 +7,12 @@
 
 package com.mclegoman.perspective.modloader;
 
-import com.mclegoman.perspective.common.Perspective;
+import com.mclegoman.perspective.common.PerspectiveCommon;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.client.ClientModInitializer;
 
 public class PerspectiveQuiltLoader implements ClientModInitializer {
 	public void onInitializeClient(ModContainer mod) {
-		Perspective.init();
+		PerspectiveCommon.init();
 	}
 }

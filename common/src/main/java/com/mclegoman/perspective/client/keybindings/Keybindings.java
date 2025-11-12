@@ -75,7 +75,7 @@ public class Keybindings {
 				holdShaders = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "hold_shaders", GLFW.GLFW_KEY_UNKNOWN),
 				toggleZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom", GLFW.GLFW_KEY_UNKNOWN),
 				toggleZoomCinematic = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "toggle_zoom_cinematic", GLFW.GLFW_KEY_UNKNOWN),
-				adjustHoldPerspective = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "adjust_hold_perspective", GLFW.GLFW_KEY_R)
+				adjustHoldPerspective = KeybindingHelper.getKeybinding(Data.getVersion().getID(), Data.getVersion().getID(), "adjust_hold_perspective", GLFW.GLFW_KEY_H)
 		};
 	}
 	public static void init() {

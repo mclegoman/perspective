@@ -16,24 +16,26 @@ import com.mclegoman.perspective.client.hud.HUDHelper;
 import com.mclegoman.perspective.client.panorama.Panorama;
 import com.mclegoman.perspective.client.perspective.Perspective;
 import com.mclegoman.perspective.client.shaders.ShaderPacks;
-import com.mclegoman.perspective.client.toasts.ToastHelper;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.client.zoom.Zoom;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class Tick {
 	public static void init() {
 		ClientTickEvents.END_CLIENT_TICK.register((client) -> {
-			PerspectiveConfig.tick();
-			HUDHelper.tick();
-			AprilFoolsPrank.tick();
-			Halloween.tick();
-			Perspective.tick();
-			ShaderPacks.tick();
-			Zoom.tick();
-			Entity.tick();
-			Panorama.tick();
-			Hide.tick();
-			ToastHelper.tick();
+			if (client.isFinishedLoading()) {
+				PerspectiveConfig.tick();
+				HUDHelper.tick();
+				AprilFoolsPrank.tick();
+				Halloween.tick();
+				Perspective.tick();
+				ShaderPacks.tick();
+				Zoom.tick();
+				Entity.tick();
+				Panorama.tick();
+				Hide.tick();
+				PerspectiveToast.Helper.tick();
+			}
 		});
 	}
 }

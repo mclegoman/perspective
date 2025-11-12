@@ -15,7 +15,7 @@ import com.mclegoman.perspective.client.config.value.ShaderRenderType;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.keybindings.Keybindings;
 import com.mclegoman.perspective.client.screen.config.ConfigScreen;
-import com.mclegoman.perspective.client.toasts.ToastHelper;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.common.data.Data;
 import org.quiltmc.config.api.ReflectiveConfig;
 import org.quiltmc.config.api.annotations.Comment;
@@ -103,6 +103,10 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	public final TrackedValue<String> timeOverlay = this.value(PerspectiveDefaultConfig.config.timeOverlay.value());
 	@SerializedName("day_overlay")
 	public final TrackedValue<Boolean> dayOverlay = this.value(PerspectiveDefaultConfig.config.dayOverlay.value());
+	@SerializedName("date_overlay")
+	public final TrackedValue<Boolean> dateOverlay = this.value(PerspectiveDefaultConfig.config.dateOverlay.value());
+	@SerializedName("date_type")
+	public final TrackedValue<ConfigIdentifier> dateType = this.value(PerspectiveDefaultConfig.config.dateType.value());
 	@SerializedName("biome_overlay")
 	public final TrackedValue<Boolean> biomeOverlay = this.value(PerspectiveDefaultConfig.config.biomeOverlay.value());
 	@SerializedName("looking_at_overlay")
@@ -151,6 +155,8 @@ public class PerspectiveConfig extends ReflectiveConfig {
 	@Comment("Do not edit this! This is used for updating the config.")
 	public final TrackedValue<Float> configVersion = this.value(ClientData.configVersion);
 	public static void init() {
+		PerspectiveDefaultConfig.init();
+		PerspectiveWarnings.init();
 		try {
 			update();
 		} catch (Exception error) {
@@ -162,7 +168,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		if (configVersion != ClientData.configVersion) {
 			if (configVersion < ClientData.configVersion) {
 				// Config versions under 24 cannot be upgraded.
-			} else ToastHelper.showDowngradeWarning();
+			} PerspectiveToast.Helper.showDowngradeWarning();
 			config.configVersion.setValue(ClientData.configVersion, true);
 		}
 	}

@@ -13,6 +13,7 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.entity.TexturedEntity;
 import com.mclegoman.perspective.client.entity.TexturedEntityEntry;
 import com.mclegoman.perspective.client.events.PerspectiveEvents;
+import com.mclegoman.perspective.client.time.GameDate;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.client.util.Mouse;
 import com.mclegoman.perspective.client.util.Position;
@@ -48,6 +49,7 @@ public class Overlays {
 		timeOverlayTypes.add("false");
 		timeOverlayTypes.add("twelve_hour");
 		timeOverlayTypes.add("twenty_four_hour");
+		GameDate.bootstrap();
 		Mouse.ProcessCPS.register(Identifiers.CPS_OVERLAY, PerspectiveConfig.config.cpsOverlay::value);
 		createVariables();
 	}
@@ -77,6 +79,24 @@ public class Overlays {
 			return Text.literal("?");
 		});
 		PerspectiveEvents.Variables.register(Identifier.of(Data.getVersion().getID(), "day"), (args) -> Text.literal(String.valueOf(ClientData.minecraft.world != null ? ClientData.minecraft.world.getTimeOfDay() / 24000L : "?")));
+		PerspectiveEvents.Variables.register(Identifier.of(Data.getVersion().getID(), "date"), (args) -> {
+			boolean worldExists = ClientData.minecraft.world != null;
+			if (worldExists) {
+				Identifier typeId = GameDate.getTypeIdFromConfig();
+				if (GameDate.exists(typeId)) {
+					GameDate.Type type = GameDate.get(typeId); // This shouldn't ever be null.
+					long time = ClientData.minecraft.world.getTimeOfDay();
+					Text day = Translation.getTranslation(typeId.getNamespace(), "date." + typeId.getPath() + ".day", new Object[]{
+							Translation.getTranslation(typeId.getNamespace(), "date." + typeId.getPath() + ".day." + GameDate.getDayOfWeek(time, type)),
+							GameDate.getDayOfMonth(time, type)
+					});
+					int monthValue = GameDate.getMonth(time, type);
+					Text month = Text.translatable("gui." + typeId.getNamespace() + ".date." + typeId.getPath() + ".month." + monthValue, Translation.getTranslation(Data.getVersion().getID(), "date.month." + monthValue));
+					Text year = Translation.getTranslation(typeId.getNamespace(), "date." + typeId.getPath() + ".year", new Object[]{GameDate.getYear(time, type)});
+					return Translation.getTranslation(Data.getVersion().getID(), "date", new Object[]{Translation.getTranslation(typeId.getNamespace(), "date." + typeId.getPath() + ".date", new Object[]{day, month, year})});
+				} else return Translation.getTranslation(Data.getVersion().getID(), "date.invalid");
+			} else return Text.literal("?");
+		});
 		PerspectiveEvents.Variables.register(Identifier.of(Data.getVersion().getID(), "biome"), (args) -> {
 			String biome = ClientData.minecraft.player != null && ClientData.minecraft.world != null ? ClientData.minecraft.world.getBiome(ClientData.minecraft.player.getBlockPos()).getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]") : null;
 			return biome != null ? Text.translatable("biome." + IdentifierHelper.getStringPart(IdentifierHelper.Type.NAMESPACE, biome) + "." + IdentifierHelper.getStringPart(IdentifierHelper.Type.KEY, biome)) : Text.literal("?");
@@ -129,6 +149,9 @@ public class Overlays {
 				}
 				if (PerspectiveConfig.config.dayOverlay.value()) {
 					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "day_overlay") + "](Variable[" + Data.getVersion().getID() + ":day])"));
+				}
+				if (PerspectiveConfig.config.dateOverlay.value()) {
+					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "date_overlay") + "](Variable[" + Data.getVersion().getID() + ":date])"));
 				}
 				if (PerspectiveConfig.config.biomeOverlay.value()) {
 					overlayTexts.add(Translation.getParsedTextFromString("Translatable[" + Translation.getTranslationKey(Data.getVersion().getID(), "biome_overlay") + "](Variable[" + Data.getVersion().getID() + ":biome])"));

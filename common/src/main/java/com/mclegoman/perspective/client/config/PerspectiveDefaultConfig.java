@@ -7,14 +7,17 @@
 
 package com.mclegoman.perspective.client.config;
 
+import com.mclegoman.luminance.common.util.LogType;
 import com.mclegoman.luminance.config.LuminanceConfigHelper;
 import com.mclegoman.perspective.client.config.value.ConfigIdentifier;
 import com.mclegoman.perspective.client.config.value.QualityToggle;
 import com.mclegoman.perspective.client.config.value.ShaderRenderType;
+import com.mclegoman.perspective.client.data.ClientData;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.common.util.Identifiers;
-import net.minecraft.util.Identifier;
 import org.quiltmc.config.api.ReflectiveConfig;
+import org.quiltmc.config.api.annotations.Comment;
 import org.quiltmc.config.api.annotations.FloatRange;
 import org.quiltmc.config.api.annotations.IntegerRange;
 import org.quiltmc.config.api.annotations.SerializedName;
@@ -100,6 +103,10 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<String> timeOverlay = this.value("false");
 	@SerializedName("day_overlay")
 	public final TrackedValue<Boolean> dayOverlay = this.value(false);
+	@SerializedName("date_overlay")
+	public final TrackedValue<Boolean> dateOverlay = this.value(false);
+	@SerializedName("date_type")
+	public final TrackedValue<ConfigIdentifier> dateType = this.value(ConfigIdentifier.of(Identifiers.GREGORIAN));
 	@SerializedName("biome_overlay")
 	public final TrackedValue<Boolean> biomeOverlay = this.value(false);
 	@SerializedName("looking_at_overlay")
@@ -144,6 +151,25 @@ public class PerspectiveDefaultConfig extends ReflectiveConfig {
 	public final TrackedValue<Boolean> tutorials = this.value(true);
 	@SerializedName("debug")
 	public final TrackedValue<Boolean> debug = this.value(false);
+	@SerializedName("config_version")
+	@Comment("Do not edit this! This is used for updating the config.")
+	public final TrackedValue<Float> configVersion = this.value(ClientData.configVersion);
+	public static void init() {
+		try {
+			update();
+		} catch (Exception error) {
+			Data.getVersion().sendToLog(LogType.WARN, "Failed to init default config!");
+		}
+	}
+	public static void update() {
+		final float configVersion = config.configVersion.value();
+		if (configVersion != ClientData.configVersion) {
+			if (configVersion < ClientData.configVersion) {
+				// Config versions under 24 cannot be upgraded.
+			} PerspectiveToast.Helper.showDowngradeWarning();
+			config.configVersion.setValue(ClientData.configVersion, true);
+		}
+	}
 	public static void setDefaults(boolean save) {
 		PerspectiveConfig perspectiveConfig = PerspectiveConfig.config;
 		config.zoomEnabled.setValue(perspectiveConfig.zoomEnabled.value(), false);

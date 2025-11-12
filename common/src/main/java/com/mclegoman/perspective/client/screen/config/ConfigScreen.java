@@ -12,7 +12,7 @@ import com.mclegoman.perspective.client.config.PerspectiveDefaultConfig;
 import com.mclegoman.perspective.client.screen.config.events.EventsConfigScreen;
 import com.mclegoman.perspective.client.screen.config.overlays.OverlaysConfigScreen;
 import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
-import com.mclegoman.perspective.client.toasts.ToastHelper;
+import com.mclegoman.perspective.client.toasts.PerspectiveToast;
 import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.screen.config.hide.HideConfigScreen;
 import com.mclegoman.perspective.client.screen.config.hold_perspective.HoldPerspectiveConfigScreen;
@@ -80,7 +80,7 @@ public class ConfigScreen extends AbstractConfigScreen {
 			}).tooltip(() -> Tooltip.of(Translation.getConfigTranslation(Data.getVersion().getID(), "detect_update_channel", true))).width(304).build(), 2);
 			gridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "information"), (button) -> ClientData.minecraft.setScreen(new InformationScreen(getRefreshScreen()))).width(304).build(), 2);
 			ButtonWidget experimental = ButtonWidget.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "experimental"), (button) -> {}).width(304).build();
-			experimental.active = ToastHelper.experimentsAvailable;
+			experimental.active = PerspectiveToast.Helper.experimentsAvailable;
 			gridAdder.add(experimental, 2);
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "Error creating config/page2: " + error.getLocalizedMessage());

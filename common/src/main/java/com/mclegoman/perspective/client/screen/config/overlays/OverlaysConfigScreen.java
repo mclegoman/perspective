@@ -13,12 +13,16 @@ import com.mclegoman.perspective.client.data.ClientData;
 import com.mclegoman.perspective.client.hud.Overlays;
 import com.mclegoman.perspective.client.screen.config.AbstractConfigScreen;
 import com.mclegoman.perspective.client.screen.widget.ConfigButtonWidget;
+import com.mclegoman.perspective.client.time.GameDate;
 import com.mclegoman.perspective.client.translation.Translation;
 import com.mclegoman.perspective.common.data.Data;
 import com.mclegoman.perspective.client.config.PerspectiveConfig;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class OverlaysConfigScreen extends AbstractConfigScreen {
 	public OverlaysConfigScreen(Screen parentScreen, int page) {
@@ -53,6 +57,18 @@ public class OverlaysConfigScreen extends AbstractConfigScreen {
 			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.day_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.dayOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.dayOverlay, false);
 			}).build());
+			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.date_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.dateOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.dateOverlay, false);
+			}).build());
+			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> {
+				Identifier typeId = GameDate.getTypeIdFromConfig();
+				return Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.date_type", new Object[]{Translation.getTranslation(typeId.getNamespace(), "date." + typeId.getPath())});
+			}, (button) -> {
+				GameDate.cycle(!hasShiftDown());
+			}).tooltip(() -> {
+				Identifier typeId = GameDate.getTypeIdFromConfig();
+				return Tooltip.of(Text.translatableWithFallback(Translation.getTranslationKey(typeId.getNamespace(), "date." + typeId.getPath()) + ".description", ""));
+			}).build());
 			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.biome_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.biomeOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.biomeOverlay, false);
 			}).build());
@@ -62,12 +78,6 @@ public class OverlaysConfigScreen extends AbstractConfigScreen {
 					case fast -> hasShiftDown() ? QualityToggle.off : QualityToggle.fancy;
 					case fancy -> hasShiftDown() ? QualityToggle.fast : QualityToggle.off;
 				}, false);
-			}).build());
-			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.deaths_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.deathsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
-				PerspectiveConfig.toggle(PerspectiveConfig.config.deathsOverlay, false);
-			}).build());
-			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.totems_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.totemsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
-				PerspectiveConfig.toggle(PerspectiveConfig.config.totemsOverlay, false);
 			}).build());
 		} catch (Exception error) {
 			Data.getVersion().sendToLog(LogType.ERROR, "error occurred on overlays screen: " + error.getLocalizedMessage());
@@ -79,13 +89,18 @@ public class OverlaysConfigScreen extends AbstractConfigScreen {
 		overlaysGrid.getMainPositioner().alignHorizontalCenter().margin(2);
 		GridWidget.Adder overlaysGridAdder = overlaysGrid.createAdder(2);
 		try {
+			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.deaths_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.deathsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.deathsOverlay, false);
+			}).build());
+			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.totems_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.totemsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
+				PerspectiveConfig.toggle(PerspectiveConfig.config.totemsOverlay, false);
+			}).build());
 			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.cps_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.cpsOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.cpsOverlay, false);
 			}).build());
 			overlaysGridAdder.add(ConfigButtonWidget.builder(() -> Translation.getConfigTranslation(Data.getVersion().getID(), "overlays.armor_overlay", new Object[]{Translation.getVariableTranslation(Data.getVersion().getID(), PerspectiveConfig.config.armorOverlay.value(), Translation.Type.ONFF)}), (button) -> {
 				PerspectiveConfig.toggle(PerspectiveConfig.config.armorOverlay, false);
 			}).build());
-			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 			overlaysGridAdder.add(new EmptyWidget(20, 20), 2);
 		} catch (Exception error) {
