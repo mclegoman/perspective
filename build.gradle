@@ -48,10 +48,10 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modImplementation("maven.modrinth:luminance:${project.luminance_version}")
-	modImplementation("org.quiltmc:quilt-config:${project.quilt_config_version}")
-	modImplementation(compileOnly("com.electronwill.night-config:core:${project.toml_version}"))
-	modImplementation(compileOnly("com.electronwill.night-config:toml:${project.toml_version}"))
+	include(modImplementation("maven.modrinth:luminance:${project.luminance_version}"))
+	include(modImplementation("org.quiltmc:quilt-config:${project.quilt_config_version}"))
+	include(modImplementation(compileOnly("com.electronwill.night-config:core:${project.toml_version}")))
+	include(modImplementation(compileOnly("com.electronwill.night-config:toml:${project.toml_version}")))
 }
 
 processResources {
