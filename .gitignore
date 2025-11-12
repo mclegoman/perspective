@@ -1,80 +1,40 @@
+# gradle
+
 .gradle/
 build/
 out/
 classes/
-remappedSrc/
-run/
+
+# eclipse
+
 *.launch
+
+# idea
+
 .idea/
 *.iml
 *.ipr
 *.iws
-.fleet/
+
+# vscode
+
 .settings/
 .vscode/
 bin/
 .classpath
 .project
-workspace/
+
+# macos
+
 *.DS_Store
-.env
 
-common/.gradle/
-common/build/
-common/out/
-common/classes/
-common/remappedSrc/
-common/run/
-common/*.launch
-common/.idea/
-common/*.iml
-common/*.ipr
-common/*.iws
-common/.fleet/
-common/.settings/
-common/.vscode/
-common/bin/
-common/.classpath
-common/.project
-common/workspace/
-common/*.DS_Store
+# fabric
 
-quilt/.gradle/
-quilt/build/
-quilt/out/
-quilt/classes/
-quilt/remappedSrc/
-quilt/run/
-quilt/*.launch
-quilt/.idea/
-quilt/*.iml
-quilt/*.ipr
-quilt/*.iws
-quilt/.fleet/
-quilt/.settings/
-quilt/.vscode/
-quilt/bin/
-quilt/.classpath
-quilt/.project
-quilt/workspace/
-quilt/*.DS_Store
+run/
 
-neoforge/.gradle/
-neoforge/build/
-neoforge/out/
-neoforge/classes/
-neoforge/remappedSrc/
-neoforge/run/
-neoforge/*.launch
-neoforge/.idea/
-neoforge/*.iml
-neoforge/*.ipr
-neoforge/*.iws
-neoforge/.fleet/
-neoforge/.settings/
-neoforge/.vscode/
-neoforge/bin/
-neoforge/.classpath
-neoforge/.project
-neoforge/workspace/
-neoforge/*.DS_Store
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

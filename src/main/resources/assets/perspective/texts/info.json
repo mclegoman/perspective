@@ -1,0 +1,172 @@
+{
+    "line_breaks": true,
+    "values": [
+        {
+            "type": "translatable",
+            "value": "gui.perspective.description"
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.license.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.perspective.licenses"
+                }
+            ]
+        },
+        {},
+        {
+            "type": "translatable",
+            "value": "gui.perspective.authors"
+        },
+        {
+            "type": "translatable",
+            "value": "gui.perspective.authors.dannytaylor",
+            "indent": 2
+        },
+        {},
+        {
+            "type": "translatable",
+            "value": "gui.perspective.contributors"
+        },
+        {
+            "type": "translatable",
+            "value": "gui.perspective.contributor.nettakrim",
+            "indent": 2
+        },
+        {},
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions"
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.quilt_config",
+            "indent": 2
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.quilt_config.description",
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.authors.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.quilt_config.authors"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.license.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.quilt_config.licenses"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.fabric_api",
+            "indent": 2
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.fabric_api.description",
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.authors.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.fabric_api.authors"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.license.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.fabric_api.licenses"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.fabric_loader",
+            "indent": 2
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.fabric_loader.description",
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.authors.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.fabric_loader.authors"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.license.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.fabric_loader.licenses"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.minecraft",
+            "indent": 2
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.attributions.minecraft.description",
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.authors.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.minecraft.authors"
+                }
+            ],
+            "indent": 4
+        },
+        {
+            "type": "translatable",
+            "value": "gui.luminance.license.single",
+            "args": [
+                {
+                    "type": "translatable",
+                    "value": "gui.luminance.attributions.minecraft.licenses"
+                }
+            ],
+            "indent": 4
+        }
+    ]
+}

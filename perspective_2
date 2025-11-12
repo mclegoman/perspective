@@ -1,0 +1,18 @@
+# Perspective 2.0
+
+- Instead of one big mod, we would switch to use modules.
+  - Modules would be able to be used seperately, so seperate uploads, modrinth collection
+
+
+- Perspective
+  - Lens (Zoom, "perspective_zoom")
+  - Radiance (Shaders, "perspective_shaders")
+    - Shader Packs (inc w/ all modules of radiance)
+    - Kalidescope
+    - Super Secret Settings
+  - Textured Entity ("perspective_textured_entity")
+  - Parameter (Config, "perspective_config")
+  - Vault (Resources, "perspective_resources")
+  - Contributors ("perspective_contributors")
+  - Overlays
+- Luminance

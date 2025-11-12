@@ -1,0 +1,509 @@
+{
+	"gui.perspective.name": "Perspective",
+	"gui.perspective.version": "%s %s",
+	"gui.perspective.license": "Licensed under LGPL-3.0-or-later.",
+	"gui.perspective.description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
+	"gui.perspective.licenses": "LGPL-3.0-or-later",
+	"gui.perspective.authors": "§6§lDevelopers§r",
+	"gui.perspective.authors.dannytaylor": "§fdannytaylor§r",
+	"gui.perspective.contributors": "§6§lContributors§r",
+	"gui.perspective.contributor.nettakrim": "§fNettakrim§r",
+
+	"gui.perspective.config": "%s %s",
+
+	"gui.perspective.toasts.title": "%s: %s",
+
+	"gui.perspective.toasts.keybinding_conflicts.title": "Conflicting Keybinding",
+	"gui.perspective.toasts.keybinding_conflicts.description": "Keybinding conflicts have been detected.",
+
+	"gui.perspective.toasts.update.title": "Update Available",
+	"gui.perspective.toasts.update.description": "%s is now available on Modrinth!",
+
+	"gui.perspective.toasts.development_warning.title": "Development Build",
+	"gui.perspective.toasts.development_warning.description": "Please submit a bug report if you encounter any issues.",
+
+	"gui.perspective.toasts.downgrade_warning.title": "Downgrading is not supported",
+	"gui.perspective.toasts.downgrade_warning.description": "You may experience configuration related issues.",
+
+	"gui.perspective.toasts.tutorial.title": "%s Tutorial: %s",
+
+	"gui.perspective.toasts.tutorial.super_secret_settings.title": "Super Secret Settings",
+	"gui.perspective.toasts.tutorial.super_secret_settings.description": "You can cycle shaders with [%s] and disable them with [%s]. For more settings check out the Perspective config using [%s].",
+
+	"gui.perspective.toasts.tutorial.prank.title": "April Fools!",
+	"gui.perspective.toasts.tutorial.prank.description": "This prank is only visible to users with Perspective installed. You can disable it in the Perspective config using [%s].",
+
+	"gui.perspective.toasts.tutorial.halloween.title": "Trick or Treat!",
+	"gui.perspective.toasts.tutorial.halloween.description": "Witch Hats are only visible to users with Perspective installed. You can disable it in the Perspective config using [%s].",
+
+	"gui.perspective.toasts.warning.title": "%s Warning: %s",
+
+	"gui.perspective.toasts.warning.photosensitivity.title": "Super Secret Settings",
+	"gui.perspective.toasts.warning.photosensitivity.description": "Some shader effects may not be suitable for individuals with epilepsy or photosensitivity. Please exercise caution.",
+
+	"gui.perspective.toasts.experimental.title": "Experimental Feature",
+	"gui.perspective.toasts.experimental.description": "%s is currently experimental. You may experience bugs and/or issues.",
+
+	"gui.perspective.config.update.title": "Update Available!",
+
+	"gui.perspective.config.update.checking": "Checking for updates...",
+
+	"gui.perspective.config.defaults.saved": "Saved Config as Default!",
+	"gui.perspective.config.defaults.reset": "Reset Default Config Values!",
+
+	"gui.perspective.config.config": "Config",
+
+	"gui.perspective.config.zoom": "Zoom",
+
+	"gui.perspective.config.zoom.level": "Zoom Level: %s",
+
+	"gui.perspective.config.zoom.increment_size": "Increment Multiplier: %s",
+	"gui.perspective.config.zoom.increment_size.hover": "Sets the multiplier of zoom adjustment when using the scroll wheel.",
+
+	"gui.perspective.config.zoom.type": "Scale: %s",
+	"gui.perspective.config.zoom.type.hover": "%s",
+	"gui.perspective.config.zoom.type.linear": "Linear",
+	"gui.perspective.config.zoom.type.linear.hover": "Uniform difference between zoom levels.",
+	"gui.perspective.config.zoom.type.logarithmic": "Logarithmic",
+	"gui.perspective.config.zoom.type.logarithmic.hover": "Proportional difference between zoom levels.",
+
+	"gui.perspective.config.zoom.transition": "Transition: %s",
+	"gui.perspective.config.zoom.transition.smooth": "Smooth",
+	"gui.perspective.config.zoom.transition.instant": "Instant",
+
+	"gui.perspective.config.zoom.scale_mode": "Mode: %s",
+	"gui.perspective.config.zoom.scale_mode.scaled": "Scaled",
+	"gui.perspective.config.zoom.scale_mode.vanilla": "Unscaled",
+	"gui.perspective.config.zoom.scale_mode.hover": "%s",
+	"gui.perspective.config.zoom.scale_mode.scaled.hover": "Mouse movements and some visual effects scale when zooming.",
+	"gui.perspective.config.zoom.scale_mode.vanilla.hover": "Mouse movements and visual effects remain unscaled when zooming.",
+
+	"gui.perspective.config.zoom.hide_hud": "Hide HUD: %s",
+	"gui.perspective.config.zoom.hide_hud.hover": "%s",
+	"gui.perspective.config.zoom.hide_hud.true": "Everything",
+	"gui.perspective.config.zoom.hide_hud.true.hover": "The entire HUD will be hidden whilst zooming.",
+	"gui.perspective.config.zoom.hide_hud.hand": "Hands",
+	"gui.perspective.config.zoom.hide_hud.hand.hover": "The players hands will be hidden whilst zooming.",
+	"gui.perspective.config.zoom.hide_hud.false": "Nothing",
+	"gui.perspective.config.zoom.hide_hud.false.hover": "Nothing will be hidden whilst zooming.",
+
+	"gui.perspective.config.zoom.show_percentage": "Show Percentage: %s",
+
+	"gui.perspective.config.zoom.smooth_speed_in": "Smooth Speed In: %s",
+	"gui.perspective.config.zoom.smooth_speed_out": "Smooth Speed Out: %s",
+	"gui.perspective.config.zoom.smooth_speed.value": "%s",
+	"gui.perspective.config.zoom.smooth_speed.min": "Slow",
+	"gui.perspective.config.zoom.smooth_speed.normal": "Normal",
+	"gui.perspective.config.zoom.smooth_speed.max": "Fast",
+
+	"gui.perspective.config.zoom.enabled": "Allow Zoom: %s",
+	"gui.perspective.config.zoom.enabled.hover": "%s",
+	"gui.perspective.config.zoom.enabled.true.hover": "§rZoom is §a§lenabled§r and will function normally.",
+	"gui.perspective.config.zoom.enabled.false.hover": "§rZoom is §c§ldisabled§r and will not function unless re-enabled.",
+
+	"gui.perspective.config.zoom.reset": "Reset on Release: %s",
+	"gui.perspective.config.zoom.reset.hover": "%s",
+	"gui.perspective.config.zoom.reset.true.hover": "Zoom Level will reset when toggling zoom off.",
+	"gui.perspective.config.zoom.reset.false.hover": "Zoom Level will remain the same after toggling zoom off.",
+
+	"gui.perspective.config.zoom.cinematic": "Cinematic: %s",
+
+	"gui.perspective.config.hold_perspective": "Hold Perspective",
+	"gui.perspective.config.hold_perspective.back.multiplier": "Back Multiplier: %s",
+	"gui.perspective.config.hold_perspective.back.multiplier.hover": "Sets how far away the camera is when using Hold Perspective Back.",
+	"gui.perspective.config.hold_perspective.front.multiplier": "Front Multiplier: %s",
+	"gui.perspective.config.hold_perspective.front.multiplier.hover": "Sets how far away the camera is when using Hold Perspective Front.",
+	"gui.perspective.config.hold_perspective.back.hide_hud": "Back Hide HUD: %s",
+	"gui.perspective.config.hold_perspective.front.hide_hud": "Front Hide HUD: %s",
+
+	"gui.perspective.config.hold_perspective.increment_size": "Increment Multiplier: %s",
+	"gui.perspective.config.hold_perspective.increment_size.hover": "Sets the multiplier of hold perspective multiplier adjustment when using the scroll wheel.",
+
+	"gui.perspective.config.shaders": "Shaders",
+	"gui.perspective.config.shaders.super_secret_settings": "Super Secret Settings",
+	"gui.perspective.config.shaders.kaleidoscope.random": "Random Kaleidoscope: %s",
+	"gui.perspective.config.shaders.kaleidoscope.random.hover": "Renders a random shader pack whilst using the Spyglass.",
+	"gui.perspective.config.shaders.kaleidoscope.named": "Named Kaleidoscope: %s",
+	"gui.perspective.config.shaders.kaleidoscope.named.hover": "Renders a specific shader pack whilst using a named Spyglass.",
+
+	"gui.perspective.config.shaders.super_secret_settings.cycle": "Shader: %s",
+
+	"gui.perspective.config.shaders.super_secret_settings.list": "☰",
+	"gui.perspective.config.shaders.super_secret_settings.list.hover": "Open Shader Selection Screen",
+	"gui.perspective.config.shaders.super_secret_settings.list.select": "Select Super Secret Setting",
+	"gui.perspective.config.shaders.super_secret_settings.list.shader": "%s",
+
+	"gui.perspective.config.shaders.super_secret_settings.mode": "Renderer: %s",
+	"gui.perspective.config.shaders.super_secret_settings.mode.game": "Game",
+	"gui.perspective.config.shaders.super_secret_settings.mode.ui": "Gui",
+	"gui.perspective.config.shaders.super_secret_settings.mode.hover": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.mode.game.hover": "Shaders are rendered in-game.",
+	"gui.perspective.config.shaders.super_secret_settings.mode.ui.hover": "Shaders are rendered over the gui. Please Note: Some shaders, such as depth shaders, will instead be rendered in-game.",
+
+	"gui.perspective.config.shaders.super_secret_settings.random": "Randomize",
+	"gui.perspective.config.shaders.super_secret_settings.random.hover": "Selects a random shader.",
+
+	"gui.perspective.config.shaders.super_secret_settings.show_name": "Shader Name Overlay: %s",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.hover": "%s",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.on.hover": "The shader name will be displayed when cycling through shaders using the in-game keybinding.",
+	"gui.perspective.config.shaders.super_secret_settings.show_name.off.hover": "The shader name will be hidden when cycling through shaders using the in-game keybinding.",
+
+	"gui.perspective.config.shaders.super_secret_settings.toggle": "%s",
+
+	"gui.perspective.config.shaders.super_secret_settings.toggle_blur": "%s",
+
+	"gui.perspective.config.textured_entity": "Textured Entity",
+
+	"gui.perspective.config.textured_entity.named": "Named Entity: %s",
+
+	"gui.perspective.config.textured_entity.random": "Random Entity: %s",
+
+	"gui.perspective.config.events": "Events",
+
+	"gui.perspective.config.PerspectiveEvents.april_fools_prank.allow": "April Fools' Prank: %s",
+
+	"gui.perspective.config.PerspectiveEvents.april_fools_prank.force": "Force April Fools': %s",
+
+	"gui.perspective.config.PerspectiveEvents.halloween.allow": "Halloween: %s",
+
+	"gui.perspective.config.PerspectiveEvents.halloween.force": "Force Halloween: %s",
+
+	"gui.perspective.config.overlays": "Overlays",
+
+	"gui.perspective.config.overlays.version_overlay": "Version Overlay: %s",
+
+	"gui.perspective.config.overlays.position_overlay": "Position Overlay: %s",
+
+	"gui.perspective.config.overlays.time_overlay": "Time Overlay: %s",
+
+	"gui.perspective.config.overlays.day_overlay": "Day Overlay: %s",
+
+	"gui.perspective.config.overlays.date_overlay": "Date Overlay: %s",
+
+	"gui.perspective.config.overlays.date_type": "Date Type: %s",
+
+	"gui.perspective.config.overlays.biome_overlay": "Biome Overlay: %s",
+
+	"gui.perspective.config.overlays.looking_at_overlay": "Looking At Overlay: %s",
+
+	"gui.perspective.config.overlays.cps_overlay": "CPS Overlay: %s",
+
+	"gui.perspective.config.overlays.armor_overlay": "Armor Overlay: %s",
+
+	"gui.perspective.config.overlays.deaths_overlay": "Deaths Overlay: %s",
+
+	"gui.perspective.config.overlays.totems_overlay": "Totems Overlay: %s",
+
+	"gui.perspective.config.force_pride": "Force Pride: %s",
+
+	"gui.perspective.config.show_death_coordinates": "Death Coordinates: %s",
+
+	"gui.perspective.config.detect_update_channel": "Update Channel: %s",
+	"gui.perspective.config.detect_update_channel.hover": "Cycle Update Notification Channel",
+
+	"gui.perspective.config.tutorials": "Tutorials: %s",
+	"gui.perspective.config.tutorials.hover": "Toggle Perspective Tutorial Toasts",
+
+	"gui.perspective.config.luminance": "Luminance",
+
+	"gui.perspective.config.shaders.ui_background": "UI Background: %s",
+
+	"gui.perspective.config.hide": "Hide",
+
+	"gui.perspective.config.hide.block_outline": "Block Outline: %s",
+	"gui.perspective.config.hide.block_outline.level": "Block Outline: %s",
+	"gui.perspective.config.hide.rainbow_block_outline": "Rainbow Block Outline: %s",
+
+	"gui.perspective.config.hide.crosshair": "Crosshair Type: %s",
+
+	"gui.perspective.config.hide.hide_armor": "Global Hide Armor: %s",
+	"gui.perspective.config.hide.hide_armor.hover": "Toggles whether player armor should be rendered.",
+
+	"gui.perspective.config.hide.hide_nametags": "Global Hide Nametags: %s",
+	"gui.perspective.config.hide.hide_nametags.hover": "Toggles whether entity nametags should be rendered.",
+
+	"gui.perspective.config.hide.hide_players": "Global Hide Players: %s",
+	"gui.perspective.config.hide.hide_players.hover": "Toggles whether other players should be rendered.",
+
+	"gui.perspective.config.hide.show_message": "Overlay Message: %s",
+
+	"gui.perspective.config.information": "Information",
+
+	"gui.perspective.config.information.documentation": "Wiki",
+	"gui.perspective.config.information.documentation.hover": "§c§lPerspective's wiki is not currently available.",
+
+	"gui.perspective.config.information.credits": "Credits and Attribution",
+
+	"gui.perspective.config.information.licenses": "Licenses",
+
+	"gui.perspective.config.information.source_code": "Source Code",
+
+	"gui.perspective.config.information.report": "Report a bug",
+
+	"gui.perspective.config.experimental": "Experimental",
+
+	"gui.perspective.config.experimental.warning": "Experiments are potential new features.\nYou may experience bugs and/or issues.",
+	"gui.perspective.config.experimental.none": "There are no experiments currently available.",
+
+	"gui.perspective.config.experimental.ambience": "Update 1.4: %s",
+	"gui.perspective.config.experimental.ambience.hover": "This experiment enables ambience features planned for Perspective 1.4",
+
+	"gui.perspective.config.experimental.ambience.config": "Ambience",
+	"gui.perspective.config.ambience": "Ambience",
+	"gui.perspective.config.ambience.water_ripple_density": "Water Ripple Density: %s",
+	"gui.perspective.config.ambience.chest_bubbles_density": "Chest Bubbles Density: %s",
+
+	"gui.perspective.config.reset": "Reset to Default",
+	"gui.perspective.config.reset.experiments": "Disable All Experiments",
+	"gui.perspective.config.back": "Back",
+	"gui.perspective.config.next": "Next",
+
+	"gui.perspective.message.zoom_level": "Zoom: %s",
+
+	"gui.perspective.message.shader": "Super Secret Settings: %s",
+
+	"gui.perspective.message.take_panorama_screenshot.success": "Saved panorama as %s",
+	"gui.perspective.message.take_panorama_screenshot.fail": "Failed to take panorama: %s",
+	"gui.perspective.message.take_panorama_screenshot.fail.incompatible.iris_shaders_enabled": "Please disable Iris Shaders before taking a Panoramic Screenshot.",
+
+	"gui.perspective.message.hide.armor": "Hide Armor: %s",
+
+	"gui.perspective.message.hide.block_outline": "Block Outline: %s",
+
+	"gui.perspective.message.hide.crosshair": "Crosshair Type: %s",
+
+	"gui.perspective.message.hide.nametags": "Hide Nametags: %s",
+
+	"gui.perspective.message.hide.players": "Hide Players: %s",
+
+	"gui.perspective.keybindings.category.perspective": "Perspective",
+
+	"gui.perspective.keybindings.keybinding.cycle_crosshair": "Cycle Crosshair Type",
+
+	"gui.perspective.keybindings.keybinding.cycle_shaders": "Cycle Super Secret Settings",
+
+	"gui.perspective.keybindings.keybinding.hold_perspective_third_person_back": "Hold Third Person Back",
+
+	"gui.perspective.keybindings.keybinding.hold_perspective_third_person_front": "Hold Third Person Front",
+
+	"gui.perspective.keybindings.keybinding.hold_zoom": "Hold Zoom",
+
+	"gui.perspective.keybindings.keybinding.open_config": "Open Config",
+
+	"gui.perspective.keybindings.keybinding.debug": "Open Debug Screen",
+
+	"gui.perspective.keybindings.keybinding.random_shader": "Random Super Secret Setting",
+
+	"gui.perspective.keybindings.keybinding.set_perspective_first_person": "Set First Person",
+
+	"gui.perspective.keybindings.keybinding.set_perspective_third_person_back": "Set Third Person Back",
+
+	"gui.perspective.keybindings.keybinding.set_perspective_third_person_front": "Set Third Person Front",
+
+	"gui.perspective.keybindings.keybinding.take_panorama_screenshot": "Take Panorama Screenshot",
+
+	"gui.perspective.keybindings.keybinding.toggle_armor": "Toggle Armor",
+
+	"gui.perspective.keybindings.keybinding.toggle_block_outline": "Toggle Block Outline",
+
+	"gui.perspective.keybindings.keybinding.toggle_nametags": "Toggle Nametags",
+
+	"gui.perspective.keybindings.keybinding.toggle_players": "Toggle Players",
+
+	"gui.perspective.keybindings.keybinding.toggle_version_overlay": "Toggle Version Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_position_overlay": "Toggle Position Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_day_overlay": "Toggle Day Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_date_overlay": "Toggle Date Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_biome_overlay": "Toggle Biome Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_cps_overlay": "Toggle CPS Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_armor_overlay": "Toggle Armor Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_deaths_overlay": "Toggle Deaths Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_totems_overlay": "Toggle Totems Overlay",
+
+	"gui.perspective.keybindings.keybinding.toggle_shaders": "Toggle Super Secret Settings",
+
+	"gui.perspective.keybindings.keybinding.hold_shaders": "Hold Super Secret Settings",
+
+	"gui.perspective.keybindings.keybinding.toggle_zoom": "Toggle Zoom",
+
+	"gui.perspective.keybindings.keybinding.toggle_zoom_cinematic": "Toggle Cinematic Zoom",
+
+	"gui.perspective.keybindings.keybinding.adjust_hold_perspective": "Adjust Hold Perspective",
+
+	"gui.perspective.resource_pack.perspective_default": "Perspective: Default",
+	"gui.perspective.resource_pack.perspective_default.description": "The default look of Perspective",
+
+	"gui.perspective.resource_pack.perspective_extended": "Perspective: Extended",
+	"gui.perspective.resource_pack.perspective_extended.description": "The extended look of Perspective",
+
+	"gui.perspective.resource_pack.dev_config": "Perspective: Developer Config",
+	"gui.perspective.resource_pack.dev_config.description": "The developers choice of Perspective",
+
+	"gui.perspective.quality.fast": "Fast",
+	"gui.perspective.quality.fancy": "Fancy",
+
+	"gui.perspective.variable.endisable.on": "Enabled",
+	"gui.perspective.variable.endisable.off": "Disabled",
+
+	"gui.perspective.variable.onff.on": "ON",
+	"gui.perspective.variable.onff.off": "OFF",
+
+	"gui.perspective.variable.blur.on": "\uD83D\uDE48",
+	"gui.perspective.variable.blur.off": "\uD83D\uDC35",
+
+	"gui.perspective.config.error": "ERROR",
+
+	"gui.perspective.config.shaders.ui_background.type.perspective.default": "Default",
+	"gui.perspective.config.shaders.ui_background.type.perspective.default.hover": "Renders a box blur over menu backgrounds.",
+	"gui.perspective.config.shaders.ui_background.type.perspective.gaussian": "Gaussian",
+	"gui.perspective.config.shaders.ui_background.type.perspective.gaussian.hover": "Renders a gaussian blur over menu backgrounds.",
+	"gui.perspective.config.shaders.ui_background.type.perspective.legacy": "Legacy",
+	"gui.perspective.config.shaders.ui_background.type.perspective.legacy.hover": "Darkens menu backgrounds when in world, renders dirt background on menu screens when not in a world.",
+	"gui.perspective.config.shaders.ui_background.type.perspective.classic": "Classic",
+	"gui.perspective.config.shaders.ui_background.type.perspective.classic.hover": "Darkens menu backgrounds when in world, renders dirt background on menu screens - including the title screen - when not in a world.",
+	"gui.perspective.config.shaders.ui_background.type.perspective.none": "None",
+	"gui.perspective.config.shaders.ui_background.type.perspective.none.hover": "Nothing will be rendered over the menu backgrounds.",
+	"gui.perspective.config.shaders.ui_background.type.perspective.fallback": "§4ERROR",
+	"gui.perspective.config.shaders.ui_background.type.perspective.fallback.hover": "An error occurred. UI Background is currently disabled.",
+
+	"gui.perspective.config.time_overlay.type.false": "OFF",
+	"gui.perspective.config.time_overlay.type.twelve_hour": "12 Hour",
+	"gui.perspective.config.time_overlay.type.twenty_four_hour": "24 Hour",
+
+	"gui.perspective.config.crosshair.type.vanilla": "Vanilla",
+	"gui.perspective.config.crosshair.type.dynamic": "Dynamic",
+	"gui.perspective.config.crosshair.type.hidden": "Hidden",
+
+	"gui.perspective.config.title_screen.type.default": "Default",
+	"gui.perspective.config.title_screen.type.dirt": "Dirt",
+
+	"gui.perspective.config.detect_update_channel.release": "Release",
+	"gui.perspective.config.detect_update_channel.beta": "Beta",
+	"gui.perspective.config.detect_update_channel.alpha": "Alpha",
+	"gui.perspective.config.detect_update_channel.none": "None",
+
+	"gui.perspective.position.title": "Position",
+	"gui.perspective.position.description": "%s, %s, %s",
+
+	"gui.perspective.version_overlay": "Minecraft %s",
+	"gui.perspective.position_overlay": "%s: %s",
+	"gui.perspective.time_overlay": "Time of day: %s",
+	"gui.perspective.time": "%s:%s%s",
+	"gui.perspective.time_overlay.am": " am",
+	"gui.perspective.time_overlay.pm": " pm",
+	"gui.perspective.day_overlay": "Days played: %s",
+	"gui.perspective.date_overlay": "Date: %s",
+	"gui.perspective.biome_overlay": "Biome: %s",
+	"gui.perspective.cps_overlay": "CPS: %s:%s:%s",
+	"gui.perspective.deaths_overlay": "Number of Deaths: %s",
+	"gui.perspective.totems_overlay": "Totems Used: %s",
+	"gui.perspective.looking_at_overlay": "Looking At: %s",
+	"gui.perspective.looking_at_overlay.none": "--",
+
+	"gui.perspective.date": "%s",
+	"gui.perspective.date.month.1": "January",
+	"gui.perspective.date.month.2": "February",
+	"gui.perspective.date.month.3": "March",
+	"gui.perspective.date.month.4": "April",
+	"gui.perspective.date.month.5": "May",
+	"gui.perspective.date.month.6": "June",
+	"gui.perspective.date.month.7": "July",
+	"gui.perspective.date.month.8": "August",
+	"gui.perspective.date.month.9": "September",
+	"gui.perspective.date.month.10": "October",
+	"gui.perspective.date.month.11": "November",
+	"gui.perspective.date.month.12": "December",
+
+	"gui.perspective.date.gregorian": "Gregorian",
+	"gui.perspective.date.gregorian.description": "Based on the Gregorian Calendar. There are 28-31 days per month, 12 months per year.",
+	"gui.perspective.date.gregorian.date": "%s of %s %s",
+	"gui.perspective.date.gregorian.day": "%s %s",
+	"gui.perspective.date.gregorian.day.1": "Monday",
+	"gui.perspective.date.gregorian.day.2": "Tuesday",
+	"gui.perspective.date.gregorian.day.3": "Wednesday",
+	"gui.perspective.date.gregorian.day.4": "Thursday",
+	"gui.perspective.date.gregorian.day.5": "Friday",
+	"gui.perspective.date.gregorian.day.6": "Saturday",
+	"gui.perspective.date.gregorian.day.7": "Sunday",
+	"gui.perspective.date.gregorian.month.1": "%s",
+	"gui.perspective.date.gregorian.month.2": "%s",
+	"gui.perspective.date.gregorian.month.3": "%s",
+	"gui.perspective.date.gregorian.month.4": "%s",
+	"gui.perspective.date.gregorian.month.5": "%s",
+	"gui.perspective.date.gregorian.month.6": "%s",
+	"gui.perspective.date.gregorian.month.7": "%s",
+	"gui.perspective.date.gregorian.month.8": "%s",
+	"gui.perspective.date.gregorian.month.9": "%s",
+	"gui.perspective.date.gregorian.month.10": "%s",
+	"gui.perspective.date.gregorian.month.11": "%s",
+	"gui.perspective.date.gregorian.month.12": "%s",
+	"gui.perspective.date.gregorian.year": "%s",
+
+	"gui.perspective.date.moon_phases": "Moon Phases",
+	"gui.perspective.date.moon_phases.description": "Based on the in-game moon phases. There are 8 days per month, 12 months per year.",
+	"gui.perspective.date.moon_phases.date": "%s, %s%s",
+	"gui.perspective.date.moon_phases.day": "%s %s",
+	"gui.perspective.date.moon_phases.day.1": "Day",
+	"gui.perspective.date.moon_phases.day.2": "Day",
+	"gui.perspective.date.moon_phases.month.1": "",
+	"gui.perspective.date.moon_phases.month.2": "",
+	"gui.perspective.date.moon_phases.month.3": "",
+	"gui.perspective.date.moon_phases.month.4": "",
+	"gui.perspective.date.moon_phases.month.5": "",
+	"gui.perspective.date.moon_phases.month.6": "",
+	"gui.perspective.date.moon_phases.month.7": "",
+	"gui.perspective.date.moon_phases.month.8": "",
+	"gui.perspective.date.moon_phases.month.9": "",
+	"gui.perspective.date.moon_phases.month.10": "",
+	"gui.perspective.date.moon_phases.month.11": "",
+	"gui.perspective.date.moon_phases.month.12": "",
+	"gui.perspective.date.moon_phases.year": "Year %s",
+
+	"gui.perspective.date.invalid": "Invalid Date Type",
+
+	"gui.perspective.show_death_coordinates": "%s: %s",
+
+	"gui.perspective.experimental.super_secret_settings_list": "Super Secret Settings Shader Selection Screen",
+
+	"shader.perspective.gaussian_blur" : "gaussian",
+
+	"splashes.perspective.whered_my_hud_go": "Where'd my HUD go?",
+	"splashes.perspective.also_try_souper_secret_settings": "Also try Souper Secret Settings!",
+	"splashes.perspective.thousands_of_downloads_on_modrinth": "Thousands of downloads on Modrinth!",
+	"splashes.perspective.uses_simpleconfig": "Uses SimpleConfig!",
+	"splashes.perspective.its_a_mod": "It's a mod!",
+	"splashes.perspective.takes_panoramic_screenshots": "Takes panoramic screenshots!",
+	"splashes.perspective.open_source": "Open source!",
+	"splashes.perspective.this_is_a_splash_text": "This is a splash text!",
+	"splashes.perspective.uses_luminance": "Uses Luminance!",
+	"splashes.perspective.save_defaults": "You can save your config as default using CTRL + S",
+	"splashes.perspective.kaleidoscope": "Adds Kaleidoscopes!",
+
+	"splashes.perspective.special.pride_month": "§4Hap§6py P§eri§2de §9Mon§5th!",
+	"splashes.perspective.special.birthday.perspective": "Happy Birthday Perspective!",
+	"splashes.perspective.special.birthday.minecraft": "Happy Birthday Minecraft!",
+	"splashes.perspective.special.april_fools": "April Fools'!",
+	"splashes.perspective.special.halloween": "Trick or Treat!",
+
+	"shader.perspective.shader.not_loaded" : "No Shader Selected!",
+
+	"gui.perspective.debug.config": "Current Config Values",
+	"gui.perspective.debug.config.normal": "Normal Config",
+	"gui.perspective.debug.config.default": "Normal Config Defaults",
+	"gui.perspective.debug.textured_entity": "Registered Textured Entities",
+	"gui.perspective.debug.textured_entity.enabled": "Enabled Textured Entities",
+
+	"gui.perspective.config.warning.reworked": "%s is currently being re-worked. Expect bugs.",
+	"gui.perspective.textured_entity.creative_tab_issue": "§cPlease Note: The Textured Entity Item Group may not contain the correct spawn eggs. Rejoin the world to fix.",
+
+	"item_group.perspective.textured_entity": "%s Textured Entities",
+	"item.perspective.textured_entity_spawn_egg": "%s %s Spawn Egg"
+}
