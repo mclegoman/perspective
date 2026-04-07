@@ -1,0 +1,84 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+	maven { url = "https://jitpack.io" }
+	maven { url = "https://maven.terraformersmc.com/releases/" }
+	mavenCentral()
+	mavenLocal()
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+	flatDir {
+		dirs("libs")
+	}
+	maven { url = "https://maven.quiltmc.org/repository/release/" }
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+	//include(modImplementation("maven.modrinth:luminance:${project.luminance_version}"))
+	modImplementation fileTree(dir: 'libs', include: '*.jar')
+
+	include(modImplementation("org.quiltmc:quilt-config:${project.quilt_config_version}"))
+	include(modImplementation(compileOnly("com.electronwill.night-config:core:${project.toml_version}")))
+	include(modImplementation(compileOnly("com.electronwill.night-config:toml:${project.toml_version}")))
+	
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	inputs.property "projectName", project.name
+
+	from("LICENSE") {
+		rename { "${it}_${project.name}"}
+	}
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+
+	repositories {
+	}
+}

@@ -1,0 +1,52 @@
+{
+	"schemaVersion": 1,
+	"id": "perspective",
+	"version": "${version}",
+	"name": "Perspective",
+	"description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
+	"authors": [
+		{
+			"name": "dannytaylor",
+			"contact": {
+				"homepage": "https://modrinth.com/user/dannytaylor"
+			}
+		}
+	],
+	"contributors": [
+		{
+			"name": "Nettakrim",
+			"contact": {
+				"homepage": "https://modrinth.com/user/Nettakrim"
+			}
+		}
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "LGPL-3.0-or-later",
+	"icon": "assets/perspective/textures/icons/default/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"dev.dannytaylor.perspective.client.PerspectiveClient"
+		]
+	},
+	"mixins": [
+		"perspective.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.6",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"luminance": ">=1.1.0-alpha.1"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"perspective.donate": "https://ko-fi.com/legotaylor"
+			}
+		}
+	}
+}

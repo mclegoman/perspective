@@ -1,0 +1,9 @@
+{
+	"perspective.donate": "Donate",
+
+	"key.category.perspective.shaders.super_secret_settings": "Perspective: Super Secret Settings",
+	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_shader": "Cycle Shader",
+	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_render_location": "Cycle Render Location",
+	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.hold_shader": "Hold Shader",
+	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.toggle_shader": "Toggle Shader"
+}
