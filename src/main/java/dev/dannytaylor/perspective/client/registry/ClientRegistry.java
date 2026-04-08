@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.client.registry;
 
 import dev.dannytaylor.perspective.client.registry.keymappings.KeyMappingRegistry;
+import dev.dannytaylor.perspective.client.registry.cameratypes.CameraTypeRegistry;
 import dev.dannytaylor.perspective.client.registry.shaders.ShaderRenderers;
 import dev.dannytaylor.perspective.common.data.Log;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,7 @@ public class ClientRegistry {
         try {
             KeyMappingRegistry.onInitializeClient();
             ShaderRenderers.onInitializeClient();
+            CameraTypeRegistry.onInitializeClient();
         } catch (Exception error) {
             Log.error("Failed to initialize client registries: {}", error);
         }
@@ -25,5 +27,6 @@ public class ClientRegistry {
 
     public static void onTickClient(Minecraft minecraft) {
         ShaderRenderers.onTickClient(minecraft);
+        CameraTypeRegistry.onTickClient(minecraft);
     }
 }

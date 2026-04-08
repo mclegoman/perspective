@@ -1,6 +1,15 @@
 {
 	"perspective.donate": "Donate",
 
+	"key.category.perspective.camera_type.hold_perspective": "Perspective: Hold Perspective",
+	"gui.perspective.keybindings.keybinding.camera_type.hold_perspective.third_person_back": "Hold Third Person Back",
+	"gui.perspective.keybindings.keybinding.camera_type.hold_perspective.third_person_front": "Hold Third Person Front",
+
+	"key.category.perspective.camera_type.swap_perspective": "Perspective: Swap Perspective",
+	"gui.perspective.keybindings.keybinding.camera_type.swap_perspective.first_person": "Swap to First Person",
+	"gui.perspective.keybindings.keybinding.camera_type.swap_perspective.third_person_back": "Swap to Third Person Back",
+	"gui.perspective.keybindings.keybinding.camera_type.swap_perspective.third_person_front": "Swap to Third Person Front",
+
 	"key.category.perspective.shaders.super_secret_settings": "Perspective: Super Secret Settings",
 	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_shader": "Cycle Shader",
 	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_render_location": "Cycle Render Location",
