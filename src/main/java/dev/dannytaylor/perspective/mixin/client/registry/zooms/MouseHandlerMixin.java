@@ -21,7 +21,7 @@ public abstract class MouseHandlerMixin {
     private double perspective$updateXSensitivity(double x) {
         if (ZoomRegistry.isZooming() && ClientData.minecraft.player != null) {
             double angle = Mth.cos((ClientData.minecraft.player.getXRot() / 180.0F) * Mth.PI);
-            float multiplier = Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+            float multiplier = Math.max(ZoomRegistry.getCombinedMouseMultiplier(), 0.001F);
             x = (x * (1.0F / Math.max((angle < 0) ? angle * -1.0F : angle, (Math.max(multiplier, 0.0F) + 1.0F) / 11.0F))) * multiplier;
         }
         return x;
@@ -29,7 +29,7 @@ public abstract class MouseHandlerMixin {
 
     @ModifyVariable(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getTutorial()Lnet/minecraft/client/tutorial/Tutorial;"), ordinal = 2)
     private double perspective$updateYSensitivity(double y) {
-        if (ZoomRegistry.isZooming() && ClientData.minecraft.player != null) y *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+        if (ZoomRegistry.isZooming() && ClientData.minecraft.player != null) y *= Math.max(ZoomRegistry.getCombinedMouseMultiplier(), 0.001F);
         return y;
     }
 }
