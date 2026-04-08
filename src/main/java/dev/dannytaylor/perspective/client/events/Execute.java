@@ -45,7 +45,7 @@ public class Execute extends com.mclegoman.luminance.client.events.Execute {
 
     public static float getFov(float fov, Camera camera, float tickDelta) {
         if (camera != null) {
-            ZoomRegistry.handFov = fov;
+            ZoomRegistry.fov = fov;
             float updatedFov = fov;
             for (Zoom zoom : Events.Zooms.registry.values()) updatedFov = zoom.getScale().getLimitFov(zoom.getTransition().updateFov(updatedFov, zoom, tickDelta));
             return updatedFov;

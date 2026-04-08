@@ -13,8 +13,8 @@ import org.quiltmc.config.api.annotations.IntegerRange;
 import org.quiltmc.config.api.values.TrackedValue;
 
 public class CameraTypeSettings extends ReflectiveConfig.Section {
-    @IntegerRange(min = 1, max = 10)
-    public final TrackedValue<Integer> multiplierIncrementSize;
+    @FloatRange(min = 1, max = 10)
+    public final TrackedValue<Float> multiplierIncrementSize;
     @FloatRange(min = 0.5, max = 16)
     public final TrackedValue<Float> backMultiplier;
     @FloatRange(min = 0.5, max = 16)
@@ -22,7 +22,7 @@ public class CameraTypeSettings extends ReflectiveConfig.Section {
     public final HoldPerspectiveSettings holdPerspective;
 
     public CameraTypeSettings(
-            int multiplierIncrementSizeValue,
+            float multiplierIncrementSizeValue,
             float backMultiplierValue,
             float frontMultiplierValue,
             HoldPerspectiveSettings holdPerspectiveSettingsValue

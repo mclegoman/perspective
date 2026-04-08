@@ -1,6 +1,9 @@
 {
 	"perspective.donate": "Donate",
 
+	"key.category.perspective.camera_type": "Perspective: Camera Type",
+	"gui.perspective.keybindings.keybinding.camera_type.adjust_multiplier": "Adjust Third Person Distance Multiplier",
+
 	"key.category.perspective.camera_type.hold_perspective": "Perspective: Hold Perspective",
 	"gui.perspective.keybindings.keybinding.camera_type.hold_perspective.third_person_back": "Hold Third Person Back",
 	"gui.perspective.keybindings.keybinding.camera_type.hold_perspective.third_person_front": "Hold Third Person Front",
@@ -14,5 +17,11 @@
 	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_shader": "Cycle Shader",
 	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.cycle_render_location": "Cycle Render Location",
 	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.hold_shader": "Hold Shader",
-	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.toggle_shader": "Toggle Shader"
+	"gui.perspective.keybindings.keybinding.shaders.super_secret_settings.toggle_shader": "Toggle Shader",
+
+	"key.category.perspective.zoom": "Perspective: Zoom",
+	"gui.perspective.keybindings.keybinding.zoom.hold": "Hold Zoom",
+	"gui.perspective.keybindings.keybinding.zoom.toggle": "Toggle Zoom",
+
+	"gui.perspective.zoom.adjust": "Zoom:"
 }

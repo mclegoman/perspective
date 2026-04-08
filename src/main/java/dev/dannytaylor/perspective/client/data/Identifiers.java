@@ -56,6 +56,7 @@ public class Identifiers {
 
     public static final Identifier CAMERA_TYPE;
     public static final Identifier SMOOTH;
+    public static final Identifier ZOOM;
 
     private static Identifier of(String path) {
         return Data.idOf(path);
@@ -106,5 +107,6 @@ public class Identifiers {
 
         CAMERA_TYPE = of("camera_type");
         SMOOTH = of("smooth");
+        ZOOM = of("zoom");
     }
 }

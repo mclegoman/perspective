@@ -79,7 +79,7 @@ public class CameraTypeRegistry {
         return getAdjustedMultiplier(currentMultiplier, scrollAmount, PerspectiveConfig.config.cameraType.multiplierIncrementSize.value());
     }
 
-    public static float getAdjustedMultiplier(float currentMultiplier, float scrollAmount, int incrementSize) {
+    public static float getAdjustedMultiplier(float currentMultiplier, float scrollAmount, float incrementSize) {
         return clampMultiplier(currentMultiplier + (scrollAmount * incrementSize));
     }
 
@@ -109,11 +109,11 @@ public class CameraTypeRegistry {
 
     private static void setMultiplier(boolean isHolding, boolean isBack, float multiplier) {
         if (isHolding) {
-            if (isBack) PerspectiveConfig.config.cameraType.holdPerspective.backMultiplier.setValue(multiplier, false);
-            else PerspectiveConfig.config.cameraType.holdPerspective.frontMultiplier.setValue(multiplier, false);
+            if (isBack) PerspectiveConfig.config.cameraType.holdPerspective.backMultiplier.setValue(clampMultiplier(multiplier), false);
+            else PerspectiveConfig.config.cameraType.holdPerspective.frontMultiplier.setValue(clampMultiplier(multiplier), false);
         } else {
-            if (isBack) PerspectiveConfig.config.cameraType.backMultiplier.setValue(multiplier, false);
-            else PerspectiveConfig.config.cameraType.frontMultiplier.setValue(multiplier, false);
+            if (isBack) PerspectiveConfig.config.cameraType.backMultiplier.setValue(clampMultiplier(multiplier), false);
+            else PerspectiveConfig.config.cameraType.frontMultiplier.setValue(clampMultiplier(multiplier), false);
         }
         wasConfigUpdated = true;
     }

@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
+import net.minecraft.client.Minecraft;
 
 public abstract class AbstractZoom implements Zoom {
     private float previousMultiplier = 1.0F;
@@ -58,5 +59,8 @@ public abstract class AbstractZoom implements Zoom {
         this.setPreviousMultiplier(this.getMultiplier());
         this.setMultiplier(this.isZooming() && this.getScale() != null ? this.getScale().update(this.getZoomAmount()) : 1.0F);
         if (getTransition() != null) this.setMultiplier(getTransition().updateMultiplier(this));
+    }
+
+    public void onTickClient(Minecraft minecraft) {
     }
 }

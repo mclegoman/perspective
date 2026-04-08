@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
+import net.minecraft.client.Minecraft;
 
 public interface Zoom {
     float getPreviousMultiplier();
@@ -22,4 +23,5 @@ public interface Zoom {
     float getTransitionSpeedOut();
     float getTransitionSpeedIn();
     void update();
+    void onTickClient(Minecraft minecraft);
 }
