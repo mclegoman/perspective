@@ -24,7 +24,7 @@ public class ZoomSettings extends ReflectiveConfig.Section {
     public final TrackedValue<Float> smoothSpeedIn;
     @FloatRange(min = 0, max = 2)
     public final TrackedValue<Float> smoothSpeedOut;
-    public final TrackedValue<ConfigIdentifier> scaledEffects;
+    public final TrackedValue<ConfigIdentifier> effects;
     public final TrackedValue<String> hideHud;
     public final TrackedValue<Boolean> showPercentage;
     public final TrackedValue<ConfigIdentifier> scaleType;
@@ -39,7 +39,7 @@ public class ZoomSettings extends ReflectiveConfig.Section {
             Identifier transitionValue,
             float smoothSpeedInValue,
             float smoothSpeedOutValue,
-            Identifier scaledEffectsValue,
+            Identifier effectsValue,
             String hideHudValue,
             Boolean showPercentageValue,
             Identifier scaleTypeValue,
@@ -52,7 +52,7 @@ public class ZoomSettings extends ReflectiveConfig.Section {
         transition = this.value(ConfigIdentifier.of(transitionValue));
         smoothSpeedIn = this.value(smoothSpeedInValue);
         smoothSpeedOut = this.value(smoothSpeedOutValue);
-        scaledEffects = this.value(ConfigIdentifier.of(scaledEffectsValue));
+        effects = this.value(ConfigIdentifier.of(effectsValue));
         hideHud = this.value(hideHudValue);
         showPercentage = this.value(showPercentageValue);
         scaleType = this.value(ConfigIdentifier.of(scaleTypeValue));

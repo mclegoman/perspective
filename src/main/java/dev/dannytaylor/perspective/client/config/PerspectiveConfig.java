@@ -31,7 +31,7 @@ public class PerspectiveConfig extends ReflectiveConfig {
 			Identifiers.SMOOTH,
 			1.0F,
 			1.0F,
-			Identifiers.LOGARITHMIC,
+			Identifiers.SCALED,
 			"false",
 			false,
 			Identifiers.LOGARITHMIC,

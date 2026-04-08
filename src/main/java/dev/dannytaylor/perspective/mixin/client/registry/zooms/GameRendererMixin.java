@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.mixin.client.registry.zooms;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.dannytaylor.perspective.client.events.Execute;
 import dev.dannytaylor.perspective.client.registry.zooms.ZoomRegistry;
@@ -30,5 +31,23 @@ public abstract class GameRendererMixin {
     @ModifyReturnValue(method = "getFov", at = @At("RETURN"))
     private float perspective$getFov(float fov, Camera camera, float tickDelta, boolean changingFov) {
         return !isPanoramicMode() ? ZoomRegistry.zoomFov = Execute.getFov(fov, camera, tickDelta) : fov;
+    }
+
+    @ModifyExpressionValue(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
+    private float perspective$bobHurtDir(float hurtDir) {
+        if (ZoomRegistry.isZooming()) hurtDir *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+        return hurtDir;
+    }
+
+    @ModifyExpressionValue(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/OptionInstance;get()Ljava/lang/Object;"))
+    private <T> T perspective$bobHurtStrength(T original) {
+        if (ZoomRegistry.isZooming() && original instanceof Double damageTiltStrength) return (T) Double.valueOf(damageTiltStrength * Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001));
+        return original;
+    }
+
+    @ModifyExpressionValue(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/ClientAvatarState;getInterpolatedBob(F)F"))
+    private float perspective$bobView(float interpolatedBob) {
+        if (ZoomRegistry.isZooming()) interpolatedBob *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+        return interpolatedBob;
     }
 }

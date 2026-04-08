@@ -14,6 +14,7 @@ import dev.dannytaylor.perspective.client.data.ClientData;
 import dev.dannytaylor.perspective.client.data.Identifiers;
 import dev.dannytaylor.perspective.client.events.Events;
 import dev.dannytaylor.perspective.client.registry.keymappings.KeyMappingRegistry;
+import dev.dannytaylor.perspective.client.registry.zooms.effects.ZoomEffects;
 import dev.dannytaylor.perspective.client.registry.zooms.scales.ZoomScales;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.ZoomTransitions;
 import dev.dannytaylor.perspective.client.registry.zooms.zoom.DefaultZoom;
@@ -34,6 +35,7 @@ public class ZoomRegistry {
             ZoomRegistry::shouldMainZoom,
             () -> Events.ZoomScales.get(PerspectiveConfig.config.zoom.scaleType.value().getIdentifier()),
             () -> Events.ZoomTransitions.get(PerspectiveConfig.config.zoom.transition.value().getIdentifier()),
+            () -> Events.ZoomEffects.get(PerspectiveConfig.config.zoom.effects.value().getIdentifier()),
             PerspectiveConfig.config.zoom.amount::value,
             PerspectiveConfig.config.zoom.smoothSpeedOut::value,
             PerspectiveConfig.config.zoom.smoothSpeedIn::value,
@@ -58,6 +60,7 @@ public class ZoomRegistry {
         try {
             ZoomScales.onInitializeClient();
             ZoomTransitions.onInitializeClient();
+            ZoomEffects.onInitializeClient();
 
             Events.OnMouseScroll.register(Identifiers.ZOOM, (long windowHandle, double horizontal, double vertical, ScrollWheelHandler scrollWheelHandler) -> {
                 if (ZoomRegistry.shouldMainZoom()) {
@@ -117,5 +120,28 @@ public class ZoomRegistry {
 
     private static void adjustMainAmount(float scrollAmount) {
         if (shouldMainZoom()) setMainZoomAmount(clampMainAmount(PerspectiveConfig.config.zoom.amount.value() + (scrollAmount * PerspectiveConfig.config.zoom.incrementSize.value())));
+    }
+
+    public static float getCombinedBobViewMultiplier() {
+        float multiplier = 1.0F;
+        for (Zoom zoom : Events.Zooms.registry.values()) {
+            if (zoom.getEffect() != null) multiplier *= zoom.getEffect().getBobViewMultiplier(zoom);
+        }
+        return multiplier;
+    }
+
+    public static float getCombinedMouseMultiplier() {
+        float multiplier = 1.0F;
+        for (Zoom zoom : Events.Zooms.registry.values()) {
+            if (zoom.getEffect() != null) multiplier *= zoom.getEffect().getMouseMultiplier(zoom);
+        }
+        return multiplier;
+    }
+
+    public static boolean isZooming() {
+        for (Zoom zoom : Events.Zooms.registry.values()) {
+            if (zoom.isZooming()) return true;
+        }
+        return false;
     }
 }

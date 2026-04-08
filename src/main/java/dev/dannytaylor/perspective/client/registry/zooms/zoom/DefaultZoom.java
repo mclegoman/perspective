@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
 import dev.dannytaylor.perspective.client.events.Runnables;
+import dev.dannytaylor.perspective.client.registry.zooms.effects.effect.ZoomEffect;
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
 import dev.dannytaylor.perspective.common.data.Log;
@@ -19,6 +20,7 @@ public class DefaultZoom extends AbstractZoom {
     private final Callable<Boolean> isZooming;
     private final Callable<ZoomScale> scale;
     private final Callable<ZoomTransition> transition;
+    private final Callable<ZoomEffect> effect;
     private final Callable<Float> amount;
     private final Callable<Float> transitionSpeedOut;
     private final Callable<Float> transitionSpeedIn;
@@ -28,6 +30,7 @@ public class DefaultZoom extends AbstractZoom {
             Callable<Boolean> isZoomingValue,
             Callable<ZoomScale> scaleValue,
             Callable<ZoomTransition> transitionValue,
+            Callable<ZoomEffect> effectValue,
             Callable<Float> amountValue,
             Callable<Float> transitionSpeedOutValue,
             Callable<Float> transitionSpeedInValue,
@@ -36,6 +39,7 @@ public class DefaultZoom extends AbstractZoom {
         this.isZooming = isZoomingValue;
         this.scale = scaleValue;
         this.transition = transitionValue;
+        this.effect = effectValue;
         this.amount = amountValue;
         this.transitionSpeedOut = transitionSpeedOutValue;
         this.transitionSpeedIn = transitionSpeedInValue;
@@ -44,7 +48,7 @@ public class DefaultZoom extends AbstractZoom {
 
     public boolean isZooming() {
         try {
-            return isZooming.call();
+            return this.isZooming.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom isZooming: {}", error);
             return false;
@@ -53,7 +57,7 @@ public class DefaultZoom extends AbstractZoom {
 
     public ZoomScale getScale() {
         try {
-            return scale.call();
+            return this.scale.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom scale: {}", error);
             return null;
@@ -62,16 +66,25 @@ public class DefaultZoom extends AbstractZoom {
 
     public ZoomTransition getTransition() {
         try {
-            return transition.call();
+            return this.transition.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom transition: {}", error);
             return null;
         }
     }
 
+    public ZoomEffect getEffect() {
+        try {
+            return this.effect.call();
+        } catch (Exception error) {
+            Log.error("Failed to get zoom effect: {}", error);
+            return null;
+        }
+    }
+
     public float getZoomAmount() {
         try {
-            return amount.call();
+            return this.amount.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom amount: {}", error);
             return 0.0F;
@@ -80,7 +93,7 @@ public class DefaultZoom extends AbstractZoom {
 
     public float getTransitionSpeedOut() {
         try {
-            return transitionSpeedOut.call();
+            return this.transitionSpeedOut.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom transition speed out: {}", error);
             return 1.0F;
@@ -89,7 +102,7 @@ public class DefaultZoom extends AbstractZoom {
 
     public float getTransitionSpeedIn() {
         try {
-            return transitionSpeedIn.call();
+            return this.transitionSpeedIn.call();
         } catch (Exception error) {
             Log.error("Failed to get zoom transition speed in: {}", error);
             return 1.0F;

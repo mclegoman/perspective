@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
+import dev.dannytaylor.perspective.client.registry.zooms.effects.effect.ZoomEffect;
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ public interface Zoom {
     boolean isZooming();
     ZoomScale getScale();
     ZoomTransition getTransition();
+    ZoomEffect getEffect();
     float getZoomAmount();
     float getTransitionSpeedOut();
     float getTransitionSpeedIn();
