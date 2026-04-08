@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
+import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
 
 public interface Zoom {
     float getPreviousMultiplier();
@@ -16,6 +17,9 @@ public interface Zoom {
     void setMultiplier(float value);
     boolean isZooming();
     ZoomScale getScale();
+    ZoomTransition getTransition();
     float getZoomAmount();
+    float getTransitionSpeedOut();
+    float getTransitionSpeedIn();
     void update();
 }

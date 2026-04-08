@@ -23,11 +23,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ItemStackMixin {
 	@Inject(method = "use", at = @At("HEAD"))
 	private void perspective$use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
-		Execute.OnClientStartItemUse((ItemStack)(Object)this, level, player, interactionHand);
+		Execute.onClientStartItemUse((ItemStack)(Object)this, level, player, interactionHand);
 	}
 
 	@Inject(method = "finishUsingItem", at = @At("HEAD"))
 	private void perspective$finishUsingItem(Level level, LivingEntity livingEntity, CallbackInfoReturnable<ItemStack> cir) {
-		Execute.OnClientFinishItemUse((ItemStack)(Object)this, level, livingEntity);
+		Execute.onClientFinishItemUse((ItemStack)(Object)this, level, livingEntity);
 	}
 }

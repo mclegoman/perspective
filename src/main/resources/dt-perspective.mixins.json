@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.events.ItemStackMixin",
-    "client.registry.cameratypes.CameraMixin"
+    "client.registry.cameratypes.CameraMixin",
+    "client.registry.zooms.GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

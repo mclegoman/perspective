@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.client.registry.zooms.zoom;
 
 import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
+import dev.dannytaylor.perspective.client.registry.zooms.transitions.transition.ZoomTransition;
 
 public abstract class AbstractZoom implements Zoom {
     private float previousMultiplier = 1.0F;
@@ -37,14 +38,25 @@ public abstract class AbstractZoom implements Zoom {
         return null;
     }
 
+    public ZoomTransition getTransition() {
+        return null;
+    }
+
     public float getZoomAmount() {
-        return 0;
+        return 0.0F;
+    }
+
+    public float getTransitionSpeedOut() {
+        return 1.0F;
+    }
+
+    public float getTransitionSpeedIn() {
+        return 1.0F;
     }
 
     public void update() {
         this.setPreviousMultiplier(this.getMultiplier());
         this.setMultiplier(this.isZooming() && this.getScale() != null ? this.getScale().update(this.getZoomAmount()) : 1.0F);
-        // TODO: After update do smooth transitions!
-        // This should be in it's own thing!
+        if (getTransition() != null) this.setMultiplier(getTransition().updateMultiplier(this));
     }
 }
