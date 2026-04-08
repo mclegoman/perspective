@@ -33,7 +33,7 @@
 		]
 	},
 	"mixins": [
-		"perspective.mixins.json"
+		"dt-perspective.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.6",

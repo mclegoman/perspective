@@ -23,6 +23,7 @@ public class KeyMappingRegistry {
 
     public static class CameraType {
         private static final String category;
+        public static final KeyMapping adjustMultiplier;
 
         public static void onInitializeClient() {
             HoldPerspective.onInitializeClient();
@@ -31,6 +32,7 @@ public class KeyMappingRegistry {
 
         static {
             category = "camera_type";
+            adjustMultiplier = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "adjust_multiplier"), GLFW.GLFW_KEY_R);
         }
 
         public static class HoldPerspective {

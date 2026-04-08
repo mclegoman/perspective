@@ -39,12 +39,16 @@ public class PerspectiveConfig extends ReflectiveConfig {
 			false
 	);
 
-	public final HoldPerspectiveSettings holdPerspective = new HoldPerspectiveSettings(
+	public final CameraTypeSettings cameraType = new CameraTypeSettings(
 			5,
 			1.0F,
 			1.0F,
-			false,
-			true
+			new CameraTypeSettings.HoldPerspectiveSettings(
+					1.0F,
+					1.0F,
+					false,
+					true
+			)
 	);
 
 	public final ShaderSettings shaders = new ShaderSettings(

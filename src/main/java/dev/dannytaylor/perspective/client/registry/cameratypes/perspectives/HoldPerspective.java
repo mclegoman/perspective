@@ -7,6 +7,8 @@
 
 package dev.dannytaylor.perspective.client.registry.cameratypes.perspectives;
 
+import dev.dannytaylor.perspective.client.config.PerspectiveConfig;
+import dev.dannytaylor.perspective.client.registry.cameratypes.CameraTypeRegistry;
 import dev.dannytaylor.perspective.client.registry.keymappings.KeyMappingRegistry;
 import dev.dannytaylor.perspective.common.data.Log;
 import net.minecraft.client.CameraType;
@@ -46,5 +48,25 @@ public class HoldPerspective {
     private static void setCameraType(Minecraft minecraft, boolean isHolding, boolean isFront) {
         if (!isHolding) beforePressed = minecraft.options.getCameraType();
         minecraft.options.setCameraType(isFront ? CameraType.THIRD_PERSON_FRONT : CameraType.THIRD_PERSON_BACK);
+    }
+
+    public static boolean isHolding(Minecraft minecraft) {
+        return isHoldingBack(minecraft) || isHoldingFront(minecraft);
+    }
+
+    public static boolean isHoldingBack(Minecraft minecraft) {
+        return wasBackPressed && minecraft.options.getCameraType().equals(CameraType.THIRD_PERSON_BACK);
+    }
+
+    public static boolean isHoldingFront(Minecraft minecraft) {
+        return wasFrontPressed && minecraft.options.getCameraType().equals(CameraType.THIRD_PERSON_FRONT);
+    }
+
+    public static float getBackMultiplier() {
+        return CameraTypeRegistry.clampMultiplier(PerspectiveConfig.config.cameraType.holdPerspective.backMultiplier.value());
+    }
+
+    public static float getFrontMultiplier() {
+        return CameraTypeRegistry.clampMultiplier(PerspectiveConfig.config.cameraType.holdPerspective.frontMultiplier.value());
     }
 }
