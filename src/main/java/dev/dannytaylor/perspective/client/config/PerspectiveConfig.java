@@ -31,10 +31,10 @@ public class PerspectiveConfig extends ReflectiveConfig {
 			"smooth",
 			1.0F,
 			1.0F,
-			"scaled",
+			Identifiers.LOGARITHMIC,
 			"false",
 			false,
-			ConfigIdentifier.of(Identifiers.LOGARITHMIC),
+			Identifiers.LOGARITHMIC,
 			false,
 			false
 	);

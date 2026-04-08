@@ -5,7 +5,7 @@
   "client": [
     "client.events.ItemStackMixin",
     "client.registry.cameratypes.CameraMixin",
-    "client.registry.cameratypes.MouseHandlerMixin"
+    "client.events.MouseHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

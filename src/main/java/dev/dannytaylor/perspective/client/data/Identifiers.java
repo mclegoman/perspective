@@ -34,6 +34,7 @@ public class Identifiers {
     public static final Identifier LEGACY;
     public static final Identifier LINEAR;
     public static final Identifier LOGARITHMIC;
+    public static final Identifier SCALED;
     public static final Identifier MAIN;
     public static final Identifier MOON_PHASES;
     public static final Identifier MOOSHROOM;
@@ -52,6 +53,8 @@ public class Identifiers {
     public static final Identifier UI_BACKGROUND;
     public static final Identifier WITHER_SKELETON;
     public static final Identifier ZOMBIE;
+
+    public static final Identifier CAMERA_TYPE;
 
     private static Identifier of(String path) {
         return Data.idOf(path);
@@ -80,6 +83,7 @@ public class Identifiers {
         LEGACY = of("legacy");
         LINEAR = of("linear");
         LOGARITHMIC = of("logarithmic");
+        SCALED = of("scaled");
         MAIN = of("main");
         MOON_PHASES = of("moon_phases");
         MOOSHROOM = of("mooshroom");
@@ -98,5 +102,7 @@ public class Identifiers {
         UI_BACKGROUND = of("ui_background");
         WITHER_SKELETON = of("wither_skeleton");
         ZOMBIE = of("zombie");
+
+        CAMERA_TYPE = of("camera_type");
     }
 }

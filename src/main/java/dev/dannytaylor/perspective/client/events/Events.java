@@ -7,7 +7,16 @@
 
 package dev.dannytaylor.perspective.client.events;
 
+import dev.dannytaylor.perspective.client.registry.zooms.scales.scale.ZoomScale;
+import dev.dannytaylor.perspective.client.registry.zooms.zoom.Zoom;
+
 public class Events extends com.mclegoman.luminance.client.events.Events {
     public static final Registry<Runnables.UseItem> OnClientStartItemUse = new Registry<>();
     public static final Registry<Runnables.FinishUsingItem> OnClientFinishItemUse = new Registry<>();
+
+    public static final Registry<Callables.OnMouseScroll> OnMouseScroll = new Registry<>();
+    public static final Registry<Callables.OnMouseButton> OnMouseButton = new Registry<>();
+
+    public static final Registry<ZoomScale> ZoomScales = new Registry<>();
+    public static final Registry<Zoom> Zooms = new Registry<>();
 }

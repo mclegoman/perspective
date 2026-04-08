@@ -8,11 +8,16 @@
 package dev.dannytaylor.perspective.client.registry.cameratypes;
 
 import dev.dannytaylor.perspective.client.config.PerspectiveConfig;
+import dev.dannytaylor.perspective.client.data.ClientData;
+import dev.dannytaylor.perspective.client.data.Identifiers;
+import dev.dannytaylor.perspective.client.events.Events;
 import dev.dannytaylor.perspective.client.registry.cameratypes.perspectives.HoldPerspective;
 import dev.dannytaylor.perspective.client.registry.cameratypes.perspectives.SwapPerspective;
 import dev.dannytaylor.perspective.client.registry.keymappings.KeyMappingRegistry;
 import dev.dannytaylor.perspective.common.data.Log;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ScrollWheelHandler;
+import org.joml.Vector2i;
 
 public class CameraTypeRegistry {
     private static boolean wasConfigUpdated;
@@ -22,6 +27,28 @@ public class CameraTypeRegistry {
         try {
             HoldPerspective.onInitializeClient();
             SwapPerspective.onInitializeClient();
+            Events.OnMouseScroll.register(Identifiers.CAMERA_TYPE, (long windowHandle, double horizontal, double vertical, ScrollWheelHandler scrollWheelHandler) -> {
+                if (CameraTypeRegistry.isMultiplierAdjustable(ClientData.minecraft)) {
+                    boolean discreteMouseScroll = ClientData.minecraft.options.discreteMouseScroll().get();
+                    double mouseWheelSensitivity = ClientData.minecraft.options.mouseWheelSensitivity().get();
+                    double calculatedScroll = (discreteMouseScroll ? Math.signum(vertical) : vertical) * mouseWheelSensitivity;
+                    Vector2i vector2i = scrollWheelHandler.onMouseScroll(calculatedScroll, calculatedScroll);
+                    if (vector2i.y != 0) {
+                        CameraTypeRegistry.adjustMultiplier(ClientData.minecraft, -vector2i.y / 100.0F);
+                        return true;
+                    }
+                }
+                return false;
+            });
+            Events.OnMouseButton.register(Identifiers.CAMERA_TYPE, (windowHandle, mouseButtonInfo, action) -> {
+                if (CameraTypeRegistry.isMultiplierAdjustable(ClientData.minecraft)) {
+                    if (mouseButtonInfo.button() == 2) {
+                        CameraTypeRegistry.resetMultiplier(ClientData.minecraft);
+                        return true;
+                    }
+                }
+                return false;
+            });
         } catch (Exception error) {
             Log.error("Failed to initialize camera type registries: {}", error);
         }
