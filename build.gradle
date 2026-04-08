@@ -4,7 +4,16 @@ plugins {
 }
 
 version = project.mod_version
-group = project.maven_group
+group = project.maven_group + "." + project.mod_name.toLowerCase()
+
+loom {
+	runs {
+		client {
+			client()
+			programArg("--username=${project.mod_name}")
+		}
+	}
+}
 
 repositories {
 	maven { url = "https://jitpack.io" }
