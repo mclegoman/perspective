@@ -17,11 +17,12 @@ import org.lwjgl.glfw.GLFW;
 public class KeyMappingRegistry {
     public static void onInitializeClient() {
         Log.info("Initializing key mappings...");
-        CameraType.onInitializeClient();
-        Shaders.onInitializeClient();
+        CameraTypeKeyMappings.onInitializeClient();
+        ShaderKeyMappings.onInitializeClient();
+        ZoomKeyMappings.onInitializeClient();
     }
 
-    public static class CameraType {
+    public static class CameraTypeKeyMappings {
         private static final String category;
         public static final KeyMapping adjustMultiplier;
 
@@ -45,7 +46,7 @@ public class KeyMappingRegistry {
             }
 
             static {
-                category = getKey(CameraType.category, "hold_perspective");
+                category = getKey(CameraTypeKeyMappings.category, "hold_perspective");
                 thirdPersonBack = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "third_person_back"), GLFW.GLFW_KEY_Z);
                 thirdPersonFront = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "third_person_front"), GLFW.GLFW_KEY_X);
             }
@@ -62,7 +63,7 @@ public class KeyMappingRegistry {
             }
 
             static {
-                category = getKey(CameraType.category, "swap_perspective");
+                category = getKey(CameraTypeKeyMappings.category, "swap_perspective");
                 firstPerson = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "first_person"), GLFW.GLFW_KEY_KP_1);
                 thirdPersonBack = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "third_person_back"), GLFW.GLFW_KEY_KP_2);
                 thirdPersonFront = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "third_person_front"), GLFW.GLFW_KEY_KP_3);
@@ -70,18 +71,18 @@ public class KeyMappingRegistry {
         }
     }
 
-    public static class Shaders {
+    public static class ShaderKeyMappings {
         private static final String category;
 
         public static void onInitializeClient() {
-            SuperSecretSettings.onInitializeClient();
+            SuperSecretSettingsKeyMappings.onInitializeClient();
         }
 
         static {
             category = "shaders";
         }
 
-        public static class SuperSecretSettings {
+        public static class SuperSecretSettingsKeyMappings {
             private static final String category;
 
             public static final KeyMapping cycleShader;
@@ -93,12 +94,28 @@ public class KeyMappingRegistry {
             }
 
             static {
-                category = getKey(Shaders.category, "super_secret_settings");
+                category = getKey(ShaderKeyMappings.category, "super_secret_settings");
                 cycleShader = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "cycle_shader"), GLFW.GLFW_KEY_UNKNOWN);
                 cycleRenderLocation = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "cycle_render_location"), GLFW.GLFW_KEY_UNKNOWN);
                 holdShader = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "hold_shader"), GLFW.GLFW_KEY_UNKNOWN);
                 toggleShader = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "toggle_shader"), GLFW.GLFW_KEY_UNKNOWN);
             }
+        }
+    }
+
+    public static class ZoomKeyMappings {
+        private static final String category;
+
+        public static final KeyMapping holdZoom;
+        public static final KeyMapping toggleZoom;
+
+        public static void onInitializeClient() {
+        }
+
+        static {
+            category = "zoom";
+            holdZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "hold"), GLFW.GLFW_KEY_C);
+            toggleZoom = KeybindingHelper.getKeybinding(Data.getVersion().getID(), category, getKey(category, "toggle"), GLFW.GLFW_KEY_M);
         }
     }
 

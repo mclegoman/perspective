@@ -20,9 +20,9 @@ public class SwapPerspective {
     }
 
     public static void onTickClient(Minecraft minecraft) {
-        if (KeyMappingRegistry.CameraType.SwapPerspective.firstPerson.consumeClick()) setCameraType(minecraft, CameraType.FIRST_PERSON);
-        else if (KeyMappingRegistry.CameraType.SwapPerspective.thirdPersonBack.consumeClick()) setCameraType(minecraft, CameraType.THIRD_PERSON_BACK);
-        else if (KeyMappingRegistry.CameraType.SwapPerspective.thirdPersonFront.consumeClick()) setCameraType(minecraft, CameraType.THIRD_PERSON_FRONT);
+        if (KeyMappingRegistry.CameraTypeKeyMappings.SwapPerspective.firstPerson.consumeClick()) setCameraType(minecraft, CameraType.FIRST_PERSON);
+        else if (KeyMappingRegistry.CameraTypeKeyMappings.SwapPerspective.thirdPersonBack.consumeClick()) setCameraType(minecraft, CameraType.THIRD_PERSON_BACK);
+        else if (KeyMappingRegistry.CameraTypeKeyMappings.SwapPerspective.thirdPersonFront.consumeClick()) setCameraType(minecraft, CameraType.THIRD_PERSON_FRONT);
     }
 
     private static void setCameraType(Minecraft minecraft, CameraType cameraType) {

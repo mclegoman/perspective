@@ -25,19 +25,19 @@ public class HoldPerspective {
 
     public static void onTickClient(Minecraft minecraft) {
         // Back
-        if (!wasBackPressed && KeyMappingRegistry.CameraType.HoldPerspective.thirdPersonBack.isDown()) {
+        if (!wasBackPressed && KeyMappingRegistry.CameraTypeKeyMappings.HoldPerspective.thirdPersonBack.isDown()) {
             wasBackPressed = true;
             setCameraType(minecraft, wasFrontPressed, false);
-        } else if (wasBackPressed && !KeyMappingRegistry.CameraType.HoldPerspective.thirdPersonBack.isDown()) {
+        } else if (wasBackPressed && !KeyMappingRegistry.CameraTypeKeyMappings.HoldPerspective.thirdPersonBack.isDown()) {
             wasBackPressed = false;
             minecraft.options.setCameraType(wasFrontPressed ? CameraType.THIRD_PERSON_FRONT : beforePressed);
         }
 
         // Front
-        if (!wasFrontPressed && KeyMappingRegistry.CameraType.HoldPerspective.thirdPersonFront.isDown()) {
+        if (!wasFrontPressed && KeyMappingRegistry.CameraTypeKeyMappings.HoldPerspective.thirdPersonFront.isDown()) {
             wasFrontPressed = true;
             setCameraType(minecraft, wasBackPressed, true);
-        } else if (wasFrontPressed && !KeyMappingRegistry.CameraType.HoldPerspective.thirdPersonFront.isDown()) {
+        } else if (wasFrontPressed && !KeyMappingRegistry.CameraTypeKeyMappings.HoldPerspective.thirdPersonFront.isDown()) {
             wasFrontPressed = false;
             minecraft.options.setCameraType(wasBackPressed ? CameraType.THIRD_PERSON_BACK : beforePressed);
         }

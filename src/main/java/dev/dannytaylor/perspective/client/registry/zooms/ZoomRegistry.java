@@ -13,6 +13,7 @@ import dev.dannytaylor.perspective.client.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.client.data.ClientData;
 import dev.dannytaylor.perspective.client.data.Identifiers;
 import dev.dannytaylor.perspective.client.events.Events;
+import dev.dannytaylor.perspective.client.registry.keymappings.KeyMappingRegistry;
 import dev.dannytaylor.perspective.client.registry.zooms.scales.ZoomScales;
 import dev.dannytaylor.perspective.client.registry.zooms.transitions.ZoomTransitions;
 import dev.dannytaylor.perspective.client.registry.zooms.zoom.DefaultZoom;
@@ -30,13 +31,14 @@ import java.text.DecimalFormat;
 
 public class ZoomRegistry {
     public static Zoom MAIN = register(Identifiers.ZOOM, new DefaultZoom(
-            () -> PerspectiveConfig.config.zoom.enabled.value() && shouldMainZoom(),
+            ZoomRegistry::shouldMainZoom,
             () -> Events.ZoomScales.get(PerspectiveConfig.config.zoom.scaleType.value().getIdentifier()),
             () -> Events.ZoomTransitions.get(PerspectiveConfig.config.zoom.transition.value().getIdentifier()),
             PerspectiveConfig.config.zoom.amount::value,
             PerspectiveConfig.config.zoom.smoothSpeedOut::value,
             PerspectiveConfig.config.zoom.smoothSpeedIn::value,
             (minecraft) -> {
+                if (KeyMappingRegistry.ZoomKeyMappings.toggleZoom.consumeClick()) ZoomRegistry.isMainZoomToggled = !ZoomRegistry.isMainZoomToggled;
                 if (!shouldMainZoom() && ZoomRegistry.wasConfigUpdated) {
                     PerspectiveConfig.config.save();
                     ZoomRegistry.wasConfigUpdated = false;
@@ -47,7 +49,9 @@ public class ZoomRegistry {
     public static float fov = 70.0F;
     public static float zoomFov = 70.0F;
 
-    public static boolean wasConfigUpdated;
+    private static boolean isMainZoomToggled;
+
+    private static boolean wasConfigUpdated;
 
     public static void onInitializeClient() {
         Log.info("Initializing zoom registries...");
@@ -97,7 +101,7 @@ public class ZoomRegistry {
     }
 
     public static boolean shouldMainZoom() {
-        return ClientData.minecraft.hasShiftDown(); // todo: keymappings
+        return PerspectiveConfig.config.zoom.enabled.value() && (KeyMappingRegistry.ZoomKeyMappings.holdZoom.isDown() || ZoomRegistry.isMainZoomToggled);
     }
 
     private static void setMainZoomAmount(float amount) {

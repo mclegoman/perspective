@@ -43,9 +43,9 @@ public class SuperSecretSettingsRenderer {
     }
 
     public static void onTickClient(Minecraft minecraft) {
-        if (KeyMappingRegistry.Shaders.SuperSecretSettings.cycleShader.consumeClick()) cycleShaderStack(minecraft.hasShiftDown());
-        if (KeyMappingRegistry.Shaders.SuperSecretSettings.cycleRenderLocation.consumeClick()) cycleRenderLocation(minecraft.hasShiftDown());
-        if (KeyMappingRegistry.Shaders.SuperSecretSettings.toggleShader.consumeClick()) toggleShaderStack();
+        if (KeyMappingRegistry.ShaderKeyMappings.SuperSecretSettingsKeyMappings.cycleShader.consumeClick()) cycleShaderStack(minecraft.hasShiftDown());
+        if (KeyMappingRegistry.ShaderKeyMappings.SuperSecretSettingsKeyMappings.cycleRenderLocation.consumeClick()) cycleRenderLocation(minecraft.hasShiftDown());
+        if (KeyMappingRegistry.ShaderKeyMappings.SuperSecretSettingsKeyMappings.toggleShader.consumeClick()) toggleShaderStack();
     }
 
     public static Identifier getId() {
@@ -81,7 +81,7 @@ public class SuperSecretSettingsRenderer {
     }
 
     public static boolean isEnabled() {
-        return PerspectiveConfig.config.shaders.superSecretSettings.enabled.value() != KeyMappingRegistry.Shaders.SuperSecretSettings.holdShader.isDown();
+        return PerspectiveConfig.config.shaders.superSecretSettings.enabled.value() != KeyMappingRegistry.ShaderKeyMappings.SuperSecretSettingsKeyMappings.holdShader.isDown();
     }
 
     public static void cycleShaderStack(boolean forwards) {

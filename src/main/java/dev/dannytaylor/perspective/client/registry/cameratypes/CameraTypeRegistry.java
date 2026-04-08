@@ -64,7 +64,7 @@ public class CameraTypeRegistry {
     }
 
     public static boolean isHoldingAdjust() {
-        return KeyMappingRegistry.CameraType.adjustMultiplier.isDown();
+        return KeyMappingRegistry.CameraTypeKeyMappings.adjustMultiplier.isDown();
     }
 
     public static boolean isMultiplierAdjustable(Minecraft minecraft) {

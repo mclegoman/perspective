@@ -30,5 +30,6 @@ public class ClientRegistry {
     public static void onTickClient(Minecraft minecraft) {
         ShaderRenderers.onTickClient(minecraft);
         CameraTypeRegistry.onTickClient(minecraft);
+        ZoomRegistry.onTickClient(minecraft);
     }
 }
