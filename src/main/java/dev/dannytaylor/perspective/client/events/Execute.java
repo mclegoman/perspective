@@ -38,20 +38,4 @@ public class Execute extends com.mclegoman.luminance.client.events.Execute {
             }
         });
     }
-
-    public static boolean OnMouseScroll(long windowHandle, double horizontal, double vertical, ScrollWheelHandler scrollWheelHandler) {
-        boolean shouldCancel = false;
-        for (Identifier registry : Events.OnMouseScroll.registry.keySet()) {
-            if (Events.OnMouseScroll.get(registry).call(windowHandle, horizontal, vertical, scrollWheelHandler)) shouldCancel = true;
-        }
-        return shouldCancel;
-    }
-
-    public static boolean OnMouseButton(long windowHandle, MouseButtonInfo mouseButtonInfo, @MouseButtonInfo.Action int action) {
-        boolean shouldCancel = false;
-        for (Identifier registry : Events.OnMouseButton.registry.keySet()) {
-            if (Events.OnMouseButton.get(registry).call(windowHandle, mouseButtonInfo, action)) shouldCancel = true;
-        }
-        return shouldCancel;
-    }
 }
