@@ -104,7 +104,12 @@ public class ZoomRegistry {
     }
 
     public static boolean shouldMainZoom() {
-        return PerspectiveConfig.config.zoom.enabled.value() && (KeyMappingRegistry.ZoomKeyMappings.holdZoom.isDown() || ZoomRegistry.isMainZoomToggled);
+        if (PerspectiveConfig.config.zoom.enabled.value()) {
+            boolean shouldZoom = ZoomRegistry.isMainZoomToggled;
+            if (KeyMappingRegistry.ZoomKeyMappings.holdZoom.isDown()) shouldZoom = !shouldZoom;
+            return shouldZoom;
+        }
+        return false;
     }
 
     private static void setMainZoomAmount(float amount) {
