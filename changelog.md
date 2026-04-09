@@ -8,8 +8,8 @@ These modules will be available as both their own mods, and bundled together as 
 1.3 will continue to be updated in the meantime, but won't contain any new features.
 See [The future of Perspective](https://github.com/mclegoman/perspective/issues/22) for more details.
 
-> Important note for users upgrading from older versions  
-> This beta contains major changes, and won't be compatible with older addons, configs, or keybindings.
+> **Important note for users upgrading from older versions**  
+> This beta contains major changes, and won't be compatible with older addons, and won't load old configs, or keybindings.
 > You will need to resetup your config and keybindings, however this shouldn't need to be done again for Perspective 2.0.
 
 ## Changes
@@ -22,3 +22,4 @@ See [The future of Perspective](https://github.com/mclegoman/perspective/issues/
   - Whilst this was a useful feature, it was difficult to make sure you'd return to your intended perspective if you changed perspective manually whilst holding.
     - Swap Perspective will now switch what perspective you will go to after you let go.
 - Zoom has been given an overhaul, though you probably won't see any differences unless you have an addon.
+- Updated Title Renderer to only render the update texture if it exists, and when it does move the title up by 16.

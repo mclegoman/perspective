@@ -6,7 +6,9 @@
     "client.events.ItemStackMixin",
     "client.registry.cameratypes.CameraMixin",
     "client.registry.zooms.GameRendererMixin",
-    "client.registry.zooms.MouseHandlerMixin"
+    "client.registry.zooms.MouseHandlerMixin",
+    "client.ui.LogoRendererMixin",
+    "client.ui.SplashRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
