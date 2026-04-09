@@ -1,0 +1,29 @@
+# Perspective TODO list
+- [ ] Core API
+  - [ ] Config Screens
+  - [x] Events
+  - [ ] Resource Packs
+  - [ ] Contributors
+- [x] Lens
+  - [x] Zoom
+- [x] Radiance
+  - [x] Super Secret Settings
+  - [x] Kaleidoscope
+- [ ] UI Background
+  - [x] Title Renderer
+  - [ ] UI Background
+  - [ ] Classic Render Features
+    - [ ] Minecraft Version Overlay
+- [ ] Ambience
+  - [x] Star Brightness Multiplier
+  - [ ] Particles
+  - [ ] Sounds
+- [x] QuickView
+  - [x] Hold Perspective
+  - [x] Swap Perspective
+  - [x] Third Person Distance Multiplier
+- [ ] Textured Entity
+- [ ] Overlays
+  - [ ] Variables
+  - [ ] Customizable Overlays
+- [ ] Move packages to those that will match 2.0, this will allow addons to aim for both.

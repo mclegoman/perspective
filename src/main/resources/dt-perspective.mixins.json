@@ -8,7 +8,8 @@
     "client.registry.zooms.GameRendererMixin",
     "client.registry.zooms.MouseHandlerMixin",
     "client.ui.LogoRendererMixin",
-    "client.ui.SplashRendererMixin"
+    "client.ui.SplashRendererMixin",
+    "game.SkyRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
