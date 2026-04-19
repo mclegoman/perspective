@@ -7,8 +7,8 @@
 
 package dev.dannytaylor.perspective.lens.zooms;
 
-import com.mclegoman.luminance.client.translation.Translation;
 import com.mclegoman.luminance.client.util.MessageOverlay;
+import dev.dannytaylor.perspective.api.component.Components;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
@@ -94,10 +94,6 @@ public class ZoomRegistry {
         return zoom;
     }
 
-    public static double getMultiplierFromFOV() {
-        return zoomFov/fov;
-    }
-
     public static boolean shouldMainZoom() {
         if (LensConfig.instance.enabled.value()) {
             boolean shouldZoom = ZoomRegistry.isMainZoomToggled;
@@ -109,7 +105,7 @@ public class ZoomRegistry {
 
     private static void setMainZoomAmount(float amount) {
         float clampedAmount = clampMainAmount(amount);
-        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(Translation.getCombinedText(Translation.getTranslation(LensClient.getMod().getId(true), "zoom.adjust"), Component.literal(" " + new DecimalFormat("#.##").format(clampedAmount) + "%")).withStyle(ChatFormatting.GOLD));
+        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(Components.getCombinedText(Components.translatable(LensClient.getMod().idOf("zoom.adjust")), Component.literal(" " + new DecimalFormat("#.##").format(clampedAmount) + "%")).withStyle(ChatFormatting.GOLD));
         LensConfig.instance.amount.setValue(clampedAmount, false);
         ZoomRegistry.wasConfigUpdated = true;
     }
@@ -133,7 +129,15 @@ public class ZoomRegistry {
     public static float getCombinedMouseMultiplier() {
         float multiplier = 1.0F;
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-            if (zoom.getEffect() != null) multiplier *= zoom.getEffect().getMouseMultiplier(zoom);
+            if (zoom != null && zoom.getEffect() != null) multiplier *= zoom.getEffect().getMouseMultiplier(zoom);
+        }
+        return multiplier;
+    }
+
+    public static float getCombinedMultiplier() {
+        float multiplier = 1.0F;
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) {
+            if (zoom != null) multiplier *= zoom.getMultiplier();
         }
         return multiplier;
     }

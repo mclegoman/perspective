@@ -8,12 +8,14 @@
 package dev.dannytaylor.perspective.lens;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.lens.compat.LensLuminance;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
 import dev.dannytaylor.perspective.lens.keymappings.LensKeyMappings;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
@@ -34,6 +36,7 @@ public class LensClient implements ClientModInitializer {
             LensConfig.onInitializeClient(getMod());
             LensKeyMappings.onInitializeClient(getMod());
             ZoomRegistry.onInitializeClient(getMod());
+            if (FabricLoader.getInstance().isModLoaded("luminance")) LensLuminance.onInitializeClient(getMod());
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);
         });
     }

@@ -10,7 +10,6 @@ package dev.dannytaylor.perspective.ui.background;
 import com.mclegoman.luminance.client.data.ClientData;
 import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.events.Runnables;
-import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.ShaderStacks;
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
@@ -57,9 +56,6 @@ public class BackgroundRegistry {
 
     public static void applyGaussian() {
         Events.ShaderRender.modify(UserInterfaceClient.idOf("gaussian"), ShaderStacks.getShaders(UserInterfaceClient.idOf("gaussian"), ShaderStacks.getStack(UserInterfaceClient.idOf("background"), UserInterfaceClient.idOf("gaussian")), () -> UserInterfaceShaders.GAUSSIAN_BACKGROUND_BLUR, () -> true, (entry) -> false));
-        for (Shader.Data data : Events.ShaderRender.get(UserInterfaceClient.idOf("gaussian")).shaders()) {
-            System.out.println(data.id() + ":" + data.shader().getShaderId());
-        }
     }
 
     public static Background register(Identifier identifier, Background background) {

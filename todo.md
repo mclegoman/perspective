@@ -1,6 +1,7 @@
 # Perspective TODO list
 - [ ] Core API
   - [ ] Config Screens
+    - [ ] Event Registry that contains the screen widgets, for coreapi to create (and combine).
   - [x] Events
   - [ ] Contributors
   - [ ] April Fools
@@ -11,9 +12,9 @@
 - [x] Radiance
   - [x] Super Secret Settings
   - [x] Kaleidoscope
-- [ ] UI
+- [ ] User Interface
   - [x] Title Renderer
-  - [ ] UI Background
+  - [x] UI Background
   - [ ] Non-Customizable Overlays
   - [ ] Variables
   - [ ] Customizable Overlays

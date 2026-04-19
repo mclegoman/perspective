@@ -23,5 +23,7 @@
 	"gui.perspective_lens.keybindings.keybinding.zoom.hold": "Hold Zoom",
 	"gui.perspective_lens.keybindings.keybinding.zoom.toggle": "Toggle Zoom",
 
-	"gui.perspective_lens.zoom.adjust": "Zoom:"
+	"gui.perspective_lens.zoom.adjust": "Zoom:",
+
+	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s"
 }
