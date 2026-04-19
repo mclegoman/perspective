@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.hold_perspective.config;
 
+import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
@@ -28,8 +29,8 @@ public class HoldPerspectiveConfig extends ReflectiveConfig {
     public final HoldPerspectiveSettings holdPerspective = new HoldPerspectiveSettings(
             1.0F,
             1.0F,
-            false,
-            true
+            HideHud.nothing,
+            HideHud.hudOnly
     );
 
     public static void onInitializeClient(PerspectiveMod mod) {
@@ -41,14 +42,14 @@ public class HoldPerspectiveConfig extends ReflectiveConfig {
         public final TrackedValue<Float> backMultiplier;
         @FloatRange(min = 0.5, max = 16)
         public final TrackedValue<Float> frontMultiplier;
-        public final TrackedValue<Boolean> backHideHud;
-        public final TrackedValue<Boolean> frontHideHud;
+        public final TrackedValue<HideHud> backHideHud;
+        public final TrackedValue<HideHud> frontHideHud;
 
         public HoldPerspectiveSettings(
                 float backMultiplierValue,
                 float frontMultiplierValue,
-                boolean backHideHudValue,
-                boolean frontHideHudValue
+                HideHud backHideHudValue,
+                HideHud frontHideHudValue
         ) {
             backMultiplier = this.value(backMultiplierValue);
             frontMultiplier = this.value(frontMultiplierValue);

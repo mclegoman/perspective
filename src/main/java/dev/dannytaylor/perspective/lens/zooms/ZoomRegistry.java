@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.lens.zooms;
 
 import com.mclegoman.luminance.client.util.MessageOverlay;
 import dev.dannytaylor.perspective.api.component.Components;
+import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
@@ -29,7 +30,7 @@ import java.text.DecimalFormat;
 
 public class ZoomRegistry {
     public static Zoom MAIN = register(getIdentifier(), new DefaultZoom(
-            ZoomRegistry::shouldMainZoom,
+            ZoomRegistry::isMainZooming,
             () -> LensEvents.ZoomScales.get(LensConfig.instance.scaleType.value().getIdentifier()),
             () -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()),
             () -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()),
@@ -38,7 +39,7 @@ public class ZoomRegistry {
             LensConfig.instance.smoothSpeedIn::value,
             (minecraft) -> {
                 if (LensKeyMappings.toggleZoom.consumeClick()) ZoomRegistry.isMainZoomToggled = !ZoomRegistry.isMainZoomToggled;
-                if (!shouldMainZoom() && ZoomRegistry.wasConfigUpdated) {
+                if (!isMainZooming() && ZoomRegistry.wasConfigUpdated) {
                     LensConfig.instance.save();
                     ZoomRegistry.wasConfigUpdated = false;
                 }
@@ -64,7 +65,7 @@ public class ZoomRegistry {
             ZoomEffects.onInitializeClient(mod);
 
             LensEvents.OnMouseScroll.register(getIdentifier(), (long windowHandle, double horizontal, double vertical, Vector2i vector2i) -> {
-                if (ZoomRegistry.shouldMainZoom()) {
+                if (ZoomRegistry.isMainZooming()) {
                     if (vector2i.y != 0) {
                         ZoomRegistry.adjustMainAmount(vector2i.y);
                         return true;
@@ -74,7 +75,7 @@ public class ZoomRegistry {
             });
 
             LensEvents.OnMouseButton.register(getIdentifier(), (windowHandle, mouseButtonInfo, action) -> {
-                if (ZoomRegistry.shouldMainZoom()) {
+                if (ZoomRegistry.isMainZooming()) {
                     if (mouseButtonInfo.button() == 2) {
                         ZoomRegistry.setMainZoomAmount(LensConfig.instance.amount.getDefaultValue());
                         return true;
@@ -82,6 +83,8 @@ public class ZoomRegistry {
                 }
                 return false;
             });
+
+            LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isMainZooming() ? LensConfig.instance.hideHud.value() : HideHud.nothing);
         });
     }
 
@@ -94,7 +97,7 @@ public class ZoomRegistry {
         return zoom;
     }
 
-    public static boolean shouldMainZoom() {
+    public static boolean isMainZooming() {
         if (LensConfig.instance.enabled.value()) {
             boolean shouldZoom = ZoomRegistry.isMainZoomToggled;
             if (LensKeyMappings.holdZoom.isDown()) shouldZoom = !shouldZoom;
@@ -115,7 +118,7 @@ public class ZoomRegistry {
     }
 
     private static void adjustMainAmount(float scrollAmount) {
-        if (shouldMainZoom()) setMainZoomAmount(clampMainAmount(LensConfig.instance.amount.value() + (scrollAmount * LensConfig.instance.incrementSize.value())));
+        if (isMainZooming()) setMainZoomAmount(clampMainAmount(LensConfig.instance.amount.value() + (scrollAmount * LensConfig.instance.incrementSize.value())));
     }
 
     public static float getCombinedBobViewMultiplier() {

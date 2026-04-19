@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.api;
 
+import dev.dannytaylor.perspective.api.config.CoreConfig;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import net.fabricmc.api.ClientModInitializer;
@@ -28,8 +29,7 @@ public class CoreClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CoreEvents.onInitialize(getMod(), () -> {
-            // todo: config
-            //PerspectiveConfig.onInitializeClient(getMod());
+            CoreConfig.onInitializeClient(getMod());
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);
         }, true);
     }

@@ -16,19 +16,24 @@ public record ConfigIdentifier(Identifier identifier) implements ConfigSerializa
 	public Identifier getIdentifier() {
 		return this.identifier;
 	}
+
 	public static ConfigIdentifier of(Identifier identifier) {
 		return new ConfigIdentifier(identifier);
 	}
+
 	public static ConfigIdentifier of(String identifier) {
 		return of(Identifier.parse(identifier));
 	}
+
 	public ConfigIdentifier convertFrom(String representation) {
 		// We assume perspective as the namespace if none is provided - this is to make sure zoom_type is updated properly.
 		return new ConfigIdentifier(Identifier.parse((!representation.contains(":") ? CoreClient.getMod().getPerspectiveId() + ":" : "") + representation));
 	}
+
 	public String getRepresentation() {
 		return this.identifier.toString();
 	}
+
 	public ConfigIdentifier copy() {
 		return this;
 	}

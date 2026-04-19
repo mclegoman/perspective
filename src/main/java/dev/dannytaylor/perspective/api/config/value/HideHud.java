@@ -10,15 +10,14 @@ package dev.dannytaylor.perspective.api.config.value;
 import dev.dannytaylor.perspective.api.CoreClient;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 
-@SuppressWarnings("unused")
-public enum QualityToggle implements ConfigSerializableObject<Object> {
-	off("off"),
-	fast("fast"),
-	fancy("fancy");
+public enum HideHud implements ConfigSerializableObject<Object> {
+	nothing("nothing"),
+	hudOnly("hud_only"),
+	everything("everything");
 
 	private final String name;
 
-	QualityToggle(String name) {
+	HideHud(String name) {
 		this.name = name;
 	}
 
@@ -26,12 +25,12 @@ public enum QualityToggle implements ConfigSerializableObject<Object> {
 		return this.name;
 	}
 
-	public QualityToggle convertFrom(Object representation) {
+	public HideHud convertFrom(Object representation) {
 		try {
 			return valueOf(String.valueOf(representation));
 		} catch (IllegalArgumentException error) {
-			CoreClient.getMod().getLogger().warn("Failed to convert Quality Toggle from string representation, defaulting to off.");
-			return off;
+			CoreClient.getMod().getLogger().warn("Failed to convert Hide Hud from string representation, defaulting to nothing.");
+			return nothing;
 		}
 	}
 
@@ -39,7 +38,7 @@ public enum QualityToggle implements ConfigSerializableObject<Object> {
 		return this.asString();
 	}
 
-	public QualityToggle copy() {
+	public HideHud copy() {
 		return this;
 	}
 }

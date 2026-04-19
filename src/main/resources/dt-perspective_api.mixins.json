@@ -3,7 +3,9 @@
   "package": "dev.dannytaylor.perspective.api.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "events.ItemStackMixin"
+    "events.ItemStackMixin",
+    "events.hide_hud.GameRendererMixin",
+    "events.hide_hud.GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1

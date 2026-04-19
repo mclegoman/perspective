@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.lens;
 
+import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.lens.compat.LensLuminance;
 import dev.dannytaylor.perspective.lens.config.LensConfig;

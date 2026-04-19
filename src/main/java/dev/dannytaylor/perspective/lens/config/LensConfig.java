@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.lens.config;
 
+import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
@@ -31,7 +32,7 @@ public class LensConfig extends ReflectiveConfig {
     @FloatRange(min = 0, max = 2)
     public final TrackedValue<Float> smoothSpeedOut = this.value(1.0F);
     public final TrackedValue<ConfigIdentifier> effects = this.value(ConfigIdentifier.of(LensClient.idOf("scaled")));
-    public final TrackedValue<String> hideHud = this.value("false"); // TODO: turn into a config value
+    public final TrackedValue<HideHud> hideHud = this.value(HideHud.nothing);
     public final TrackedValue<Boolean> showPercentage = this.value(false);
     public final TrackedValue<ConfigIdentifier> scaleType = this.value(ConfigIdentifier.of(LensClient.idOf("logarithmic")));
     public final TrackedValue<Boolean> reset = this.value(false);
