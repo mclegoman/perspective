@@ -11,6 +11,7 @@ import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
 import com.mclegoman.luminance.client.shaders.ShaderStacks;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import dev.dannytaylor.perspective.radiance.shaders.renderers.KaleidoscopeRenderer;
 import dev.dannytaylor.perspective.radiance.shaders.renderers.SuperSecretSettingsRenderer;
 import net.minecraft.client.Minecraft;
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 public class ShaderRenderers {
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Shader Renderers", () -> {
+        RadianceEvents.onInitialize(mod, "Shader Renderers", () -> {
             initUniforms();
             KaleidoscopeRenderer.onInitializeClient(mod);
             SuperSecretSettingsRenderer.onInitializeClient(mod);

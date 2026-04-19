@@ -7,7 +7,8 @@
 
 package dev.dannytaylor.perspective.lens.zooms.zoom;
 
-import dev.dannytaylor.perspective_old.client.events.Runnables;
+import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.api.events.CoreRunnables;
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
@@ -23,7 +24,9 @@ public class DefaultZoom extends AbstractZoom {
     private final Callable<Float> amount;
     private final Callable<Float> transitionSpeedOut;
     private final Callable<Float> transitionSpeedIn;
-    private final Runnables.OnTickClient onTickClient;
+    private final CoreRunnables.OnTickClient onTickClient;
+    
+    private final PerspectiveMod mod;
 
     public DefaultZoom(
             Callable<Boolean> isZoomingValue,
@@ -33,7 +36,8 @@ public class DefaultZoom extends AbstractZoom {
             Callable<Float> amountValue,
             Callable<Float> transitionSpeedOutValue,
             Callable<Float> transitionSpeedInValue,
-            Runnables.OnTickClient onTickClientValue
+            CoreRunnables.OnTickClient onTickClientValue,
+            PerspectiveMod mod
     ) {
         this.isZooming = isZoomingValue;
         this.scale = scaleValue;
@@ -43,13 +47,14 @@ public class DefaultZoom extends AbstractZoom {
         this.transitionSpeedOut = transitionSpeedOutValue;
         this.transitionSpeedIn = transitionSpeedInValue;
         this.onTickClient = onTickClientValue;
+        this.mod = mod;
     }
 
     public boolean isZooming() {
         try {
             return this.isZooming.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom isZooming: {}", error);
+            this.mod.getLogger().error("Failed to get zoom isZooming: {}", error);
             return false;
         }
     }
@@ -58,7 +63,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.scale.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom scale: {}", error);
+            this.mod.getLogger().error("Failed to get zoom scale: {}", error);
             return null;
         }
     }
@@ -67,7 +72,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.transition.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom transition: {}", error);
+            this.mod.getLogger().error("Failed to get zoom transition: {}", error);
             return null;
         }
     }
@@ -76,7 +81,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.effect.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom effect: {}", error);
+            this.mod.getLogger().error("Failed to get zoom effect: {}", error);
             return null;
         }
     }
@@ -85,7 +90,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.amount.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom amount: {}", error);
+            this.mod.getLogger().error("Failed to get zoom amount: {}", error);
             return 0.0F;
         }
     }
@@ -94,7 +99,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.transitionSpeedOut.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom transition speed out: {}", error);
+            this.mod.getLogger().error("Failed to get zoom transition speed out: {}", error);
             return 1.0F;
         }
     }
@@ -103,7 +108,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             return this.transitionSpeedIn.call();
         } catch (Exception error) {
-            //StaticLog.error("Failed to get zoom transition speed in: {}", error);
+            this.mod.getLogger().error("Failed to get zoom transition speed in: {}", error);
             return 1.0F;
         }
     }
@@ -112,7 +117,7 @@ public class DefaultZoom extends AbstractZoom {
         try {
             this.onTickClient.run(minecraft);
         } catch (Exception error) {
-            //StaticLog.error("Failed to tick zoom client: {}", error);
+            this.mod.getLogger().error("Failed to tick zoom client: {}", error);
         }
     }
 }

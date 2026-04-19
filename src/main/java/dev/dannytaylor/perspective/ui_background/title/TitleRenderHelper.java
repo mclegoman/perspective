@@ -1,11 +1,11 @@
 /*
-    Perspective
+    UI Background
     Contributor(s): dannytaylor
-    Github: https://github.com/mclegoman/perspective
+    Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.client.events;
+package dev.dannytaylor.perspective.ui_background.title;
 
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.data.CoreData;

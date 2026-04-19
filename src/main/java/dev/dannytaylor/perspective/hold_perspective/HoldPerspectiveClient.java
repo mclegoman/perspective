@@ -10,6 +10,7 @@ package dev.dannytaylor.perspective.hold_perspective;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.CameraTypeRegistry;
+import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.hold_perspective.keymappings.HoldPerspectiveKeyMappings;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -29,7 +30,7 @@ public class HoldPerspectiveClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        CoreEvents.onInitialize(getMod(), () -> {
+        HoldPerspectiveEvents.onInitialize(getMod(), () -> {
             HoldPerspectiveKeyMappings.onInitializeClient(mod);
             CameraTypeRegistry.onInitializeClient(mod);
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);

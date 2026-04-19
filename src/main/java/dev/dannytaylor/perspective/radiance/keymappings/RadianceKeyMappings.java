@@ -12,6 +12,7 @@ import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.api.keymappings.CoreKeyMappings;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 
@@ -19,7 +20,7 @@ public class RadianceKeyMappings extends CoreKeyMappings {
     private static final String category;
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Key Mappings", () -> {
+        RadianceEvents.onInitialize(mod, "Key Mappings", () -> {
             SuperSecretSettingsKeyMappings.onInitializeClient(mod);
         });
     }

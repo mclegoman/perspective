@@ -8,9 +8,9 @@
 package dev.dannytaylor.perspective.lens.config;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
+import dev.dannytaylor.perspective.lens.events.LensEvents;
 import folk.sisby.kaleido.api.ReflectiveConfig;
 import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
@@ -38,6 +38,6 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<Boolean> cinematic = this.value(false);
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Config", () -> {});
+        LensEvents.onInitialize(mod, "Config", () -> {});
     }
 }

@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.hold_perspective.keymappings.HoldPerspectiveKeyMappings;
 import dev.dannytaylor.perspective_old.client.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.CameraTypeRegistry;
@@ -21,7 +22,7 @@ public class HoldPerspective {
     public static boolean wasFrontPressed;
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Hold Perspective", () -> {});
+        HoldPerspectiveEvents.onInitialize(mod, "Hold Perspective", () -> {});
     }
 
     public static void onTickClient(Minecraft minecraft) {

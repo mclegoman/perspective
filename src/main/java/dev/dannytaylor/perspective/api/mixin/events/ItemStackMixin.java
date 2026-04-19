@@ -5,9 +5,10 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.events;
+package dev.dannytaylor.perspective.api.mixin.events;
 
-import dev.dannytaylor.perspective_old.client.events.Execute;
+import dev.dannytaylor.perspective.api.CoreClient;
+import dev.dannytaylor.perspective.api.events.CoreExecute;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,12 +24,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ItemStackMixin {
 	@Inject(method = "use", at = @At("HEAD"))
 	private void perspective$use(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
-		// todo: fix
-		//Execute.onClientStartItemUse((ItemStack)(Object)this, level, player, interactionHand);
+		CoreExecute.onClientStartItemUse(CoreClient.getMod(), (ItemStack)(Object)this, level, player, interactionHand);
 	}
 
 	@Inject(method = "finishUsingItem", at = @At("HEAD"))
 	private void perspective$finishUsingItem(Level level, LivingEntity livingEntity, CallbackInfoReturnable<ItemStack> cir) {
-		//Execute.onClientFinishItemUse((ItemStack)(Object)this, level, livingEntity);
+		CoreExecute.onClientFinishItemUse(CoreClient.getMod(), (ItemStack)(Object)this, level, livingEntity);
 	}
 }

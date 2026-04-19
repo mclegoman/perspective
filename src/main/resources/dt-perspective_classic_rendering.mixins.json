@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "dev.dannytaylor.perspective.classic_rendering.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "SkyRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

@@ -29,14 +29,17 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"dev.dannytaylor.perspective.api.CoreAPIClient",
+			"dev.dannytaylor.perspective.api.CoreClient",
 			"dev.dannytaylor.perspective.radiance.RadianceClient",
 			"dev.dannytaylor.perspective.lens.LensClient",
 			"dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient"
 		]
 	},
 	"mixins": [
-		"dt-perspective.mixins.json"
+		"dt-perspective_api.mixins.json",
+		"dt-perspective_classic_rendering.mixins.json",
+		"dt-perspective_lens.mixins.json",
+		"dt-perspective_ui_background.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.6",

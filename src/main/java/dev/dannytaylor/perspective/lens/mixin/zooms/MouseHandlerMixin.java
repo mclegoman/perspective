@@ -5,7 +5,7 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.registry.zooms;
+package dev.dannytaylor.perspective.lens.mixin.zooms;
 
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;

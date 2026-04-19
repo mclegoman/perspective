@@ -15,9 +15,9 @@ import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
 import dev.dannytaylor.perspective.radiance.config.RadianceConfig;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import dev.dannytaylor.perspective.radiance.keymappings.RadianceKeyMappings;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
-import dev.dannytaylor.perspective_old.client.events.Events;
 import dev.dannytaylor.perspective.radiance.shaders.ShaderRenderers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -33,10 +33,10 @@ public class SuperSecretSettingsRenderer {
     }
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Super Secret Settings Renderer", () -> {
+        RadianceEvents.onInitialize(mod, "Super Secret Settings Renderer", () -> {
             registerCyclableRenderLocation(RenderLocations.GAME);
             registerCyclableRenderLocation(RenderLocations.UI);
-            Events.AfterClientResourceReload.register(getIdentifier(), SuperSecretSettingsRenderer::applyShaderStack);
+            RadianceEvents.AfterClientResourceReload.register(getIdentifier(), SuperSecretSettingsRenderer::applyShaderStack);
         });
     }
 
@@ -51,11 +51,11 @@ public class SuperSecretSettingsRenderer {
     }
 
     public static void applyShaderStack() {
-        Events.ShaderRender.register(getIdentifier());
-        Events.ShaderRender.modify(getIdentifier(), getShadersFromId(getIdentifier()));
+        RadianceEvents.ShaderRender.register(getIdentifier());
+        RadianceEvents.ShaderRender.modify(getIdentifier(), getShadersFromId(getIdentifier()));
     }
 
-    private static Events.ShaderRenderData getShadersFromId(Identifier renderId) {
+    private static RadianceEvents.ShaderRenderData getShadersFromId(Identifier renderId) {
         return ShaderStacks.getShaders(
                 renderId,
                 ShaderStacks.getStack(RadianceConfig.instance.superSecretSettings.shaderStack.value().getIdentifier()),
@@ -75,7 +75,7 @@ public class SuperSecretSettingsRenderer {
     }
 
     public static RenderLocations.RenderLocation<?> getRenderLocation() {
-        return Events.RenderLocation.get(RadianceConfig.instance.superSecretSettings.renderLocation.value().getIdentifier());
+        return RadianceEvents.RenderLocation.get(RadianceConfig.instance.superSecretSettings.renderLocation.value().getIdentifier());
     }
 
     public static boolean isEnabled() {

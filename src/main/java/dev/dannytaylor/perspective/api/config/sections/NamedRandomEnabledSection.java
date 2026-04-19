@@ -1,7 +1,7 @@
 /*
-    Perspective
+    Core API
     Contributor(s): dannytaylor
-    Github: https://github.com/mclegoman/perspective
+    Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 

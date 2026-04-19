@@ -14,9 +14,9 @@
 - [ ] UI Background
   - [x] Title Renderer
   - [ ] UI Background
-  - [ ] Classic Render Features
-    - [ ] Minecraft Version Overlay
-    - [x] Star Brightness Multiplier
+- [ ] Classic Render Features
+  - [ ] Minecraft Version Overlay
+  - [x] Star Brightness Multiplier
 - [ ] Ambience
   - [ ] Particles
   - [ ] Sounds

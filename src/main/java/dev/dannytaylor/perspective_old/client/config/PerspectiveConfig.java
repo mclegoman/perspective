@@ -24,8 +24,6 @@ public class PerspectiveConfig extends ReflectiveConfig {
 
 	// TODO: Adjust values that could be Config Values instead of strings.
 
-
-
 	public static class UiBackground extends ReflectiveConfig.Section {
 		public final TrackedValue<ConfigIdentifier> type;
 		public final TrackedValue<ConfigIdentifier> texture;

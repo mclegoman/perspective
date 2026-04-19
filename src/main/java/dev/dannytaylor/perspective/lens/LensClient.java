@@ -8,8 +8,8 @@
 package dev.dannytaylor.perspective.lens;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
+import dev.dannytaylor.perspective.lens.events.LensEvents;
 import dev.dannytaylor.perspective.lens.keymappings.LensKeyMappings;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,7 +30,7 @@ public class LensClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        CoreEvents.onInitialize(getMod(), () -> {
+        LensEvents.onInitialize(getMod(), () -> {
             LensConfig.onInitializeClient(mod);
             LensKeyMappings.onInitializeClient(mod);
             ZoomRegistry.onInitializeClient(mod);

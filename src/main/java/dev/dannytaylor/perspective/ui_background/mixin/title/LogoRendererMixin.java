@@ -5,10 +5,10 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.ui;
+package dev.dannytaylor.perspective.ui_background.mixin.title;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import dev.dannytaylor.perspective_old.client.events.TitleRenderHelper;
+import dev.dannytaylor.perspective.ui_background.title.TitleRenderHelper;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.LogoRenderer;
 import net.minecraft.resources.Identifier;

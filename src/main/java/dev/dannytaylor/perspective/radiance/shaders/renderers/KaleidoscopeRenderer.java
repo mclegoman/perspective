@@ -14,7 +14,7 @@ import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
 import dev.dannytaylor.perspective.radiance.config.RadianceConfig;
 import dev.dannytaylor.perspective.api.data.ClientData;
-import dev.dannytaylor.perspective_old.client.events.Events;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import dev.dannytaylor.perspective.radiance.shaders.ShaderRenderers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
@@ -27,9 +27,9 @@ public class KaleidoscopeRenderer {
     private static Identifier shaderStack;
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Kaleidoscope Renderer", () -> {
-            Events.AfterClientResourceReload.register(getIdentifier(), () -> KaleidoscopeRenderer.clearShaderStack(mod));
-            Events.OnClientStartItemUse.register(getIdentifier(), (itemStack, level, player, hand) -> {
+        RadianceEvents.onInitialize(mod, "Kaleidoscope Renderer", () -> {
+            RadianceEvents.AfterClientResourceReload.register(getIdentifier(), () -> KaleidoscopeRenderer.clearShaderStack(mod));
+            RadianceEvents.OnClientStartItemUse.register(getIdentifier(), (itemStack, level, player, hand) -> {
                 if (itemStack.is(Items.SPYGLASS)) applyShaderStack(mod, itemStack);
             });
         });
@@ -40,7 +40,7 @@ public class KaleidoscopeRenderer {
     }
 
     private static void applyShaderStack(PerspectiveMod mod, ItemStack itemStack) {
-        Events.ShaderRender.register(getIdentifier());
+        RadianceEvents.ShaderRender.register(getIdentifier());
         ShaderStacks.Entry shaderEntry = null;
         try {
             Callable<Identifier> stackId = tryGetShaderStackId(itemStack);
@@ -51,7 +51,7 @@ public class KaleidoscopeRenderer {
         } catch (Exception error) {
             mod.getLogger().error("Failed to get kaleidoscope shader stack!");
         }
-        Events.ShaderRender.modify(getIdentifier(), ShaderStacks.getShaders(getIdentifier(), shaderEntry, KaleidoscopeRenderer::getRenderLocation, KaleidoscopeRenderer::getEnabled, ShaderRenderers::getPhotosensitivity));
+        RadianceEvents.ShaderRender.modify(getIdentifier(), ShaderStacks.getShaders(getIdentifier(), shaderEntry, KaleidoscopeRenderer::getRenderLocation, KaleidoscopeRenderer::getEnabled, ShaderRenderers::getPhotosensitivity));
     }
 
     public static Identifier getIdentifier() {

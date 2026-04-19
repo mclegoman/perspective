@@ -1,12 +1,13 @@
 /*
-    Perspective
+    Core API
     Contributor(s): dannytaylor
-    Github: https://github.com/mclegoman/perspective
+    Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.client.events;
+package dev.dannytaylor.perspective.api.events;
 
+import com.mclegoman.luminance.client.events.Runnables;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Runnables extends com.mclegoman.luminance.client.events.Runnables {
+public class CoreRunnables extends Runnables {
     public interface UseItem {
         void run(ItemStack stack, Level level, Player user, InteractionHand hand);
     }

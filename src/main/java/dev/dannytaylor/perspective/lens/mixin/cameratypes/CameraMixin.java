@@ -5,7 +5,7 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.registry.cameratypes;
+package dev.dannytaylor.perspective.lens.mixin.cameratypes;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.dannytaylor.perspective.api.data.ClientData;

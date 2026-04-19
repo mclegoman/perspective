@@ -12,6 +12,7 @@ import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.api.keymappings.CoreKeyMappings;
 import dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient;
+import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 
@@ -20,7 +21,7 @@ public class HoldPerspectiveKeyMappings extends CoreKeyMappings {
     public static final KeyMapping adjustMultiplier;
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Key Mappings", () -> {
+        HoldPerspectiveEvents.onInitialize(mod, "Key Mappings", () -> {
             HoldPerspective.onInitializeClient();
             SwapPerspective.onInitializeClient();
         });

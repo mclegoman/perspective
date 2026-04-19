@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "dev.dannytaylor.perspective.lens.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "cameratypes.CameraMixin",
+    "zooms.GameRendererMixin",
+    "zooms.MouseHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

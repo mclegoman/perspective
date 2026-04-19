@@ -8,8 +8,8 @@
 package dev.dannytaylor.perspective.radiance;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.radiance.config.RadianceConfig;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import dev.dannytaylor.perspective.radiance.keymappings.RadianceKeyMappings;
 import dev.dannytaylor.perspective.radiance.shaders.ShaderRenderers;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,7 +30,7 @@ public class RadianceClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        CoreEvents.onInitialize(getMod(), () -> {
+        RadianceEvents.onInitialize(getMod(), () -> {
             RadianceConfig.onInitializeClient(getMod());
             ShaderRenderers.onInitializeClient(getMod());
             RadianceKeyMappings.onInitializeClient(getMod());

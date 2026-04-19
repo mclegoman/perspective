@@ -5,9 +5,9 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.ui;
+package dev.dannytaylor.perspective.ui_background.mixin.title;
 
-import dev.dannytaylor.perspective_old.client.events.TitleRenderHelper;
+import dev.dannytaylor.perspective.ui_background.title.TitleRenderHelper;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.SplashRenderer;

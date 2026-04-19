@@ -9,10 +9,10 @@ package dev.dannytaylor.perspective.radiance.config;
 
 import com.mclegoman.luminance.client.shaders.RenderLocations;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
 import dev.dannytaylor.perspective.api.config.sections.NamedRandomEnabledSection;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
+import dev.dannytaylor.perspective.radiance.events.RadianceEvents;
 import folk.sisby.kaleido.api.ReflectiveConfig;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 import net.minecraft.resources.Identifier;
@@ -36,7 +36,7 @@ public class RadianceConfig extends ReflectiveConfig {
     );
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Config", () -> {});
+        RadianceEvents.onInitialize(mod, "Config", () -> {});
     }
 
     public static class SuperSecretSettings extends ReflectiveConfig.Section {

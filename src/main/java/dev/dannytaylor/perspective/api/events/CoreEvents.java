@@ -7,9 +7,16 @@
 
 package dev.dannytaylor.perspective.api.events;
 
+import com.mclegoman.luminance.client.events.Events;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 
-public class CoreEvents {
+// TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
+// Some of these methods could also be moved over to that mod tbh.
+// Since we are extending, nothing *should* break, unless it's luminance specific (in which case, addons should be using the luminance's classes instead)
+public class CoreEvents extends Events {
+    public static final Registry<CoreRunnables.UseItem> OnClientStartItemUse = new Registry<>();
+    public static final Registry<CoreRunnables.FinishUsingItem> OnClientFinishItemUse = new Registry<>();
+
     public static void onInitialize(PerspectiveMod mod, Initializer onInitialize) {
         onInitialize(mod, "", onInitialize, true);
     }

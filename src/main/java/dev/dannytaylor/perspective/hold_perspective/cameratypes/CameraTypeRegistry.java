@@ -10,10 +10,10 @@ package dev.dannytaylor.perspective.hold_perspective.cameratypes;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient;
+import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.hold_perspective.keymappings.HoldPerspectiveKeyMappings;
 import dev.dannytaylor.perspective_old.client.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.data.ClientData;
-import dev.dannytaylor.perspective_old.client.events.Events;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives.HoldPerspective;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives.SwapPerspective;
 import net.minecraft.client.Minecraft;
@@ -24,10 +24,10 @@ public class CameraTypeRegistry {
     private static boolean wasConfigUpdated;
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Camera Type", () -> {
+        HoldPerspectiveEvents.onInitialize(mod, "Camera Type", () -> {
             HoldPerspective.onInitializeClient(mod);
             SwapPerspective.onInitializeClient(mod);
-            Events.OnMouseScroll.register(getIdentifier(), (long windowHandle, double horizontal, double vertical, Vector2i vector2i) -> {
+            HoldPerspectiveEvents.OnMouseScroll.register(getIdentifier(), (long windowHandle, double horizontal, double vertical, Vector2i vector2i) -> {
                 if (CameraTypeRegistry.isMultiplierAdjustable(ClientData.minecraft)) {
                     if (vector2i.y != 0) {
                         CameraTypeRegistry.adjustMultiplier(ClientData.minecraft, -vector2i.y / 100.0F);
@@ -37,7 +37,7 @@ public class CameraTypeRegistry {
                 return false;
             });
 
-            Events.OnMouseButton.register(getIdentifier(), (windowHandle, mouseButtonInfo, action) -> {
+            HoldPerspectiveEvents.OnMouseButton.register(getIdentifier(), (windowHandle, mouseButtonInfo, action) -> {
                 if (CameraTypeRegistry.isMultiplierAdjustable(ClientData.minecraft)) {
                     if (mouseButtonInfo.button() == 2) {
                         CameraTypeRegistry.resetMultiplier(ClientData.minecraft);

@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
-public class CoreAPIClient implements ClientModInitializer {
+public class CoreClient implements ClientModInitializer {
     private static final PerspectiveMod mod = new PerspectiveMod("api", "CoreAPI");
 
     public static PerspectiveMod getMod() {

@@ -10,7 +10,7 @@ package dev.dannytaylor.perspective.lens.zooms.scales;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.lens.LensClient;
-import dev.dannytaylor.perspective_old.client.events.Events;
+import dev.dannytaylor.perspective.lens.events.LensEvents;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.LinearZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.LogarithmicZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
@@ -21,11 +21,11 @@ public class ZoomScales {
     public static ZoomScale LINEAR = register(LensClient.idOf("linear"), new LinearZoomScale());
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Zoom Scales", () -> {});
+        LensEvents.onInitialize(mod, "Zoom Scales", () -> {});
     }
 
     public static ZoomScale register(Identifier identifier, ZoomScale zoomScale) {
-        Events.ZoomScales.register(identifier, zoomScale);
+        LensEvents.ZoomScales.register(identifier, zoomScale);
         return zoomScale;
     }
 }

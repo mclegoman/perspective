@@ -5,11 +5,11 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective_old.mixin.client.registry.zooms;
+package dev.dannytaylor.perspective.lens.mixin.zooms;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.dannytaylor.perspective_old.client.events.Execute;
+import dev.dannytaylor.perspective.lens.events.LensExecute;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
@@ -25,12 +25,12 @@ public abstract class GameRendererMixin {
 
     @Inject(method = "tickFov", at = @At("TAIL"))
     private void perspective$updateZoomMultipliers(CallbackInfo ci) {
-        if (!isPanoramicMode()) Execute.updateZoomMultipliers();
+        if (!isPanoramicMode()) LensExecute.updateZoomMultipliers();
     }
 
     @ModifyReturnValue(method = "getFov", at = @At("RETURN"))
     private float perspective$getFov(float fov, Camera camera, float tickDelta, boolean changingFov) {
-        return !isPanoramicMode() ? ZoomRegistry.zoomFov = Execute.getFov(fov, camera, tickDelta) : fov;
+        return !isPanoramicMode() ? ZoomRegistry.zoomFov = LensExecute.getFov(fov, camera, tickDelta) : fov;
     }
 
     @ModifyExpressionValue(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
