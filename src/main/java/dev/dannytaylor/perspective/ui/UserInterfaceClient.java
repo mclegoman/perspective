@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.ui;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.ui.background.BackgroundRegistry;
+import dev.dannytaylor.perspective.ui.config.UserInterfaceConfig;
 import dev.dannytaylor.perspective.ui.events.UserInterfaceEvents;
 import dev.dannytaylor.perspective.ui.shaders.UserInterfaceShaders;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,6 +31,7 @@ public class UserInterfaceClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         UserInterfaceEvents.onInitialize(getMod(), () -> {
+            UserInterfaceConfig.onInitializeClient(getMod());
             UserInterfaceShaders.onInitializeClient(getMod());
             BackgroundRegistry.onInitializeClient(getMod());
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);

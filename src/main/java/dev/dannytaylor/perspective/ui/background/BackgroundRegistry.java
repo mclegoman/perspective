@@ -18,6 +18,7 @@ import dev.dannytaylor.perspective.ui.UserInterfaceClient;
 import dev.dannytaylor.perspective.ui.background.backgrounds.Background;
 import dev.dannytaylor.perspective.ui.background.backgrounds.DefaultBackground;
 import dev.dannytaylor.perspective.ui.background.blurs.DefaultBlur;
+import dev.dannytaylor.perspective.ui.config.UserInterfaceConfig;
 import dev.dannytaylor.perspective.ui.events.UserInterfaceEvents;
 import dev.dannytaylor.perspective.ui.shaders.UserInterfaceShaders;
 import net.minecraft.client.gui.GuiGraphics;
@@ -83,10 +84,10 @@ public class BackgroundRegistry {
     }
 
     public static Identifier getBackgroundTexture() {
-        return Identifier.withDefaultNamespace("textures/block/dirt.png");
+        return UserInterfaceConfig.instance.backgroundTexture.value().getIdentifier();
     }
 
     public static Background getBackground() {
-        return CLASSIC;
+        return UserInterfaceEvents.Backgrounds.get(UserInterfaceConfig.instance.background.value().getIdentifier());
     }
 }
