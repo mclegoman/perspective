@@ -34,18 +34,6 @@ public class PerspectiveConfig extends ReflectiveConfig {
 		}
 	}
 
-	public final CameraTypeSettings cameraType = new CameraTypeSettings(
-			5,
-			1.0F,
-			1.0F,
-			new CameraTypeSettings.HoldPerspectiveSettings(
-					1.0F,
-					1.0F,
-					false,
-					true
-			)
-	);
-
 	public final UiBackground shaders = new UiBackground(
 			Identifier.parse("default"), // TODO: config.
 			Identifier.parse("minecraft:block/dirt")
@@ -94,7 +82,6 @@ public class PerspectiveConfig extends ReflectiveConfig {
 			false,
 			false,
 			false,
-			1.0F,
 			true
 	);
 

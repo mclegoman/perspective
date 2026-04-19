@@ -12,17 +12,23 @@ import net.minecraft.resources.Identifier;
 
 public class PerspectiveMod {
     private final String id;
+    private final boolean hasFullId;
     private final String name;
     private final Log logger;
 
     public PerspectiveMod(String id, String name) {
+        this(id, true, name);
+    }
+
+    public PerspectiveMod(String id, boolean hasFullId, String name) {
         this.id = id;
+        this.hasFullId = hasFullId;
         this.name = name;
         this.logger = new Log(name);
     }
 
     public String getId(boolean full) {
-        return (full ? "perspective_" : "") + this.id;
+        return (this.hasFullId && full ? "perspective_" : "") + this.id;
     }
 
     public String getName() {

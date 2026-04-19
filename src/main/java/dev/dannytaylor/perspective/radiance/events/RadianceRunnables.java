@@ -7,7 +7,7 @@
 
 package dev.dannytaylor.perspective.radiance.events;
 
-import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.api.events.CoreRunnables;
 
-public class RadianceEvents extends CoreEvents {
+public class RadianceRunnables extends CoreRunnables {
 }

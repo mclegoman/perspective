@@ -8,11 +8,10 @@
 package dev.dannytaylor.perspective.hold_perspective.cameratypes;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient;
+import dev.dannytaylor.perspective.hold_perspective.config.HoldPerspectiveConfig;
 import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.hold_perspective.keymappings.HoldPerspectiveKeyMappings;
-import dev.dannytaylor.perspective_old.client.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives.HoldPerspective;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives.SwapPerspective;
@@ -57,7 +56,7 @@ public class CameraTypeRegistry {
         HoldPerspective.onTickClient(minecraft);
         SwapPerspective.onTickClient(minecraft);
         if (!isMultiplierAdjustable(minecraft) && wasConfigUpdated) {
-            PerspectiveConfig.config.save();
+            HoldPerspectiveConfig.instance.save();
             wasConfigUpdated = false;
         }
     }
@@ -75,7 +74,7 @@ public class CameraTypeRegistry {
     }
 
     public static float getAdjustedMultiplier(float currentMultiplier, float scrollAmount) {
-        return getAdjustedMultiplier(currentMultiplier, scrollAmount, PerspectiveConfig.config.cameraType.multiplierIncrementSize.value());
+        return getAdjustedMultiplier(currentMultiplier, scrollAmount, HoldPerspectiveConfig.instance.multiplierIncrementSize.value());
     }
 
     public static float getAdjustedMultiplier(float currentMultiplier, float scrollAmount, float incrementSize) {
@@ -96,23 +95,23 @@ public class CameraTypeRegistry {
 
     public static void resetMultiplier(Minecraft minecraft) {
         if (HoldPerspective.isHolding(minecraft)) {
-            if (HoldPerspective.isHoldingBack(minecraft)) setMultiplier(true, true, PerspectiveConfig.config.cameraType.backMultiplier.getDefaultValue());
-            if (HoldPerspective.isHoldingFront(minecraft)) setMultiplier(true, false, PerspectiveConfig.config.cameraType.frontMultiplier.getDefaultValue());
+            if (HoldPerspective.isHoldingBack(minecraft)) setMultiplier(true, true, HoldPerspectiveConfig.instance.backMultiplier.getDefaultValue());
+            if (HoldPerspective.isHoldingFront(minecraft)) setMultiplier(true, false, HoldPerspectiveConfig.instance.frontMultiplier.getDefaultValue());
         } else if (SwapPerspective.isMultiplierAdjustable(minecraft)) {
             switch (minecraft.options.getCameraType()) {
-                case THIRD_PERSON_BACK -> setMultiplier(false, true, PerspectiveConfig.config.cameraType.holdPerspective.backMultiplier.getDefaultValue());
-                case THIRD_PERSON_FRONT -> setMultiplier(false, false, PerspectiveConfig.config.cameraType.holdPerspective.frontMultiplier.getDefaultValue());
+                case THIRD_PERSON_BACK -> setMultiplier(false, true, HoldPerspectiveConfig.instance.holdPerspective.backMultiplier.getDefaultValue());
+                case THIRD_PERSON_FRONT -> setMultiplier(false, false, HoldPerspectiveConfig.instance.holdPerspective.frontMultiplier.getDefaultValue());
             }
         }
     }
 
     private static void setMultiplier(boolean isHolding, boolean isBack, float multiplier) {
         if (isHolding) {
-            if (isBack) PerspectiveConfig.config.cameraType.holdPerspective.backMultiplier.setValue(clampMultiplier(multiplier), false);
-            else PerspectiveConfig.config.cameraType.holdPerspective.frontMultiplier.setValue(clampMultiplier(multiplier), false);
+            if (isBack) HoldPerspectiveConfig.instance.holdPerspective.backMultiplier.setValue(clampMultiplier(multiplier), false);
+            else HoldPerspectiveConfig.instance.holdPerspective.frontMultiplier.setValue(clampMultiplier(multiplier), false);
         } else {
-            if (isBack) PerspectiveConfig.config.cameraType.backMultiplier.setValue(clampMultiplier(multiplier), false);
-            else PerspectiveConfig.config.cameraType.frontMultiplier.setValue(clampMultiplier(multiplier), false);
+            if (isBack) HoldPerspectiveConfig.instance.backMultiplier.setValue(clampMultiplier(multiplier), false);
+            else HoldPerspectiveConfig.instance.frontMultiplier.setValue(clampMultiplier(multiplier), false);
         }
         wasConfigUpdated = true;
     }

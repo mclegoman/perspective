@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "dev.dannytaylor.perspective.ui_background.mixin",
+  "package": "dev.dannytaylor.perspective.ui.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "title.LogoRendererMixin",

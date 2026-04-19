@@ -7,7 +7,7 @@
 
 package dev.dannytaylor.perspective.hold_perspective.events;
 
-import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.api.events.CoreExecute;
 
-public class HoldPerspectiveEvents extends CoreEvents {
+public class HoldPerspectiveExecute extends CoreExecute {
 }

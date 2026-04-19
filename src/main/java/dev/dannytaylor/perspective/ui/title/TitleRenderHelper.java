@@ -5,7 +5,7 @@
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective.ui_background.title;
+package dev.dannytaylor.perspective.ui.title;
 
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.data.CoreData;

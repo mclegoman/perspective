@@ -17,17 +17,15 @@ public class HideSettings extends ReflectiveConfig.Section {
     public final TrackedValue<Boolean> armor;
     public final TrackedValue<Boolean> nametags;
     public final TrackedValue<Boolean> players;
-    public final TrackedValue<Float> starBrightnessMultiplier;
     public final TrackedValue<Boolean> showMessage;
 
-    public HideSettings(boolean showDeathCoordinatesValue, String crosshairTypeValue, BlockOutline blockOutlineValue, boolean armorValue, boolean nametagsValue, boolean playersValue, float starBrightnessMultiplierValue, boolean showMessageValue) {
+    public HideSettings(boolean showDeathCoordinatesValue, String crosshairTypeValue, BlockOutline blockOutlineValue, boolean armorValue, boolean nametagsValue, boolean playersValue, boolean showMessageValue) {
         this.showDeathCoordinates = this.value(showDeathCoordinatesValue);
         this.crosshairType = this.value(crosshairTypeValue);
         this.blockOutline = blockOutlineValue;
         this.armor = this.value(armorValue);
         this.nametags = this.value(nametagsValue);
         this.players = this.value(playersValue);
-        this.starBrightnessMultiplier = this.value(starBrightnessMultiplierValue);
         this.showMessage = this.value(showMessageValue);
     }
 

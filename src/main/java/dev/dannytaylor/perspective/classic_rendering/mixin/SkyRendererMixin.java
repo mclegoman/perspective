@@ -1,13 +1,13 @@
 /*
-    Perspective
+    Classic Rendering
     Contributor(s): dannytaylor
-    Github: https://github.com/mclegoman/perspective
+    Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
 package dev.dannytaylor.perspective.classic_rendering.mixin;
 
-import dev.dannytaylor.perspective_old.client.config.PerspectiveConfig;
+import dev.dannytaylor.perspective.classic_rendering.config.ClassicRenderingConfig;
 import net.minecraft.client.renderer.SkyRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,6 +18,6 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public class SkyRendererMixin {
     @ModifyArgs(method = "renderStars", at = @At(value = "INVOKE", target = "Lorg/joml/Vector4f;<init>(FFFF)V"))
     private void perspective$renderStars(Args args) {
-        for (int i = 0; i < args.size(); i++) args.set(i, (float)args.get(i) * PerspectiveConfig.config.hide.starBrightnessMultiplier.value());
+        for (int i = 0; i < args.size(); i++) args.set(i, (float)args.get(i) * ClassicRenderingConfig.instance.starBrightnessMultiplier.value());
     }
 }

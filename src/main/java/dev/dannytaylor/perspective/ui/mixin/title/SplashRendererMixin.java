@@ -1,13 +1,13 @@
 /*
-    Perspective
+    UI Background
     Contributor(s): dannytaylor
-    Github: https://github.com/mclegoman/perspective
+    Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective.ui_background.mixin.title;
+package dev.dannytaylor.perspective.ui.mixin.title;
 
-import dev.dannytaylor.perspective.ui_background.title.TitleRenderHelper;
+import dev.dannytaylor.perspective.ui.title.TitleRenderHelper;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.SplashRenderer;

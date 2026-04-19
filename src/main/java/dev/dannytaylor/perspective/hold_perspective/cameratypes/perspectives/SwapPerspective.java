@@ -8,10 +8,9 @@
 package dev.dannytaylor.perspective.hold_perspective.cameratypes.perspectives;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.hold_perspective.config.HoldPerspectiveConfig;
 import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.hold_perspective.keymappings.HoldPerspectiveKeyMappings;
-import dev.dannytaylor.perspective_old.client.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.hold_perspective.cameratypes.CameraTypeRegistry;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -37,10 +36,10 @@ public class SwapPerspective {
     }
 
     public static float getBackMultiplier() {
-        return CameraTypeRegistry.clampMultiplier(PerspectiveConfig.config.cameraType.backMultiplier.value());
+        return CameraTypeRegistry.clampMultiplier(HoldPerspectiveConfig.instance.backMultiplier.value());
     }
 
     public static float getFrontMultiplier() {
-        return CameraTypeRegistry.clampMultiplier(PerspectiveConfig.config.cameraType.frontMultiplier.value());
+        return CameraTypeRegistry.clampMultiplier(HoldPerspectiveConfig.instance.frontMultiplier.value());
     }
 }

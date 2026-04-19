@@ -11,21 +11,21 @@
 - [x] Radiance
   - [x] Super Secret Settings
   - [x] Kaleidoscope
-- [ ] UI Background
+- [ ] UI
   - [x] Title Renderer
   - [ ] UI Background
+  - [ ] Non-Customizable Overlays
+  - [ ] Variables
+  - [ ] Customizable Overlays
 - [ ] Classic Render Features
   - [ ] Minecraft Version Overlay
   - [x] Star Brightness Multiplier
 - [ ] Ambience
   - [ ] Particles
   - [ ] Sounds
-- [x] QuickView
+- [x] Hold Perspective
   - [x] Hold Perspective
   - [x] Swap Perspective
   - [x] Third Person Distance Multiplier
 - [ ] Textured Entity
-- [ ] Overlays
-  - [ ] Variables
-  - [ ] Customizable Overlays
 - [ ] Move packages to those that will match 2.0, this will allow addons to aim for both.

@@ -29,10 +29,12 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
+			"dev.dannytaylor.perspective.perspective.PerspectiveClient",
 			"dev.dannytaylor.perspective.api.CoreClient",
 			"dev.dannytaylor.perspective.radiance.RadianceClient",
 			"dev.dannytaylor.perspective.lens.LensClient",
-			"dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient"
+			"dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient",
+			"dev.dannytaylor.perspective.classic_rendering.ClassicRenderingClient"
 		]
 	},
 	"mixins": [
@@ -46,7 +48,7 @@
 		"minecraft": "~1.21.11",
 		"java": ">=21",
 		"fabric-api": "*",
-		"luminance": ">=1.1.0-alpha.1"
+		"luminance": ">=1.1.0-beta.2"
 	},
 	"custom": {
 		"modmenu": {

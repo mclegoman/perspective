@@ -45,8 +45,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-	//include(modImplementation("maven.modrinth:luminance:${project.luminance_version}"))
-	modImplementation fileTree(dir: 'libs', include: '*.jar')
+	include(modImplementation("maven.modrinth:luminance:${project.luminance_version}"))
+	//modImplementation fileTree(dir: 'libs', include: '*.jar')
 
 	include(modImplementation("folk.sisby:kaleido-config:${project.kaleido_config_version}"))
 	

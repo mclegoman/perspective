@@ -1,24 +1,22 @@
 /*
-    Lens
+    Classic Rendering
     Contributor(s): dannytaylor
     Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
-package dev.dannytaylor.perspective.lens;
+package dev.dannytaylor.perspective.classic_rendering;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.lens.config.LensConfig;
-import dev.dannytaylor.perspective.lens.events.LensEvents;
-import dev.dannytaylor.perspective.lens.keymappings.LensKeyMappings;
-import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
+import dev.dannytaylor.perspective.classic_rendering.config.ClassicRenderingConfig;
+import dev.dannytaylor.perspective.classic_rendering.events.ClassicRenderingEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
-public class LensClient implements ClientModInitializer {
-    private static final PerspectiveMod mod = new PerspectiveMod("lens", "Lens");
+public class ClassicRenderingClient implements ClientModInitializer {
+    private static final PerspectiveMod mod = new PerspectiveMod("classic_rendering", "Classic Rendering");
 
     public static PerspectiveMod getMod() {
         return mod;
@@ -30,12 +28,10 @@ public class LensClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        LensEvents.onInitialize(getMod(), () -> {
-            LensConfig.onInitializeClient(getMod());
-            LensKeyMappings.onInitializeClient(getMod());
-            ZoomRegistry.onInitializeClient(getMod());
+        ClassicRenderingEvents.onInitialize(getMod(), () -> {
+            ClassicRenderingConfig.onInitializeClient(getMod());
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);
-        });
+        }, true);
     }
 
     public void onTickClient(Minecraft minecraft) {
