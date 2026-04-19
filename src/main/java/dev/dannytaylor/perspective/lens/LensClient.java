@@ -43,5 +43,6 @@ public class LensClient implements ClientModInitializer {
     }
 
     public void onTickClient(Minecraft minecraft) {
+        ZoomRegistry.onTickClient(minecraft);
     }
 }
