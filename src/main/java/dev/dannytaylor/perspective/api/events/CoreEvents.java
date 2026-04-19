@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Events;
+import dev.dannytaylor.perspective.api.config.CoreConfig;
 import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import net.minecraft.client.Minecraft;
@@ -45,8 +46,10 @@ public class CoreEvents extends Events {
     private static HideHud hideHud;
 
     public static HideHud getHideHud() {
-        if (hideHud == null) hideHud = CoreExecute.updateHideHud();
-        return hideHud;
+        if (CoreConfig.instance.checkHideHudOnTick.value()) {
+            if (hideHud == null) hideHud = CoreExecute.updateHideHud();
+            return hideHud;
+        } else return CoreExecute.updateHideHud();
     }
 
     private static String getName(String name) {
@@ -58,6 +61,6 @@ public class CoreEvents extends Events {
     }
 
     public static void onTickClient(Minecraft minecraft) {
-        hideHud = CoreExecute.updateHideHud();
+        if (CoreConfig.instance.checkHideHudOnTick.value()) hideHud = CoreExecute.updateHideHud();
     }
 }

@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 public class CoreConfig extends ReflectiveConfig {
     public static final CoreConfig instance = CoreConfig.createToml(Paths.get("config"), "perspective", CoreClient.getMod().getId(false), CoreConfig.class);
 
+    public final TrackedValue<Boolean> checkHideHudOnTick = this.value(true);
     public final TrackedValue<Boolean> debug = this.value(false);
 
     public static void onInitializeClient(PerspectiveMod mod) {
