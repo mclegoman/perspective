@@ -19,7 +19,6 @@ import dev.dannytaylor.perspective.lens.zooms.scales.ZoomScales;
 import dev.dannytaylor.perspective.lens.zooms.transitions.ZoomTransitions;
 import dev.dannytaylor.perspective.lens.zooms.zoom.DefaultZoom;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
-import dev.dannytaylor.perspective.api.data.CoreData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -110,7 +109,7 @@ public class ZoomRegistry {
 
     private static void setMainZoomAmount(float amount) {
         float clampedAmount = clampMainAmount(amount);
-        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(Translation.getCombinedText(Translation.getTranslation(CoreData.getModId(), "zoom.adjust"), Component.literal(" " + new DecimalFormat("#.##").format(clampedAmount) + "%")).withStyle(ChatFormatting.GOLD));
+        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(Translation.getCombinedText(Translation.getTranslation(LensClient.getMod().getId(true), "zoom.adjust"), Component.literal(" " + new DecimalFormat("#.##").format(clampedAmount) + "%")).withStyle(ChatFormatting.GOLD));
         LensConfig.instance.amount.setValue(clampedAmount, false);
         ZoomRegistry.wasConfigUpdated = true;
     }

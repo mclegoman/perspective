@@ -1,5 +1,5 @@
 /*
-    UI Background
+    User Interface
     Contributor(s): dannytaylor
     Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)

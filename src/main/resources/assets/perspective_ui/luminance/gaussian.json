@@ -1,0 +1,5 @@
+{
+  "registries": [ "perspective_ui:background" ],
+  "post_effect": "perspective_ui:gaussian",
+  "fallback_when_over_ui": true
+}

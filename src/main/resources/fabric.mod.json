@@ -34,7 +34,8 @@
 			"dev.dannytaylor.perspective.radiance.RadianceClient",
 			"dev.dannytaylor.perspective.lens.LensClient",
 			"dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient",
-			"dev.dannytaylor.perspective.classic_rendering.ClassicRenderingClient"
+			"dev.dannytaylor.perspective.classic_rendering.ClassicRenderingClient",
+			"dev.dannytaylor.perspective.ui.UserInterfaceClient"
 		]
 	},
 	"mixins": [

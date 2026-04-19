@@ -1,24 +1,23 @@
 /*
-    Perspective
+    User Interface
     Contributor(s): dannytaylor
     Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
 */
 
-// v2 will move all other packages into sub-mods, this package will stay.
-// This package will contain contributor events, and holiday events (such as april fools).
-
-package dev.dannytaylor.perspective.perspective;
+package dev.dannytaylor.perspective.ui;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.perspective.events.PerspectiveEvents;
+import dev.dannytaylor.perspective.ui.background.BackgroundRegistry;
+import dev.dannytaylor.perspective.ui.events.UserInterfaceEvents;
+import dev.dannytaylor.perspective.ui.shaders.UserInterfaceShaders;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
-public class PerspectiveClient implements ClientModInitializer {
-    private static final PerspectiveMod mod = new PerspectiveMod("perspective", false, "Perspective");
+public class UserInterfaceClient implements ClientModInitializer {
+    private static final PerspectiveMod mod = new PerspectiveMod("ui", "User Interface");
 
     public static PerspectiveMod getMod() {
         return mod;
@@ -30,7 +29,9 @@ public class PerspectiveClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        PerspectiveEvents.onInitialize(getMod(), () -> {
+        UserInterfaceEvents.onInitialize(getMod(), () -> {
+            UserInterfaceShaders.onInitializeClient(getMod());
+            BackgroundRegistry.onInitializeClient(getMod());
             ClientTickEvents.START_CLIENT_TICK.register(this::onTickClient);
         });
     }

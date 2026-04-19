@@ -7,7 +7,7 @@
 
 package dev.dannytaylor.perspective.api.config.value;
 
-import dev.dannytaylor.perspective.api.data.CoreData;
+import dev.dannytaylor.perspective.api.CoreClient;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 import net.minecraft.resources.Identifier;
 
@@ -24,7 +24,7 @@ public record ConfigIdentifier(Identifier identifier) implements ConfigSerializa
 	}
 	public ConfigIdentifier convertFrom(String representation) {
 		// We assume perspective as the namespace if none is provided - this is to make sure zoom_type is updated properly.
-		return new ConfigIdentifier(Identifier.parse((!representation.contains(":") ? CoreData.getVersion().getID() + ":" : "") + representation));
+		return new ConfigIdentifier(Identifier.parse((!representation.contains(":") ? CoreClient.getMod().getPerspectiveId() + ":" : "") + representation));
 	}
 	public String getRepresentation() {
 		return this.identifier.toString();

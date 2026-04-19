@@ -27,8 +27,12 @@ public class PerspectiveMod {
         this.logger = new Log(name);
     }
 
+    public String getPerspectiveId() {
+        return "perspective";
+    }
+
     public String getId(boolean full) {
-        return (this.hasFullId && full ? "perspective_" : "") + this.id;
+        return (this.hasFullId && full ? getPerspectiveId() + "_" : "") + this.id;
     }
 
     public String getName() {
@@ -40,6 +44,10 @@ public class PerspectiveMod {
     }
 
     public Identifier idOf(String path) {
-        return Identifier.fromNamespaceAndPath(getId(true), path);
+        return idOf(path, false);
+    }
+
+    public Identifier idOf(String path, boolean usePerspectiveId) {
+        return Identifier.fromNamespaceAndPath(usePerspectiveId ? getPerspectiveId() : getId(true), path);
     }
 }

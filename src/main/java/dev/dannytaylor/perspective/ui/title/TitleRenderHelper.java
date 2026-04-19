@@ -1,5 +1,5 @@
 /*
-    UI Background
+    User Interface
     Contributor(s): dannytaylor
     Github: https://github.com/perspective-viewpoint
     Licence: LGPLv3 (or later)
@@ -8,7 +8,7 @@
 package dev.dannytaylor.perspective.ui.title;
 
 import dev.dannytaylor.perspective.api.data.ClientData;
-import dev.dannytaylor.perspective.api.data.CoreData;
+import dev.dannytaylor.perspective.ui.UserInterfaceClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
 import org.joml.Matrix3x2fStack;
@@ -29,6 +29,6 @@ public class TitleRenderHelper {
     }
 
     public static Identifier getUpdateTexture() {
-        return CoreData.idOf("textures/gui/title/update.png");
+        return UserInterfaceClient.getMod().idOf("textures/gui/title/update.png", true);
     }
 }
