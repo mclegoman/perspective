@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Execute;
+import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import net.minecraft.world.InteractionHand;
@@ -35,5 +36,14 @@ public class CoreExecute extends Execute {
                 mod.getLogger().error("Failed to execute OnClientFinishItemUse event with id: {}: {}", id, error);
             }
         });
+    }
+
+    public static HideHud updateHideHud() {
+        int ordinal = 0;
+        for (CoreRunnables.ShouldHideHud hideHud : CoreEvents.ShouldHideHud.registry.values()) {
+            int id = hideHud.call().ordinal();
+            if (id > ordinal) ordinal = id;
+        }
+        return HideHud.values()[ordinal];
     }
 }

@@ -35,5 +35,6 @@ public class CoreClient implements ClientModInitializer {
     }
 
     public void onTickClient(Minecraft minecraft) {
+        CoreEvents.onTickClient(minecraft);
     }
 }

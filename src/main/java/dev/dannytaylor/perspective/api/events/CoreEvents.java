@@ -10,6 +10,7 @@ package dev.dannytaylor.perspective.api.events;
 import com.mclegoman.luminance.client.events.Events;
 import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import net.minecraft.client.Minecraft;
 
 // TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
 // Some of these methods could also be moved over to that mod tbh.
@@ -41,13 +42,11 @@ public class CoreEvents extends Events {
         }
     }
 
+    private static HideHud hideHud;
+
     public static HideHud getHideHud() {
-        int ordinal = 0;
-        for (CoreRunnables.ShouldHideHud hideHud : CoreEvents.ShouldHideHud.registry.values()) {
-            int id = hideHud.call().ordinal();
-            if (id > ordinal) ordinal = id;
-        }
-        return HideHud.values()[ordinal];
+        if (hideHud == null) hideHud = CoreExecute.updateHideHud();
+        return hideHud;
     }
 
     private static String getName(String name) {
@@ -56,5 +55,9 @@ public class CoreEvents extends Events {
 
     public interface Initializer {
         void onInitialize();
+    }
+
+    public static void onTickClient(Minecraft minecraft) {
+        hideHud = CoreExecute.updateHideHud();
     }
 }
