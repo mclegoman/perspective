@@ -2,9 +2,11 @@
 - [ ] Core API
   - [ ] Config Screens
   - [x] Events
-  - [ ] Resource Packs
   - [ ] Contributors
-- [x] Lens
+  - [ ] April Fools
+- [ ] Perspective
+  - Includes all sub-mods.
+- [x] Lens (`perspective_zoom`)
   - [x] Zoom
 - [x] Radiance
   - [x] Super Secret Settings
@@ -14,8 +16,8 @@
   - [ ] UI Background
   - [ ] Classic Render Features
     - [ ] Minecraft Version Overlay
+    - [x] Star Brightness Multiplier
 - [ ] Ambience
-  - [x] Star Brightness Multiplier
   - [ ] Particles
   - [ ] Sounds
 - [x] QuickView

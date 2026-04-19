@@ -21,15 +21,18 @@
 		}
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/mclegoman-perspective",
+		"sources": "https://github.com/perspective-viewpoint"
 	},
 	"license": "LGPL-3.0-or-later",
 	"icon": "assets/perspective/textures/icons/default/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"dev.dannytaylor.perspective.client.PerspectiveClient"
+			"dev.dannytaylor.perspective.api.CoreAPIClient",
+			"dev.dannytaylor.perspective.radiance.RadianceClient",
+			"dev.dannytaylor.perspective.lens.LensClient",
+			"dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient"
 		]
 	},
 	"mixins": [

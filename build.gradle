@@ -34,7 +34,7 @@ repositories {
 	flatDir {
 		dirs("libs")
 	}
-	maven { url = "https://maven.quiltmc.org/repository/release/" }
+	maven { url 'https://repo.sleeping.town/' }
 }
 
 dependencies {
@@ -48,9 +48,7 @@ dependencies {
 	//include(modImplementation("maven.modrinth:luminance:${project.luminance_version}"))
 	modImplementation fileTree(dir: 'libs', include: '*.jar')
 
-	include(modImplementation("org.quiltmc:quilt-config:${project.quilt_config_version}"))
-	include(modImplementation(compileOnly("com.electronwill.night-config:core:${project.toml_version}")))
-	include(modImplementation(compileOnly("com.electronwill.night-config:toml:${project.toml_version}")))
+	include(modImplementation("folk.sisby:kaleido-config:${project.kaleido_config_version}"))
 	
 }
 
