@@ -10,5 +10,6 @@ package dev.dannytaylor.perspective.ui.background;
 public enum CurrentBackground {
     TITLE,
     MENU,
-    WORLD;
+    WORLD,
+    TRANSPARENT_BACKGROUND;
 }

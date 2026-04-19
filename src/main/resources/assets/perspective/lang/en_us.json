@@ -25,5 +25,7 @@
 
 	"gui.perspective_lens.zoom.adjust": "Zoom:",
 
-	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s"
+	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
+
+	"gui.perspective_ui.render_location.blur": "UI Blur"
 }

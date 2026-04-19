@@ -8,7 +8,7 @@
 package dev.dannytaylor.perspective.ui.background.backgrounds;
 
 import dev.dannytaylor.perspective.ui.background.CurrentBackground;
-import dev.dannytaylor.perspective.ui.background.blurs.Blur;
+import dev.dannytaylor.perspective.ui.background.blurs.BackgroundRenderer;
 import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class AbstractBackground implements Background {
@@ -23,7 +23,11 @@ public abstract class AbstractBackground implements Background {
     public void render(GuiGraphics guiGraphics, CurrentBackground currentBackground) {
     }
 
-    public Blur getBlurRenderer() {
-        return (guiGraphics, allocator) -> true;
+    public BackgroundRenderer getBlurRenderer() {
+        return (guiGraphics) -> true;
+    }
+
+    public BackgroundRenderer getTransparentBackgroundRenderer() {
+        return (guiGraphics) -> true;
     }
 }

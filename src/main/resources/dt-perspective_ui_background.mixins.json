@@ -3,7 +3,6 @@
   "package": "dev.dannytaylor.perspective.ui.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "background.PanoramaRendererMixin",
     "background.ScreenMixin",
     "title.LogoRendererMixin",
     "title.SplashRendererMixin"

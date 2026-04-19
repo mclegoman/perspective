@@ -18,7 +18,7 @@ import dev.dannytaylor.perspective.ui.UserInterfaceClient;
 import dev.dannytaylor.perspective.ui.events.UserInterfaceEvents;
 
 public class UserInterfaceShaders extends RenderLocations {
-    public static RenderLocation<Runnables.GameRender.Data> GAUSSIAN_BACKGROUND_BLUR = register(UserInterfaceClient.idOf("background_blur"), Shaders::renderFromGameData, RenderLocations.DepthType.MAIN, UIType.UNDER, false);
+    public static RenderLocation<Runnables.GameRender.Data> BLUR = register(UserInterfaceClient.idOf("blur"), Shaders::renderFromGameData, RenderLocations.DepthType.MAIN, UIType.UNDER, false);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         UserInterfaceEvents.onInitialize(mod, "Shaders", () -> {
