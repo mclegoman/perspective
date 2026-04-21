@@ -45,9 +45,7 @@
 		"dt-perspective_ui_background.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.18.6",
 		"minecraft": "~1.21.11",
-		"java": ">=21",
 		"fabric-api": "*",
 		"luminance": ">=1.1.0-beta.2"
 	},

@@ -22,7 +22,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 public class BackgroundRegistry {
-    public static Background DEFAULT = register(UserInterfaceClient.idOf("default"), new DefaultBackground());
+    public static Background VANILLA = register(UserInterfaceClient.idOf("vanilla"), new DefaultBackground());
     public static Background GAUSSIAN = register(UserInterfaceClient.idOf("gaussian"), new DefaultBackground(BackgroundRegistry::noBlur));
     public static Background LEGACY = register(UserInterfaceClient.idOf("legacy"), new DefaultBackground(
             BackgroundRegistry::renderGradiantBackground,
