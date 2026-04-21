@@ -39,14 +39,14 @@ public class LensConfig extends ReflectiveConfig {
     @FloatRange(min = 0.0F, max = 2.0F)
     public final TrackedValue<Float> transitionSpeedIn = this.value(1.0F);
     @FloatRange(min = 0.0F, max = 2.0F)
-    public final TrackedValue<Float> transitionSpeedOut = this.value(1.0F);
+    public final TrackedValue<Float> transitionSpeedOut = this.value(1.25F);
     public final TrackedValue<ConfigIdentifier> effects = this.value(ConfigIdentifier.of(LensClient.idOf("scaled")));
     public final TrackedValue<Boolean> effectsWhenNotZooming = this.value(true);
-    public final TrackedValue<Float> effectsThreshold = this.value(0.95F);
-    public final TrackedValue<HideUi> hideUi = this.value(HideUi.nothing);
+    public final TrackedValue<Float> effectsThreshold = this.value(0.85F);
+    public final TrackedValue<HideUi> hideUi = this.value(HideUi.hands);
     public final TrackedValue<Boolean> showPercentage = this.value(false);
     public final TrackedValue<ConfigIdentifier> scaleType = this.value(ConfigIdentifier.of(LensClient.idOf("logarithmic")));
-    public final TrackedValue<ConfigIdentifier> overlay = this.value(ConfigIdentifier.of(LensClient.idOf("none")));
+    public final TrackedValue<ConfigIdentifier> audioVisual = this.value(ConfigIdentifier.of(LensClient.idOf("none")));
     public final TrackedValue<Boolean> reset = this.value(false);
     public final TrackedValue<Boolean> cinematic = this.value(false);
     public final TrackedValue<Boolean> checkOnTick = this.value(true);
@@ -78,7 +78,7 @@ public class LensConfig extends ReflectiveConfig {
                                     speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value())))
                             ),
                             new ListWidget.ListEntry(
-                                    CoreConfigWidgets.eventButton(mod, "overlay", Components::guiTranslatable, instance.overlay, LensEvents.ZoomOverlays).build(),
+                                    CoreConfigWidgets.eventButton(mod, "av", Components::guiTranslatable, instance.audioVisual, LensEvents.ZoomAVs).build(),
                                     CoreConfigWidgets.toggleButton(mod, "cinematic", instance.cinematic).build(),
                                     CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build()
                             ),

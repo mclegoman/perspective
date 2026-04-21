@@ -34,8 +34,10 @@
 	"gui.perspective_lens.effect.scaled": "Scaled",
 	"gui.perspective_lens.effect.unscaled": "Unscaled",
 
-	"gui.perspective_lens.overlay.none": "None",
-	"gui.perspective_lens.overlay.spyglass": "Spyglass",
+	"gui.perspective_lens.av.none": "None",
+	"gui.perspective_lens.av.spyglass": "Spyglass (Audio + Visual)",
+	"gui.perspective_lens.av.spyglass/audio_only": "Spyglass (Audio)",
+	"gui.perspective_lens.av.spyglass/visual_only": "Spyglass (Visual)",
 
 	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
 
@@ -61,7 +63,7 @@
 	"gui.perspective_lens.config.transition.speed_in": "Speed In: %sx",
 	"gui.perspective_lens.config.transition.speed_out": "Speed Out: %sx",
 
-	"gui.perspective_lens.config.overlay": "Overlay: %s",
+	"gui.perspective_lens.config.av": "AV: %s",
 	"gui.perspective_lens.config.cinematic": "Cinematic: %s",
 	"gui.perspective_lens.config.hide_ui": "Hide UI: %s",
 
@@ -74,7 +76,7 @@
 	"gui.perspective_hold_perspective.config.hold.back_hide_ui": "Back Hide UI: %s",
 	"gui.perspective_hold_perspective.config.hold.front_multiplier": "Front Distance: %sx",
 	"gui.perspective_hold_perspective.config.hold.front_hide_ui": "Front Hide UI: %s",
-	"gui.perspective_hold_perspective.config.multiplier_increment_size": "Scroll Distance Increment: %sx",
+	"gui.perspective_hold_perspective.config.multiplier_increment_size": "Scroll Increment: %sx",
 
 	"gui.perspective_hold_perspective.config.swap": "Swap Perspective",
 	"gui.perspective_hold_perspective.config.back_multiplier": "Back Distance: %sx",

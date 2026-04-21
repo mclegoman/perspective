@@ -16,16 +16,16 @@ import dev.dannytaylor.perspective.api.util.NumberHelper;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
-import dev.dannytaylor.perspective.lens.events.LensRunnables;
 import dev.dannytaylor.perspective.lens.keymappings.LensKeyMappings;
 import dev.dannytaylor.perspective.lens.zooms.effects.ZoomEffects;
-import dev.dannytaylor.perspective.lens.zooms.overlays.ZoomOverlays;
+import dev.dannytaylor.perspective.lens.zooms.overlays.ZoomAVs;
 import dev.dannytaylor.perspective.lens.zooms.scales.ZoomScales;
 import dev.dannytaylor.perspective.lens.zooms.transitions.ZoomTransitions;
 import dev.dannytaylor.perspective.lens.zooms.zoom.DefaultZoom;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
@@ -33,24 +33,21 @@ import org.joml.Vector2i;
 
 public class ZoomRegistry {
     public static Zoom MAIN = register(getIdentifier(), DefaultZoom.builder()
-            .isZooming(ZoomRegistry::isMainZooming)
+            .isZooming(ZoomRegistry::isZoomZooming)
             .scale(() -> LensEvents.ZoomScales.get(LensConfig.instance.scaleType.value().getIdentifier()))
             .transition(() -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()))
             .effect(() -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()))
             .shouldEffect((zoom) -> zoom.isEnabled() && zoom.isZooming() || LensConfig.instance.effectsWhenNotZooming.value() && (zoom.getMultiplier() < LensConfig.instance.effectsThreshold.value()))
             .amount(LensConfig.instance.amount::value)
-            .onTickClient((minecraft) -> {
+            .onTickClient((zoom) -> {
                 if (LensConfig.instance.checkOnTick.value()) ZoomRegistry.isMainZoomHeld = LensKeyMappings.holdZoom.isDown();
                 if (LensKeyMappings.toggleZoom.consumeClick()) ZoomRegistry.isMainZoomToggled = !ZoomRegistry.isMainZoomToggled;
-                if (!isMainZooming() && ZoomRegistry.wasConfigUpdated) {
+                if (!isZoomZooming(zoom) && ZoomRegistry.wasConfigUpdated) {
                     LensConfig.instance.save();
                     ZoomRegistry.wasConfigUpdated = false;
                 }
             })
-            .guiOverlay((graphics, deltaTracker, zoom) -> {
-                LensRunnables.ZoomOverlay drawable = LensEvents.ZoomOverlays.get(LensConfig.instance.overlay.value().getIdentifier());
-                if (drawable != null) drawable.draw(graphics, deltaTracker, zoom);
-            })
+            .audioVisual(() -> LensEvents.ZoomAVs.get(LensConfig.instance.audioVisual.value().getIdentifier()))
             .isEnabled((zoom) -> (LensConfig.instance.enabled.value() && (!LensConfig.instance.requireSpyglass.value() || ClientData.minecraft.player != null && ClientData.minecraft.player.getInventory().contains((itemStack) -> itemStack.is(Items.SPYGLASS)))))
             .build(LensClient.getMod()));
 
@@ -77,10 +74,10 @@ public class ZoomRegistry {
             ZoomScales.onInitializeClient(mod);
             ZoomTransitions.onInitializeClient(mod);
             ZoomEffects.onInitializeClient(mod);
-            ZoomOverlays.onInitializeClient(mod);
+            ZoomAVs.onInitializeClient(mod);
 
             LensEvents.OnMouseScroll.register(getIdentifier(), (long windowHandle, double horizontal, double vertical, Vector2i vector2i) -> {
-                if (ZoomRegistry.isMainZooming()) {
+                if (ZoomRegistry.isZoomZooming(MAIN)) {
                     if (vector2i.y != 0) {
                         ZoomRegistry.adjustMainAmount(vector2i.y);
                         return true;
@@ -90,7 +87,7 @@ public class ZoomRegistry {
             });
 
             LensEvents.OnMouseButton.register(getIdentifier(), (windowHandle, mouseButtonInfo, action) -> {
-                if (ZoomRegistry.isMainZooming()) {
+                if (ZoomRegistry.isZoomZooming(MAIN)) {
                     if (mouseButtonInfo.button() == 2) {
                         ZoomRegistry.setMainZoomAmount(LensConfig.instance.amount.getDefaultValue());
                         return true;
@@ -99,13 +96,16 @@ public class ZoomRegistry {
                 return false;
             });
 
-            LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isMainZooming() ? LensConfig.instance.hideUi.value() : HideUi.nothing);
+            LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isZoomZooming(MAIN) ? LensConfig.instance.hideUi.value() : HideUi.nothing);
+            DebugScreenEntries.register(getIdentifier(), (debugScreenDisplayer, level, levelChunk, levelChunk2) -> {
+                debugScreenDisplayer.addLine("Combined Multiplier: " + getCombinedMultiplier());
+            });
         });
     }
 
     public static void onTickClient(Minecraft minecraft) {
         LensEvents.Zooms.registry.forEach((identifier, zoom) -> {
-            if (zoom.isEnabled()) zoom.onTickClient(minecraft);
+            if (zoom.isEnabled()) zoom.onTickClient();
         });
     }
 
@@ -114,8 +114,8 @@ public class ZoomRegistry {
         return zoom;
     }
 
-    public static boolean isMainZooming() {
-        if (MAIN.isEnabled()) {
+    public static boolean isZoomZooming(Zoom zoom) {
+        if (zoom.isEnabled()) {
             boolean shouldZoom = ZoomRegistry.isMainZoomToggled;
             if ((!LensConfig.instance.checkOnTick.value() && LensKeyMappings.holdZoom.isDown()) || ZoomRegistry.isMainZoomHeld) shouldZoom = !shouldZoom;
             return shouldZoom;
@@ -139,7 +139,7 @@ public class ZoomRegistry {
     }
 
     private static void adjustMainAmount(float scrollAmount) {
-        if (isMainZooming()) setMainZoomAmount(clampMainAmount(LensConfig.instance.amount.value() + (scrollAmount * LensConfig.instance.incrementSize.value())));
+        if (isZoomZooming(MAIN)) setMainZoomAmount(clampMainAmount(LensConfig.instance.amount.value() + (scrollAmount * LensConfig.instance.incrementSize.value())));
     }
 
     public static float getCombinedBobViewMultiplier() {

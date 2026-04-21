@@ -39,7 +39,7 @@ public class LensExecute extends CoreExecute {
         return fov;
     }
 
-    public static void renderZoomOverlays(GuiGraphics graphics, DeltaTracker deltaTracker) {
+    public static void renderZoom(GuiGraphics graphics, DeltaTracker deltaTracker) {
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
             if (zoom.isEnabled()) zoom.draw(graphics, deltaTracker);
         }

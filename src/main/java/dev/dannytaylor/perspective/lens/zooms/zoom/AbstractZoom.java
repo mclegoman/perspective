@@ -9,17 +9,19 @@ package dev.dannytaylor.perspective.lens.zooms.zoom;
 
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.AbstractZoomEffect;
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
+import dev.dannytaylor.perspective.lens.zooms.overlays.overlays.AbstractZoomAV;
+import dev.dannytaylor.perspective.lens.zooms.overlays.overlays.ZoomAV;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.AbstractZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.AbstractZoomTransition;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class AbstractZoom implements Zoom {
     private float previousMultiplier = 1.0F;
     private float multiplier = 1.0F;
+    private boolean wasZooming;
 
     public float getPreviousMultiplier() {
         return this.previousMultiplier;
@@ -41,6 +43,16 @@ public abstract class AbstractZoom implements Zoom {
         return false;
     }
 
+    public boolean wasZooming() {
+        return this.wasZooming;
+    }
+
+    public void onStartZooming(Zoom zoom) {
+    }
+
+    public void onFinishZooming(Zoom zoom) {
+    }
+
     public ZoomScale getScale() {
         return new AbstractZoomScale() {
         };
@@ -49,6 +61,10 @@ public abstract class AbstractZoom implements Zoom {
     public ZoomTransition getTransition() {
         return new AbstractZoomTransition() {
         };
+    }
+
+    public ZoomAV getAudioVisual() {
+        return new AbstractZoomAV() {};
     }
 
     public ZoomEffect getEffect() {
@@ -69,10 +85,21 @@ public abstract class AbstractZoom implements Zoom {
         if (this.getTransition() != null) this.setMultiplier(this.getTransition().updateMultiplier(this));
     }
 
-    public void onTickClient(Minecraft minecraft) {
+    public void draw(GuiGraphics graphics, DeltaTracker deltaTracker) {
+        if (!this.wasZooming() && this.isZooming()) {
+            if (this.getAudioVisual() != null) this.getAudioVisual().onStart(graphics, deltaTracker, this);
+            this.onStartZooming(this);
+            this.wasZooming = true;
+        }
+        if (this.isZooming() && this.getAudioVisual() != null) this.getAudioVisual().draw(graphics, deltaTracker, this);
+        if (!this.isZooming() && this.wasZooming()) {
+            if (this.getAudioVisual() != null) this.getAudioVisual().onFinish(graphics, deltaTracker, this);
+            this.onFinishZooming(this);
+            this.wasZooming = false;
+        }
     }
 
-    public void draw(GuiGraphics graphics, DeltaTracker deltaTracker) {
+    public void onTickClient() {
     }
 
     public boolean isEnabled() {

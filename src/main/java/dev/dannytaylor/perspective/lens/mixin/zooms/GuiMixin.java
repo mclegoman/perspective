@@ -20,6 +20,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiMixin {
     @Inject(method = "renderCameraOverlays", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getTicksFrozen()I"))
     private void perspective$renderCameraOverlays(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        LensExecute.renderZoomOverlays(guiGraphics, deltaTracker);
+        LensExecute.renderZoom(guiGraphics, deltaTracker);
     }
 }

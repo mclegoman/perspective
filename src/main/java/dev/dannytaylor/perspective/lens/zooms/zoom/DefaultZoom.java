@@ -9,50 +9,53 @@ package dev.dannytaylor.perspective.lens.zooms.zoom;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
-import dev.dannytaylor.perspective.api.events.CoreRunnables;
 import dev.dannytaylor.perspective.lens.events.LensRunnables;
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
+import dev.dannytaylor.perspective.lens.zooms.overlays.overlays.ZoomAV;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 
 import java.util.concurrent.Callable;
 
 public class DefaultZoom extends AbstractZoom {
-    private final LensRunnables.Zoomable isZooming;
+    private final LensRunnables.ZoomableBoolean isZooming;
+    private final LensRunnables.Zoomable onStartZooming;
+    private final LensRunnables.Zoomable onFinishZooming;
     private final Callable<ZoomScale> scale;
     private final Callable<ZoomTransition> transition;
     private final Callable<ZoomEffect> effect;
     private final LensRunnables.ZoomableBoolean shouldEffect;
     private final Callable<Float> amount;
-    private final LensRunnables.ZoomOverlay guiOverlay;
-    private final LensRunnables.OnTickClient onTickClient;
+    private final Callable<ZoomAV> audioVisual;
+    private final LensRunnables.Zoomable onTickClient;
     private final LensRunnables.ZoomableBoolean isEnabled;
     
     private final PerspectiveMod mod;
 
     private DefaultZoom(
-            LensRunnables.Zoomable isZoomingValue,
+            LensRunnables.ZoomableBoolean isZoomingValue,
+            LensRunnables.Zoomable onStartZoomingValue,
+            LensRunnables.Zoomable onFinishZoomingValue,
             Callable<ZoomScale> scaleValue,
             Callable<ZoomTransition> transitionValue,
             Callable<ZoomEffect> effectValue,
             LensRunnables.ZoomableBoolean shouldEffectValue,
             Callable<Float> amountValue,
-            CoreRunnables.OnTickClient onTickClientValue,
-            LensRunnables.ZoomOverlay guiOverlay,
+            LensRunnables.Zoomable onTickClientValue,
+            Callable<ZoomAV> audioVisualValue,
             LensRunnables.ZoomableBoolean isEnabled,
             PerspectiveMod mod
     ) {
         this.isZooming = isZoomingValue;
+        this.onStartZooming = onStartZoomingValue;
+        this.onFinishZooming = onFinishZoomingValue;
         this.scale = scaleValue;
         this.transition = transitionValue;
         this.effect = effectValue;
         this.shouldEffect = shouldEffectValue;
         this.amount = amountValue;
         this.onTickClient = onTickClientValue;
-        this.guiOverlay = guiOverlay;
+        this.audioVisual = audioVisualValue;
         this.isEnabled = isEnabled;
         this.mod = mod;
     }
@@ -63,11 +66,29 @@ public class DefaultZoom extends AbstractZoom {
 
     public boolean isZooming() {
         try {
-            if (this.isZooming != null) return this.isZooming.call();
+            if (this.isZooming != null) return this.isZooming.call(this);
         } catch (Exception error) {
             PerspectiveLog.error(this.mod, "Failed to get zoom isZooming: {}", error);
         }
         return super.isZooming();
+    }
+
+    public void onStartZooming(Zoom zoom) {
+        try {
+            if (this.onStartZooming != null) this.onStartZooming.run(zoom);
+            else super.isZooming();
+        } catch (Exception error) {
+            PerspectiveLog.error(this.mod, "Failed to run zoom start: {}", error);
+        }
+    }
+
+    public void onFinishZooming(Zoom zoom) {
+        try {
+            if (this.onFinishZooming != null) this.onFinishZooming.run(zoom);
+            else super.isZooming();
+        } catch (Exception error) {
+            PerspectiveLog.error(this.mod, "Failed to run zoom start: {}", error);
+        }
     }
 
     public ZoomScale getScale() {
@@ -117,22 +138,22 @@ public class DefaultZoom extends AbstractZoom {
         return super.getZoomAmount();
     }
 
-    public void onTickClient(Minecraft minecraft) {
+    public void onTickClient() {
         try {
-            if (this.onTickClient != null) this.onTickClient.run(minecraft);
-            else super.onTickClient(minecraft);
+            if (this.onTickClient != null) this.onTickClient.run(this);
+            else super.onTickClient();
         } catch (Exception error) {
             PerspectiveLog.error(this.mod,"Failed to tick zoom client: {}", error);
         }
     }
 
-    public void draw(GuiGraphics graphics, DeltaTracker deltaTracker) {
+    public ZoomAV getAudioVisual() {
         try {
-            if (this.guiOverlay != null) this.guiOverlay.draw(graphics, deltaTracker, this);
-            else super.draw(graphics, deltaTracker);
+            if (this.audioVisual != null) return this.audioVisual.call();
         } catch (Exception error) {
-            PerspectiveLog.error(this.mod,"Failed to draw zoom gui overlay: {}", error);
+            PerspectiveLog.error(this.mod,"Failed to get zoom overlay: {}", error);
         }
+        return super.getAudioVisual();
     }
 
     public boolean isEnabled() {
@@ -145,18 +166,30 @@ public class DefaultZoom extends AbstractZoom {
     }
 
     public static class Builder {
-        private LensRunnables.Zoomable isZooming;
+        private LensRunnables.ZoomableBoolean isZooming;
+        private LensRunnables.Zoomable onStartZooming;
+        private LensRunnables.Zoomable onFinishZooming;
         private Callable<ZoomScale> scale;
         private Callable<ZoomTransition> transition;
         private Callable<ZoomEffect> effect;
         private LensRunnables.ZoomableBoolean shouldEffect;
         private Callable<Float> amount;
-        private CoreRunnables.OnTickClient onTickClient;
-        private LensRunnables.ZoomOverlay guiOverlay;
+        private LensRunnables.Zoomable onTickClient;
+        private Callable<ZoomAV> audioVisual;
         private LensRunnables.ZoomableBoolean isEnabled;
 
-        public Builder isZooming(LensRunnables.Zoomable isZooming) {
+        public Builder isZooming(LensRunnables.ZoomableBoolean isZooming) {
             this.isZooming = isZooming;
+            return this;
+        }
+
+        public Builder onStartZooming(LensRunnables.Zoomable onStartZooming) {
+            this.onStartZooming = onStartZooming;
+            return this;
+        }
+
+        public Builder onFinishZooming(LensRunnables.Zoomable onFinishZooming) {
+            this.onFinishZooming = onFinishZooming;
             return this;
         }
 
@@ -185,13 +218,13 @@ public class DefaultZoom extends AbstractZoom {
             return this;
         }
 
-        public Builder onTickClient(CoreRunnables.OnTickClient onTickClient) {
+        public Builder onTickClient(LensRunnables.Zoomable onTickClient) {
             this.onTickClient = onTickClient;
             return this;
         }
 
-        public Builder guiOverlay(LensRunnables.ZoomOverlay guiOverlay) {
-            this.guiOverlay = guiOverlay;
+        public Builder audioVisual(Callable<ZoomAV> audioVisual) {
+            this.audioVisual = audioVisual;
             return this;
         }
 
@@ -201,7 +234,7 @@ public class DefaultZoom extends AbstractZoom {
         }
 
         public DefaultZoom build(PerspectiveMod mod) {
-            return new DefaultZoom(this.isZooming, this.scale, this.transition, this.effect, this.shouldEffect, this.amount, this.onTickClient, this.guiOverlay, this.isEnabled, mod);
+            return new DefaultZoom(this.isZooming, this.onStartZooming, this.onFinishZooming, this.scale, this.transition, this.effect, this.shouldEffect, this.amount, this.onTickClient, this.audioVisual, this.isEnabled, mod);
         }
     }
 }

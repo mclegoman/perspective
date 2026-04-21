@@ -11,6 +11,7 @@
 package dev.dannytaylor.perspective.perspective;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.api.gui.screen.config.ConfigScreen;
 import dev.dannytaylor.perspective.perspective.events.PerspectiveEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -36,5 +37,6 @@ public class PerspectiveClient implements ClientModInitializer {
     }
 
     private void onTickClient(Minecraft minecraft) {
+        if (minecraft.hasShiftDown() && minecraft.screen == null) minecraft.setScreen(new ConfigScreen(null));
     }
 }
