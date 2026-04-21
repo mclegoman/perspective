@@ -24,8 +24,6 @@ public interface Zoom {
     ZoomTransition getTransition();
     ZoomEffect getEffect();
     float getZoomAmount();
-    float getTransitionSpeedOut();
-    float getTransitionSpeedIn();
     void update();
     void onTickClient(Minecraft minecraft);
     void draw(GuiGraphics guiGraphics, DeltaTracker deltaTracker);

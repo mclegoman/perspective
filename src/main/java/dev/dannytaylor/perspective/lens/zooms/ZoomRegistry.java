@@ -38,8 +38,6 @@ public class ZoomRegistry {
             .transition(() -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()))
             .effect(() -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()))
             .amount(LensConfig.instance.amount::value)
-            .transitionSpeedOut(LensConfig.instance.smoothSpeedOut::value)
-            .transitionSpeedIn(LensConfig.instance.smoothSpeedIn::value)
             .onTickClient((minecraft) -> {
                 if (LensConfig.instance.checkOnTick.value()) ZoomRegistry.isMainZoomHeld = LensKeyMappings.holdZoom.isDown();
                 if (LensKeyMappings.toggleZoom.consumeClick()) ZoomRegistry.isMainZoomToggled = !ZoomRegistry.isMainZoomToggled;

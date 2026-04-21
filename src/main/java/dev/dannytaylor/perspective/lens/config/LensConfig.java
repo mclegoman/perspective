@@ -39,6 +39,7 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<Boolean> reset = this.value(false);
     public final TrackedValue<Boolean> cinematic = this.value(false);
     public final TrackedValue<Boolean> checkOnTick = this.value(true);
+    public final TrackedValue<Float> scopeScale = this.value(1.125F);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         LensEvents.onInitialize(mod, "Config", () -> {});

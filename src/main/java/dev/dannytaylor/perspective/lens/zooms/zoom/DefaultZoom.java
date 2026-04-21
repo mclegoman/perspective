@@ -26,8 +26,6 @@ public class DefaultZoom extends AbstractZoom {
     private final Callable<ZoomTransition> transition;
     private final Callable<ZoomEffect> effect;
     private final Callable<Float> amount;
-    private final Callable<Float> transitionSpeedOut;
-    private final Callable<Float> transitionSpeedIn;
     private final LensRunnables.ZoomOverlay guiOverlay;
     private final CoreRunnables.OnTickClient onTickClient;
     
@@ -39,8 +37,6 @@ public class DefaultZoom extends AbstractZoom {
             Callable<ZoomTransition> transitionValue,
             Callable<ZoomEffect> effectValue,
             Callable<Float> amountValue,
-            Callable<Float> transitionSpeedOutValue,
-            Callable<Float> transitionSpeedInValue,
             CoreRunnables.OnTickClient onTickClientValue,
             LensRunnables.ZoomOverlay guiOverlay,
             PerspectiveMod mod
@@ -50,8 +46,6 @@ public class DefaultZoom extends AbstractZoom {
         this.transition = transitionValue;
         this.effect = effectValue;
         this.amount = amountValue;
-        this.transitionSpeedOut = transitionSpeedOutValue;
-        this.transitionSpeedIn = transitionSpeedInValue;
         this.onTickClient = onTickClientValue;
         this.guiOverlay = guiOverlay;
         this.mod = mod;
@@ -106,24 +100,6 @@ public class DefaultZoom extends AbstractZoom {
         return super.getZoomAmount();
     }
 
-    public float getTransitionSpeedOut() {
-        try {
-            if (this.transitionSpeedOut != null) return this.transitionSpeedOut.call();
-        } catch (Exception error) {
-            PerspectiveLog.error(this.mod,"Failed to get zoom transition speed out: {}", error);
-        }
-        return super.getTransitionSpeedOut();
-    }
-
-    public float getTransitionSpeedIn() {
-        try {
-            if (this.transitionSpeedIn != null) return this.transitionSpeedIn.call();
-        } catch (Exception error) {
-            PerspectiveLog.error(this.mod,"Failed to get zoom transition speed in: {}", error);
-        }
-        return super.getTransitionSpeedIn();
-    }
-
     public void onTickClient(Minecraft minecraft) {
         try {
             if (this.onTickClient != null) this.onTickClient.run(minecraft);
@@ -148,8 +124,6 @@ public class DefaultZoom extends AbstractZoom {
         private Callable<ZoomTransition> transition;
         private Callable<ZoomEffect> effect;
         private Callable<Float> amount;
-        private Callable<Float> transitionSpeedOut;
-        private Callable<Float> transitionSpeedIn;
         private CoreRunnables.OnTickClient onTickClient;
         private LensRunnables.ZoomOverlay guiOverlay;
 
@@ -178,16 +152,6 @@ public class DefaultZoom extends AbstractZoom {
             return this;
         }
 
-        public Builder transitionSpeedOut(Callable<Float> transitionSpeedOut) {
-            this.transitionSpeedOut = transitionSpeedOut;
-            return this;
-        }
-
-        public Builder transitionSpeedIn(Callable<Float> transitionSpeedIn) {
-            this.transitionSpeedIn = transitionSpeedIn;
-            return this;
-        }
-
         public Builder onTickClient(CoreRunnables.OnTickClient onTickClient) {
             this.onTickClient = onTickClient;
             return this;
@@ -199,7 +163,7 @@ public class DefaultZoom extends AbstractZoom {
         }
 
         public DefaultZoom build(PerspectiveMod mod) {
-            return new DefaultZoom(this.isZooming, this.scale, this.transition, this.effect, this.amount, this.transitionSpeedOut, this.transitionSpeedIn, this.onTickClient, this.guiOverlay, mod);
+            return new DefaultZoom(this.isZooming, this.scale, this.transition, this.effect, this.amount, this.onTickClient, this.guiOverlay, mod);
         }
     }
 }

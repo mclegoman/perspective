@@ -8,7 +8,9 @@
 package dev.dannytaylor.perspective.lens.zooms.zoom;
 
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
+import dev.dannytaylor.perspective.lens.zooms.scales.scale.AbstractZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
+import dev.dannytaylor.perspective.lens.zooms.transitions.transition.AbstractZoomTransition;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -39,11 +41,13 @@ public abstract class AbstractZoom implements Zoom {
     }
 
     public ZoomScale getScale() {
-        return null;
+        return new AbstractZoomScale() {
+        };
     }
 
     public ZoomTransition getTransition() {
-        return null;
+        return new AbstractZoomTransition() {
+        };
     }
 
     public ZoomEffect getEffect() {
@@ -52,14 +56,6 @@ public abstract class AbstractZoom implements Zoom {
 
     public float getZoomAmount() {
         return 0.0F;
-    }
-
-    public float getTransitionSpeedOut() {
-        return 1.0F;
-    }
-
-    public float getTransitionSpeedIn() {
-        return 1.0F;
     }
 
     public void update() {
