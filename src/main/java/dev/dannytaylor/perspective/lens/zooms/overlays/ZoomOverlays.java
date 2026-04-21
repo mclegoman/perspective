@@ -20,11 +20,9 @@ public class ZoomOverlays {
     public static LensRunnables.ZoomOverlay NONE = register(LensClient.idOf("none"), (guiGraphics, deltaTracker, zoom) -> {});
     public static LensRunnables.ZoomOverlay SPYGLASS = register(LensClient.idOf("spyglass"), (guiGraphics, deltaTracker, zoom) -> {
         ZoomOverlays.scopeScale = Mth.lerp((0.5F * zoom.getTransitionSpeedIn()) * deltaTracker.getGameTimeDeltaTicks(), ZoomOverlays.scopeScale, 1.125F);
-        if (zoom.isZooming() && ClientData.minecraft.options.getCameraType().isFirstPerson()) {
-            ((GuiAccessor)ClientData.minecraft.gui).perspective$renderSpyglassOverlay(guiGraphics, ZoomOverlays.scopeScale);
-        } else {
-            ZoomOverlays.scopeScale = 0.5F;
-        }
+        if (zoom.isZooming()) {
+            if (ClientData.minecraft.options.getCameraType().isFirstPerson()) ((GuiAccessor)ClientData.minecraft.gui).perspective$renderSpyglassOverlay(guiGraphics, ZoomOverlays.scopeScale);
+        } else ZoomOverlays.scopeScale = 0.5F;
     });
 
     private static float scopeScale;
