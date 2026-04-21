@@ -25,4 +25,8 @@ public abstract class AbstractZoomTransition implements ZoomTransition {
     public float getSpeedIn() {
         return 1.0F;
     }
+
+    public boolean isSpeedConfigEnabled() {
+        return false;
+    }
 }

@@ -9,9 +9,9 @@ package dev.dannytaylor.perspective.lens.zooms;
 
 import com.mclegoman.luminance.client.util.MessageOverlay;
 import dev.dannytaylor.perspective.api.component.Components;
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreRunnables;
+import dev.dannytaylor.perspective.api.util.NumberHelper;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
@@ -25,11 +25,9 @@ import dev.dannytaylor.perspective.lens.zooms.zoom.DefaultZoom;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import org.joml.Vector2i;
-
-import java.text.DecimalFormat;
 
 public class ZoomRegistry {
     public static Zoom MAIN = register(getIdentifier(), DefaultZoom.builder()
@@ -37,6 +35,7 @@ public class ZoomRegistry {
             .scale(() -> LensEvents.ZoomScales.get(LensConfig.instance.scaleType.value().getIdentifier()))
             .transition(() -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()))
             .effect(() -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()))
+            .shouldEffect((zoom) -> zoom.isEnabled() && zoom.isZooming() || LensConfig.instance.effectsWhenNotZooming.value())
             .amount(LensConfig.instance.amount::value)
             .onTickClient((minecraft) -> {
                 if (LensConfig.instance.checkOnTick.value()) ZoomRegistry.isMainZoomHeld = LensKeyMappings.holdZoom.isDown();
@@ -50,6 +49,7 @@ public class ZoomRegistry {
                 LensRunnables.ZoomOverlay drawable = LensEvents.ZoomOverlays.get(LensConfig.instance.overlay.value().getIdentifier());
                 if (drawable != null) drawable.draw(graphics, deltaTracker, zoom);
             })
+            .isEnabled((zoom) -> LensConfig.instance.enabled.value())
             .build(LensClient.getMod()));
 
     public static Identifier getIdentifier() {
@@ -97,12 +97,14 @@ public class ZoomRegistry {
                 return false;
             });
 
-            LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isMainZooming() ? LensConfig.instance.hideHud.value() : HideHud.nothing);
+            LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isMainZooming() ? LensConfig.instance.hideUi.value() : HideUi.nothing);
         });
     }
 
     public static void onTickClient(Minecraft minecraft) {
-        LensEvents.Zooms.registry.forEach((identifier, zoom) -> zoom.onTickClient(minecraft));
+        LensEvents.Zooms.registry.forEach((identifier, zoom) -> {
+            if (zoom.isEnabled()) zoom.onTickClient(minecraft);
+        });
     }
 
     public static Zoom register(Identifier identifier, Zoom zoom) {
@@ -111,7 +113,7 @@ public class ZoomRegistry {
     }
 
     public static boolean isMainZooming() {
-        if (LensConfig.instance.enabled.value()) {
+        if (MAIN.isEnabled()) {
             boolean shouldZoom = ZoomRegistry.isMainZoomToggled;
             if ((!LensConfig.instance.checkOnTick.value() && LensKeyMappings.holdZoom.isDown()) || ZoomRegistry.isMainZoomHeld) shouldZoom = !shouldZoom;
             return shouldZoom;
@@ -121,9 +123,13 @@ public class ZoomRegistry {
 
     private static void setMainZoomAmount(float amount) {
         float clampedAmount = clampMainAmount(amount);
-        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(Components.getCombinedText(Components.translatable(LensClient.getMod().idOf("zoom.adjust")), Component.literal(" " + new DecimalFormat("#.##").format(clampedAmount) + "%")).withStyle(ChatFormatting.GOLD));
+        if (LensConfig.instance.showPercentage.value()) MessageOverlay.setOverlay(getMainZoomAmountText(clampedAmount).withStyle(ChatFormatting.GOLD));
         LensConfig.instance.amount.setValue(clampedAmount, false);
         ZoomRegistry.wasConfigUpdated = true;
+    }
+
+    public static MutableComponent getMainZoomAmountText(float amount) {
+        return Components.guiTranslatable(LensClient.getMod().idOf("zoom.adjust"), NumberHelper.floatToString(amount) + "%");
     }
 
     private static float clampMainAmount(float amount) {
@@ -137,7 +143,7 @@ public class ZoomRegistry {
     public static float getCombinedBobViewMultiplier() {
         float multiplier = 1.0F;
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-            if (zoom.getEffect() != null) multiplier *= zoom.getEffect().getBobViewMultiplier(zoom);
+            if (zoom.isEnabled() && zoom.getEffect() != null && zoom.shouldEffect()) multiplier *= zoom.getEffect().getBobViewMultiplier(zoom);
         }
         return multiplier;
     }
@@ -145,7 +151,7 @@ public class ZoomRegistry {
     public static float getCombinedMouseMultiplier() {
         float multiplier = 1.0F;
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-            if (zoom != null && zoom.getEffect() != null) multiplier *= zoom.getEffect().getMouseMultiplier(zoom);
+            if (zoom != null && zoom.isEnabled() && zoom.getEffect() != null && zoom.shouldEffect()) multiplier *= zoom.getEffect().getMouseMultiplier(zoom);
         }
         return multiplier;
     }
@@ -153,14 +159,14 @@ public class ZoomRegistry {
     public static float getCombinedMultiplier() {
         float multiplier = 1.0F;
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-            if (zoom != null) multiplier *= zoom.getMultiplier();
+            if (zoom != null && zoom.isEnabled()) multiplier *= zoom.getMultiplier();
         }
         return multiplier;
     }
 
     public static boolean isZooming() {
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-            if (zoom.isZooming()) return true;
+            if (zoom != null && zoom.isEnabled() && zoom.isZooming()) return true;
         }
         return false;
     }

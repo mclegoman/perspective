@@ -7,6 +7,7 @@
 
 package dev.dannytaylor.perspective.lens.zooms.zoom;
 
+import dev.dannytaylor.perspective.lens.zooms.effects.effect.AbstractZoomEffect;
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.AbstractZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
@@ -51,7 +52,11 @@ public abstract class AbstractZoom implements Zoom {
     }
 
     public ZoomEffect getEffect() {
-        return null;
+        return new AbstractZoomEffect() {};
+    }
+
+    public boolean shouldEffect() {
+        return this.isZooming();
     }
 
     public float getZoomAmount() {
@@ -68,5 +73,9 @@ public abstract class AbstractZoom implements Zoom {
     }
 
     public void draw(GuiGraphics graphics, DeltaTracker deltaTracker) {
+    }
+
+    public boolean isEnabled() {
+        return true;
     }
 }

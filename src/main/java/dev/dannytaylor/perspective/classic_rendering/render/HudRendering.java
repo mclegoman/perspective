@@ -28,6 +28,6 @@ public class HudRendering {
     }
 
     public static void renderVersion(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (ClassicRenderingConfig.instance.versionOverlay.value() && !ClientData.minecraft.getDebugOverlay().showDebugScreen()) guiGraphics.drawString(ClientData.minecraft.font, Components.translatable(ClassicRenderingClient.getMod().idOf("version_overlay"), SharedConstants.getCurrentVersion().name()), 2, 2, 0xFFFFFFFF);
+        if (ClassicRenderingConfig.instance.versionOverlay.value() && !ClientData.minecraft.getDebugOverlay().showDebugScreen()) guiGraphics.drawString(ClientData.minecraft.font, Components.guiTranslatable(ClassicRenderingClient.getMod().idOf("version_overlay"), SharedConstants.getCurrentVersion().name()), 2, 2, 0xFFFFFFFF);
     }
 }

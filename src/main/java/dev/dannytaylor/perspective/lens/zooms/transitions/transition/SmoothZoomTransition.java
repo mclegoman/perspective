@@ -41,7 +41,7 @@ public class SmoothZoomTransition extends AbstractZoomTransition {
 
     public float getSpeedOut() {
         try {
-            if (this.speedOut != null) this.speedOut.call();
+            if (this.speedOut != null) return this.speedOut.call();
         } catch (Exception error) {
             PerspectiveLog.error(this.mod,"Failed to calculate zoom transition speed out: {}", error);
         }
@@ -50,11 +50,15 @@ public class SmoothZoomTransition extends AbstractZoomTransition {
 
     public float getSpeedIn() {
         try {
-            if (this.speedIn != null) this.speedIn.call();
+            if (this.speedIn != null) return this.speedIn.call();
         } catch (Exception error) {
             PerspectiveLog.error(this.mod,"Failed to calculate zoom transition speed in: {}", error);
         }
         return super.getSpeedIn();
+    }
+
+    public boolean isSpeedConfigEnabled() {
+        return true;
     }
 
     public static class Builder {

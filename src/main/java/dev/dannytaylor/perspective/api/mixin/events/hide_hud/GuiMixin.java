@@ -7,7 +7,7 @@
 
 package dev.dannytaylor.perspective.api.mixin.events.hide_hud;
 
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
@@ -24,7 +24,7 @@ public abstract class GuiMixin {
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	private void perspective$render(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-		if (CoreEvents.getHideHud().ordinal() >= HideHud.hudOnly.ordinal()) {
+		if (CoreEvents.getHideHud().ordinal() >= HideUi.handsHud.ordinal()) {
 			this.renderCameraOverlays(guiGraphics, deltaTracker);
 			ci.cancel();
 		}

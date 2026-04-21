@@ -17,6 +17,10 @@ public class LensRunnables extends CoreRunnables {
         boolean call();
     }
 
+    public interface ZoomableBoolean {
+        boolean call(Zoom zoom);
+    }
+
     public interface ZoomOverlay {
         void draw(GuiGraphics guiGraphics, DeltaTracker deltaTracker, Zoom zoom);
     }

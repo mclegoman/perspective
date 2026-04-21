@@ -7,32 +7,42 @@
 
 package dev.dannytaylor.perspective.lens.config;
 
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import com.mclegoman.luminance.client.gui.widget.ListWidget;
+import dev.dannytaylor.perspective.api.component.Components;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.api.gui.CoreConfigWidgets;
+import dev.dannytaylor.perspective.api.gui.SliderWidget;
+import dev.dannytaylor.perspective.api.gui.screen.config.ConfigGroup;
+import dev.dannytaylor.perspective.api.util.NumberHelper;
+import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
 import folk.sisby.kaleido.api.ReflectiveConfig;
 import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
+import net.minecraft.util.Mth;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 public class LensConfig extends ReflectiveConfig {
     public static final LensConfig instance = LensConfig.createToml(Paths.get("config"), "perspective", LensClient.getMod().getId(false), LensConfig.class);
 
     public final TrackedValue<Boolean> enabled = this.value(true);
-    @FloatRange(min = 0, max = 100)
+    @FloatRange(min = 0.0F, max = 100.0F)
     public final TrackedValue<Float> amount = this.value(40.0F);
-    @FloatRange(min = 1, max = 10)
+    @FloatRange(min = 0.01F, max = 10.0F)
     public final TrackedValue<Float> incrementSize = this.value(2.0F);
     public final TrackedValue<ConfigIdentifier> transition = this.value(ConfigIdentifier.of(LensClient.idOf("smooth")));
-    @FloatRange(min = 0, max = 2)
-    public final TrackedValue<Float> smoothSpeedIn = this.value(1.0F);
-    @FloatRange(min = 0, max = 2)
-    public final TrackedValue<Float> smoothSpeedOut = this.value(1.0F);
+    @FloatRange(min = 0.0F, max = 2.0F)
+    public final TrackedValue<Float> transitionSpeedIn = this.value(1.0F);
+    @FloatRange(min = 0.0F, max = 2.0F)
+    public final TrackedValue<Float> transitionSpeedOut = this.value(1.0F);
     public final TrackedValue<ConfigIdentifier> effects = this.value(ConfigIdentifier.of(LensClient.idOf("scaled")));
-    public final TrackedValue<HideHud> hideHud = this.value(HideHud.nothing);
+    public final TrackedValue<Boolean> effectsWhenNotZooming = this.value(true);
+    public final TrackedValue<HideUi> hideUi = this.value(HideUi.nothing);
     public final TrackedValue<Boolean> showPercentage = this.value(false);
     public final TrackedValue<ConfigIdentifier> scaleType = this.value(ConfigIdentifier.of(LensClient.idOf("logarithmic")));
     public final TrackedValue<ConfigIdentifier> overlay = this.value(ConfigIdentifier.of(LensClient.idOf("none")));
@@ -41,7 +51,59 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<Boolean> checkOnTick = this.value(true);
     public final TrackedValue<Float> scopeScale = this.value(1.125F);
 
+    // Used to enable and disable depending on Transition type.
+    private static SliderWidget speedSliderIn = null;
+    private static SliderWidget speedSliderOut = null;
+
     public static void onInitializeClient(PerspectiveMod mod) {
-        LensEvents.onInitialize(mod, "Config", () -> {});
+        LensEvents.onInitialize(mod, "Config", () -> {
+            HoldPerspectiveEvents.ConfigGroups.register(mod.idOf("config"), new ConfigGroup() {
+                @Override
+                public List<ListWidget.ListEntry> getWidgets() {
+                    List<ListWidget.ListEntry> entries = List.of(
+                            new ListWidget.ListEntry(
+                                    new SliderWidget(0, 0, 150, 20, instance.amount.value() / 100.0F, (value) -> instance.amount.setValue(NumberHelper.formatFloat(Mth.ceil((float) value * 100.0F)), false), () -> Components.configTranslatable(mod.idOf("amount"), NumberHelper.floatToString(instance.amount.value()) + "%")),
+                                    new SliderWidget(0, 0, 150, 20, (instance.incrementSize.value() - 0.1F) / (10.0F - 0.1F), (value) -> instance.incrementSize.setValue(NumberHelper.formatFloat((float)(0.1F + value * (10.0F - 0.1F))), false), () -> Components.configTranslatable(mod.idOf("increment_size"), instance.incrementSize.value())),
+                                    CoreConfigWidgets.toggleButton(mod, "show_percentage", instance.showPercentage).build()
+                            ),
+                            new ListWidget.ListEntry(
+                                    CoreConfigWidgets.eventButton(mod, "scale", Components::guiTranslatable, instance.scaleType, LensEvents.ZoomScales).build(),
+                                    CoreConfigWidgets.eventButton(mod, "transition", Components::guiTranslatable, instance.transition, LensEvents.ZoomTransitions, LensConfig::setSpeedSlidersActive).build(),
+                                    CoreConfigWidgets.eventButton(mod, "effect", Components::guiTranslatable, instance.effects, LensEvents.ZoomEffects).build()
+                            ),
+                            new ListWidget.ListEntry(
+                                    speedSliderIn = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedIn.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedIn.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_in"), NumberHelper.floatToString(instance.transitionSpeedIn.value()))),
+                                    speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value()))),
+                                    CoreConfigWidgets.toggleButton(mod, "reset", instance.reset).build()
+                            ),
+                            new ListWidget.ListEntry(
+                                    CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build(),
+                                    CoreConfigWidgets.toggleButton(mod, "cinematic", instance.cinematic).build(),
+                                    CoreConfigWidgets.toggleButton(mod, "enabled", instance.enabled).build()
+                            )
+                    );
+                    setSpeedSlidersActive();
+                    return entries;
+                }
+
+                @Override
+                public void onSave() {
+                    LensConfig.instance.save();
+                }
+
+                @Override
+                public float getPriority() {
+                    return 0.0F;
+                }
+            });
+        });
+    }
+
+    private static void setSpeedSlidersActive() {
+        boolean isSpeedConfigEnabled = LensEvents.ZoomTransitions.get(instance.transition.value().getIdentifier()).isSpeedConfigEnabled();
+        if (speedSliderIn != null) {
+            speedSliderIn.active = isSpeedConfigEnabled;
+        }
+        if (speedSliderOut != null) speedSliderOut.active = isSpeedConfigEnabled;
     }
 }

@@ -11,7 +11,6 @@ import dev.dannytaylor.perspective.api.CoreClient;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 import net.minecraft.resources.Identifier;
 
-@SuppressWarnings("unused")
 public record ConfigIdentifier(Identifier identifier) implements ConfigSerializableObject<String> {
 	public Identifier getIdentifier() {
 		return this.identifier;

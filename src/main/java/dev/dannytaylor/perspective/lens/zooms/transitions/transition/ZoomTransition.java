@@ -14,4 +14,5 @@ public interface ZoomTransition {
     float updateMultiplier(Zoom zoom);
     float getSpeedOut();
     float getSpeedIn();
+    boolean isSpeedConfigEnabled();
 }

@@ -10,10 +10,15 @@ package dev.dannytaylor.perspective.api.events;
 import com.mclegoman.luminance.client.events.Events;
 import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.config.CoreConfig;
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
+import dev.dannytaylor.perspective.api.gui.screen.config.ConfigGroup;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 // TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
 // Some of these methods could also be moved over to that mod tbh.
@@ -22,6 +27,7 @@ public class CoreEvents extends Events {
     public static final Registry<CoreRunnables.UseItem> OnClientStartItemUse = new Registry<>();
     public static final Registry<CoreRunnables.FinishUsingItem> OnClientFinishItemUse = new Registry<>();
     public static final Registry<CoreRunnables.ShouldHideHud> ShouldHideHud = new Registry<>();
+    public static final Registry<ConfigGroup> ConfigGroups = new Registry<>();
 
     public static void onInitialize(PerspectiveMod mod, Initializer onInitialize) {
         onInitialize(mod, "", onInitialize, true);
@@ -45,12 +51,12 @@ public class CoreEvents extends Events {
         }
     }
 
-    private static HideHud hideHud;
+    private static HideUi hideUi;
 
-    public static HideHud getHideHud() {
+    public static HideUi getHideHud() {
         if (CoreConfig.instance.checkHideHudOnTick.value()) {
-            if (hideHud == null) hideHud = CoreExecute.updateHideHud();
-            return hideHud;
+            if (hideUi == null) hideUi = CoreExecute.updateHideHud();
+            return hideUi;
         } else return CoreExecute.updateHideHud();
     }
 
@@ -63,6 +69,30 @@ public class CoreEvents extends Events {
     }
 
     public static void onTickClient(Minecraft minecraft) {
-        if (CoreConfig.instance.checkHideHudOnTick.value()) hideHud = CoreExecute.updateHideHud();
+        if (CoreConfig.instance.checkHideHudOnTick.value()) hideUi = CoreExecute.updateHideHud();
+    }
+
+    public static Map<Identifier, ConfigGroup> getConfigGroups() {
+        return ConfigGroups.registry.entrySet().stream().sorted(
+                Map.Entry.<Identifier, ConfigGroup>comparingByValue(
+                        Comparator.comparingDouble(ConfigGroup::getPriority)
+                ).thenComparing(Map.Entry.comparingByKey())
+        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+    }
+
+    public static Identifier next(Registry<?> registry, Identifier identifier) {
+        boolean returnNext = false;
+        Identifier first = null;
+
+        for (Identifier id : registry.registry.keySet()) {
+            if (first == null) first = id;
+            if (returnNext) {
+                System.out.println("out via next: " + id);
+                return id;
+            }
+            else if (id.equals(identifier)) returnNext = true;
+        }
+
+        return first;
     }
 }

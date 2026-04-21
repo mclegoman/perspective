@@ -25,9 +25,11 @@ public class DefaultZoom extends AbstractZoom {
     private final Callable<ZoomScale> scale;
     private final Callable<ZoomTransition> transition;
     private final Callable<ZoomEffect> effect;
+    private final LensRunnables.ZoomableBoolean shouldEffect;
     private final Callable<Float> amount;
     private final LensRunnables.ZoomOverlay guiOverlay;
-    private final CoreRunnables.OnTickClient onTickClient;
+    private final LensRunnables.OnTickClient onTickClient;
+    private final LensRunnables.ZoomableBoolean isEnabled;
     
     private final PerspectiveMod mod;
 
@@ -36,18 +38,22 @@ public class DefaultZoom extends AbstractZoom {
             Callable<ZoomScale> scaleValue,
             Callable<ZoomTransition> transitionValue,
             Callable<ZoomEffect> effectValue,
+            LensRunnables.ZoomableBoolean shouldEffectValue,
             Callable<Float> amountValue,
             CoreRunnables.OnTickClient onTickClientValue,
             LensRunnables.ZoomOverlay guiOverlay,
+            LensRunnables.ZoomableBoolean isEnabled,
             PerspectiveMod mod
     ) {
         this.isZooming = isZoomingValue;
         this.scale = scaleValue;
         this.transition = transitionValue;
         this.effect = effectValue;
+        this.shouldEffect = shouldEffectValue;
         this.amount = amountValue;
         this.onTickClient = onTickClientValue;
         this.guiOverlay = guiOverlay;
+        this.isEnabled = isEnabled;
         this.mod = mod;
     }
 
@@ -91,6 +97,17 @@ public class DefaultZoom extends AbstractZoom {
         return super.getEffect();
     }
 
+    public boolean shouldEffect() {
+        try {
+            if (this.shouldEffect != null) {
+                return this.shouldEffect.call(this);
+            }
+        } catch (Exception error) {
+            PerspectiveLog.error(this.mod,"Failed to get should zoom effect: {}", error);
+        }
+        return super.shouldEffect();
+    }
+
     public float getZoomAmount() {
         try {
             if (this.amount != null) return this.amount.call();
@@ -118,14 +135,25 @@ public class DefaultZoom extends AbstractZoom {
         }
     }
 
+    public boolean isEnabled() {
+        try {
+            if (this.isEnabled != null) return this.isEnabled.call(this);
+        } catch (Exception error) {
+            PerspectiveLog.error(this.mod,"Failed to check if zoom enabled: {}", error);
+        }
+        return super.isEnabled(); // should we default to false instead?
+    }
+
     public static class Builder {
         private LensRunnables.Zoomable isZooming;
         private Callable<ZoomScale> scale;
         private Callable<ZoomTransition> transition;
         private Callable<ZoomEffect> effect;
+        private LensRunnables.ZoomableBoolean shouldEffect;
         private Callable<Float> amount;
         private CoreRunnables.OnTickClient onTickClient;
         private LensRunnables.ZoomOverlay guiOverlay;
+        private LensRunnables.ZoomableBoolean isEnabled;
 
         public Builder isZooming(LensRunnables.Zoomable isZooming) {
             this.isZooming = isZooming;
@@ -147,6 +175,11 @@ public class DefaultZoom extends AbstractZoom {
             return this;
         }
 
+        public Builder shouldEffect(LensRunnables.ZoomableBoolean shouldEffect) {
+            this.shouldEffect = shouldEffect;
+            return this;
+        }
+
         public Builder amount(Callable<Float> amount) {
             this.amount = amount;
             return this;
@@ -162,8 +195,13 @@ public class DefaultZoom extends AbstractZoom {
             return this;
         }
 
+        public Builder isEnabled(LensRunnables.ZoomableBoolean isEnabled) {
+            this.isEnabled = isEnabled;
+            return this;
+        }
+
         public DefaultZoom build(PerspectiveMod mod) {
-            return new DefaultZoom(this.isZooming, this.scale, this.transition, this.effect, this.amount, this.onTickClient, this.guiOverlay, mod);
+            return new DefaultZoom(this.isZooming, this.scale, this.transition, this.effect, this.shouldEffect, this.amount, this.onTickClient, this.guiOverlay, this.isEnabled, mod);
         }
     }
 }

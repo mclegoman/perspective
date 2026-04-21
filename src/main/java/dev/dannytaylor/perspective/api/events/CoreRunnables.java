@@ -8,10 +8,12 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Runnables;
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +30,7 @@ public class CoreRunnables extends Runnables {
     }
 
     public interface ShouldHideHud {
-        HideHud call();
+        HideUi call();
     }
 
     public interface OnTickClient {
@@ -45,5 +47,13 @@ public class CoreRunnables extends Runnables {
 
     public interface CancellableDrawable {
         boolean draw(GuiGraphics guiGraphics);
+    }
+
+    public interface ApplyValue {
+        void apply(double value);
+    }
+
+    public interface Textable {
+        MutableComponent call(Identifier identifier);
     }
 }

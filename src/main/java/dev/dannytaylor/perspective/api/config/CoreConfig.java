@@ -22,6 +22,8 @@ public class CoreConfig extends ReflectiveConfig {
     public final TrackedValue<Boolean> debug = this.value(false);
 
     public static void onInitializeClient(PerspectiveMod mod) {
-        CoreEvents.onInitialize(mod, "Config", () -> {});
+        CoreEvents.onInitialize(mod, "Config", () -> {
+            // Neither of these options require a gui.
+        });
     }
 }

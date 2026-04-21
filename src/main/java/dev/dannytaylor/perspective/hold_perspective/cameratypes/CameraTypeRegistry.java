@@ -7,7 +7,7 @@
 
 package dev.dannytaylor.perspective.hold_perspective.cameratypes;
 
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.hold_perspective.HoldPerspectiveClient;
 import dev.dannytaylor.perspective.hold_perspective.config.HoldPerspectiveConfig;
@@ -50,7 +50,7 @@ public class CameraTypeRegistry {
             HoldPerspectiveEvents.ShouldHideHud.register(getIdentifier(), () -> {
                 if (HoldPerspective.isHoldingBack(ClientData.minecraft)) return HoldPerspectiveConfig.instance.holdPerspective.backHideHud.value();
                 else if (HoldPerspective.isHoldingFront(ClientData.minecraft)) return HoldPerspectiveConfig.instance.holdPerspective.frontHideHud.value();
-                else return HideHud.nothing;
+                else return HideUi.nothing;
             });
         });
     }

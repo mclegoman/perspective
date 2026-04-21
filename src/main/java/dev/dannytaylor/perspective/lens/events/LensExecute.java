@@ -16,7 +16,13 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class LensExecute extends CoreExecute {
     public static void updateZoomMultipliers() {
-        for (Zoom zoom : LensEvents.Zooms.registry.values()) zoom.update();
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) {
+            if (zoom.isEnabled()) zoom.update();
+            else {
+                zoom.setPreviousMultiplier(1.0F);
+                zoom.setMultiplier(1.0F);
+            }
+        }
     }
 
     public static float getFov(float fov, Camera camera, float tickDelta) {
@@ -24,7 +30,7 @@ public class LensExecute extends CoreExecute {
             ZoomRegistry.fov = fov;
             float updatedFov = fov;
             for (Zoom zoom : LensEvents.Zooms.registry.values()) {
-                if (zoom != null && zoom.getScale() != null && zoom.getTransition() != null) {
+                if (zoom != null && zoom.isEnabled() && zoom.getScale() != null && zoom.getTransition() != null) {
                     updatedFov = zoom.getScale().getLimitFov(zoom.getTransition().updateFov(updatedFov, zoom, tickDelta));
                 }
             }
@@ -34,6 +40,8 @@ public class LensExecute extends CoreExecute {
     }
 
     public static void renderZoomOverlays(GuiGraphics graphics, DeltaTracker deltaTracker) {
-        for (Zoom zoom : LensEvents.Zooms.registry.values()) zoom.draw(graphics, deltaTracker);
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) {
+            if (zoom.isEnabled()) zoom.draw(graphics, deltaTracker);
+        }
     }
 }

@@ -8,8 +8,7 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Execute;
-import dev.dannytaylor.perspective.api.CoreClient;
-import dev.dannytaylor.perspective.api.config.value.HideHud;
+import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
@@ -40,12 +39,12 @@ public class CoreExecute extends Execute {
         });
     }
 
-    public static HideHud updateHideHud() {
+    public static HideUi updateHideHud() {
         int ordinal = 0;
         for (CoreRunnables.ShouldHideHud hideHud : CoreEvents.ShouldHideHud.registry.values()) {
             int id = hideHud.call().ordinal();
             if (id > ordinal) ordinal = id;
         }
-        return HideHud.values()[ordinal];
+        return HideUi.values()[ordinal];
     }
 }

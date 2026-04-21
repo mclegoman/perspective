@@ -23,9 +23,54 @@
 	"gui.perspective_lens.keybindings.keybinding.zoom.hold": "Hold Zoom",
 	"gui.perspective_lens.keybindings.keybinding.zoom.toggle": "Toggle Zoom",
 
-	"gui.perspective_lens.zoom.adjust": "Zoom:",
+	"gui.perspective_lens.zoom.adjust": "Zoom: %s",
+
+	"gui.perspective_lens.scale.logarithmic": "Logarithmic",
+	"gui.perspective_lens.scale.linear": "Linear",
+
+	"gui.perspective_lens.transition.smooth": "Smooth",
+	"gui.perspective_lens.transition.instant": "Instant",
+
+	"gui.perspective_lens.effect.scaled": "Scaled",
+	"gui.perspective_lens.effect.unscaled": "Unscaled",
 
 	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
 
-	"gui.perspective_ui.render_location.blur": "UI Blur"
+	"gui.perspective_ui.render_location.blur": "UI Blur",
+
+	"gui.perspective_api.variable.onff.true": "ON",
+	"gui.perspective_api.variable.onff.false": "OFF",
+
+	"gui.perspective_api.hide_ui.nothing": "Disabled",
+	"gui.perspective_api.hide_ui.hands": "Hands",
+	"gui.perspective_api.hide_ui.hands_hud": "Hands + HUD",
+
+	"gui.perspective_lens.config": "Zoom",
+	"gui.perspective_lens.config.amount": "Zoom Level: %s",
+	"gui.perspective_lens.config.increment_size": "Scroll Increment: %sx",
+	"gui.perspective_lens.config.show_percentage": "Scroll Percentage: %s",
+	"gui.perspective_lens.config.scale": "Scale: %s",
+	"gui.perspective_lens.config.transition": "Transition: %s",
+	"gui.perspective_lens.config.effect": "Effects: %s",
+	"gui.perspective_lens.config.transition.speed_in": "Speed In: %sx",
+	"gui.perspective_lens.config.transition.speed_out": "Speed Out: %sx",
+	"gui.perspective_lens.config.reset": "Reset on Release: %s",
+	"gui.perspective_lens.config.hide_ui": "Hide UI: %s",
+	"gui.perspective_lens.config.cinematic": "Cinematic: %s",
+	"gui.perspective_lens.config.enabled": "Allow Zoom: %s",
+
+	"gui.perspective_hold_perspective.config": "Hold Perspective",
+	"gui.perspective_hold_perspective.config.hold.back_multiplier": "Back Distance: %sx",
+	"gui.perspective_hold_perspective.config.hold.back_hide_ui": "Back Hide UI: %s",
+	"gui.perspective_hold_perspective.config.hold.front_multiplier": "Front Distance: %sx",
+	"gui.perspective_hold_perspective.config.hold.front_hide_ui": "Front Hide UI: %s",
+	"gui.perspective_hold_perspective.config.multiplier_increment_size": "Scroll Distance Increment: %sx",
+
+	"gui.perspective_hold_perspective.config.swap": "Swap Perspective",
+	"gui.perspective_hold_perspective.config.back_multiplier": "Back Distance: %sx",
+	"gui.perspective_hold_perspective.config.front_multiplier": "Front Distance: %sx",
+
+	"gui.perspective_classic_rendering.config": "Classic Rendering",
+	"gui.perspective_classic_rendering.config.version_overlay": "Version Overlay: %s",
+	"gui.perspective_classic_rendering.config.star_brightness": "Star Brightness: %s"
 }

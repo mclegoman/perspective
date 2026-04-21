@@ -23,8 +23,10 @@ public interface Zoom {
     ZoomScale getScale();
     ZoomTransition getTransition();
     ZoomEffect getEffect();
+    boolean shouldEffect();
     float getZoomAmount();
     void update();
     void onTickClient(Minecraft minecraft);
     void draw(GuiGraphics guiGraphics, DeltaTracker deltaTracker);
+    boolean isEnabled();
 }

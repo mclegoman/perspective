@@ -11,7 +11,6 @@ import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 
-@SuppressWarnings("unused")
 public enum QualityToggle implements ConfigSerializableObject<Object> {
 	off("off"),
 	fast("fast"),
@@ -42,5 +41,9 @@ public enum QualityToggle implements ConfigSerializableObject<Object> {
 
 	public QualityToggle copy() {
 		return this;
+	}
+
+	public QualityToggle next() {
+		return values()[(this.ordinal() + 1) % values().length];
 	}
 }

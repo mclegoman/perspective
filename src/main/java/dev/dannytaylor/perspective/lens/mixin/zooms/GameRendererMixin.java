@@ -35,19 +35,19 @@ public abstract class GameRendererMixin {
 
     @ModifyExpressionValue(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
     private float perspective$bobHurtDir(float hurtDir) {
-        if (ZoomRegistry.isZooming()) hurtDir *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+        hurtDir *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
         return hurtDir;
     }
 
     @ModifyExpressionValue(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/OptionInstance;get()Ljava/lang/Object;"))
     private <T> T perspective$bobHurtStrength(T original) {
-        if (ZoomRegistry.isZooming() && original instanceof Double damageTiltStrength) return (T) Double.valueOf(damageTiltStrength * Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001));
+        if (original instanceof Double damageTiltStrength) return (T) Double.valueOf(damageTiltStrength * Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001));
         return original;
     }
 
     @ModifyExpressionValue(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/ClientAvatarState;getInterpolatedBob(F)F"))
     private float perspective$bobView(float interpolatedBob) {
-        if (ZoomRegistry.isZooming()) interpolatedBob *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
+        interpolatedBob *= Math.max(ZoomRegistry.getCombinedBobViewMultiplier(), 0.001F);
         return interpolatedBob;
     }
 }

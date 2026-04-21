@@ -21,7 +21,7 @@ public class ZoomOverlays {
     public static LensRunnables.ZoomOverlay NONE = register(LensClient.idOf("none"), (guiGraphics, deltaTracker, zoom) -> {});
     public static LensRunnables.ZoomOverlay SPYGLASS = register(LensClient.idOf("spyglass"), (guiGraphics, deltaTracker, zoom) -> {
         ZoomOverlays.scopeScale = Mth.lerp((0.5F * zoom.getTransition().getSpeedIn()) * deltaTracker.getGameTimeDeltaTicks(), ZoomOverlays.scopeScale, LensConfig.instance.scopeScale.value());
-        if (zoom.isZooming() && !(ClientData.minecraft.player != null && ClientData.minecraft.player.isScoping())) {
+        if (zoom.isEnabled() && zoom.isZooming() && !(ClientData.minecraft.player != null && ClientData.minecraft.player.isScoping())) {
             if (ClientData.minecraft.options.getCameraType().isFirstPerson()) ((GuiAccessor)ClientData.minecraft.gui).perspective$renderSpyglassOverlay(guiGraphics, ZoomOverlays.scopeScale);
         } else ZoomOverlays.scopeScale = 0.5F;
     });

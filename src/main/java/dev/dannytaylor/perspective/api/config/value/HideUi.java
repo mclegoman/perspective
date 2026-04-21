@@ -11,14 +11,14 @@ import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 
-public enum HideHud implements ConfigSerializableObject<Object> {
+public enum HideUi implements ConfigSerializableObject<Object> {
 	nothing("nothing"),
-	hudOnly("hud_only"),
-	everything("everything");
+	hands("hands"),
+	handsHud("hands_hud");
 
 	private final String name;
 
-	HideHud(String name) {
+	HideUi(String name) {
 		this.name = name;
 	}
 
@@ -26,7 +26,7 @@ public enum HideHud implements ConfigSerializableObject<Object> {
 		return this.name;
 	}
 
-	public HideHud convertFrom(Object representation) {
+	public HideUi convertFrom(Object representation) {
 		try {
 			return valueOf(String.valueOf(representation));
 		} catch (IllegalArgumentException error) {
@@ -39,7 +39,11 @@ public enum HideHud implements ConfigSerializableObject<Object> {
 		return this.asString();
 	}
 
-	public HideHud copy() {
+	public HideUi copy() {
 		return this;
+	}
+
+	public HideUi next() {
+		return values()[(this.ordinal() + 1) % values().length];
 	}
 }
