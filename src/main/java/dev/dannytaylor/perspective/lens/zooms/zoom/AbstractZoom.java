@@ -10,7 +10,9 @@ package dev.dannytaylor.perspective.lens.zooms.zoom;
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class AbstractZoom implements Zoom {
     private float previousMultiplier = 1.0F;
@@ -67,5 +69,8 @@ public abstract class AbstractZoom implements Zoom {
     }
 
     public void onTickClient(Minecraft minecraft) {
+    }
+
+    public void draw(GuiGraphics graphics, DeltaTracker deltaTracker) {
     }
 }

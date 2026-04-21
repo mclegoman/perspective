@@ -8,9 +8,11 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Execute;
+import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +25,7 @@ public class CoreExecute extends Execute {
             try {
                 if (user.equals(ClientData.minecraft.player)) runnable.run(stack, level, user, hand);
             } catch (Exception error) {
-                mod.getLogger().error("Failed to execute OnClientStartItemUse event with id: {}: {}", id, error);
+                PerspectiveLog.error(mod, "Failed to execute OnClientStartItemUse event with id: {}: {}", id, error);
             }
         });
     }
@@ -33,7 +35,7 @@ public class CoreExecute extends Execute {
             try {
                 if (user.equals(ClientData.minecraft.player)) runnable.run(stack, level, user);
             } catch (Exception error) {
-                mod.getLogger().error("Failed to execute OnClientFinishItemUse event with id: {}: {}", id, error);
+                PerspectiveLog.error(mod, "Failed to execute OnClientFinishItemUse event with id: {}: {}", id, error);
             }
         });
     }

@@ -35,8 +35,10 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<HideHud> hideHud = this.value(HideHud.nothing);
     public final TrackedValue<Boolean> showPercentage = this.value(false);
     public final TrackedValue<ConfigIdentifier> scaleType = this.value(ConfigIdentifier.of(LensClient.idOf("logarithmic")));
+    public final TrackedValue<ConfigIdentifier> overlay = this.value(ConfigIdentifier.of(LensClient.idOf("none")));
     public final TrackedValue<Boolean> reset = this.value(false);
     public final TrackedValue<Boolean> cinematic = this.value(false);
+    public final TrackedValue<Boolean> checkOnTick = this.value(true);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         LensEvents.onInitialize(mod, "Config", () -> {});

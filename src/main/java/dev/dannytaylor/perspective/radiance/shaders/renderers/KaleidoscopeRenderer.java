@@ -10,7 +10,7 @@ package dev.dannytaylor.perspective.radiance.shaders.renderers;
 import com.mclegoman.luminance.client.shaders.RenderLocations;
 import com.mclegoman.luminance.client.shaders.ShaderStacks;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
-import dev.dannytaylor.perspective.api.events.CoreEvents;
+import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
 import dev.dannytaylor.perspective.radiance.config.RadianceConfig;
 import dev.dannytaylor.perspective.api.data.ClientData;
@@ -49,7 +49,7 @@ public class KaleidoscopeRenderer {
                 if (shaderStack != null) shaderEntry = ShaderStacks.getStack(stackId.call());
             }
         } catch (Exception error) {
-            mod.getLogger().error("Failed to get kaleidoscope shader stack!");
+            PerspectiveLog.error(mod,"Failed to get kaleidoscope shader stack!");
         }
         RadianceEvents.ShaderRender.modify(getIdentifier(), ShaderStacks.getShaders(getIdentifier(), shaderEntry, KaleidoscopeRenderer::getRenderLocation, KaleidoscopeRenderer::getEnabled, ShaderRenderers::getPhotosensitivity));
     }

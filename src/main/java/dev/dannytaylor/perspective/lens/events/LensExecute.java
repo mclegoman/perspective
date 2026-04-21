@@ -11,6 +11,8 @@ import dev.dannytaylor.perspective.api.events.CoreExecute;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class LensExecute extends CoreExecute {
     public static void updateZoomMultipliers() {
@@ -29,5 +31,9 @@ public class LensExecute extends CoreExecute {
             return updatedFov;
         }
         return fov;
+    }
+
+    public static void renderZoomOverlays(GuiGraphics graphics, DeltaTracker deltaTracker) {
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) zoom.draw(graphics, deltaTracker);
     }
 }

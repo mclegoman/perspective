@@ -18,12 +18,4 @@ public class UserInterfaceRunnables extends CoreRunnables {
     public interface RenderPanorama {
         boolean call(boolean isTitleScreen);
     }
-
-    public interface Drawable {
-        void draw(GuiGraphics guiGraphics);
-    }
-
-    public interface CancellableDrawable {
-        boolean draw(GuiGraphics guiGraphics);
-    }
 }

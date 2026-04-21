@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.api.config.value;
 
 import dev.dannytaylor.perspective.api.CoreClient;
+import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.ConfigSerializableObject;
 
 public enum HideHud implements ConfigSerializableObject<Object> {
@@ -29,7 +30,7 @@ public enum HideHud implements ConfigSerializableObject<Object> {
 		try {
 			return valueOf(String.valueOf(representation));
 		} catch (IllegalArgumentException error) {
-			CoreClient.getMod().getLogger().warn("Failed to convert Hide Hud from string representation, defaulting to nothing.");
+			PerspectiveLog.warn(CoreClient.getMod(), "Failed to convert Hide Hud from string representation, defaulting to nothing.");
 			return nothing;
 		}
 	}

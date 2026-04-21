@@ -17,5 +17,6 @@ public class LensEvents extends CoreEvents {
     public static final Registry<ZoomScale> ZoomScales = new Registry<>();
     public static final Registry<ZoomTransition> ZoomTransitions = new Registry<>();
     public static final Registry<ZoomEffect> ZoomEffects = new Registry<>();
+    public static final Registry<LensRunnables.ZoomOverlay> ZoomOverlays = new Registry<>();
     public static final Registry<Zoom> Zooms = new Registry<>();
 }

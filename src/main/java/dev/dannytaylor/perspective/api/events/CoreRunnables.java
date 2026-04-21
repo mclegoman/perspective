@@ -9,7 +9,9 @@ package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Runnables;
 import dev.dannytaylor.perspective.api.config.value.HideHud;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,5 +33,17 @@ public class CoreRunnables extends Runnables {
 
     public interface OnTickClient {
         void run(Minecraft minecraft);
+    }
+
+    public interface Drawable {
+        void draw(GuiGraphics guiGraphics);
+    }
+
+    public interface DeltaDrawable {
+        void draw(GuiGraphics guiGraphics, DeltaTracker deltaTracker);
+    }
+
+    public interface CancellableDrawable {
+        boolean draw(GuiGraphics guiGraphics);
     }
 }

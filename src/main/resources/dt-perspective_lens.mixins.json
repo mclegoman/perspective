@@ -5,6 +5,8 @@
   "client": [
     "cameratypes.CameraMixin",
     "zooms.GameRendererMixin",
+    "zooms.GuiAccessor",
+    "zooms.GuiMixin",
     "zooms.MouseHandlerMixin"
   ],
   "injectors": {

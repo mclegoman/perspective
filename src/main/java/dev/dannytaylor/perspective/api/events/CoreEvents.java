@@ -8,9 +8,11 @@
 package dev.dannytaylor.perspective.api.events;
 
 import com.mclegoman.luminance.client.events.Events;
+import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.config.CoreConfig;
 import dev.dannytaylor.perspective.api.config.value.HideHud;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
+import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
 import net.minecraft.client.Minecraft;
 
 // TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
@@ -34,12 +36,12 @@ public class CoreEvents extends Events {
     }
 
     public static void onInitialize(PerspectiveMod mod, String name, Initializer onInitialize, boolean logFinish) {
-        mod.getLogger().info("Initializing{}...", getName(name));
+        PerspectiveLog.info(CoreClient.getMod(), "Initializing{}...", getName(name));
         try {
             onInitialize.onInitialize();
-            if (logFinish) mod.getLogger().info("Finished initializing{}!", getName(name));
+            if (logFinish) PerspectiveLog.info(CoreClient.getMod(), "Finished initializing{}!", getName(name));
         } catch (Exception error) {
-            mod.getLogger().error("Failed to initialize{}: {}", getName(name), error);
+            PerspectiveLog.error(CoreClient.getMod(), "Failed to initialize{}: {}", getName(name), error);
         }
     }
 
