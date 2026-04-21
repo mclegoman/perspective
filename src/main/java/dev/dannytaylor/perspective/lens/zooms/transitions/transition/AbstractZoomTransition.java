@@ -11,7 +11,7 @@ import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 
 public abstract class AbstractZoomTransition implements ZoomTransition {
     public float updateFov(float fov, Zoom zoom, float tickDelta) {
-        return fov;
+        return fov * zoom.getMultiplier();
     }
 
     public float updateMultiplier(Zoom zoom) {
