@@ -42,6 +42,7 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<Float> transitionSpeedOut = this.value(1.0F);
     public final TrackedValue<ConfigIdentifier> effects = this.value(ConfigIdentifier.of(LensClient.idOf("scaled")));
     public final TrackedValue<Boolean> effectsWhenNotZooming = this.value(true);
+    public final TrackedValue<Float> effectsThreshold = this.value(0.95F);
     public final TrackedValue<HideUi> hideUi = this.value(HideUi.nothing);
     public final TrackedValue<Boolean> showPercentage = this.value(false);
     public final TrackedValue<ConfigIdentifier> scaleType = this.value(ConfigIdentifier.of(LensClient.idOf("logarithmic")));
@@ -50,6 +51,7 @@ public class LensConfig extends ReflectiveConfig {
     public final TrackedValue<Boolean> cinematic = this.value(false);
     public final TrackedValue<Boolean> checkOnTick = this.value(true);
     public final TrackedValue<Float> scopeScale = this.value(1.125F);
+    public final TrackedValue<Boolean> requireSpyglass = this.value(false);
 
     // Used to enable and disable depending on Transition type.
     private static SliderWidget speedSliderIn = null;
@@ -73,12 +75,16 @@ public class LensConfig extends ReflectiveConfig {
                             ),
                             new ListWidget.ListEntry(
                                     speedSliderIn = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedIn.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedIn.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_in"), NumberHelper.floatToString(instance.transitionSpeedIn.value()))),
-                                    speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value()))),
-                                    CoreConfigWidgets.toggleButton(mod, "reset", instance.reset).build()
+                                    speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value())))
                             ),
                             new ListWidget.ListEntry(
-                                    CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build(),
+                                    CoreConfigWidgets.eventButton(mod, "overlay", Components::guiTranslatable, instance.overlay, LensEvents.ZoomOverlays).build(),
                                     CoreConfigWidgets.toggleButton(mod, "cinematic", instance.cinematic).build(),
+                                    CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build()
+                            ),
+                            new ListWidget.ListEntry(
+                                    CoreConfigWidgets.toggleButton(mod, "reset", instance.reset).build(),
+                                    CoreConfigWidgets.toggleButton(mod, "require_spyglass", instance.requireSpyglass).build(),
                                     CoreConfigWidgets.toggleButton(mod, "enabled", instance.enabled).build()
                             )
                     );

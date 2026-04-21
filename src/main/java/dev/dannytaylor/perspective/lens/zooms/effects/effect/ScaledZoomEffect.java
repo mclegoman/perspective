@@ -17,4 +17,8 @@ public class ScaledZoomEffect extends AbstractZoomEffect {
     public float getMouseMultiplier(Zoom zoom) {
         return zoom.shouldEffect() ? zoom.getMultiplier() : 1.0F;
     }
+
+    public boolean shouldMouseXUseCos() {
+        return true;
+    }
 }

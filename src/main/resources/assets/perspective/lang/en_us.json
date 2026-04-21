@@ -34,6 +34,9 @@
 	"gui.perspective_lens.effect.scaled": "Scaled",
 	"gui.perspective_lens.effect.unscaled": "Unscaled",
 
+	"gui.perspective_lens.overlay.none": "None",
+	"gui.perspective_lens.overlay.spyglass": "Spyglass",
+
 	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
 
 	"gui.perspective_ui.render_location.blur": "UI Blur",
@@ -46,17 +49,24 @@
 	"gui.perspective_api.hide_ui.hands_hud": "Hands + HUD",
 
 	"gui.perspective_lens.config": "Zoom",
+
 	"gui.perspective_lens.config.amount": "Zoom Level: %s",
 	"gui.perspective_lens.config.increment_size": "Scroll Increment: %sx",
 	"gui.perspective_lens.config.show_percentage": "Scroll Percentage: %s",
+
 	"gui.perspective_lens.config.scale": "Scale: %s",
 	"gui.perspective_lens.config.transition": "Transition: %s",
 	"gui.perspective_lens.config.effect": "Effects: %s",
+
 	"gui.perspective_lens.config.transition.speed_in": "Speed In: %sx",
 	"gui.perspective_lens.config.transition.speed_out": "Speed Out: %sx",
-	"gui.perspective_lens.config.reset": "Reset on Release: %s",
-	"gui.perspective_lens.config.hide_ui": "Hide UI: %s",
+
+	"gui.perspective_lens.config.overlay": "Overlay: %s",
 	"gui.perspective_lens.config.cinematic": "Cinematic: %s",
+	"gui.perspective_lens.config.hide_ui": "Hide UI: %s",
+
+	"gui.perspective_lens.config.reset": "Reset on Release: %s",
+	"gui.perspective_lens.config.require_spyglass": "Require Spyglass: %s",
 	"gui.perspective_lens.config.enabled": "Allow Zoom: %s",
 
 	"gui.perspective_hold_perspective.config": "Hold Perspective",

@@ -17,4 +17,8 @@ public abstract class AbstractZoomEffect implements ZoomEffect {
     public float getMouseMultiplier(Zoom zoom) {
         return 1.0F;
     }
+
+    public boolean shouldMouseXUseCos() {
+        return false;
+    }
 }

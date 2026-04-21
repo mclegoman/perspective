@@ -12,4 +12,5 @@ import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 public interface ZoomEffect {
     float getBobViewMultiplier(Zoom zoom);
     float getMouseMultiplier(Zoom zoom);
+    boolean shouldMouseXUseCos();
 }
