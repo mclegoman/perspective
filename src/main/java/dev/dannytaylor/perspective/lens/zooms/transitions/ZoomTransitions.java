@@ -21,8 +21,8 @@ public class ZoomTransitions {
             .speedOut((zoom) -> LensConfig.instance.transitionSpeedOut.value())
             .speedIn((zoom) -> LensConfig.instance.transitionSpeedIn.value())
             .isSpeedConfigEnabled((zoom) -> true)
-            .build(LensClient.getMod()));
-    public static ZoomTransition INSTANT = register(LensClient.idOf("instant"), new AbstractZoomTransition() {});
+            .build(LensClient.getMod()), 0.0F);
+    public static ZoomTransition INSTANT = register(LensClient.idOf("instant"), new AbstractZoomTransition() {}, 10.0F);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         LensEvents.onInitialize(mod, "Zoom Transitions", () -> {});
@@ -30,6 +30,11 @@ public class ZoomTransitions {
 
     public static ZoomTransition register(Identifier identifier, ZoomTransition zoomTransition) {
         LensEvents.ZoomTransitions.register(identifier, zoomTransition);
+        return zoomTransition;
+    }
+
+    public static ZoomTransition register(Identifier identifier, ZoomTransition zoomTransition, float priority) {
+        LensEvents.ZoomTransitions.register(identifier, zoomTransition, priority);
         return zoomTransition;
     }
 }

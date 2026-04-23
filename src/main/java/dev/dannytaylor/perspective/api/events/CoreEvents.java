@@ -18,17 +18,33 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 // TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
 // Some of these methods could also be moved over to that mod tbh.
 // Since we are extending, nothing *should* break, unless it's luminance specific (in which case, addons should be using the luminance's classes instead)
 public class CoreEvents extends Events {
+    public record PriorityEntry<T>(T entry, float priority) {}
+    public static class PriorityRegistry<V> extends GenericRegistry<Identifier, PriorityEntry<V>> {
+        public Map<Identifier, V> getRegistry() {
+            return this.registry.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().entry));
+        }
+
+        public void register(Identifier key, V value) {
+            register(key, value, Float.MAX_VALUE - 1.0F);
+        }
+
+        public void register(Identifier key, V value, float priority) {
+            if (!this.registry.containsKey(key)) {
+                this.registry.put(key, new PriorityEntry<>(value, priority));
+            }
+        }
+    }
+
     public static final Registry<CoreRunnables.UseItem> OnClientStartItemUse = new Registry<>();
     public static final Registry<CoreRunnables.FinishUsingItem> OnClientFinishItemUse = new Registry<>();
     public static final Registry<CoreRunnables.Callable<HideUi>> ShouldHideHud = new Registry<>();
-    public static final Registry<ConfigGroup> ConfigGroups = new Registry<>();
+    public static final PriorityRegistry<ConfigGroup> ConfigGroups = new PriorityRegistry<>();
 
     public static void onInitialize(PerspectiveMod mod, Initializer onInitialize) {
         onInitialize(mod, "", onInitialize, true);
@@ -73,19 +89,38 @@ public class CoreEvents extends Events {
         if (CoreConfig.instance.checkHideHudOnTick.value()) hideUi = CoreExecute.updateHideHud();
     }
 
-    public static Map<Identifier, ConfigGroup> getConfigGroups() {
-        return ConfigGroups.registry.entrySet().stream().sorted(
-                Map.Entry.<Identifier, ConfigGroup>comparingByValue(
-                        Comparator.comparingDouble(ConfigGroup::getPriority)
+    public static Map<Identifier, PriorityEntry<ConfigGroup>> getConfigGroups() {
+        return sortPriorityRegistry(ConfigGroups);
+    }
+
+    public static <V> Map<Identifier, PriorityEntry<V>> sortPriorityRegistry(PriorityRegistry<V> registry) {
+        return registry.registry.entrySet().stream().sorted(
+                Map.Entry.<Identifier, PriorityEntry<V>>comparingByValue(
+                        Comparator.comparingDouble(PriorityEntry::priority)
                 ).thenComparing(Map.Entry.comparingByKey())
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
     }
 
-    public static Identifier next(Registry<?> registry, Identifier identifier) {
+    public static <V> Identifier cycle(Registry<V> registry, Identifier identifier, boolean isForwards) {
         boolean returnNext = false;
         Identifier first = null;
 
-        for (Identifier id : registry.registry.keySet().stream().sorted(Identifier::compareTo).toList()) {
+        List<Identifier> registryIds = registry.registry.keySet().stream().sorted(Identifier::compareTo).toList();
+        for (Identifier id : (isForwards ? registryIds : registryIds.reversed())) {
+            if (first == null) first = id;
+            if (returnNext) return id;
+            else if (id.equals(identifier)) returnNext = true;
+        }
+
+        return first;
+    }
+
+    public static Identifier cycle(PriorityRegistry<?> registry, Identifier identifier, boolean isForwards) {
+        boolean returnNext = false;
+        Identifier first = null;
+
+        List<Identifier> registryIds = sortPriorityRegistry(registry).keySet().stream().toList();
+        for (Identifier id : (isForwards ? registryIds : registryIds.reversed())) {
             if (first == null) first = id;
             if (returnNext) return id;
             else if (id.equals(identifier)) returnNext = true;

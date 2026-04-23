@@ -23,27 +23,27 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 public class BackgroundRegistry {
-    public static Background VANILLA = register(UserInterfaceClient.idOf("vanilla"), new DefaultBackground());
-    public static Background GAUSSIAN = register(UserInterfaceClient.idOf("gaussian"), new DefaultBackground(BackgroundRegistry.noBlur()));
+    public static Background GAUSSIAN = register(UserInterfaceClient.idOf("gaussian"), new DefaultBackground(BackgroundRegistry.noBlur()), 0.0F);
+    public static Background VANILLA = register(UserInterfaceClient.idOf("vanilla"), new DefaultBackground(), 0.1F);
     public static Background LEGACY = register(UserInterfaceClient.idOf("legacy"), new DefaultBackground(
             BackgroundRegistry::renderGradiantBackground,
             BackgroundRegistry::renderTexturedBackground,
             (guiGraphics) -> {},
             BackgroundRegistry.noBlur(),
-            (isTitleScreen) -> isTitleScreen, true));
+            (isTitleScreen) -> isTitleScreen, true), 0.2F);
     public static Background CLASSIC = register(UserInterfaceClient.idOf("classic"), new DefaultBackground(
             BackgroundRegistry::renderGradiantBackground,
             BackgroundRegistry::renderTexturedBackground,
             BackgroundRegistry::renderTexturedBackground,
             BackgroundRegistry.noBlur(),
-            (isTitleScreen) -> false, true));
+            (isTitleScreen) -> false, true), 0.3F);
     public static Background NONE = register(UserInterfaceClient.idOf("none"), new DefaultBackground(
             BackgroundRegistry::renderNone,
             BackgroundRegistry::renderNone,
             BackgroundRegistry::renderNone,
             BackgroundRegistry.noBlur(),
             (guiGraphics) -> false,
-            (isTitleScreen) -> true, false));
+            (isTitleScreen) -> true, false), Float.MAX_VALUE);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         UserInterfaceEvents.onInitialize(mod, "Background Registry", () -> {
@@ -54,6 +54,11 @@ public class BackgroundRegistry {
 
     public static void applyGaussian() {
         Events.ShaderRender.modify(UserInterfaceClient.idOf("gaussian"), ShaderStacks.getShaders(UserInterfaceClient.idOf("gaussian"), ShaderStacks.getStack(UserInterfaceClient.idOf("background"), UserInterfaceClient.idOf("gaussian")), () -> UserInterfaceShaders.BLUR, () -> getBackground().equals(GAUSSIAN), (entry) -> false));
+    }
+
+    public static Background register(Identifier identifier, Background background, float priority) {
+        UserInterfaceEvents.Backgrounds.register(identifier, background, priority);
+        return background;
     }
 
     public static Background register(Identifier identifier, Background background) {
@@ -89,6 +94,6 @@ public class BackgroundRegistry {
     }
 
     public static Background getBackground() {
-        return UserInterfaceEvents.Backgrounds.get(UserInterfaceConfig.instance.background.value().getIdentifier());
+        return UserInterfaceEvents.Backgrounds.getRegistry().get(UserInterfaceConfig.instance.background.value().getIdentifier());
     }
 }

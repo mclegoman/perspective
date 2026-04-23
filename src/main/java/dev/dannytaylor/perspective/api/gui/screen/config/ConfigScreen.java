@@ -13,6 +13,7 @@ import com.mclegoman.luminance.client.gui.widget.ListWidget;
 import com.mclegoman.luminance.client.translation.Translation;
 import com.mclegoman.luminance.common.data.Data;
 import com.mclegoman.luminance.common.util.DateHelper;
+import dev.dannytaylor.perspective.api.CoreClient;
 import dev.dannytaylor.perspective.api.component.Components;
 import dev.dannytaylor.perspective.api.data.ClientData;
 import dev.dannytaylor.perspective.api.events.CoreEvents;
@@ -20,14 +21,9 @@ import dev.dannytaylor.perspective.api.gui.PerspectiveLogo;
 import dev.dannytaylor.perspective.api.gui.screen.CoreCreditsAttributionsScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
-import net.minecraft.client.gui.layouts.Layout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
-import net.minecraft.network.chat.CommonComponents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -69,7 +65,7 @@ public class ConfigScreen extends AbstractScrollableListScreen {
 
     @Override
     public void onClose() {
-        for (ConfigGroup configGroup : CoreEvents.ConfigGroups.registry.values()) configGroup.save();
+        for (CoreEvents.PriorityEntry<ConfigGroup> configGroup : CoreEvents.ConfigGroups.registry.values()) configGroup.entry().save();
         super.onClose();
     }
 
@@ -87,7 +83,7 @@ public class ConfigScreen extends AbstractScrollableListScreen {
         List<ListWidget.ListEntry> widgets = new ArrayList<>();
         CoreEvents.getConfigGroups().forEach((id, configGroup) -> {
             widgets.add(new ListWidget.ListEntry(new CursorableStringWidget(Components.guiTranslatable(id), ClientData.minecraft.font)));
-            widgets.addAll(configGroup.getWidgets());
+            widgets.addAll(configGroup.entry().getWidgets());
         });
 
         widgets.add(new ListWidget.ListEntry(new CursorableStringWidget(Translation.getConfigTranslation(Data.getVersion().getID(), "information"), ClientData.minecraft.font)));
@@ -101,11 +97,11 @@ public class ConfigScreen extends AbstractScrollableListScreen {
         LinearLayout footerLayout = LinearLayout.horizontal().spacing(4);
         footerLayout.addChild(Button.builder(Translation.getConfigTranslation(Data.getVersion().getID(), "reset"), (button) -> {
             CoreEvents.ConfigGroups.registry.forEach((identifier, configGroup) -> {
-                if (configGroup.resetOnBulkReset()) configGroup.reset();
+                if (configGroup.entry().resetOnBulkReset()) configGroup.entry().reset();
             });
             this.refresh = true;
         }).build());
-        footerLayout.addChild(Button.builder(CommonComponents.GUI_BACK, (button) -> this.onClose()).build());
+        footerLayout.addChild(Button.builder(Components.configTranslatable(CoreClient.getMod().idOf("close", true)), (button) -> this.onClose()).build());
         this.layout.addToFooter(footerLayout);
     }
 

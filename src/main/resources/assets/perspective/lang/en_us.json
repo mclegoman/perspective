@@ -33,14 +33,20 @@
 	"gui.perspective_lens.effect.unscaled": "Unscaled",
 
 	"gui.perspective_lens.av.none": "None",
-	"gui.perspective_lens.av.spyglass": "Spyglass (Audio + Visual)",
-	"gui.perspective_lens.av.spyglass/audio_only": "Spyglass (Audio)",
-	"gui.perspective_lens.av.spyglass/visual_only": "Spyglass (Visual)",
+	"gui.perspective_lens.av.spyglass": "Spyglass",
+	"gui.perspective_lens.av.spyglass/visual_only": "Spyglass (Visual Only)",
+	"gui.perspective_lens.av.spyglass/audio_only": "Spyglass (Audio Only)",
 	"gui.perspective_lens.av.cinematic": "Cinematic",
 
 	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
 
 	"gui.perspective_ui.render_location.blur": "UI Blur",
+
+	"gui.perspective_ui.background.vanilla": "Vanilla",
+	"gui.perspective_ui.background.gaussian": "Gaussian",
+	"gui.perspective_ui.background.legacy": "Legacy",
+	"gui.perspective_ui.background.classic": "Classic",
+	"gui.perspective_ui.background.none": "None",
 
 	"gui.perspective_api.variable.onff.true": "ON",
 	"gui.perspective_api.variable.onff.false": "OFF",
@@ -83,5 +89,10 @@
 
 	"gui.perspective_classic_rendering.config": "Classic Rendering",
 	"gui.perspective_classic_rendering.config.version_overlay": "Version Overlay: %s",
-	"gui.perspective_classic_rendering.config.star_brightness": "Star Brightness: %s"
+	"gui.perspective_classic_rendering.config.star_brightness": "Star Brightness: %s",
+
+	"gui.perspective_ui.config": "User Interface",
+	"gui.perspective_ui.config.background": "UI Background: %s",
+
+	"gui.perspective.config.close": "Save Changes"
 }

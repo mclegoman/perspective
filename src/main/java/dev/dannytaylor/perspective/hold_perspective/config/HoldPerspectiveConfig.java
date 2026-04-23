@@ -70,12 +70,7 @@ public class HoldPerspectiveConfig extends PerspectiveConfig {
                 public void reset() {
                     instance.reset(false);
                 }
-
-                @Override
-                public float getPriority() {
-                    return 1.0F;
-                }
-            });
+            }, 10.0F);
 
             HoldPerspectiveEvents.ConfigGroups.register(mod.idOf("config.swap"), new ConfigGroup() {
                 @Override
@@ -102,12 +97,7 @@ public class HoldPerspectiveConfig extends PerspectiveConfig {
                 public boolean resetOnBulkReset() {
                     return false;
                 }
-
-                @Override
-                public float getPriority() {
-                    return 1.1F;
-                }
-            });
+            }, 10.1F);
         });
     }
 

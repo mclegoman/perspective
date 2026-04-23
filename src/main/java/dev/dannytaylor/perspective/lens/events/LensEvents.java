@@ -15,9 +15,9 @@ import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransit
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 
 public class LensEvents extends CoreEvents {
-    public static final Registry<ZoomScale> ZoomScales = new Registry<>();
-    public static final Registry<ZoomTransition> ZoomTransitions = new Registry<>();
-    public static final Registry<ZoomEffect> ZoomEffects = new Registry<>();
-    public static final Registry<ZoomAV> ZoomAVs = new Registry<>();
+    public static final PriorityRegistry<ZoomScale> ZoomScales = new PriorityRegistry<>();
+    public static final PriorityRegistry<ZoomTransition> ZoomTransitions = new PriorityRegistry<>();
+    public static final PriorityRegistry<ZoomEffect> ZoomEffects = new PriorityRegistry<>();
+    public static final PriorityRegistry<ZoomAV> ZoomAVs = new PriorityRegistry<>();
     public static final Registry<Zoom> Zooms = new Registry<>();
 }

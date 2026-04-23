@@ -23,6 +23,7 @@ import dev.dannytaylor.perspective.lens.events.LensEvents;
 import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 
 import java.nio.file.Paths;
@@ -70,16 +71,16 @@ public class LensConfig extends PerspectiveConfig {
                                     CoreConfigWidgets.toggleButton(mod, "show_percentage", instance.showPercentage).build()
                             ),
                             new ListWidget.ListEntry(
-                                    CoreConfigWidgets.eventButton(mod, "scale", Components::guiTranslatable, instance.scaleType, LensEvents.ZoomScales).build(),
-                                    CoreConfigWidgets.eventButton(mod, "transition", Components::guiTranslatable, instance.transition, LensEvents.ZoomTransitions, LensConfig::setSpeedSlidersActive).build(),
-                                    CoreConfigWidgets.eventButton(mod, "effect", Components::guiTranslatable, instance.effects, LensEvents.ZoomEffects).build()
+                                    CoreConfigWidgets.priorityEventButton(mod, "scale", Components::guiTranslatable, instance.scaleType, LensEvents.ZoomScales, () -> !Minecraft.getInstance().hasShiftDown()).build(),
+                                    CoreConfigWidgets.priorityEventButton(mod, "transition", Components::guiTranslatable, instance.transition, LensEvents.ZoomTransitions, () -> !Minecraft.getInstance().hasShiftDown(), LensConfig::setSpeedSlidersActive).build(),
+                                    CoreConfigWidgets.priorityEventButton(mod, "effect", Components::guiTranslatable, instance.effects, LensEvents.ZoomEffects, () -> !Minecraft.getInstance().hasShiftDown()).build()
                             ),
                             new ListWidget.ListEntry(
                                     speedSliderIn = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedIn.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedIn.setValue(NumberHelper.formatFloat(0.01F + value.floatValue() * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_in"), NumberHelper.floatToString(instance.transitionSpeedIn.value()))),
                                     speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + value.floatValue() * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value())))
                             ),
                             new ListWidget.ListEntry(
-                                    CoreConfigWidgets.eventButton(mod, "av", Components::guiTranslatable, instance.audioVisual, LensEvents.ZoomAVs, LensConfig::setSpeedSlidersActive).build(),
+                                    CoreConfigWidgets.priorityEventButton(mod, "av", Components::guiTranslatable, instance.audioVisual, LensEvents.ZoomAVs, () -> !Minecraft.getInstance().hasShiftDown(), LensConfig::setSpeedSlidersActive).build(),
                                     CoreConfigWidgets.toggleButton(mod, "cinematic", instance.cinematic).build(),
                                     CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build()
                             ),
@@ -102,12 +103,7 @@ public class LensConfig extends PerspectiveConfig {
                 public void reset() {
                     instance.reset(false);
                 }
-
-                @Override
-                public float getPriority() {
-                    return 0.0F;
-                }
-            });
+            }, 0.0F);
         });
     }
 

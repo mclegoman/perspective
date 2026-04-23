@@ -35,9 +35,9 @@ import org.joml.Vector2i;
 public class ZoomRegistry {
     public static Zoom MAIN = register(getIdentifier(), DefaultZoom.builder()
             .isZooming(ZoomRegistry::isZoomZooming)
-            .scale(() -> LensEvents.ZoomScales.get(LensConfig.instance.scaleType.value().getIdentifier()))
-            .transition(() -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()))
-            .effect(() -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()))
+            .scale(() -> LensEvents.ZoomScales.get(LensConfig.instance.scaleType.value().getIdentifier()).entry())
+            .transition(() -> LensEvents.ZoomTransitions.get(LensConfig.instance.transition.value().getIdentifier()).entry())
+            .effect(() -> LensEvents.ZoomEffects.get(LensConfig.instance.effects.value().getIdentifier()).entry())
             .shouldEffect((zoom) -> zoom.isEnabled() && zoom.isZooming() || LensConfig.instance.effectsWhenNotZooming.value() && (zoom.getMultiplier() < LensConfig.instance.effectsThreshold.value()))
             .amount(LensConfig.instance.amount::value)
             .onTickClient((zoom) -> {
@@ -49,7 +49,7 @@ public class ZoomRegistry {
                 }
             })
             .isCinematic((zoom) -> zoom.isZooming() && LensConfig.instance.cinematic.value())
-            .audioVisual(() -> LensEvents.ZoomAVs.get(LensConfig.instance.audioVisual.value().getIdentifier()))
+            .audioVisual(() -> LensEvents.ZoomAVs.get(LensConfig.instance.audioVisual.value().getIdentifier()).entry())
             .isEnabled((zoom) -> (LensConfig.instance.enabled.value() && (!LensConfig.instance.requireSpyglass.value() || ClientData.minecraft.player != null && ClientData.minecraft.player.getInventory().contains((itemStack) -> itemStack.is(Items.SPYGLASS)))))
             .build(LensClient.getMod()));
 

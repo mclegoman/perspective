@@ -20,8 +20,4 @@ public interface ConfigGroup {
     default boolean resetOnBulkReset() {
         return true;
     }
-
-    default float getPriority() {
-        return Float.MAX_VALUE;
-    }
 }

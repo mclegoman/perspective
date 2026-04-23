@@ -17,8 +17,8 @@ import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import net.minecraft.resources.Identifier;
 
 public class ZoomScales {
-    public static ZoomScale LOGARITHMIC = register(LensClient.idOf("logarithmic"), new LogarithmicZoomScale());
-    public static ZoomScale LINEAR = register(LensClient.idOf("linear"), new LinearZoomScale());
+    public static ZoomScale LOGARITHMIC = register(LensClient.idOf("logarithmic"), new LogarithmicZoomScale(), 0.0F);
+    public static ZoomScale LINEAR = register(LensClient.idOf("linear"), new LinearZoomScale(), 10.0F);
 
     public static void onInitializeClient(PerspectiveMod mod) {
         LensEvents.onInitialize(mod, "Zoom Scales", () -> {});
@@ -26,6 +26,11 @@ public class ZoomScales {
 
     public static ZoomScale register(Identifier identifier, ZoomScale zoomScale) {
         LensEvents.ZoomScales.register(identifier, zoomScale);
+        return zoomScale;
+    }
+
+    public static ZoomScale register(Identifier identifier, ZoomScale zoomScale, float priority) {
+        LensEvents.ZoomScales.register(identifier, zoomScale, priority);
         return zoomScale;
     }
 }

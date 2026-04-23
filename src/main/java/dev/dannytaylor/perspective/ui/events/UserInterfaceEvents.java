@@ -11,5 +11,5 @@ import dev.dannytaylor.perspective.api.events.CoreEvents;
 import dev.dannytaylor.perspective.ui.background.backgrounds.Background;
 
 public class UserInterfaceEvents extends CoreEvents {
-    public static final Registry<Background> Backgrounds = new Registry<>();
+    public static final PriorityRegistry<Background> Backgrounds = new PriorityRegistry<>();
 }
