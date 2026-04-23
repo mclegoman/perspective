@@ -8,6 +8,7 @@
 package dev.dannytaylor.perspective.radiance.config;
 
 import com.mclegoman.luminance.client.shaders.RenderLocations;
+import dev.dannytaylor.perspective.api.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.radiance.RadianceClient;
 import dev.dannytaylor.perspective.api.config.sections.NamedRandomEnabledSection;
@@ -19,7 +20,7 @@ import net.minecraft.resources.Identifier;
 
 import java.nio.file.Paths;
 
-public class RadianceConfig extends ReflectiveConfig {
+public class RadianceConfig extends PerspectiveConfig {
     public static final RadianceConfig instance = RadianceConfig.createToml(Paths.get("config"), "perspective", RadianceClient.getMod().getId(false), RadianceConfig.class);
 
     public final RadianceConfig.SuperSecretSettings superSecretSettings = new RadianceConfig.SuperSecretSettings(

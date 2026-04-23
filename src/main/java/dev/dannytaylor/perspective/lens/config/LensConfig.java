@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.lens.config;
 
 import com.mclegoman.luminance.client.gui.widget.ListWidget;
 import dev.dannytaylor.perspective.api.component.Components;
+import dev.dannytaylor.perspective.api.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.gui.CoreConfigWidgets;
@@ -19,7 +20,7 @@ import dev.dannytaylor.perspective.hold_perspective.events.HoldPerspectiveEvents
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.api.config.value.ConfigIdentifier;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
-import folk.sisby.kaleido.api.ReflectiveConfig;
+import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
 import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 import net.minecraft.util.Mth;
@@ -27,7 +28,7 @@ import net.minecraft.util.Mth;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class LensConfig extends ReflectiveConfig {
+public class LensConfig extends PerspectiveConfig {
     public static final LensConfig instance = LensConfig.createToml(Paths.get("config"), "perspective", LensClient.getMod().getId(false), LensConfig.class);
 
     public final TrackedValue<Boolean> enabled = this.value(true);
@@ -64,7 +65,7 @@ public class LensConfig extends ReflectiveConfig {
                 public List<ListWidget.ListEntry> getWidgets() {
                     List<ListWidget.ListEntry> entries = List.of(
                             new ListWidget.ListEntry(
-                                    new SliderWidget(0, 0, 150, 20, instance.amount.value() / 100.0F, (value) -> instance.amount.setValue(NumberHelper.formatFloat(Mth.ceil((float) value * 100.0F)), false), () -> Components.configTranslatable(mod.idOf("amount"), NumberHelper.floatToString(instance.amount.value()) + "%")),
+                                    new SliderWidget(0, 0, 150, 20, instance.amount.value() / 100.0F, (value) -> instance.amount.setValue(NumberHelper.formatFloat(Mth.ceil(value.floatValue() * 100.0F)), false), () -> Components.configTranslatable(mod.idOf("amount"), NumberHelper.floatToString(instance.amount.value()) + "%")),
                                     new SliderWidget(0, 0, 150, 20, (instance.incrementSize.value() - 0.1F) / (10.0F - 0.1F), (value) -> instance.incrementSize.setValue(NumberHelper.formatFloat((float)(0.1F + value * (10.0F - 0.1F))), false), () -> Components.configTranslatable(mod.idOf("increment_size"), instance.incrementSize.value())),
                                     CoreConfigWidgets.toggleButton(mod, "show_percentage", instance.showPercentage).build()
                             ),
@@ -74,11 +75,11 @@ public class LensConfig extends ReflectiveConfig {
                                     CoreConfigWidgets.eventButton(mod, "effect", Components::guiTranslatable, instance.effects, LensEvents.ZoomEffects).build()
                             ),
                             new ListWidget.ListEntry(
-                                    speedSliderIn = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedIn.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedIn.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_in"), NumberHelper.floatToString(instance.transitionSpeedIn.value()))),
-                                    speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + (float)value * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value())))
+                                    speedSliderIn = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedIn.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedIn.setValue(NumberHelper.formatFloat(0.01F + value.floatValue() * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_in"), NumberHelper.floatToString(instance.transitionSpeedIn.value()))),
+                                    speedSliderOut = new SliderWidget(0, 0, 150, 20, (instance.transitionSpeedOut.value() - 0.01F) / (2.0F - 0.01F), (value) -> instance.transitionSpeedOut.setValue(NumberHelper.formatFloat(0.01F + value.floatValue() * (2.0F - 0.01F)), false), () -> Components.configTranslatable(mod.idOf("transition.speed_out"), NumberHelper.floatToString(instance.transitionSpeedOut.value())))
                             ),
                             new ListWidget.ListEntry(
-                                    CoreConfigWidgets.eventButton(mod, "av", Components::guiTranslatable, instance.audioVisual, LensEvents.ZoomAVs).build(),
+                                    CoreConfigWidgets.eventButton(mod, "av", Components::guiTranslatable, instance.audioVisual, LensEvents.ZoomAVs, LensConfig::setSpeedSlidersActive).build(),
                                     CoreConfigWidgets.toggleButton(mod, "cinematic", instance.cinematic).build(),
                                     CoreConfigWidgets.hideUiButton(mod, "hide_ui", instance.hideUi).build()
                             ),
@@ -93,8 +94,13 @@ public class LensConfig extends ReflectiveConfig {
                 }
 
                 @Override
-                public void onSave() {
+                public void save() {
                     LensConfig.instance.save();
+                }
+
+                @Override
+                public void reset() {
+                    instance.reset(false);
                 }
 
                 @Override
@@ -106,10 +112,8 @@ public class LensConfig extends ReflectiveConfig {
     }
 
     private static void setSpeedSlidersActive() {
-        boolean isSpeedConfigEnabled = LensEvents.ZoomTransitions.get(instance.transition.value().getIdentifier()).isSpeedConfigEnabled();
-        if (speedSliderIn != null) {
-            speedSliderIn.active = isSpeedConfigEnabled;
-        }
+        boolean isSpeedConfigEnabled = ZoomRegistry.isSpeedConfigEnabled();
+        if (speedSliderIn != null) speedSliderIn.active = isSpeedConfigEnabled;
         if (speedSliderOut != null) speedSliderOut.active = isSpeedConfigEnabled;
     }
 }

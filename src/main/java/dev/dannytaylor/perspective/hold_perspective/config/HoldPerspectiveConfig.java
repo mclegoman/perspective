@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.hold_perspective.config;
 
 import com.mclegoman.luminance.client.gui.widget.ListWidget;
 import dev.dannytaylor.perspective.api.component.Components;
+import dev.dannytaylor.perspective.api.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.config.value.HideUi;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.gui.CoreConfigWidgets;
@@ -24,7 +25,7 @@ import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class HoldPerspectiveConfig extends ReflectiveConfig {
+public class HoldPerspectiveConfig extends PerspectiveConfig {
     public static final HoldPerspectiveConfig instance = HoldPerspectiveConfig.createToml(Paths.get("config"), "perspective", HoldPerspectiveClient.getMod().getId(false), HoldPerspectiveConfig.class);
 
     @FloatRange(min = 0.01F, max = 10.0F)
@@ -61,8 +62,13 @@ public class HoldPerspectiveConfig extends ReflectiveConfig {
                 }
 
                 @Override
-                public void onSave() {
-                    HoldPerspectiveConfig.instance.save();
+                public void save() {
+                    instance.save();
+                }
+
+                @Override
+                public void reset() {
+                    instance.reset(false);
                 }
 
                 @Override
@@ -83,8 +89,18 @@ public class HoldPerspectiveConfig extends ReflectiveConfig {
                 }
 
                 @Override
-                public void onSave() {
-                    HoldPerspectiveConfig.instance.save();
+                public void save() {
+                    instance.save();
+                }
+
+                @Override
+                public void reset() {
+                    instance.reset(false);
+                }
+
+                @Override
+                public boolean resetOnBulkReset() {
+                    return false;
                 }
 
                 @Override

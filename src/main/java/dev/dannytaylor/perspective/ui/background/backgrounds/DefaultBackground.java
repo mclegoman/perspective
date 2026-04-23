@@ -7,18 +7,17 @@
 
 package dev.dannytaylor.perspective.ui.background.backgrounds;
 
+import dev.dannytaylor.perspective.api.events.CoreRunnables;
 import dev.dannytaylor.perspective.ui.background.CurrentBackground;
-import dev.dannytaylor.perspective.ui.background.blurs.BackgroundRenderer;
-import dev.dannytaylor.perspective.ui.background.blurs.DefaultBackgroundRenderer;
 import dev.dannytaylor.perspective.ui.events.UserInterfaceRunnables;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class DefaultBackground extends AbstractBackground {
     private final UserInterfaceRunnables.WorldScreenDrawable renderWorld;
-    private final UserInterfaceRunnables.Drawable renderMenu;
-    private final UserInterfaceRunnables.Drawable renderTitle;
-    private final BackgroundRenderer blurRenderer;
-    private final BackgroundRenderer transparentBackgroundRenderer;
+    private final CoreRunnables.InputableRunnable<GuiGraphics> renderMenu;
+    private final CoreRunnables.InputableRunnable<GuiGraphics> renderTitle;
+    private final BlurRenderer blurRenderer;
+    private final CoreRunnables.InputableCallable<GuiGraphics, Boolean> transparentBackgroundRenderer;
     private final UserInterfaceRunnables.RenderPanorama shouldRenderPanorama;
     private final boolean shouldRenderMenuBackgroundTexture;
 
@@ -27,13 +26,13 @@ public class DefaultBackground extends AbstractBackground {
                 (guiGraphics, isBlurred) -> {},
                 (guiGraphics) -> {},
                 (guiGraphics) -> {},
-                new DefaultBackgroundRenderer((guiGraphics) -> true),
+                new BlurRenderer((guiGraphics) -> {}, () -> true),
                 (isTitleScreen) -> true,
                 true
         );
     }
 
-    public DefaultBackground(BackgroundRenderer blurRenderer) {
+    public DefaultBackground(BlurRenderer blurRenderer) {
         this(
                 (guiGraphics, isBlurred) -> {},
                 (guiGraphics) -> {},
@@ -45,11 +44,11 @@ public class DefaultBackground extends AbstractBackground {
         );
     }
 
-    public DefaultBackground(UserInterfaceRunnables.WorldScreenDrawable renderWorld, UserInterfaceRunnables.Drawable renderMenu, UserInterfaceRunnables.Drawable renderTitle, BackgroundRenderer blurRenderer, UserInterfaceRunnables.RenderPanorama shouldRenderPanorama, boolean shouldRenderMenuBackgroundTexture) {
-        this(renderWorld, renderMenu, renderTitle, blurRenderer, new DefaultBackgroundRenderer((guiGraphics) -> true), shouldRenderPanorama, shouldRenderMenuBackgroundTexture);
+    public DefaultBackground(UserInterfaceRunnables.WorldScreenDrawable renderWorld, CoreRunnables.InputableRunnable<GuiGraphics> renderMenu, CoreRunnables.InputableRunnable<GuiGraphics> renderTitle, BlurRenderer blurRenderer, UserInterfaceRunnables.RenderPanorama shouldRenderPanorama, boolean shouldRenderMenuBackgroundTexture) {
+        this(renderWorld, renderMenu, renderTitle, blurRenderer, (guiGraphics) -> true, shouldRenderPanorama, shouldRenderMenuBackgroundTexture);
     }
 
-    public DefaultBackground(UserInterfaceRunnables.WorldScreenDrawable renderWorld, UserInterfaceRunnables.Drawable renderMenu, UserInterfaceRunnables.Drawable renderTitle, BackgroundRenderer blurRenderer, BackgroundRenderer transparentBackgroundRenderer, UserInterfaceRunnables.RenderPanorama shouldRenderPanorama, boolean shouldRenderMenuBackgroundTexture) {
+    public DefaultBackground(UserInterfaceRunnables.WorldScreenDrawable renderWorld, CoreRunnables.InputableRunnable<GuiGraphics> renderMenu, CoreRunnables.InputableRunnable<GuiGraphics> renderTitle, BlurRenderer blurRenderer, CoreRunnables.InputableCallable<GuiGraphics, Boolean> transparentBackgroundRenderer, UserInterfaceRunnables.RenderPanorama shouldRenderPanorama, boolean shouldRenderMenuBackgroundTexture) {
         this.renderWorld = renderWorld;
         this.renderMenu = renderMenu;
         this.renderTitle = renderTitle;
@@ -68,19 +67,19 @@ public class DefaultBackground extends AbstractBackground {
                 if (this.renderWorld != null) this.renderWorld.draw(guiGraphics, false);
             }
             case MENU -> {
-                if (this.renderMenu != null) this.renderMenu.draw(guiGraphics);
+                if (this.renderMenu != null) this.renderMenu.run(guiGraphics);
             }
             case TITLE -> {
-                if (this.renderTitle != null) this.renderTitle.draw(guiGraphics);
+                if (this.renderTitle != null) this.renderTitle.run(guiGraphics);
             }
         }
     }
 
-    public BackgroundRenderer getBlurRenderer() {
+    public BlurRenderer getBlurRenderer() {
         return this.blurRenderer;
     }
 
-    public BackgroundRenderer getTransparentBackgroundRenderer() {
+    public CoreRunnables.InputableCallable<GuiGraphics, Boolean> getTransparentBackgroundRenderer() {
         return this.transparentBackgroundRenderer;
     }
 

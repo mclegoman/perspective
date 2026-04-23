@@ -9,20 +9,22 @@ package dev.dannytaylor.perspective.lens.zooms.transitions.transition;
 
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.data.log.PerspectiveLog;
+import dev.dannytaylor.perspective.api.events.CoreRunnables;
+import dev.dannytaylor.perspective.lens.events.LensRunnables;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 import net.minecraft.util.Mth;
 
-import java.util.concurrent.Callable;
-
 public class SmoothZoomTransition extends AbstractZoomTransition {
-    public final Callable<Float> speedOut;
-    public final Callable<Float> speedIn;
+    public final CoreRunnables.InputableCallable<Zoom, Float> speedOut;
+    public final CoreRunnables.InputableCallable<Zoom, Float> speedIn;
+    public final CoreRunnables.InputableCallable<Zoom, Boolean> isSpeedConfigEnabled;
 
     public final PerspectiveMod mod;
 
-    private SmoothZoomTransition(Callable<Float> speedOut, Callable<Float> speedIn, PerspectiveMod mod) {
+    private SmoothZoomTransition(CoreRunnables.InputableCallable<Zoom, Float> speedOut, CoreRunnables.InputableCallable<Zoom, Float> speedIn, CoreRunnables.InputableCallable<Zoom, Boolean> isSpeedConfigEnabled, PerspectiveMod mod) {
         this.speedOut = speedOut;
         this.speedIn = speedIn;
+        this.isSpeedConfigEnabled = isSpeedConfigEnabled;
         this.mod = mod;
     }
 
@@ -36,47 +38,62 @@ public class SmoothZoomTransition extends AbstractZoomTransition {
 
     public float updateMultiplier(Zoom zoom) {
         float speedMultiplier = ((zoom.getPreviousMultiplier() + zoom.getMultiplier()) * 0.5F);
-        return Mth.lerp(zoom.getPreviousMultiplier() < speedMultiplier ? getSpeedOut() : getSpeedIn(), zoom.getPreviousMultiplier(), speedMultiplier);
+        return Mth.lerp(zoom.getPreviousMultiplier() < speedMultiplier ? getSpeedOut(zoom) : getSpeedIn(zoom), zoom.getPreviousMultiplier(), speedMultiplier);
     }
 
-    public float getSpeedOut() {
+    public float getSpeedOut(Zoom zoom) {
         try {
-            if (this.speedOut != null) return this.speedOut.call();
+            if (this.speedOut != null) return this.speedOut.call(zoom);
         } catch (Exception error) {
-            PerspectiveLog.error(this.mod,"Failed to calculate zoom transition speed out: {}", error);
+            PerspectiveLog.error(this.mod,"Failed to calculate smooth zoom transition speed out: {}", error);
         }
-        return super.getSpeedOut();
+        return super.getSpeedOut(zoom);
     }
 
-    public float getSpeedIn() {
+    public float getSpeedIn(Zoom zoom) {
         try {
-            if (this.speedIn != null) return this.speedIn.call();
+            if (this.speedIn != null) return this.speedIn.call(zoom);
         } catch (Exception error) {
-            PerspectiveLog.error(this.mod,"Failed to calculate zoom transition speed in: {}", error);
+            PerspectiveLog.error(this.mod,"Failed to calculate smooth zoom transition speed in: {}", error);
         }
-        return super.getSpeedIn();
+        return super.getSpeedIn(zoom);
     }
 
-    public boolean isSpeedConfigEnabled() {
-        return true;
+    public boolean isSpeedConfigEnabled(Zoom zoom) {
+        try {
+            if (this.isSpeedConfigEnabled != null) return this.isSpeedConfigEnabled.call(zoom);
+        } catch (Exception error) {
+            PerspectiveLog.error(this.mod,"Failed to calculate smooth zoom transition config enabled: {}", error);
+        }
+        return super.isSpeedConfigEnabled(zoom);
+    }
+
+    public boolean isInstant(Zoom zoom) {
+        return false;
     }
 
     public static class Builder {
-        private Callable<Float> speedOut;
-        private Callable<Float> speedIn;
+        private CoreRunnables.InputableCallable<Zoom, Float> speedOut;
+        private CoreRunnables.InputableCallable<Zoom, Float> speedIn;
+        private CoreRunnables.InputableCallable<Zoom, Boolean> isSpeedConfigEnabled;
 
-        public Builder speedOut(Callable<Float> speedOut) {
+        public Builder speedOut(CoreRunnables.InputableCallable<Zoom, Float> speedOut) {
             this.speedOut = speedOut;
             return this;
         }
 
-        public Builder speedIn(Callable<Float> speedIn) {
+        public Builder speedIn(CoreRunnables.InputableCallable<Zoom, Float> speedIn) {
             this.speedIn = speedIn;
             return this;
         }
 
+        public Builder isSpeedConfigEnabled(CoreRunnables.InputableCallable<Zoom, Boolean> isSpeedConfigEnabled) {
+            this.isSpeedConfigEnabled = isSpeedConfigEnabled;
+            return this;
+        }
+
         public SmoothZoomTransition build(PerspectiveMod mod) {
-            return new SmoothZoomTransition(this.speedOut, this.speedIn, mod);
+            return new SmoothZoomTransition(this.speedOut, this.speedIn, this.isSpeedConfigEnabled, mod);
         }
     }
 }

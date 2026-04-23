@@ -12,7 +12,8 @@ import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 public interface ZoomTransition {
     float updateFov(float fov, Zoom zoom, float tickDelta);
     float updateMultiplier(Zoom zoom);
-    float getSpeedOut();
-    float getSpeedIn();
-    boolean isSpeedConfigEnabled();
+    float getSpeedOut(Zoom zoom);
+    float getSpeedIn(Zoom zoom);
+    boolean isInstant(Zoom zoom);
+    boolean isSpeedConfigEnabled(Zoom zoom);
 }

@@ -16,9 +16,10 @@ import dev.dannytaylor.perspective.api.util.NumberHelper;
 import dev.dannytaylor.perspective.lens.LensClient;
 import dev.dannytaylor.perspective.lens.config.LensConfig;
 import dev.dannytaylor.perspective.lens.events.LensEvents;
+import dev.dannytaylor.perspective.lens.events.LensExecute;
 import dev.dannytaylor.perspective.lens.keymappings.LensKeyMappings;
 import dev.dannytaylor.perspective.lens.zooms.effects.ZoomEffects;
-import dev.dannytaylor.perspective.lens.zooms.overlays.ZoomAVs;
+import dev.dannytaylor.perspective.lens.zooms.audiovisuals.ZoomAVs;
 import dev.dannytaylor.perspective.lens.zooms.scales.ZoomScales;
 import dev.dannytaylor.perspective.lens.zooms.transitions.ZoomTransitions;
 import dev.dannytaylor.perspective.lens.zooms.zoom.DefaultZoom;
@@ -47,6 +48,7 @@ public class ZoomRegistry {
                     ZoomRegistry.wasConfigUpdated = false;
                 }
             })
+            .isCinematic((zoom) -> zoom.isZooming() && LensConfig.instance.cinematic.value())
             .audioVisual(() -> LensEvents.ZoomAVs.get(LensConfig.instance.audioVisual.value().getIdentifier()))
             .isEnabled((zoom) -> (LensConfig.instance.enabled.value() && (!LensConfig.instance.requireSpyglass.value() || ClientData.minecraft.player != null && ClientData.minecraft.player.getInventory().contains((itemStack) -> itemStack.is(Items.SPYGLASS)))))
             .build(LensClient.getMod()));
@@ -98,12 +100,16 @@ public class ZoomRegistry {
 
             LensEvents.ShouldHideHud.register(getIdentifier(), () -> ZoomRegistry.isZoomZooming(MAIN) ? LensConfig.instance.hideUi.value() : HideUi.nothing);
             DebugScreenEntries.register(getIdentifier(), (debugScreenDisplayer, level, levelChunk, levelChunk2) -> {
-                debugScreenDisplayer.addLine("Combined Multiplier: " + getCombinedMultiplier());
+                debugScreenDisplayer.addToGroup(getIdentifier(), "Combined Zoom Multiplier: " + getCombinedMultiplier());
             });
         });
     }
 
     public static void onTickClient(Minecraft minecraft) {
+        if (!isCinematic() && wasCinematic) {
+            LensExecute.resetCinematic();
+            wasCinematic = false;
+        }
         LensEvents.Zooms.registry.forEach((identifier, zoom) -> {
             if (zoom.isEnabled()) zoom.onTickClient();
         });
@@ -157,6 +163,14 @@ public class ZoomRegistry {
         return false;
     }
 
+    public static boolean isSpeedConfigEnabled() {
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) {
+            if (zoom.getTransition() != null && zoom.getTransition().isSpeedConfigEnabled(zoom)) return true;
+            if (zoom.getAudioVisual() != null && zoom.getAudioVisual().isSpeedConfigEnabled(zoom)) return true;
+        }
+        return false;
+    }
+
     public static float getCombinedMouseMultiplier() {
         float multiplier = 1.0F;
         for (Zoom zoom : LensEvents.Zooms.registry.values()) {
@@ -171,6 +185,15 @@ public class ZoomRegistry {
             if (zoom != null && zoom.isEnabled()) multiplier *= zoom.getMultiplier();
         }
         return multiplier;
+    }
+
+    private static boolean wasCinematic;
+
+    public static boolean isCinematic() {
+        for (Zoom zoom : LensEvents.Zooms.registry.values()) {
+            if (zoom != null && zoom.isEnabled() && zoom.isCinematic(zoom)) return wasCinematic = true;
+        }
+        return false;
     }
 
     public static boolean isZooming() {

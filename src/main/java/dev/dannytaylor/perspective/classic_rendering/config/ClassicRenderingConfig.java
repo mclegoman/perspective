@@ -9,6 +9,7 @@ package dev.dannytaylor.perspective.classic_rendering.config;
 
 import com.mclegoman.luminance.client.gui.widget.ListWidget;
 import dev.dannytaylor.perspective.api.component.Components;
+import dev.dannytaylor.perspective.api.config.PerspectiveConfig;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.api.gui.CoreConfigWidgets;
 import dev.dannytaylor.perspective.api.gui.SliderWidget;
@@ -16,14 +17,13 @@ import dev.dannytaylor.perspective.api.gui.screen.config.ConfigGroup;
 import dev.dannytaylor.perspective.api.util.NumberHelper;
 import dev.dannytaylor.perspective.classic_rendering.ClassicRenderingClient;
 import dev.dannytaylor.perspective.classic_rendering.events.ClassicRenderingEvents;
-import folk.sisby.kaleido.api.ReflectiveConfig;
 import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 import net.minecraft.util.Mth;
 
 import java.nio.file.Paths;
 import java.util.List;
 
-public class ClassicRenderingConfig extends ReflectiveConfig {
+public class ClassicRenderingConfig extends PerspectiveConfig {
     public static final ClassicRenderingConfig instance = ClassicRenderingConfig.createToml(Paths.get("config"), "perspective", ClassicRenderingClient.getMod().getId(false), ClassicRenderingConfig.class);
 
     public final TrackedValue<Boolean> versionOverlay = this.value(false);
@@ -43,8 +43,13 @@ public class ClassicRenderingConfig extends ReflectiveConfig {
                 }
 
                 @Override
-                public void onSave() {
-                    ClassicRenderingConfig.instance.save();
+                public void save() {
+                    instance.save();
+                }
+
+                @Override
+                public void reset() {
+                    instance.reset(false);
                 }
 
                 // TODO:

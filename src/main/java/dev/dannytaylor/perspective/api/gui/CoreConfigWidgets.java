@@ -1,3 +1,10 @@
+/*
+    Core API
+    Contributor(s): dannytaylor
+    Github: https://github.com/perspective-viewpoint
+    Licence: LGPLv3 (or later)
+*/
+
 package dev.dannytaylor.perspective.api.gui;
 
 import com.mclegoman.luminance.client.events.Events;
@@ -11,6 +18,7 @@ import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 
 public class CoreConfigWidgets {
     public static Button.Builder toggleButton(PerspectiveMod mod, String path, TrackedValue<Boolean> value) {
@@ -27,11 +35,11 @@ public class CoreConfigWidgets {
         });
     }
 
-    public static Button.Builder eventButton(PerspectiveMod mod, String path, CoreRunnables.Textable text, TrackedValue<ConfigIdentifier> value, Events.Registry<?> registry) {
+    public static Button.Builder eventButton(PerspectiveMod mod, String path, CoreRunnables.InputableCallable<Identifier, MutableComponent> text, TrackedValue<ConfigIdentifier> value, Events.Registry<?> registry) {
         return eventButton(mod, path, text, value, registry, () -> {});
     }
 
-    public static Button.Builder eventButton(PerspectiveMod mod, String path, CoreRunnables.Textable text, TrackedValue<ConfigIdentifier> value, Events.Registry<?> registry, Runnable after) {
+    public static Button.Builder eventButton(PerspectiveMod mod, String path, CoreRunnables.InputableCallable<Identifier, MutableComponent> text, TrackedValue<ConfigIdentifier> value, Events.Registry<?> registry, Runnable after) {
         MutableComponent component = Component.empty();
         try {
             component = text.call(value.value().getIdentifier().withPrefix(path + "."));

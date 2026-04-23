@@ -8,7 +8,7 @@
 package dev.dannytaylor.perspective.lens.zooms.zoom;
 
 import dev.dannytaylor.perspective.lens.zooms.effects.effect.ZoomEffect;
-import dev.dannytaylor.perspective.lens.zooms.overlays.overlays.ZoomAV;
+import dev.dannytaylor.perspective.lens.zooms.audiovisuals.audiovisual.ZoomAV;
 import dev.dannytaylor.perspective.lens.zooms.scales.scale.ZoomScale;
 import dev.dannytaylor.perspective.lens.zooms.transitions.transition.ZoomTransition;
 import net.minecraft.client.DeltaTracker;
@@ -32,5 +32,6 @@ public interface Zoom {
     void update();
     void draw(GuiGraphics graphics, DeltaTracker deltaTracker);
     void onTickClient();
+    boolean isCinematic(Zoom zoom);
     boolean isEnabled();
 }

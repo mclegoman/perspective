@@ -13,6 +13,7 @@ import com.mclegoman.luminance.client.shaders.ShaderStacks;
 import dev.dannytaylor.perspective.api.data.PerspectiveMod;
 import dev.dannytaylor.perspective.ui.UserInterfaceClient;
 import dev.dannytaylor.perspective.ui.background.backgrounds.Background;
+import dev.dannytaylor.perspective.ui.background.backgrounds.BlurRenderer;
 import dev.dannytaylor.perspective.ui.background.backgrounds.DefaultBackground;
 import dev.dannytaylor.perspective.ui.config.UserInterfaceConfig;
 import dev.dannytaylor.perspective.ui.events.UserInterfaceEvents;
@@ -23,23 +24,26 @@ import net.minecraft.resources.Identifier;
 
 public class BackgroundRegistry {
     public static Background VANILLA = register(UserInterfaceClient.idOf("vanilla"), new DefaultBackground());
-    public static Background GAUSSIAN = register(UserInterfaceClient.idOf("gaussian"), new DefaultBackground(BackgroundRegistry::noBlur));
+    public static Background GAUSSIAN = register(UserInterfaceClient.idOf("gaussian"), new DefaultBackground(BackgroundRegistry.noBlur()));
     public static Background LEGACY = register(UserInterfaceClient.idOf("legacy"), new DefaultBackground(
             BackgroundRegistry::renderGradiantBackground,
             BackgroundRegistry::renderTexturedBackground,
             (guiGraphics) -> {},
-            BackgroundRegistry::noBlur, (isTitleScreen) -> isTitleScreen, true));
+            BackgroundRegistry.noBlur(),
+            (isTitleScreen) -> isTitleScreen, true));
     public static Background CLASSIC = register(UserInterfaceClient.idOf("classic"), new DefaultBackground(
             BackgroundRegistry::renderGradiantBackground,
             BackgroundRegistry::renderTexturedBackground,
             BackgroundRegistry::renderTexturedBackground,
-            BackgroundRegistry::noBlur, (isTitleScreen) -> false, true));
+            BackgroundRegistry.noBlur(),
+            (isTitleScreen) -> false, true));
     public static Background NONE = register(UserInterfaceClient.idOf("none"), new DefaultBackground(
             BackgroundRegistry::renderNone,
             BackgroundRegistry::renderNone,
             BackgroundRegistry::renderNone,
-            BackgroundRegistry::noBlur,
-            BackgroundRegistry::noBlur, (isTitleScreen) -> true, false));
+            BackgroundRegistry.noBlur(),
+            (guiGraphics) -> false,
+            (isTitleScreen) -> true, false));
 
     public static void onInitializeClient(PerspectiveMod mod) {
         UserInterfaceEvents.onInitialize(mod, "Background Registry", () -> {
@@ -76,8 +80,8 @@ public class BackgroundRegistry {
     public static void renderNone(GuiGraphics guiGraphics, boolean isBlurred) {
     }
 
-    public static boolean noBlur(GuiGraphics guiGraphics) {
-        return false;
+    public static BlurRenderer noBlur() {
+        return new BlurRenderer((guiGraphics) -> {}, () -> false);
     }
 
     public static Identifier getBackgroundTexture() {

@@ -1,3 +1,10 @@
+/*
+    Core API
+    Contributor(s): dannytaylor
+    Github: https://github.com/perspective-viewpoint
+    Licence: LGPLv3 (or later)
+*/
+
 package dev.dannytaylor.perspective.api.gui;
 
 import com.mclegoman.luminance.client.data.ClientData;

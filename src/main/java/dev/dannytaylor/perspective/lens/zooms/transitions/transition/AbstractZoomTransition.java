@@ -18,15 +18,19 @@ public abstract class AbstractZoomTransition implements ZoomTransition {
         return zoom.getMultiplier();
     }
 
-    public float getSpeedOut() {
+    public float getSpeedOut(Zoom zoom) {
         return 1.0F;
     }
 
-    public float getSpeedIn() {
+    public float getSpeedIn(Zoom zoom) {
         return 1.0F;
     }
 
-    public boolean isSpeedConfigEnabled() {
+    public boolean isInstant(Zoom zoom) {
+        return true;
+    }
+
+    public boolean isSpeedConfigEnabled(Zoom zoom) {
         return false;
     }
 }

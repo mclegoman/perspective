@@ -1,6 +1,4 @@
 {
-	"perspective.donate": "Donate",
-
 	"key.category.perspective_hold_perspective.camera_type": "Perspective: Camera Type",
 	"gui.perspective_hold_perspective.keybindings.keybinding.camera_type.adjust_multiplier": "Adjust Third Person Distance Multiplier",
 
@@ -38,6 +36,7 @@
 	"gui.perspective_lens.av.spyglass": "Spyglass (Audio + Visual)",
 	"gui.perspective_lens.av.spyglass/audio_only": "Spyglass (Audio)",
 	"gui.perspective_lens.av.spyglass/visual_only": "Spyglass (Visual)",
+	"gui.perspective_lens.av.cinematic": "Cinematic",
 
 	"gui.perspective_classic_rendering.version_overlay": "Minecraft %s",
 

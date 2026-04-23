@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 // TODO: Split events from Luminance into a shared library mod, so that Luminance isn't required for every v2 mod.
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 public class CoreEvents extends Events {
     public static final Registry<CoreRunnables.UseItem> OnClientStartItemUse = new Registry<>();
     public static final Registry<CoreRunnables.FinishUsingItem> OnClientFinishItemUse = new Registry<>();
-    public static final Registry<CoreRunnables.ShouldHideHud> ShouldHideHud = new Registry<>();
+    public static final Registry<CoreRunnables.Callable<HideUi>> ShouldHideHud = new Registry<>();
     public static final Registry<ConfigGroup> ConfigGroups = new Registry<>();
 
     public static void onInitialize(PerspectiveMod mod, Initializer onInitialize) {
@@ -84,12 +85,9 @@ public class CoreEvents extends Events {
         boolean returnNext = false;
         Identifier first = null;
 
-        for (Identifier id : registry.registry.keySet()) {
+        for (Identifier id : registry.registry.keySet().stream().sorted(Identifier::compareTo).toList()) {
             if (first == null) first = id;
-            if (returnNext) {
-                System.out.println("out via next: " + id);
-                return id;
-            }
+            if (returnNext) return id;
             else if (id.equals(identifier)) returnNext = true;
         }
 

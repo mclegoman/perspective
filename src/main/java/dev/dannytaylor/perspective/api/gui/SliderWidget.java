@@ -1,3 +1,10 @@
+/*
+    Core API
+    Contributor(s): dannytaylor
+    Github: https://github.com/perspective-viewpoint
+    Licence: LGPLv3 (or later)
+*/
+
 package dev.dannytaylor.perspective.api.gui;
 
 import dev.dannytaylor.perspective.api.CoreClient;
@@ -9,10 +16,10 @@ import net.minecraft.network.chat.Component;
 import java.util.concurrent.Callable;
 
 public class SliderWidget extends AbstractSliderButton {
-    private final CoreRunnables.ApplyValue applyValue;
+    private final CoreRunnables.InputableRunnable<Double> applyValue;
     private final Callable<Component> text;
 
-    public SliderWidget(int x, int y, int width, int height, double value, CoreRunnables.ApplyValue applyValue, Callable<Component> text) {
+    public SliderWidget(int x, int y, int width, int height, double value, CoreRunnables.InputableRunnable<Double> applyValue, Callable<Component> text) {
         super(x, y, width, height, Component.empty(), value);
         this.applyValue = applyValue;
         this.text = text;
@@ -28,6 +35,6 @@ public class SliderWidget extends AbstractSliderButton {
     }
 
     protected void applyValue() {
-        this.applyValue.apply(this.value);
+        this.applyValue.run(this.value);
     }
 }

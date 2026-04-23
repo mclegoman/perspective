@@ -18,8 +18,9 @@ import net.minecraft.resources.Identifier;
 
 public class ZoomTransitions {
     public static ZoomTransition SMOOTH = register(LensClient.idOf("smooth"), SmoothZoomTransition.builder()
-            .speedOut(LensConfig.instance.transitionSpeedOut::value)
-            .speedIn(LensConfig.instance.transitionSpeedIn::value)
+            .speedOut((zoom) -> LensConfig.instance.transitionSpeedOut.value())
+            .speedIn((zoom) -> LensConfig.instance.transitionSpeedIn.value())
+            .isSpeedConfigEnabled((zoom) -> true)
             .build(LensClient.getMod()));
     public static ZoomTransition INSTANT = register(LensClient.idOf("instant"), new AbstractZoomTransition() {});
 

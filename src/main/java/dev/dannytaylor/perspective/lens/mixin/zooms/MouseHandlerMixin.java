@@ -7,31 +7,28 @@
 
 package dev.dannytaylor.perspective.lens.mixin.zooms;
 
-import dev.dannytaylor.perspective.api.data.ClientData;
-import dev.dannytaylor.perspective.lens.zooms.ZoomRegistry;
+import dev.dannytaylor.perspective.lens.events.LensExecute;
 import net.minecraft.client.MouseHandler;
-import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(priority = 100, value = MouseHandler.class)
 public abstract class MouseHandlerMixin {
+    @Inject(method = "turnPlayer", at = @At("HEAD"))
+    private void perspective$updateTime(double d, CallbackInfo ci) {
+        LensExecute.mouseDelta = d;
+    }
+
     @ModifyVariable(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getTutorial()Lnet/minecraft/client/tutorial/Tutorial;"), ordinal = 1)
     private double perspective$updateXSensitivity(double x) {
-        if (ClientData.minecraft.player != null) {
-            float multiplier = Math.max(ZoomRegistry.getCombinedMouseMultiplier(), 0.001F);
-            if (ZoomRegistry.shouldMouseXUseCos()) {
-                double angle = Mth.cos((ClientData.minecraft.player.getXRot() / 180.0F) * Mth.PI);
-                x = (x * (1.0F / Math.max((angle < 0) ? angle * -1.0F : angle, (Math.max(multiplier, 0.0F) + 1.0F) / 11.0F))) * multiplier;
-            } else x *= multiplier;
-        }
-        return x;
+        return LensExecute.updateXSensitivity(x);
     }
 
     @ModifyVariable(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getTutorial()Lnet/minecraft/client/tutorial/Tutorial;"), ordinal = 2)
     private double perspective$updateYSensitivity(double y) {
-        if (ClientData.minecraft.player != null) y *= Math.max(ZoomRegistry.getCombinedMouseMultiplier(), 0.001F);
-        return y;
+        return LensExecute.updateYSensitivity(y);
     }
 }

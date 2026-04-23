@@ -46,20 +46,19 @@ public abstract class ScreenMixin {
         }
     }
 
-    @Inject(method = "renderBlurredBackground", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderBlurredBackground", at = @At("HEAD"))
     private void perspective$renderBlurredBackground(GuiGraphics guiGraphics, CallbackInfo ci) {
         if (BackgroundRegistry.getBackground() != null) {
             if (this.minecraft.level != null) UserInterfaceExecute.renderUserInterfaceBackground(this.minecraft, guiGraphics);
-            if (!BackgroundRegistry.getBackground().getBlurRenderer().render(guiGraphics)) ci.cancel();
+            BackgroundRegistry.getBackground().getBlurRenderer().render().run(guiGraphics);
         }
-        UserInterfaceExecute.onBlur(this.minecraft);
     }
 
     @Inject(method = "renderTransparentBackground", at = @At("HEAD"), cancellable = true)
     private void perspective$renderTransparentBackground(GuiGraphics guiGraphics, CallbackInfo ci) {
         if (BackgroundRegistry.getBackground() != null) {
             UserInterfaceExecute.renderUserInterfaceBackground(guiGraphics, CurrentBackground.TRANSPARENT_BACKGROUND);
-            if (!BackgroundRegistry.getBackground().getTransparentBackgroundRenderer().render(guiGraphics)) ci.cancel();
+            if (!BackgroundRegistry.getBackground().getTransparentBackgroundRenderer().call(guiGraphics)) ci.cancel();
         }
     }
 }

@@ -15,7 +15,7 @@ import folk.sisby.kaleido.lib.quiltconfig.api.values.TrackedValue;
 
 import java.nio.file.Paths;
 
-public class CoreConfig extends ReflectiveConfig {
+public class CoreConfig extends PerspectiveConfig {
     public static final CoreConfig instance = CoreConfig.createToml(Paths.get("config"), "perspective", CoreClient.getMod().getId(false), CoreConfig.class);
 
     public final TrackedValue<Boolean> checkHideHudOnTick = this.value(true);

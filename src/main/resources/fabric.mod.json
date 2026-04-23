@@ -3,22 +3,18 @@
 	"id": "perspective",
 	"version": "${version}",
 	"name": "Perspective",
-	"description": "Adds several client-side features including Zoom, Hold Perspective, Super Secret Settings, Textured Entities, and Panoramic Screenshots.",
+	"description": "Client-side QOL features, including Zoom, Hold Perspective, and Shaders.",
 	"authors": [
 		{
 			"name": "dannytaylor",
 			"contact": {
-				"homepage": "https://modrinth.com/user/dannytaylor"
+				"homepage": "https://modrinth.com/user/dannytaylor",
+				"donate": "https://ko-fi.com/legotaylor"
 			}
 		}
 	],
 	"contributors": [
-		{
-			"name": "Nettakrim",
-			"contact": {
-				"homepage": "https://modrinth.com/user/Nettakrim"
-			}
-		}
+		"Nettakrim"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/mclegoman-perspective",
@@ -48,12 +44,5 @@
 		"minecraft": "~1.21.11",
 		"fabric-api": "*",
 		"luminance": ">=1.1.0-beta.2"
-	},
-	"custom": {
-		"modmenu": {
-			"links": {
-				"perspective.donate": "https://ko-fi.com/legotaylor"
-			}
-		}
 	}
 }

@@ -11,11 +11,4 @@ import dev.dannytaylor.perspective.api.events.CoreRunnables;
 import dev.dannytaylor.perspective.lens.zooms.zoom.Zoom;
 
 public class LensRunnables extends CoreRunnables {
-    public interface Zoomable {
-        void run(Zoom zoom);
-    }
-
-    public interface ZoomableBoolean {
-        boolean call(Zoom zoom);
-    }
 }

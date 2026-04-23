@@ -41,7 +41,7 @@ public class CoreExecute extends Execute {
 
     public static HideUi updateHideHud() {
         int ordinal = 0;
-        for (CoreRunnables.ShouldHideHud hideHud : CoreEvents.ShouldHideHud.registry.values()) {
+        for (CoreRunnables.Callable<HideUi> hideHud : CoreEvents.ShouldHideHud.registry.values()) {
             int id = hideHud.call().ordinal();
             if (id > ordinal) ordinal = id;
         }
